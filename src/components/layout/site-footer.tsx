@@ -2,36 +2,36 @@ import Link from "next/link";
 
 import { AsciiPanel } from "@/components/layout/ascii-panel";
 import { Container } from "@/components/layout/container";
-import { TextFieldBackdrop } from "@/components/sections/text-field-backdrop";
 import { siteConfig } from "@/config/site";
 import { moreIsComing, moreIsComingColumns } from "@/content/ascii-text";
+
+const underline =
+  "relative after:absolute after:-bottom-0.5 after:left-0 after:h-px after:w-full after:origin-right after:scale-x-0 after:bg-current after:transition-transform after:duration-300 hover:after:origin-left hover:after:scale-x-100";
 
 export function SiteFooter() {
   return (
     <footer
       id="site-footer"
-      className="relative z-10 overflow-hidden bg-ink text-paper"
+      className="dark relative z-10 bg-ink py-16 text-paper"
     >
-      <TextFieldBackdrop />
+      <Container className="flex flex-col gap-12 lg:flex-row lg:items-stretch lg:gap-16">
+        <div className="min-w-0 flex-1">
+          <AsciiPanel
+            label={siteConfig.domain}
+            art={moreIsComing}
+            columns={moreIsComingColumns}
+            caption="More is coming"
+          />
+        </div>
 
-      <Container className="relative flex min-h-[70svh] flex-col justify-between gap-16 py-16">
-        <div className="flex flex-col gap-10 lg:flex-row lg:items-start lg:justify-between">
-          <div className="w-full lg:max-w-4xl">
-            <AsciiPanel
-              label={siteConfig.domain}
-              art={moreIsComing}
-              columns={moreIsComingColumns}
-              caption="More is coming"
-            />
-          </div>
-
-          <nav aria-label="Legal" className="shrink-0">
-            <ul className="flex flex-col gap-1 lg:items-end">
+        <div className="flex shrink-0 flex-col justify-between gap-14 font-mono text-xs tracking-[0.12em] uppercase lg:items-end lg:text-right">
+          <nav aria-label="Legal">
+            <ul className="flex flex-col gap-2 lg:items-end">
               {siteConfig.legal.map((item) => (
                 <li key={item.href}>
                   <Link
                     href={item.href}
-                    className="inline-flex min-h-12 items-center font-mono text-sm tracking-[0.12em] text-mist uppercase transition-colors hover:text-paper focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ring"
+                    className={`inline-flex min-h-12 items-center text-sm text-mist transition-colors hover:text-paper focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ring ${underline}`}
                   >
                     {item.label}
                   </Link>
@@ -39,18 +39,18 @@ export function SiteFooter() {
               ))}
             </ul>
           </nav>
-        </div>
 
-        <div className="font-mono text-xs tracking-[0.12em] text-mist uppercase">
-          <p>
-            &copy; {new Date().getFullYear()} {siteConfig.name}
-          </p>
-          <a
-            href={`mailto:${siteConfig.email}`}
-            className="mt-1 inline-flex min-h-12 items-center underline-offset-4 transition-colors hover:text-paper hover:underline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ring"
-          >
-            {siteConfig.email}
-          </a>
+          <div className="flex flex-col gap-1 text-mist lg:items-end">
+            <p>
+              &copy; {new Date().getFullYear()} {siteConfig.name}
+            </p>
+            <a
+              href={`mailto:${siteConfig.email}`}
+              className={`inline-flex min-h-12 items-center transition-colors hover:text-paper focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ring ${underline}`}
+            >
+              {siteConfig.email}
+            </a>
+          </div>
         </div>
       </Container>
     </footer>

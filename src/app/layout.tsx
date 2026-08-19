@@ -67,8 +67,8 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  colorScheme: "dark",
-  themeColor: "#000000",
+  colorScheme: "light",
+  themeColor: "#f1eee7",
 };
 
 const jsonLd = {
@@ -84,7 +84,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     <html
       lang={siteConfig.language}
       className={cn(
-        "dark h-full",
+        "h-full",
         geistSans.variable,
         geistMono.variable,
         geistPixel.variable,

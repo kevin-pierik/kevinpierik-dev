@@ -29,8 +29,9 @@ const url = (process.env.NEXT_PUBLIC_SITE_URL ?? fallbackUrl).replace(
 
 export const siteConfig: SiteConfig = {
   name: "Kevin Pierik",
-  title: "Kevin Pierik",
-  description: "Personal site of Kevin Pierik, web developer.",
+  title: "Kevin Pierik — Web Developer",
+  description:
+    "Kevin Pierik — web developer in the Netherlands. Next.js, TypeScript, and an unreasonable amount of attention to detail. More is coming.",
   url,
   domain: url.replace(/^https?:\/\//, ""),
   version: "v1.0.0",

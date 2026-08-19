@@ -9,8 +9,7 @@
     "lint": "eslint",
     "typecheck": "tsc --noEmit",
     "qa": "bun run lint && bun run typecheck",
-    "generate:ascii": "bun scripts/generate-ascii-text.mjs",
-    "generate:field": "bun scripts/generate-text-field.mjs"
+    "generate:ascii": "bun scripts/generate-ascii-text.mjs"
   },
   "dependencies": {
     "@base-ui/react": "^1.7.0",
