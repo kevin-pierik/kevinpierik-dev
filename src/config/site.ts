@@ -12,7 +12,9 @@ export type SiteConfig = {
   version: string;
   language: string;
   locale: string;
+  email: string;
   social: SiteLink[];
+  legal: SiteLink[];
 };
 
 const fallbackUrl =
@@ -34,5 +36,10 @@ export const siteConfig: SiteConfig = {
   version: "v1.0.0",
   language: "en",
   locale: "en_US",
+  email: "kevinpierik@icloud.com",
   social: [],
+  legal: [
+    { label: "Privacy policy", href: "/privacy-policy" },
+    { label: "Terms of service", href: "/terms-of-service" },
+  ],
 };

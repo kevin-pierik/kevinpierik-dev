@@ -24,7 +24,7 @@ The block above is managed by `next dev` — keep everything of ours below the
 | Icons | `lucide-react` |
 | Fonts | Geist, Geist Mono, Geist Pixel via `next/font/google` |
 | Smooth scroll | lenis, dynamically imported |
-| Content | Typed TS modules in `src/content/` — there is no CMS |
+| Content | Typed TS modules in `src/content/`, partly generated — there is no CMS |
 | Runtime | Bun on the host, deployed on Vercel |
 
 Everything runs on the host: `bun dev`, `bun run qa`, `bun run build`. No Docker.
@@ -124,13 +124,29 @@ UI primitives import per component: `import { Button } from
 
 Avoid arbitrary values for anything reusable — make it a token.
 
+## Generated content
+
+`src/content/canvas-art.ts` and `src/content/ascii-text.ts` are **generated
+files** — never hand-edit them. Change the constants in
+`scripts/generate-canvas.mjs` / `scripts/generate-ascii-text.mjs` and re-run
+`bun run generate:canvas` / `bun run generate:ascii`.
+
+The generators crop to the art's bounding box and export the true column and row
+count. `CanvasBackdrop` and `AsciiPanel` scale from those numbers, so art of any
+size keeps working without touching CSS. Both blocks are `aria-hidden` with an
+`sr-only` caption where the art carries meaning.
+
+Keep the art small: it ships inside the HTML. The planet is ~1.5 KB.
+
 ## The scroll shell
 
 `layout.tsx` wraps the page in the reveal structure:
 
+The reveal lives in `src/app/page.tsx`, not in the root layout:
+
 ```tsx
 <div className="relative">
-  <main id="main" className="sticky top-0 h-svh overflow-hidden">{children}</main>
+  <main id="main" className="sticky top-0 h-svh overflow-hidden">…</main>
   <SiteFooter />
 </div>
 ```
@@ -138,8 +154,9 @@ Avoid arbitrary values for anything reusable — make it a token.
 `main` is pinned while the footer scrolls up over it — plain CSS, no JS, no
 scroll listeners. lenis only smooths the scroll itself. Consequences:
 
-- The homepage is exactly one viewport tall. Content that must scroll normally
-  needs a different shell — do not stack sections inside the pinned `main`.
+- The root layout renders `{children}` and nothing else, so each page owns its
+  own `<main>` and footer. Pages that scroll normally use `ContentPage` (see the
+  legal pages); only the homepage pins.
 - The footer needs `relative z-10`; without the stacking context it slides
   *under* the pinned main.
 

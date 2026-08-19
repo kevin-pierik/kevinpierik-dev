@@ -4,9 +4,6 @@ import { Geist, Geist_Mono, Geist_Pixel } from "next/font/google";
 import "./globals.css";
 import "lenis/dist/lenis.css";
 
-import { SiteFooter } from "@/components/layout/site-footer";
-import { SiteHeader } from "@/components/layout/site-header";
-import { SkipLink } from "@/components/layout/skip-link";
 import { SmoothScroll } from "@/components/layout/smooth-scroll";
 import { siteConfig } from "@/config/site";
 import { cn } from "@/lib/utils";
@@ -70,10 +67,8 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#ffffff" },
-    { media: "(prefers-color-scheme: dark)", color: "#0a0a0a" },
-  ],
+  colorScheme: "dark",
+  themeColor: "#000000",
 };
 
 const jsonLd = {
@@ -86,12 +81,15 @@ const jsonLd = {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang={siteConfig.language} className={cn(
-        "h-full",
+    <html
+      lang={siteConfig.language}
+      className={cn(
+        "dark h-full",
         geistSans.variable,
         geistMono.variable,
         geistPixel.variable,
-      )}>
+      )}
+    >
       <body className="antialiased">
         <script
           type="application/ld+json"
@@ -99,17 +97,8 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
             __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c"),
           }}
         />
-        <SkipLink />
         <SmoothScroll />
-        <SiteHeader />
-
-        <div className="relative">
-          <main id="main" className="sticky top-0 h-svh overflow-hidden">
-            {children}
-          </main>
-
-          <SiteFooter />
-        </div>
+        {children}
       </body>
     </html>
   );

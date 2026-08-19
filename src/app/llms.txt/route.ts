@@ -14,6 +14,9 @@ export function GET(): Response {
     "",
     "## Optional",
     "",
+    ...siteConfig.legal.map(
+      (item) => `- [${item.label}](${siteConfig.url}${item.href}): ${item.label} for this site.`,
+    ),
     `- [Sitemap](${siteConfig.url}/sitemap.xml): Every indexable URL on this site.`,
     "",
   ].join("\n");

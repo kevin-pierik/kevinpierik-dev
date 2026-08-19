@@ -32,10 +32,15 @@ The site runs on [http://localhost:3000](http://localhost:3000).
 ## Project structure
 
 ```text
+scripts/
+├── generate-canvas.mjs   # renders the ASCII planet → src/content/canvas-art.ts
+└── generate-ascii-text.mjs   # renders figlet text → src/content/ascii-text.ts
 src/
 ├── app/
-│   ├── layout.tsx        # Site-wide metadata, fonts, header/footer, scroll shell
-│   ├── page.tsx          # Homepage: name + the pixel mark
+│   ├── layout.tsx        # Site-wide metadata, fonts, lenis
+│   ├── page.tsx          # Homepage: canvas + name + footer
+│   ├── privacy-policy/   # Legal pages, rendered by ContentPage
+│   ├── terms-of-service/
 │   ├── global-not-found.tsx  # 404 — own <html>, full-screen BIOS screen
 │   ├── globals.css       # Tailwind v4 theme: design tokens live here
 │   ├── icon.svg          # Favicon
@@ -44,40 +49,58 @@ src/
 │   ├── robots.ts         # robots.txt
 │   └── sitemap.ts        # sitemap.xml
 ├── components/
-│   ├── layout/           # Container, header, footer, skip link, lenis
-│   ├── sections/         # PixelMark (homepage) and BiosScreen (404)
+│   ├── layout/           # Container, footer, ascii panel, content shell, lenis
+│   ├── sections/         # CanvasBackdrop (home) and BiosScreen (404)
 │   └── ui/               # shadcn components (shadcn-owned)
-├── config/site.ts        # Name, description, base URL, domain, version, socials
-├── content/bios.ts       # Boot-log copy for the 404 screen
+├── config/site.ts        # Name, description, base URL, email, legal links
+├── content/              # Generated ASCII art (canvas-art.ts, ascii-text.ts) + bios.ts
 ├── lib/utils.ts          # cn()
 └── types/svg.d.ts        # SVG-as-component typing (SVGR)
 ```
 
 ## The layout
 
-The site is framed like a BIOS screen, so the homepage and the 404 belong to
-each other:
+Black canvas, nothing but the name — the rest is deliberately empty until you
+decide what goes there.
 
-- **Header** — a floating grey status bar (`fixed`, inset), domain on the left,
-  version on the right.
-- **Homepage** — one viewport tall (`h-svh`), name bottom-left, the clickable
-  pixel mark bottom-right. `PixelMark` cycles Geist Pixel's `ELSH` axis, which
-  morphs the glyph between solid and pixel-dot shapes.
-- **Footer** — slides up over the pinned homepage as you scroll. That is plain
-  CSS (`main` is `sticky top-0`, the footer follows with `z-10`); lenis only
-  makes the scroll itself smooth.
+- **Homepage** — one viewport tall (`h-svh`), an ASCII planet centred as a
+  backdrop, the name bottom-left. No header, no nav.
+- **Footer** — slides up over the pinned homepage as you scroll. Plain CSS
+  (`main` is `sticky top-0`, the footer follows with `z-10`); lenis only makes
+  the scroll smooth. It holds an ASCII panel ("more is coming") and a BIOS-style
+  bar with copyright, email and the legal links.
+- **404** — its own document, a full-screen BIOS boot screen that prints the
+  route you actually asked for. Any key or tap reboots to the homepage.
 
-There is deliberately no copy about you anywhere — only the name. Add content by
-composing new blocks into `src/app/page.tsx`.
+## The ASCII art
+
+Both pieces are generated once and committed, so nothing is computed at runtime:
+
+```bash
+bun run generate:canvas   # the planet on the homepage
+bun run generate:ascii    # the figlet text in the footer panel
+```
+
+`scripts/generate-canvas.mjs` renders a shaded sphere with tilted, striated
+rings; the constants at the top of the file are the dials (planet radius, ring
+tilt, gaps, light direction, character ramps, grid size). It crops to the
+bounding box and exports the real column/row count, which
+`CanvasBackdrop` uses to scale the art to 90% of the width or 50% of the height,
+whichever is smaller.
+
+To change the footer wording, edit the `entries` array in
+`scripts/generate-ascii-text.mjs` and re-run it. Any figlet font works.
 
 ## Editing content
 
-- **Name, domain, description, version, socials** — `src/config/site.ts`. The
-  header, footer, metadata, sitemap, `robots.txt` and `llms.txt` all read from
-  it, so one change updates every surface.
+- **Name, domain, description, version, email, legal links** —
+  `src/config/site.ts`. The footer, metadata, sitemap, `robots.txt` and
+  `llms.txt` all read from it.
 - **404 screen** — `src/content/bios.ts` (vendor string, boot-log lines).
-- Add a social link and the footer grows a link list by itself; leave the array
-  empty and it stays a version readout.
+- **Legal pages** — the copy sits in the two page components. I wrote them to
+  match what this site actually does (no cookies, no analytics, no forms); they
+  are not reviewed by a lawyer, and they need updating the moment you add
+  analytics, a form or embeds.
 
 ## Metadata
 
@@ -103,8 +126,9 @@ Set `NEXT_PUBLIC_SITE_URL` per environment; it drives canonicals, `sitemap.xml`,
 - Palette: `paper`, `ink`, `ink-soft`, `mist`, `orange`, `sand` → `bg-paper`,
   `text-ink-soft`, …
 - shadcn semantics map onto them: `bg-background`, `text-muted-foreground`, …
-- Dark tokens are the inverted (ink) palette; the footer uses it directly. There
-  is no theme toggle — add the `dark` class to a block to flip it to ink.
+- The site runs on the dark palette: `<html>` carries `dark`, so `--background`
+  is pure black (`--color-void`) and the footer sits on `--color-ink`. There is
+  no theme toggle.
 - Fonts: `font-sans` (Geist), `font-mono` (Geist Mono, used for the BIOS bars
   and labels), `font-pixel` (Geist Pixel, `ELSH` variable axis 0–100).
 - The BIOS chrome has its own tokens (`--color-bios-*`): grey bars with navy
