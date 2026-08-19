@@ -12,7 +12,7 @@ export function SiteFooter() {
   return (
     <footer
       id="site-footer"
-      className="dark relative z-10 bg-ink py-16 text-paper"
+      className="dark relative z-10 bg-ink-deep py-16 text-paper"
     >
       <Container className="flex flex-col gap-12 lg:flex-row lg:items-stretch lg:gap-16">
         <div className="min-w-0 flex-1">

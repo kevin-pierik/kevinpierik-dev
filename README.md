@@ -43,7 +43,7 @@ src/
 │   ├── terms-of-service/
 │   ├── global-not-found.tsx  # 404 — own <html>, full-screen BIOS screen
 │   ├── globals.css       # Tailwind v4 theme: design tokens live here
-│   ├── icon.svg          # Favicon
+│   └── … (favicon PNGs live in public/, wired via metadata.icons)
 │   ├── opengraph-image.tsx   # Generated 1200×630 OG image
 │   ├── llms.txt/route.ts # llms.txt for AI assistants
 │   ├── robots.ts         # robots.txt
@@ -63,8 +63,9 @@ src/
 Black canvas, nothing but the name — the rest stays empty until you decide what
 goes there.
 
-- **Homepage** — one viewport tall (`h-svh`), the name bottom-left. No header, no
-  nav, no copy.
+- **Homepage** — one viewport tall (`h-svh`) on the dark tint: the name small
+  top-left, `[NL]` plus a live Amsterdam clock top-right, and a scroll hint
+  bottom-left. No header, no nav, no copy.
 - **Footer** — slides up over the pinned homepage as you scroll. Plain CSS
   (`main` is `sticky top-0`, the footer follows with `z-10`); lenis only makes the
   scroll smooth. It carries a faint field of repeated phrases as a backdrop, the
@@ -130,8 +131,10 @@ Set `NEXT_PUBLIC_SITE_URL` per environment; it drives canonicals, `sitemap.xml`,
   `text-ink-soft`, …
 - shadcn semantics map onto them: `bg-background`, `text-muted-foreground`, …
 - The site runs on the dark palette: `<html>` carries `dark`, so `--background`
-  is pure black (`--color-void`) and the footer sits on `--color-ink`. There is
-  no theme toggle.
+  is `--color-ink` (#232323) and the footer sits one step deeper on
+  `--color-ink-deep` (#181818). There is no theme toggle.
+- Anything on the dark background needs at least 70% foreground opacity to clear
+  4.5:1 — `text-foreground/45` measures 3.9:1 and fails, `aria-hidden` or not.
 - Fonts: `font-sans` (Geist), `font-mono` (Geist Mono, used for the BIOS bars
   and labels), `font-pixel` (Geist Pixel, `ELSH` variable axis 0–100).
 - The BIOS chrome has its own tokens (`--color-bios-*`): grey bars with navy
@@ -140,6 +143,19 @@ Set `NEXT_PUBLIC_SITE_URL` per environment; it drives canonicals, `sitemap.xml`,
 Fonts come from `next/font/google`, which downloads them at build time and
 serves them from this domain — no runtime request to Google, no files in
 `public/`.
+
+## Favicon
+
+`public/icon-light.png` and `public/icon-dark.png` are the name in Hangul (케빈),
+transparent, wired up in `layout.tsx` through `metadata.icons` with
+`prefers-color-scheme` media queries — so the glyphs are ink on a light tab strip
+and off-white on a dark one. `public/favicon.ico` is the same PNG under the
+legacy filename (browsers sniff content, not extension; contentarchitecture.dev
+does exactly this too).
+
+They are rendered images, not live text, so they do not depend on the visitor
+having a Hangul font. To change them, edit and re-render
+`icon-src.html`-style markup with headless Chrome, or swap in your own PNGs.
 
 ## Deploying to Vercel
 

@@ -113,8 +113,8 @@ UI primitives import per component: `import { Button } from
 
 `src/app/globals.css` is the single source of truth:
 
-- Palette: `--color-paper`, `--color-ink`, `--color-ink-soft`, `--color-mist`,
-  `--color-orange`, `--color-sand`
+- Palette: `--color-paper`, `--color-ink`, `--color-ink-deep`,
+  `--color-ink-soft`, `--color-mist`, `--color-orange`, `--color-sand`
 - shadcn semantics (`--background`, `--muted-foreground`, …) map onto that
   palette; use `bg-background`/`text-muted-foreground` in components so inverted
   sections keep working
@@ -178,6 +178,8 @@ categories. What keeps it there:
   lenis-driven scroll capture half-painted frames — verify scroll behaviour with
   `getBoundingClientRect`, not with a picture.
 - Interactive targets are at least 48px tall (`min-h-12`) so mobile audits pass.
+- On the dark background, text needs ≥70% foreground opacity for 4.5:1. `/45`
+  fails at 3.9:1, and `aria-hidden` does not exempt it from the contrast audit.
 - No third-party scripts without measuring first.
 
 ## Conventions

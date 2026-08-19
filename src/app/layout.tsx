@@ -64,11 +64,25 @@ export const metadata: Metadata = {
     },
   },
   formatDetection: { telephone: false },
+  icons: {
+    icon: [
+      {
+        url: "/icon-light.png",
+        type: "image/png",
+        media: "(prefers-color-scheme: light)",
+      },
+      {
+        url: "/icon-dark.png",
+        type: "image/png",
+        media: "(prefers-color-scheme: dark)",
+      },
+    ],
+  },
 };
 
 export const viewport: Viewport = {
-  colorScheme: "light",
-  themeColor: "#f1eee7",
+  colorScheme: "dark",
+  themeColor: "#232323",
 };
 
 const jsonLd = {
@@ -84,7 +98,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     <html
       lang={siteConfig.language}
       className={cn(
-        "h-full",
+        "dark h-full",
         geistSans.variable,
         geistMono.variable,
         geistPixel.variable,
