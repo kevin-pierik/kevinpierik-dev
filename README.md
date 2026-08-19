@@ -33,12 +33,12 @@ The site runs on [http://localhost:3000](http://localhost:3000).
 
 ```text
 scripts/
-├── generate-canvas.mjs   # renders the ASCII planet → src/content/canvas-art.ts
-└── generate-ascii-text.mjs   # renders figlet text → src/content/ascii-text.ts
+├── generate-text-field.mjs   # repeated-phrase field → src/content/text-field.ts
+└── generate-ascii-text.mjs   # figlet text → src/content/ascii-text.ts
 src/
 ├── app/
 │   ├── layout.tsx        # Site-wide metadata, fonts, lenis
-│   ├── page.tsx          # Homepage: canvas + name + footer
+│   ├── page.tsx          # Homepage: the name, nothing else
 │   ├── privacy-policy/   # Legal pages, rendered by ContentPage
 │   ├── terms-of-service/
 │   ├── global-not-found.tsx  # 404 — own <html>, full-screen BIOS screen
@@ -50,25 +50,26 @@ src/
 │   └── sitemap.ts        # sitemap.xml
 ├── components/
 │   ├── layout/           # Container, footer, ascii panel, content shell, lenis
-│   ├── sections/         # CanvasBackdrop (home) and BiosScreen (404)
+│   ├── sections/         # TextFieldBackdrop (footer) and BiosScreen (404)
 │   └── ui/               # shadcn components (shadcn-owned)
 ├── config/site.ts        # Name, description, base URL, email, legal links
-├── content/              # Generated ASCII art (canvas-art.ts, ascii-text.ts) + bios.ts
+├── content/              # Generated ASCII (ascii-text.ts, text-field.ts) + bios.ts
 ├── lib/utils.ts          # cn()
 └── types/svg.d.ts        # SVG-as-component typing (SVGR)
 ```
 
 ## The layout
 
-Black canvas, nothing but the name — the rest is deliberately empty until you
-decide what goes there.
+Black canvas, nothing but the name — the rest stays empty until you decide what
+goes there.
 
-- **Homepage** — one viewport tall (`h-svh`), an ASCII planet centred as a
-  backdrop, the name bottom-left. No header, no nav.
+- **Homepage** — one viewport tall (`h-svh`), the name bottom-left. No header, no
+  nav, no copy.
 - **Footer** — slides up over the pinned homepage as you scroll. Plain CSS
-  (`main` is `sticky top-0`, the footer follows with `z-10`); lenis only makes
-  the scroll smooth. It holds an ASCII panel ("more is coming") and a BIOS-style
-  bar with copyright, email and the legal links.
+  (`main` is `sticky top-0`, the footer follows with `z-10`); lenis only makes the
+  scroll smooth. It carries a faint field of repeated phrases as a backdrop, the
+  bordered ASCII panel ("more is coming"), the legal links right, and the
+  copyright plus email bottom-left.
 - **404** — its own document, a full-screen BIOS boot screen that prints the
   route you actually asked for. Any key or tap reboots to the homepage.
 
@@ -77,19 +78,21 @@ decide what goes there.
 Both pieces are generated once and committed, so nothing is computed at runtime:
 
 ```bash
-bun run generate:canvas   # the planet on the homepage
-bun run generate:ascii    # the figlet text in the footer panel
+bun run generate:ascii   # the figlet block in the footer panel
+bun run generate:field   # the repeated-phrase backdrop behind it
 ```
 
-`scripts/generate-canvas.mjs` renders a shaded sphere with tilted, striated
-rings; the constants at the top of the file are the dials (planet radius, ring
-tilt, gaps, light direction, character ramps, grid size). It crops to the
-bounding box and exports the real column/row count, which
-`CanvasBackdrop` uses to scale the art to 90% of the width or 50% of the height,
-whichever is smaller.
+To change the panel wording, edit the `entries` array in
+`scripts/generate-ascii-text.mjs` (any figlet font works). To change the
+backdrop, edit `PHRASES` in `scripts/generate-text-field.mjs`.
 
-To change the footer wording, edit the `entries` array in
-`scripts/generate-ascii-text.mjs` and re-run it. Any figlet font works.
+Both generators export the real column and row count next to the art, and the
+components scale from those numbers — so regenerating at a different size needs
+no CSS change. `AsciiPanel` is a `@container`, so the block scales to the panel
+it sits in, not to the viewport.
+
+There was an ASCII Saturn on the homepage for one commit. If you want it back:
+`git show cad0e51 -- scripts/generate-canvas.mjs src/components/sections/canvas-backdrop.tsx`.
 
 ## Editing content
 

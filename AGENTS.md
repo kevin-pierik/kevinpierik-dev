@@ -126,17 +126,20 @@ Avoid arbitrary values for anything reusable — make it a token.
 
 ## Generated content
 
-`src/content/canvas-art.ts` and `src/content/ascii-text.ts` are **generated
+`src/content/ascii-text.ts` and `src/content/text-field.ts` are **generated
 files** — never hand-edit them. Change the constants in
-`scripts/generate-canvas.mjs` / `scripts/generate-ascii-text.mjs` and re-run
-`bun run generate:canvas` / `bun run generate:ascii`.
+`scripts/generate-ascii-text.mjs` / `scripts/generate-text-field.mjs` and re-run
+`bun run generate:ascii` / `bun run generate:field`.
 
-The generators crop to the art's bounding box and export the true column and row
-count. `CanvasBackdrop` and `AsciiPanel` scale from those numbers, so art of any
-size keeps working without touching CSS. Both blocks are `aria-hidden` with an
-`sr-only` caption where the art carries meaning.
+The generators export the true column and row count next to the art, and the
+components scale from those numbers, so art of any size keeps working without
+touching CSS. `AsciiPanel` uses `@container` + `cqw`, so it scales to its panel
+rather than the viewport. Both blocks are `aria-hidden` with an `sr-only` caption
+where the art carries meaning — that is also what keeps the contrast audit happy
+about a backdrop at 10% opacity.
 
-Keep the art small: it ships inside the HTML. The planet is ~1.5 KB.
+Keep the art small: it ships inside the HTML (the backdrop is ~8 KB of very
+compressible text).
 
 ## The scroll shell
 

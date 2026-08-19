@@ -9,18 +9,18 @@ export function AsciiPanel({ label, art, columns, caption }: AsciiPanelProps) {
   return (
     <div
       data-slot="ascii-panel"
-      className="overflow-hidden rounded-sm border border-border bg-ink-shade"
+      className="@container overflow-hidden rounded-sm border border-border bg-ink-shade/90 backdrop-blur-sm"
     >
       <p className="border-b border-border px-4 py-3 font-mono text-xs tracking-[0.12em] text-mist uppercase">
         {label}
       </p>
 
-      <div className="overflow-x-auto px-4 py-8">
+      <div className="px-4 py-8">
         <pre
           aria-hidden
-          className="w-max font-mono text-paper"
+          className="font-mono text-paper"
           style={{
-            fontSize: `min(calc((100vw - 6rem) / ${Math.round(columns * 0.62)}), 1.35rem)`,
+            fontSize: `min(calc((100cqw - 2rem) / ${Math.round(columns * 0.6)}), 1.35rem)`,
             lineHeight: 1.05,
           }}
         >

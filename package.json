@@ -10,7 +10,7 @@
     "typecheck": "tsc --noEmit",
     "qa": "bun run lint && bun run typecheck",
     "generate:ascii": "bun scripts/generate-ascii-text.mjs",
-    "generate:canvas": "bun scripts/generate-canvas.mjs"
+    "generate:field": "bun scripts/generate-text-field.mjs"
   },
   "dependencies": {
     "@base-ui/react": "^1.7.0",
