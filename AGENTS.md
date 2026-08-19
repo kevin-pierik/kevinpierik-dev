@@ -22,7 +22,7 @@ The block above is managed by `next dev` — keep everything of ours below the
 | Components | shadcn CLI (`style: base-nova`) on **Base UI** primitives — not Radix |
 | Styling | Tailwind v4, CSS-first config in `src/app/globals.css` |
 | Icons | `lucide-react` |
-| Fonts | Geist, Geist Mono, Geist Pixel via `next/font/google` |
+| Fonts | Geist Mono everywhere; Geist (sans) only in `ContentPage`; Geist Pixel only on the 404 |
 | Smooth scroll | lenis, dynamically imported |
 | Content | Typed TS modules in `src/content/`, partly generated — there is no CMS |
 | Runtime | Bun on the host, deployed on Vercel |
@@ -163,6 +163,27 @@ scroll listeners. lenis only smooths the scroll itself. Consequences:
 - The footer needs `relative z-10`; without the stacking context it slides
   *under* the pinned main.
 
+## Fonts and the critical path
+
+**next/font preloads based on where a font is *declared*, not where it is used.**
+A font declared in the root layout is preloaded on every route, even if no
+element on that route uses it. That cost us 46 KB of preloaded fonts on a page
+with three lines of text.
+
+So the declarations are placed deliberately:
+
+- `Geist_Mono` — root layout. It is the base font (`html { font-mono }`), so
+  every page needs it.
+- `Geist` (sans) — declared inside `src/components/layout/content-page.tsx` and
+  applied there via `geistSans.variable`, so only the legal pages pay for it.
+- `Geist_Pixel` — declared in `global-not-found.tsx` with `preload: false`, so
+  the 404 screen can use it without preloading it everywhere.
+
+`--font-sans` therefore only resolves inside `ContentPage`; the theme gives it a
+`ui-sans-serif, system-ui` fallback so `font-sans` elsewhere degrades sanely
+instead of breaking. If you need sans on a new route, declare the font in that
+route rather than hoisting it back into the root layout.
+
 ## Performance rules
 
 The site is fully static and scores 100 on desktop across all Lighthouse
@@ -171,8 +192,11 @@ categories. What keeps it there:
 - Server Components by default. `"use client"` only for real interaction
   (`SmoothScroll`, `BiosScreen`).
 - `experimental.inlineCss` removes the render-blocking stylesheet. Leave it on.
-- Both preloaded fonts sit on the critical path; `preload: false` on Geist Mono
-  was measured and made LCP *and* CLS worse, because the label text swaps late.
+- Measured: 3 preloaded fonts (69 KB) → LCP 2.6 s / Perf 97; 2 fonts (52 KB) →
+  2.4 s / 98; 1 font (23 KB) → 2.3 s / 98. `preload: false` on the base font was
+  also measured and made LCP *and* CLS worse, because the text swaps late.
+  Lighthouse needs LCP ≈ 1.2 s for a perfect 25/25, which on simulated slow 4G
+  means no webfont on the critical path at all.
 - lenis is imported dynamically and skipped entirely under
   `prefers-reduced-motion`. Note that headless screenshots taken during a
   lenis-driven scroll capture half-painted frames — verify scroll behaviour with

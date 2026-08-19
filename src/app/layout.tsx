@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Geist, Geist_Mono, Geist_Pixel } from "next/font/google";
+import { Geist_Mono } from "next/font/google";
 
 import "./globals.css";
 import "lenis/dist/lenis.css";
@@ -8,24 +8,10 @@ import { SmoothScroll } from "@/components/layout/smooth-scroll";
 import { siteConfig } from "@/config/site";
 import { cn } from "@/lib/utils";
 
-const geistSans = Geist({
-  subsets: ["latin"],
-  variable: "--font-sans",
-  display: "swap",
-});
-
 const geistMono = Geist_Mono({
   subsets: ["latin"],
   variable: "--font-mono",
   display: "swap",
-});
-
-const geistPixel = Geist_Pixel({
-  subsets: ["latin"],
-  axes: ["ELSH"],
-  variable: "--font-pixel",
-  display: "swap",
-  preload: false,
 });
 
 export const metadata: Metadata = {
@@ -99,9 +85,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       lang={siteConfig.language}
       className={cn(
         "dark h-full",
-        geistSans.variable,
         geistMono.variable,
-        geistPixel.variable,
       )}
     >
       <body className="antialiased">

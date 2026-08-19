@@ -37,8 +37,8 @@
 }
 
 @theme inline {
-  --font-heading: var(--font-sans);
-  --font-sans: var(--font-sans);
+  --font-heading: var(--font-sans, ui-sans-serif, system-ui, sans-serif);
+  --font-sans: var(--font-sans, ui-sans-serif, system-ui, sans-serif);
   --font-mono: var(--font-mono);
   --font-pixel: var(--font-pixel);
   --color-sidebar-ring: var(--sidebar-ring);
@@ -150,13 +150,13 @@
     @apply border-border outline-ring/50;
   }
   html {
-    @apply font-sans;
+    @apply font-mono;
   }
   body {
     @apply bg-background text-foreground;
   }
   :is(h1, h2, h3, h4, h5, h6) {
-    @apply font-sans font-medium tracking-tight text-balance;
+    @apply font-medium tracking-tight text-balance;
   }
   h1 {
     @apply text-[2.5rem]/[1.05] sm:text-6xl/[1.02];

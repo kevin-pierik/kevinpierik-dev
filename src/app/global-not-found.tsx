@@ -15,9 +15,10 @@ const geistMono = Geist_Mono({
 
 const geistPixel = Geist_Pixel({
   subsets: ["latin"],
-  weight: "400",
+  axes: ["ELSH"],
   variable: "--font-pixel",
   display: "swap",
+  preload: false,
 });
 
 export const metadata: Metadata = {

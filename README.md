@@ -175,12 +175,13 @@ The build is fully static and ships no render-blocking CSS
 | | Performance | Accessibility | Best Practices | SEO | Agentic Browsing |
 | --- | --- | --- | --- | --- | --- |
 | Desktop | 100 | 100 | 100 | 100 | 100 |
-| Mobile | 97 | 100 | 100 | 100 | 100 |
+| Mobile | 98 | 100 | 100 | 100 | 100 |
 
-Mobile Performance is capped by LCP under Lighthouse's simulated slow 4G, which
-charges the two preloaded Geist fonts (52 KB) to the critical path; the measured
-render delay is ~140 ms. Dropping a font family is the only way to move it, and
-that costs the design.
+Mobile Performance is capped by LCP under Lighthouse's simulated slow 4G. The
+homepage now preloads a single 23 KB font (see the font notes in `AGENTS.md`),
+which took LCP from 2.6 s to 2.3 s. Getting the last two points would mean
+serving no webfont at all on the critical path — the measured render delay is
+already ~140 ms, so that is a scoring artefact rather than a real problem.
 
 Keep the scores: no client components unless something is really interactive, no
 unsized media, no third-party scripts without measuring, and interactive targets
