@@ -4,11 +4,11 @@ export type DesktopWindow = {
   id: string;
   label: string;
   title: string;
-  placement: "files" | "corner";
+  placement: "home" | "project" | "corner";
 };
 
 export const desktopWindows: DesktopWindow[] = [
-  { id: "about", label: "About", title: "About", placement: "files" },
+  { id: "about", label: "About", title: "About", placement: "home" },
   { id: "privacy", label: "privacy", title: "Privacy", placement: "corner" },
 ];
 

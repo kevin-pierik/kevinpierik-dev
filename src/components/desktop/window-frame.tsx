@@ -1,6 +1,5 @@
 "use client";
 
-import { X } from "lucide-react";
 import type { ReactNode } from "react";
 import { useRef } from "react";
 
@@ -109,9 +108,21 @@ export function WindowFrame({
           type="button"
           onClick={onClose}
           aria-label={`Close ${title}`}
-          className="relative flex size-3.5 shrink-0 cursor-pointer items-center justify-center rounded-full border border-transparent bg-paper text-ink transition-colors before:absolute before:-inset-2.5 hover:border-paper hover:bg-transparent hover:text-paper focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+          className="relative grid aspect-square size-4 shrink-0 cursor-pointer place-items-center rounded-[50%] border border-transparent bg-paper p-0 text-ink transition-colors before:absolute before:-inset-2.5 hover:border-paper hover:bg-transparent hover:text-paper focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
         >
-          <X aria-hidden className="size-2.5" strokeWidth={1.75} />
+          <svg
+            aria-hidden
+            viewBox="0 0 12 12"
+            className="block size-2.5"
+            fill="none"
+          >
+            <path
+              d="M2.25 2.25 9.75 9.75M9.75 2.25 2.25 9.75"
+              stroke="currentColor"
+              strokeWidth="1.5"
+              strokeLinecap="round"
+            />
+          </svg>
         </button>
       </div>
 

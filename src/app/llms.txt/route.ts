@@ -11,6 +11,7 @@ export function GET(): Response {
     "## Pages",
     "",
     `- [Home](${siteConfig.url}): Landing page of ${siteConfig.name}.`,
+    `- [Portfolio](${siteConfig.url}/portfolio): Selected work by ${siteConfig.name}.`,
     "",
     "## Optional",
     "",
