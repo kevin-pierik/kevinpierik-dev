@@ -19,9 +19,8 @@ export const about = {
 
 export const privacy = {
   paragraphs: [
-    "This site sets no cookies and has no forms, comments or accounts.",
-    "Page performance is measured with Vercel Speed Insights: it records how fast pages render and sends those numbers to Vercel. It sets no cookies, and I cannot identify individual visitors from it.",
-    "The site is hosted by Vercel, which processes technical request data — IP address, user agent, requested URL — to serve the pages and protect its platform.",
+    "No cookies, no forms, no accounts.",
+    "Vercel hosts this site and measures page speed. Standard server logs, nothing that identifies you.",
   ],
-  contact: "If you email me, I keep that message to reply to you. Nothing else.",
+  contact: "Mail me and I keep it to reply. Nothing else.",
 };
