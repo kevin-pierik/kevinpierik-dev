@@ -90,10 +90,10 @@ export function WindowFrame({
         transform: `translate(${offset.x}px, ${offset.y}px)`,
         zIndex: 10 + depth,
       }}
-      className="absolute top-1/2 left-1/2 flex w-[min(20rem,calc(100%-1rem))] -translate-x-1/2 -translate-y-1/2 flex-col bg-background px-1 pb-1 ring-1 ring-paper/25 select-none sm:w-[25rem]"
+      className="absolute top-1/2 left-1/2 flex w-[min(20rem,calc(100%-1rem))] -translate-x-1/2 -translate-y-1/2 flex-col bg-background px-1 pb-1 ring-1 ring-paper/25 sm:w-[25rem]"
     >
       <div
-        className="flex h-8 shrink-0 cursor-grab touch-none items-center justify-between gap-3 px-2 active:cursor-grabbing focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-ring"
+        className="flex h-8 shrink-0 cursor-grab touch-none items-center justify-between gap-3 px-2 select-none active:cursor-grabbing focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-ring"
         onPointerDown={onPointerDown}
         onPointerMove={onPointerMove}
         onKeyDown={onKeyDown}

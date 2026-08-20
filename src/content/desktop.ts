@@ -1,14 +1,15 @@
 import { siteConfig } from "@/config/site";
 
-export type DesktopFile = {
+export type DesktopWindow = {
   id: string;
   label: string;
   title: string;
+  placement: "files" | "corner";
 };
 
-export const desktopFiles: DesktopFile[] = [
-  { id: "about", label: "About", title: "About" },
-  { id: "privacy", label: "Privacy", title: "Privacy" },
+export const desktopWindows: DesktopWindow[] = [
+  { id: "about", label: "About", title: "About", placement: "files" },
+  { id: "privacy", label: "privacy", title: "Privacy", placement: "corner" },
 ];
 
 export const about = {

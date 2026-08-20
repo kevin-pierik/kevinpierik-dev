@@ -6,7 +6,7 @@ import { useState } from "react";
 
 import type { WindowOffset } from "@/components/desktop/window-frame";
 import { WindowFrame } from "@/components/desktop/window-frame";
-import { desktopFiles } from "@/content/desktop";
+import { desktopWindows } from "@/content/desktop";
 import { cn } from "@/lib/utils";
 
 const CASCADE = 22;
@@ -47,10 +47,13 @@ export function Desktop({ content }: DesktopProps) {
     return { x: index * CASCADE, y: index * CASCADE };
   }
 
+  const files = desktopWindows.filter((item) => item.placement === "files");
+  const corner = desktopWindows.filter((item) => item.placement === "corner");
+
   return (
     <div className="relative flex-1 overflow-hidden border-x border-b border-paper/20">
       <ul className="flex flex-col items-start gap-0.5 p-2">
-        {desktopFiles.map((file) => {
+        {files.map((file) => {
           const isOpen = stack.includes(file.id);
 
           return (
@@ -59,11 +62,11 @@ export function Desktop({ content }: DesktopProps) {
                 type="button"
                 onClick={() => toggle(file.id)}
                 aria-pressed={isOpen}
-                className="inline-flex min-h-7 items-center gap-2 px-1 font-mono text-xs tracking-[0.08em] text-mist transition-colors hover:text-paper focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+                className="inline-flex min-h-6 items-center gap-1.5 px-1 font-mono text-[11px] text-mist transition-colors hover:text-paper focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
               >
                 <File
                   aria-hidden
-                  className={cn("size-3.5", isOpen && "fill-current")}
+                  className={cn("size-3", isOpen && "fill-current")}
                 />
                 {file.label}
               </button>
@@ -72,11 +75,25 @@ export function Desktop({ content }: DesktopProps) {
         })}
       </ul>
 
-      {desktopFiles.map((file) => {
+      <div className="absolute right-3 bottom-2 flex items-center gap-3">
+        {corner.map((item) => (
+          <button
+            key={item.id}
+            type="button"
+            onClick={() => toggle(item.id)}
+            aria-pressed={stack.includes(item.id)}
+            className="inline-flex min-h-6 items-center font-mono text-[11px] text-mist underline underline-offset-2 transition-colors hover:text-paper hover:decoration-dashed focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+          >
+            {item.label}
+          </button>
+        ))}
+      </div>
+
+      {desktopWindows.map((file) => {
         const depth = stack.indexOf(file.id);
         if (depth === -1) return null;
 
-        const index = desktopFiles.findIndex((item) => item.id === file.id);
+        const index = desktopWindows.findIndex((item) => item.id === file.id);
 
         return (
           <WindowFrame
