@@ -167,7 +167,7 @@
     @apply text-xl/[1.2] sm:text-2xl/[1.2];
   }
   ::selection {
-    @apply bg-orange text-ink;
+    @apply bg-paper text-ink;
   }
 }
 
