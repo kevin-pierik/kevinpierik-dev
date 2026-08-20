@@ -13,7 +13,7 @@ export const metadata: Metadata = {
 export default function Home() {
   return (
     <main id="main" className="h-svh bg-background px-1.5 pb-1.5">
-      <div className="flex h-full flex-col border-x border-b border-paper/20">
+      <div className="flex h-full flex-col">
         <header className="flex h-9 shrink-0 items-center justify-between gap-4 border-b border-paper/15 px-2.5">
           <div className="flex items-center gap-2">
             <span aria-hidden className="size-1.5 rounded-full bg-orange" />

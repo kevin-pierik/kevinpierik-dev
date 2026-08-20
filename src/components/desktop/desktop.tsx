@@ -48,7 +48,7 @@ export function Desktop({ content }: DesktopProps) {
   }
 
   return (
-    <div className="relative flex-1 overflow-hidden">
+    <div className="relative flex-1 overflow-hidden border-x border-b border-paper/20">
       <ul className="flex flex-col items-start gap-0.5 p-2">
         {desktopFiles.map((file) => {
           const isOpen = stack.includes(file.id);

@@ -2,7 +2,7 @@ import { siteConfig } from "@/config/site";
 import { about } from "@/content/desktop";
 
 const linkStyle =
-  "underline-offset-2 hover:decoration-dashed hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring";
+  "underline underline-offset-2 hover:decoration-dashed focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring";
 
 export function AboutContent() {
   return (
