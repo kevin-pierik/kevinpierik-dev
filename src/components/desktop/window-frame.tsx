@@ -1,29 +1,40 @@
 "use client";
 
+import { Minus, Plus } from "lucide-react";
 import type { ReactNode } from "react";
 import { useRef } from "react";
+
+import { cn } from "@/lib/utils";
 
 export type WindowOffset = { x: number; y: number };
 
 type WindowFrameProps = {
   title: string;
+  variant?: "default" | "document";
   offset: WindowOffset;
   depth: number;
   onMove: (next: (previous: WindowOffset) => WindowOffset) => void;
   onFocus: () => void;
   onClose: () => void;
+  expanded?: boolean;
+  onExpand?: () => void;
   children: ReactNode;
 };
 
 const STEP = 16;
+const controlClassName =
+  "relative grid aspect-square size-4 shrink-0 cursor-pointer place-items-center rounded-[50%] border border-transparent bg-paper p-0 text-ink transition-colors before:absolute before:-inset-2.5 hover:border-paper hover:bg-transparent hover:text-paper focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring";
 
 export function WindowFrame({
   title,
+  variant = "default",
   offset,
   depth,
   onMove,
   onFocus,
   onClose,
+  expanded = false,
+  onExpand,
   children,
 }: WindowFrameProps) {
   const frame = useRef<HTMLDivElement>(null);
@@ -84,49 +95,90 @@ export function WindowFrame({
     <div
       ref={frame}
       data-slot="window"
-      onPointerDownCapture={onFocus}
+      onPointerDownCapture={variant === "default" ? onFocus : undefined}
       style={{
-        transform: `translate(${offset.x}px, ${offset.y}px)`,
+        transform:
+          variant === "default"
+            ? `translate(${offset.x}px, ${offset.y}px)`
+            : undefined,
         zIndex: 10 + depth,
       }}
-      className="absolute top-1/2 left-1/2 flex w-[min(20rem,calc(100%-1rem))] -translate-x-1/2 -translate-y-1/2 flex-col bg-background px-1 pb-1 ring-1 ring-paper/25 sm:w-[25rem]"
+      className={cn(
+        "absolute flex flex-col bg-background",
+        variant === "document"
+          ? "inset-0"
+          : "top-1/2 left-1/2 w-[min(20rem,calc(100%-1rem))] -translate-x-1/2 -translate-y-1/2 px-1 pb-1 ring-1 ring-paper/25 sm:w-[25rem]",
+      )}
     >
       <div
-        className="flex h-8 shrink-0 cursor-grab touch-none items-center justify-between gap-3 px-2 select-none active:cursor-grabbing focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-ring"
-        onPointerDown={onPointerDown}
-        onPointerMove={onPointerMove}
-        onKeyDown={onKeyDown}
+        className={cn(
+          "flex h-8 shrink-0 items-center justify-between gap-3 px-2 select-none focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-ring",
+          variant === "default" &&
+            "cursor-grab touch-none active:cursor-grabbing",
+        )}
+        onPointerDown={variant === "default" ? onPointerDown : undefined}
+        onPointerMove={variant === "default" ? onPointerMove : undefined}
+        onKeyDown={variant === "default" ? onKeyDown : undefined}
         role="toolbar"
-        aria-label={`${title} window, use the arrow keys to move`}
-        tabIndex={0}
+        aria-label={
+          variant === "default"
+            ? `${title} window, use the arrow keys to move`
+            : `${title} window`
+        }
+        tabIndex={variant === "default" ? 0 : undefined}
       >
         <h2 className="truncate font-mono text-[11px]">
           {title}
         </h2>
 
-        <button
-          type="button"
-          onClick={onClose}
-          aria-label={`Close ${title}`}
-          className="relative grid aspect-square size-4 shrink-0 cursor-pointer place-items-center rounded-[50%] border border-transparent bg-paper p-0 text-ink transition-colors before:absolute before:-inset-2.5 hover:border-paper hover:bg-transparent hover:text-paper focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
-        >
-          <svg
-            aria-hidden
-            viewBox="0 0 12 12"
-            className="block size-2.5"
-            fill="none"
+        <div className="flex items-center gap-2">
+          {variant === "document" && onExpand && (
+            <button
+              type="button"
+              onClick={onExpand}
+              aria-label={`${expanded ? "Collapse" : "Expand"} ${title}`}
+              aria-pressed={expanded}
+              className={cn(controlClassName, "hidden lg:grid")}
+            >
+              {expanded ? (
+                <Minus aria-hidden className="size-2.5" strokeWidth={2} />
+              ) : (
+                <Plus aria-hidden className="size-2.5" strokeWidth={2} />
+              )}
+            </button>
+          )}
+
+          <button
+            type="button"
+            onClick={onClose}
+            aria-label={`Close ${title}`}
+            className={controlClassName}
           >
-            <path
-              d="M2.25 2.25 9.75 9.75M9.75 2.25 2.25 9.75"
-              stroke="currentColor"
-              strokeWidth="1.5"
-              strokeLinecap="round"
-            />
-          </svg>
-        </button>
+            <svg
+              aria-hidden
+              viewBox="0 0 12 12"
+              className="block size-2.5"
+              fill="none"
+            >
+              <path
+                d="M2.25 2.25 9.75 9.75M9.75 2.25 2.25 9.75"
+                stroke="currentColor"
+                strokeWidth="1.5"
+                strokeLinecap="round"
+              />
+            </svg>
+          </button>
+        </div>
       </div>
 
-      <div className="flex max-h-[60svh] flex-col gap-3 overflow-y-auto p-3 ring-1 ring-paper/25 [scrollbar-width:none]">
+      <div
+        className={cn(
+          "flex ring-1 ring-paper/25 [scrollbar-width:none]",
+          variant === "document"
+            ? "min-h-0 flex-1 flex-col overflow-hidden"
+            : "max-h-[60svh] flex-col gap-3 overflow-y-auto p-3",
+        )}
+      >
         {children}
       </div>
     </div>

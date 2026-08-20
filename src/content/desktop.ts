@@ -9,6 +9,12 @@ export type DesktopWindow = {
 
 export const desktopWindows: DesktopWindow[] = [
   { id: "about", label: "About", title: "About", placement: "home" },
+  {
+    id: "curriculum-vitae",
+    label: "Curriculum Vitae",
+    title: "Curriculum Vitae",
+    placement: "project",
+  },
   { id: "privacy", label: "privacy", title: "Privacy", placement: "corner" },
 ];
 

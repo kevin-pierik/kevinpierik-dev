@@ -1,23 +1,27 @@
-import type { Metadata } from "next";
-
 import { Desktop } from "@/components/desktop/desktop";
 import { PrivacyContent } from "@/components/desktop/privacy-content";
+import { ResumeContent } from "@/components/desktop/resume-content";
 import { LocalTime } from "@/components/sections/local-time";
 import { siteConfig } from "@/config/site";
 
-export const metadata: Metadata = {
-  title: "Portfolio",
-  alternates: { canonical: "/portfolio" },
+type WorksDesktopProps = {
+  activeProjectId?: string;
 };
 
-export default function Portfolio() {
+export function WorksDesktop({ activeProjectId }: WorksDesktopProps) {
   return (
-    <main id="main" className="h-svh bg-background px-1.5 pb-1.5">
+    <main
+      id="main"
+      data-slot="works-desktop"
+      className="h-svh bg-background px-1.5 pb-1.5"
+    >
       <Desktop
-        mode="portfolio"
+        mode="works"
         name={siteConfig.name}
         status={<LocalTime />}
+        activeProjectId={activeProjectId}
         content={{
+          "curriculum-vitae": <ResumeContent />,
           privacy: <PrivacyContent />,
         }}
       />

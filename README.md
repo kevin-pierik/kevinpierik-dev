@@ -1,8 +1,9 @@
 # kevinpierik-dev
 
-Personal site of Kevin Pierik — a static Next.js one-pager built as a small
-desktop: a file you can open, a window you can drag, and nothing else. No CMS;
-what little content there is lives in typed TypeScript under `src/`.
+Personal site of Kevin Pierik — a static Next.js site built as a small desktop:
+files and folders open into windows, including a browser-native PDF viewer for
+the curriculum vitae. No CMS; what little content there is lives in typed
+TypeScript under `src/`.
 
 ## Requirements
 
@@ -36,7 +37,8 @@ The site runs on [http://localhost:3000](http://localhost:3000).
 src/
 ├── app/
 │   ├── layout.tsx        # Site-wide metadata, font, JSON-LD, Speed Insights
-│   ├── page.tsx          # The desktop: header row, files, window, status bar
+│   ├── page.tsx          # Home desktop
+│   ├── works/            # Extra desktop and curriculum vitae detail route
 │   ├── global-not-found.tsx  # 404 — own <html>, full-screen BIOS screen
 │   ├── global-error.tsx  # Last-resort error boundary
 │   ├── globals.css       # Tailwind v4 theme: design tokens live here
@@ -52,16 +54,15 @@ src/
 ├── content/              # desktop.ts (files + About) and bios.ts (404 boot log)
 ├── lib/utils.ts          # cn()
 └── types/svg.d.ts        # SVG-as-component typing (SVGR)
-public/                   # Favicon PNGs (Hangul), wired via metadata.icons
+public/                   # Favicon PNGs and downloadable files
 ```
 
 ## The desktop
 
-- **Header row** — name left, `[NL]` plus a live Amsterdam clock right. Both tiny
-  and mono, hugging the edge (`px-3`); there is no nav, because there is nothing
-  to navigate to yet.
-- **Files** — `desktopFiles` in `src/content/desktop.ts`: `About` and
-  `Privacy`. An icon fills in while its window is open.
+- **Header row** — the name first, then Home and Extra navigation, with `[NL]`
+  plus a live Amsterdam clock at the right. Everything is tiny and mono.
+- **Files and folders** — `desktopWindows` in `src/content/desktop.ts`: `About`,
+  `Curriculum Vitae`, and `Privacy`. An icon fills in while its window is open.
 - **Window** — draggable by its title bar, kept inside the viewport, closable,
   and movable with the arrow keys once the title bar has focus. Position is held
   in `Desktop`, so closing and reopening keeps it where you left it. Windows

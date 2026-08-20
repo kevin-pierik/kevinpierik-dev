@@ -21,6 +21,7 @@
   --color-bios-cyan: #54fcfc;
   --color-bios-bar: #a8a8a8;
   --color-bios-bar-text: #000080;
+  --container-document: 50rem;
   --animate-nudge: nudge 2.4s ease-in-out infinite;
 
   @keyframes nudge {

@@ -1,7 +1,8 @@
 "use client";
 
-import { File, Folder, Minus, Plus } from "lucide-react";
+import { File, Folder, FolderOpen, Minus, Plus } from "lucide-react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import type { ReactNode } from "react";
 import { useState } from "react";
 
@@ -13,24 +14,34 @@ import { cn } from "@/lib/utils";
 
 const CASCADE = 22;
 
-type DesktopMode = "home" | "portfolio";
+type DesktopMode = "home" | "works";
 
 type DesktopProps = {
   mode: DesktopMode;
   name: string;
   status: ReactNode;
   content: Record<string, ReactNode>;
+  activeProjectId?: string;
 };
 
 const navigation = [
   { mode: "home", href: "/", label: "Home" },
-  { mode: "portfolio", href: "/portfolio", label: "Portfolio" },
+  { mode: "works", href: "/works", label: "Extra" },
 ] as const;
 
-export function Desktop({ mode, name, status, content }: DesktopProps) {
+export function Desktop({
+  mode,
+  name,
+  status,
+  content,
+  activeProjectId,
+}: DesktopProps) {
+  const router = useRouter();
+  const projects = desktopWindows.filter((item) => item.placement === "project");
   const [stack, setStack] = useState<string[]>(mode === "home" ? ["about"] : []);
   const [offsets, setOffsets] = useState<Record<string, WindowOffset>>({});
-  const [projectsExpanded, setProjectsExpanded] = useState(false);
+  const [worksExpanded, setWorksExpanded] = useState(false);
+  const [documentExpanded, setDocumentExpanded] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
 
   function toggle(id: string) {
@@ -61,58 +72,30 @@ export function Desktop({ mode, name, status, content }: DesktopProps) {
     return { x: index * CASCADE, y: index * CASCADE };
   }
 
-  const projects = desktopWindows.filter((item) => item.placement === "project");
   const files = desktopWindows.filter((item) => item.placement === "home");
   const corner = desktopWindows.filter((item) => item.placement === "corner");
+  const hasOpenProject = projects.some(
+    (project) => project.id === activeProjectId,
+  );
   const visibleWindows = desktopWindows.filter(
     (item) =>
       item.placement === "corner" ||
       (mode === "home" && item.placement === "home") ||
-      (mode === "portfolio" && item.placement === "project"),
+      (mode === "works" &&
+        item.placement === "project" &&
+        item.id === activeProjectId),
   );
 
   return (
-    <div
-      className={cn(
-        "relative grid h-full grid-cols-[auto_1fr] grid-rows-[2.25rem_minmax(0,1fr)] gap-x-3 lg:grid-cols-12 lg:gap-x-4",
-        (mode === "home" || projectsExpanded) &&
-          "before:pointer-events-none before:absolute before:inset-x-0 before:top-9 before:z-40 before:border-b before:border-paper/15",
-      )}
-    >
-      <nav
-        aria-label="Main navigation"
-        className={cn(
-          "col-start-1 row-start-1 hidden min-w-40 items-center gap-4 px-2 lg:col-span-4 lg:flex",
-          mode === "portfolio" &&
-            !projectsExpanded &&
-            "border-b border-paper/15",
-        )}
-      >
-        {navigation.map((item) => (
-          <Link
-            key={item.href}
-            href={item.href}
-            aria-current={mode === item.mode ? "page" : undefined}
-            className={cn(
-              "font-mono text-xs transition-colors hover:text-paper focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
-              mode === item.mode ? "text-paper" : "text-foreground/70",
-            )}
-          >
-            {item.label}
-          </Link>
-        ))}
-      </nav>
-
+    <div className="relative grid h-full grid-cols-[auto_1fr] grid-rows-[2.25rem_minmax(0,1fr)] gap-x-3 lg:grid-cols-12 lg:gap-x-4">
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-x-0 top-9 z-40 border-b border-paper/15"
+      />
       <header
-        className={cn(
-          "col-span-2 col-start-1 row-start-1 flex items-center justify-between gap-4 px-2 lg:col-span-8 lg:col-start-5",
-          mode === "portfolio" &&
-            !projectsExpanded &&
-            "border-b border-paper/15",
-        )}
+        className="col-span-2 col-start-1 row-start-1 flex items-center justify-between gap-4 px-2 lg:col-span-4"
       >
         <h1 className="font-mono text-xs tracking-[0.08em]">{name}</h1>
-        <div className="hidden lg:block">{status}</div>
         <button
           type="button"
           onClick={() => setMenuOpen((previous) => !previous)}
@@ -123,6 +106,29 @@ export function Desktop({ mode, name, status, content }: DesktopProps) {
           {menuOpen ? "Close Menu" : "Open Menu"}
         </button>
       </header>
+
+      <nav
+        aria-label="Main navigation"
+        className="col-start-5 row-start-1 hidden min-w-40 items-center justify-between gap-4 px-2 lg:col-span-8 lg:flex"
+      >
+        <div className="flex items-center gap-4">
+          {navigation.map((item) => (
+            <Link
+              key={item.href}
+              href={item.href}
+              aria-current={mode === item.mode ? "page" : undefined}
+              className={cn(
+                "font-mono text-xs transition-colors hover:text-paper focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+                mode === item.mode ? "text-paper" : "text-foreground/70",
+              )}
+            >
+              {item.label}
+            </Link>
+          ))}
+        </div>
+
+        {status}
+      </nav>
 
       {menuOpen && (
         <nav
@@ -147,11 +153,12 @@ export function Desktop({ mode, name, status, content }: DesktopProps) {
         </nav>
       )}
 
-      {mode === "portfolio" && (
+      {mode === "works" && !documentExpanded && (
         <aside
           className={cn(
-            "col-span-2 col-start-1 row-start-2 flex min-w-40 flex-col overflow-hidden border-x border-b border-paper/20 lg:col-start-1",
-            projectsExpanded ? "lg:col-span-12" : "lg:col-span-4",
+            "col-span-2 col-start-1 row-start-2 min-w-40 flex-col overflow-hidden border-x border-b border-paper/20 lg:col-start-1 lg:flex",
+            hasOpenProject ? "hidden lg:flex" : "flex",
+            worksExpanded ? "lg:col-span-12" : "lg:col-span-4",
           )}
         >
           <div className="flex h-7 items-center justify-between border-b border-paper/20 px-2 font-mono text-[11px] text-mist">
@@ -159,12 +166,12 @@ export function Desktop({ mode, name, status, content }: DesktopProps) {
 
             <button
               type="button"
-              onClick={() => setProjectsExpanded((previous) => !previous)}
-              aria-label={projectsExpanded ? "Collapse portfolio" : "Expand portfolio"}
-              aria-pressed={projectsExpanded}
+              onClick={() => setWorksExpanded((previous) => !previous)}
+              aria-label={worksExpanded ? "Collapse extra" : "Expand extra"}
+              aria-pressed={worksExpanded}
               className="relative hidden size-3.5 shrink-0 cursor-pointer items-center justify-center rounded-full bg-paper text-ink before:absolute before:-inset-2.5 hover:bg-mist focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring lg:flex"
             >
-              {projectsExpanded ? (
+              {worksExpanded ? (
                 <Minus aria-hidden className="size-2.5" strokeWidth={2} />
               ) : (
                 <Plus aria-hidden className="size-2.5" strokeWidth={2} />
@@ -174,25 +181,22 @@ export function Desktop({ mode, name, status, content }: DesktopProps) {
 
           <ul>
             {projects.map((project) => {
-              const isOpen = stack.includes(project.id);
+              const isOpen = project.id === activeProjectId;
+              const FolderIcon = isOpen ? FolderOpen : Folder;
 
               return (
-                <li key={project.id} className="border-b border-paper/20 px-1">
-                  <button
-                    type="button"
-                    onClick={() => toggle(project.id)}
-                    aria-pressed={isOpen}
+                <li key={project.id} className="border-b border-paper/20">
+                  <Link
+                    href={`/works/${project.id}`}
+                    aria-current={isOpen ? "page" : undefined}
                     className={cn(
-                      "flex min-h-7 w-full items-center gap-1.5 px-1 font-mono text-[11px] transition-colors hover:bg-paper/8 hover:text-paper focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-ring",
+                      "flex min-h-7 w-full items-center gap-1.5 px-2 font-mono text-[11px] transition-colors hover:bg-paper/8 hover:text-paper focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-ring",
                       isOpen ? "bg-paper/10 text-paper" : "text-mist",
                     )}
                   >
-                    <Folder
-                      aria-hidden
-                      className={cn("size-3", isOpen && "fill-current")}
-                    />
+                    <FolderIcon aria-hidden className="size-3" />
                     {project.label}
-                  </button>
+                  </Link>
                 </li>
               );
             })}
@@ -210,11 +214,15 @@ export function Desktop({ mode, name, status, content }: DesktopProps) {
           "relative row-start-2 overflow-hidden border-x border-b border-paper/20",
           mode === "home"
             ? "col-span-2 col-start-1 lg:col-span-12"
-            : "hidden lg:col-start-5 lg:block lg:col-span-8",
-          mode === "portfolio" && projectsExpanded && "lg:hidden",
+            : hasOpenProject
+              ? documentExpanded
+                ? "col-span-2 col-start-1 lg:col-span-12 lg:col-start-1"
+                : "col-span-2 col-start-1 lg:col-span-8 lg:col-start-5"
+              : "hidden lg:col-span-8 lg:col-start-5 lg:block",
+          mode === "works" && worksExpanded && "lg:hidden",
         )}
       >
-        <InfiniteDesk />
+        {(mode === "home" || !hasOpenProject) && <InfiniteDesk />}
 
         {mode === "home" && (
           <ul className="absolute top-0 left-0 z-10 flex flex-col items-start gap-0.5 bg-background p-2">
@@ -241,33 +249,47 @@ export function Desktop({ mode, name, status, content }: DesktopProps) {
           </ul>
         )}
 
-        <div className="absolute right-3 bottom-2 z-10 flex items-center gap-3">
-          {corner.map((item) => (
-            <button
-              key={item.id}
-              type="button"
-              onClick={() => toggle(item.id)}
-              aria-pressed={stack.includes(item.id)}
-              className="inline-flex min-h-6 items-center font-mono text-[11px] text-mist underline underline-offset-2 transition-colors hover:text-paper hover:decoration-dashed focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
-            >
-              {item.label}
-            </button>
-          ))}
-        </div>
+        {(mode === "home" || !hasOpenProject) && (
+          <div className="absolute right-3 bottom-2 z-10 flex items-center gap-3">
+            {corner.map((item) => (
+              <button
+                key={item.id}
+                type="button"
+                onClick={() => toggle(item.id)}
+                aria-pressed={stack.includes(item.id)}
+                className="inline-flex min-h-6 items-center font-mono text-[11px] text-mist underline underline-offset-2 transition-colors hover:text-paper hover:decoration-dashed focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+              >
+                {item.label}
+              </button>
+            ))}
+          </div>
+        )}
 
         {visibleWindows.map((file, index) => {
-          const depth = stack.indexOf(file.id);
+          const depth =
+            file.placement === "project" ? stack.length : stack.indexOf(file.id);
           if (depth === -1) return null;
 
           return (
             <WindowFrame
               key={file.id}
               title={file.title}
+              variant={file.placement === "project" ? "document" : "default"}
               offset={offsets[file.id] ?? initialOffset(index)}
               depth={depth}
               onMove={move(file.id, index)}
               onFocus={() => focus(file.id)}
-              onClose={() => toggle(file.id)}
+              expanded={file.placement === "project" && documentExpanded}
+              onExpand={
+                file.placement === "project"
+                  ? () => setDocumentExpanded((previous) => !previous)
+                  : undefined
+              }
+              onClose={() =>
+                file.placement === "project"
+                  ? router.push("/works")
+                  : toggle(file.id)
+              }
             >
               {content[file.id]}
             </WindowFrame>
