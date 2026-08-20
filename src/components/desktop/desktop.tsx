@@ -9,6 +9,8 @@ import { useState } from "react";
 import { InfiniteDesk } from "@/components/desktop/infinite-desk";
 import type { WindowOffset } from "@/components/desktop/window-frame";
 import { WindowFrame } from "@/components/desktop/window-frame";
+import { Button } from "@/components/ui/button";
+import { FileTree, FileTreeFile } from "@/components/ui/file-tree";
 import { desktopWindows } from "@/content/desktop";
 import { cn } from "@/lib/utils";
 
@@ -96,15 +98,16 @@ export function Desktop({
         className="col-span-2 col-start-1 row-start-1 flex items-center justify-between gap-4 px-2 lg:col-span-4"
       >
         <h1 className="font-mono text-xs tracking-[0.08em]">{name}</h1>
-        <button
-          type="button"
+        <Button
+          variant="desk"
+          size="none"
           onClick={() => setMenuOpen((previous) => !previous)}
           aria-expanded={menuOpen}
           aria-controls="mobile-menu"
-          className="font-mono text-xs text-paper focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring lg:hidden"
+          className="text-xs text-paper lg:hidden"
         >
           {menuOpen ? "Close Menu" : "Open Menu"}
-        </button>
+        </Button>
       </header>
 
       <nav
@@ -164,44 +167,41 @@ export function Desktop({
           <div className="flex h-7 items-center justify-between border-b border-paper/20 px-2 font-mono text-[11px] text-mist">
             <p>[{String(projects.length).padStart(2, "0")}]</p>
 
-            <button
-              type="button"
+            <Button
+              variant="control"
+              size="none"
               onClick={() => setWorksExpanded((previous) => !previous)}
               aria-label={worksExpanded ? "Collapse extra" : "Expand extra"}
               aria-pressed={worksExpanded}
-              className="relative hidden size-3.5 shrink-0 cursor-pointer items-center justify-center rounded-full bg-paper text-ink before:absolute before:-inset-2.5 hover:bg-mist focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring lg:flex"
+              className="hidden size-3.5 hover:border-transparent hover:bg-mist hover:text-ink lg:flex lg:items-center lg:justify-center"
             >
               {worksExpanded ? (
                 <Minus aria-hidden className="size-2.5" strokeWidth={2} />
               ) : (
                 <Plus aria-hidden className="size-2.5" strokeWidth={2} />
               )}
-            </button>
+            </Button>
           </div>
 
-          <ul>
+          <FileTree className="w-full gap-0">
             {projects.map((project) => {
               const isOpen = project.id === activeProjectId;
               const FolderIcon = isOpen ? FolderOpen : Folder;
 
               return (
-                <li key={project.id} className="border-b border-paper/20">
-                  <Link
-                    href={`/works/${project.id}`}
-                    aria-current={isOpen ? "page" : undefined}
-                    className={cn(
-                      "flex min-h-7 w-full items-center gap-1.5 px-2 font-mono text-[11px] transition-colors hover:bg-paper/8 hover:text-paper focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-ring",
-                      isOpen ? "bg-paper/10 text-paper" : "text-mist",
-                    )}
-                  >
-                    <FolderIcon aria-hidden className="size-3" />
-                    {project.label}
-                  </Link>
-                </li>
+                <FileTreeFile
+                  key={project.id}
+                  variant="folder"
+                  active={isOpen}
+                  nativeButton={false}
+                  render={<Link href={`/works/${project.id}`} />}
+                >
+                  <FolderIcon aria-hidden className="size-3" />
+                  {project.label}
+                </FileTreeFile>
               );
             })}
-
-          </ul>
+          </FileTree>
 
           <p className="mt-auto p-2 font-mono text-[11px] text-mist">
             &copy; {new Date().getFullYear()} {name}.
@@ -225,44 +225,40 @@ export function Desktop({
         {(mode === "home" || !hasOpenProject) && <InfiniteDesk />}
 
         {mode === "home" && (
-          <ul className="absolute top-0 left-0 z-10 flex flex-col items-start gap-0.5 bg-background p-2">
+          <FileTree className="absolute top-0 left-0 z-10 bg-background p-2">
             {files.map((file) => {
               const isOpen = stack.includes(file.id);
 
               return (
-                <li key={file.id}>
-                  <button
-                    type="button"
-                    onClick={() => toggle(file.id)}
-                    aria-pressed={isOpen}
-                    className="inline-flex min-h-6 items-center gap-1.5 px-1 font-mono text-[11px] text-mist transition-colors hover:text-paper focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
-                  >
-                    <File
-                      aria-hidden
-                      className={cn("size-3", isOpen && "fill-current")}
-                    />
-                    {file.label}
-                  </button>
-                </li>
+                <FileTreeFile
+                  key={file.id}
+                  active={isOpen}
+                  onClick={() => toggle(file.id)}
+                >
+                  <File
+                    aria-hidden
+                    className={cn("size-3", isOpen && "fill-current")}
+                  />
+                  {file.label}
+                </FileTreeFile>
               );
             })}
-          </ul>
+          </FileTree>
         )}
 
         {(mode === "home" || !hasOpenProject) && (
-          <div className="absolute right-3 bottom-2 z-10 flex items-center gap-3">
+          <FileTree className="absolute right-3 bottom-2 z-10 flex-row items-center gap-3">
             {corner.map((item) => (
-              <button
+              <FileTreeFile
                 key={item.id}
-                type="button"
+                variant="link"
+                active={stack.includes(item.id)}
                 onClick={() => toggle(item.id)}
-                aria-pressed={stack.includes(item.id)}
-                className="inline-flex min-h-6 items-center font-mono text-[11px] text-mist underline underline-offset-2 transition-colors hover:text-paper hover:decoration-dashed focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
               >
                 {item.label}
-              </button>
+              </FileTreeFile>
             ))}
-          </div>
+          </FileTree>
         )}
 
         {visibleWindows.map((file, index) => {

@@ -18,8 +18,12 @@ const buttonVariants = cva(
         destructive:
           "bg-destructive/10 text-destructive hover:bg-destructive/20 focus-visible:border-destructive/40 focus-visible:ring-destructive/20 dark:bg-destructive/20 dark:hover:bg-destructive/30 dark:focus-visible:ring-destructive/40",
         link: "text-primary underline-offset-4 hover:underline",
+        desk: "rounded-none bg-transparent font-mono shadow-none hover:bg-transparent focus-visible:border-transparent focus-visible:ring-0 active:translate-y-0 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+        control:
+          "relative grid aspect-square size-4 cursor-pointer place-items-center rounded-full border border-transparent bg-paper p-0 text-ink shadow-none before:absolute before:-inset-2.5 hover:border-paper hover:bg-transparent hover:text-paper focus-visible:border-transparent focus-visible:ring-0 active:translate-y-0 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
       },
       size: {
+        none: "h-auto gap-0 px-0",
         default:
           "h-8 gap-1.5 px-2.5 has-data-[icon=inline-end]:pr-2 has-data-[icon=inline-start]:pl-2",
         xs: "h-6 gap-1 rounded-[min(var(--radius-md),10px)] px-2 text-xs in-data-[slot=button-group]:rounded-lg has-data-[icon=inline-end]:pr-1.5 has-data-[icon=inline-start]:pl-1.5 [&_svg:not([class*='size-'])]:size-3",

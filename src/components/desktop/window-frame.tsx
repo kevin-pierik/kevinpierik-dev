@@ -4,6 +4,7 @@ import { Minus, Plus } from "lucide-react";
 import type { ReactNode } from "react";
 import { useRef } from "react";
 
+import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
 export type WindowOffset = { x: number; y: number };
@@ -22,8 +23,6 @@ type WindowFrameProps = {
 };
 
 const STEP = 16;
-const controlClassName =
-  "relative grid aspect-square size-4 shrink-0 cursor-pointer place-items-center rounded-[50%] border border-transparent bg-paper p-0 text-ink transition-colors before:absolute before:-inset-2.5 hover:border-paper hover:bg-transparent hover:text-paper focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring";
 
 export function WindowFrame({
   title,
@@ -133,26 +132,27 @@ export function WindowFrame({
 
         <div className="flex items-center gap-2">
           {variant === "document" && onExpand && (
-            <button
-              type="button"
+            <Button
+              variant="control"
+              size="none"
               onClick={onExpand}
               aria-label={`${expanded ? "Collapse" : "Expand"} ${title}`}
               aria-pressed={expanded}
-              className={cn(controlClassName, "hidden lg:grid")}
+              className="hidden lg:grid"
             >
               {expanded ? (
                 <Minus aria-hidden className="size-2.5" strokeWidth={2} />
               ) : (
                 <Plus aria-hidden className="size-2.5" strokeWidth={2} />
               )}
-            </button>
+            </Button>
           )}
 
-          <button
-            type="button"
+          <Button
+            variant="control"
+            size="none"
             onClick={onClose}
             aria-label={`Close ${title}`}
-            className={controlClassName}
           >
             <svg
               aria-hidden
@@ -167,7 +167,7 @@ export function WindowFrame({
                 strokeLinecap="round"
               />
             </svg>
-          </button>
+          </Button>
         </div>
       </div>
 
