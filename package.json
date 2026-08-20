@@ -8,15 +8,13 @@
     "start": "next start",
     "lint": "eslint",
     "typecheck": "tsc --noEmit",
-    "qa": "bun run lint && bun run typecheck",
-    "generate:ascii": "bun scripts/generate-ascii-text.mjs"
+    "qa": "bun run lint && bun run typecheck"
   },
   "dependencies": {
     "@base-ui/react": "^1.7.0",
     "@vercel/speed-insights": "^2.0.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
-    "lenis": "^1.3.26",
     "lucide-react": "^1.33.0",
     "next": "16.3.1",
     "react": "19.2.8",
@@ -32,7 +30,6 @@
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "16.3.1",
-    "figlet": "^1.11.4",
     "shadcn": "^4.18.0",
     "tailwindcss": "^4",
     "typescript": "^5"

@@ -3,9 +3,7 @@ import { Geist_Mono } from "next/font/google";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 
 import "./globals.css";
-import "lenis/dist/lenis.css";
 
-import { SmoothScroll } from "@/components/layout/smooth-scroll";
 import { siteConfig } from "@/config/site";
 import { cn } from "@/lib/utils";
 
@@ -78,6 +76,9 @@ const jsonLd = {
   name: siteConfig.name,
   url: siteConfig.url,
   description: siteConfig.description,
+  ...(siteConfig.social.length > 0
+    ? { sameAs: siteConfig.social.map((item) => item.href) }
+    : {}),
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
@@ -96,9 +97,8 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
             __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c"),
           }}
         />
-        <SmoothScroll />
         {children}
-        <SpeedInsights />
+        {process.env.VERCEL_ENV ? <SpeedInsights /> : null}
       </body>
     </html>
   );

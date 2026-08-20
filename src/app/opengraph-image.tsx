@@ -17,14 +17,14 @@ export default function OpengraphImage() {
           flexDirection: "column",
           justifyContent: "flex-end",
           padding: 80,
-          background: "#0a0a0a",
-          color: "#fafafa",
+          background: "#232323",
+          color: "#ffffff",
         }}
       >
         <div style={{ fontSize: 96, fontWeight: 600, letterSpacing: -3 }}>
           {siteConfig.name}
         </div>
-        <div style={{ fontSize: 36, color: "#a1a1a1", marginTop: 12 }}>
+        <div style={{ fontSize: 36, color: "#dedede", marginTop: 12 }}>
           {siteConfig.url.replace(/^https?:\/\//, "")}
         </div>
       </div>

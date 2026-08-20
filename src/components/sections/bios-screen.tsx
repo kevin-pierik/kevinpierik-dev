@@ -76,12 +76,6 @@ export function BiosScreen() {
               {line.text || " "}
             </span>
           ))}
-          <span
-            aria-hidden
-            className="mt-6 block font-pixel text-[clamp(2rem,9vw,3.5rem)]/none tracking-[0.15em] text-bios-bright"
-          >
-            404
-          </span>
         </pre>
       </div>
 

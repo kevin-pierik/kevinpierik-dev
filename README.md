@@ -1,12 +1,13 @@
 # kevinpierik-dev
 
-Personal site of Kevin Pierik — a static Next.js one-pager. No CMS: all content
-lives in typed TypeScript modules under `src/content/`, versioned in git.
+Personal site of Kevin Pierik — a static Next.js one-pager built as a small
+desktop: a file you can open, a window you can drag, and nothing else. No CMS;
+what little content there is lives in typed TypeScript under `src/`.
 
 ## Requirements
 
 - [Bun](https://bun.com) 1.3.14 (pinned in `package.json` → `packageManager`)
-- Node 24 (`.nvmrc`) — only needed by tooling that shells out to node
+- Node 24 (`.nvmrc`) — only for tooling that shells out to node
 
 ## Getting started
 
@@ -27,186 +28,133 @@ The site runs on [http://localhost:3000](http://localhost:3000).
 | `bun run start` | Serve the production build |
 | `bun run lint` | ESLint |
 | `bun run typecheck` | `tsc --noEmit` |
-| `bun run qa` | Lint + typecheck — run before committing |
+| `bun run qa` | Lint + typecheck — run this before committing |
 
 ## Project structure
 
 ```text
-scripts/
-├── generate-text-field.mjs   # repeated-phrase field → src/content/text-field.ts
-└── generate-ascii-text.mjs   # figlet text → src/content/ascii-text.ts
 src/
 ├── app/
-│   ├── layout.tsx        # Site-wide metadata, fonts, lenis
-│   ├── page.tsx          # Homepage: the name, nothing else
-│   ├── privacy-policy/   # Legal pages, rendered by ContentPage
-│   ├── terms-of-service/
+│   ├── layout.tsx        # Site-wide metadata, font, JSON-LD, Speed Insights
+│   ├── page.tsx          # The desktop: header row, files, window, status bar
 │   ├── global-not-found.tsx  # 404 — own <html>, full-screen BIOS screen
+│   ├── global-error.tsx  # Last-resort error boundary
 │   ├── globals.css       # Tailwind v4 theme: design tokens live here
-│   └── … (favicon PNGs live in public/, wired via metadata.icons)
 │   ├── opengraph-image.tsx   # Generated 1200×630 OG image
 │   ├── llms.txt/route.ts # llms.txt for AI assistants
 │   ├── robots.ts         # robots.txt
 │   └── sitemap.ts        # sitemap.xml
 ├── components/
-│   ├── layout/           # Container, footer, ascii panel, content shell, lenis
-│   ├── sections/         # TextFieldBackdrop (footer) and BiosScreen (404)
+│   ├── desktop/          # Desktop (state), WindowFrame, window contents
+│   ├── sections/         # LocalTime (clock) and BiosScreen (404)
 │   └── ui/               # shadcn components (shadcn-owned)
-├── config/site.ts        # Name, description, base URL, email, legal links
-├── content/              # Generated ASCII (ascii-text.ts, text-field.ts) + bios.ts
+├── config/site.ts        # Name, description, base URL, email, socials
+├── content/              # desktop.ts (files + About) and bios.ts (404 boot log)
 ├── lib/utils.ts          # cn()
 └── types/svg.d.ts        # SVG-as-component typing (SVGR)
+public/                   # Favicon PNGs (Hangul), wired via metadata.icons
 ```
 
-## The layout
+## The desktop
 
-Black canvas, nothing but the name — the rest stays empty until you decide what
-goes there.
-
-- **Homepage** — one viewport tall (`h-svh`) on the dark tint: the name small
-  top-left, `[NL]` plus a live Amsterdam clock top-right, and a scroll hint
-  bottom-left. No header, no nav, no copy.
-- **Footer** — slides up over the pinned homepage as you scroll. Plain CSS
-  (`main` is `sticky top-0`, the footer follows with `z-10`); lenis only makes the
-  scroll smooth. It carries a faint field of repeated phrases as a backdrop, the
-  bordered ASCII panel ("more is coming"), the legal links right, and the
-  copyright plus email bottom-left.
-- **404** — its own document, a full-screen BIOS boot screen that prints the
+- **Header row** — name left, `[NL]` plus a live Amsterdam clock right. Both tiny
+  and mono, hugging the edge (`px-3`); there is no nav, because there is nothing
+  to navigate to yet.
+- **Files** — `desktopFiles` in `src/content/desktop.ts`: `About` and
+  `Privacy`. An icon fills in while its window is open.
+- **Window** — draggable by its title bar, kept inside the viewport, closable,
+  and movable with the arrow keys once the title bar has focus. Position is held
+  in `Desktop`, so closing and reopening keeps it where you left it. Windows
+  cascade and the last one you touch comes to the front.
+- **Copyright** — inside the About window, not in a bar.
+- **404** — its own document: a full-screen BIOS boot screen that prints the
   route you actually asked for. Any key or tap reboots to the homepage.
 
-## The ASCII art
-
-Both pieces are generated once and committed, so nothing is computed at runtime:
-
-```bash
-bun run generate:ascii   # the figlet block in the footer panel
-bun run generate:field   # the repeated-phrase backdrop behind it
-```
-
-To change the panel wording, edit the `entries` array in
-`scripts/generate-ascii-text.mjs` (any figlet font works). To change the
-backdrop, edit `PHRASES` in `scripts/generate-text-field.mjs`.
-
-Both generators export the real column and row count next to the art, and the
-components scale from those numbers — so regenerating at a different size needs
-no CSS change. `AsciiPanel` is a `@container`, so the block scales to the panel
-it sits in, not to the viewport.
-
-There was an ASCII Saturn on the homepage for one commit. If you want it back:
-`git show cad0e51 -- scripts/generate-canvas.mjs src/components/sections/canvas-backdrop.tsx`.
+Adding a second file means adding an entry to `desktopFiles` and a matching
+branch in `Desktop`. Keep windows content-only; the frame handles chrome, drag
+and keyboard movement.
 
 ## Editing content
 
-- **Name, domain, description, version, email, legal links** —
-  `src/config/site.ts`. The footer, metadata, sitemap, `robots.txt` and
-  `llms.txt` all read from it.
+- **Name, description, base URL, email, socials** — `src/config/site.ts`. The
+  header, status bar, About window, metadata, sitemap, `robots.txt`, `llms.txt`
+  and the JSON-LD `sameAs` all read from it.
+- **About window** — `src/content/desktop.ts`.
 - **404 screen** — `src/content/bios.ts` (vendor string, boot-log lines).
-- **Legal pages** — the copy sits in the two page components. I wrote them to
-  match what this site actually does (no cookies, no analytics, no forms); they
-  are not reviewed by a lawyer, and they need updating the moment you add
-  analytics, a form or embeds.
+
+`social` takes `{ label, href }` entries; they render in the About window and as
+`sameAs` in the Person JSON-LD, so search engines tie the profiles to you.
 
 ## Metadata
 
-Metadata follows the Next.js docs: every route exports a `metadata` object.
+Metadata follows the Next.js docs: every route exports its own `metadata`
+object, with the site-wide defaults in `src/app/layout.tsx`. **Nested fields
+(`openGraph`, `twitter`, `robots`, `alternates`) are replaced, not merged**, by
+the last segment that defines them — spread a shared constant if a page needs to
+override one field and keep the rest.
 
-- Site-wide defaults (title template, description, Open Graph, Twitter, robots)
-  live in `src/app/layout.tsx`.
-- A page overrides only what it needs, and sets its own
-  `alternates.canonical`.
-- **Careful:** nested fields (`openGraph`, `twitter`, `robots`, `alternates`) are
-  *replaced*, not merged, by the last segment that defines them. Spread a shared
-  constant if a page needs to override one field and keep the rest.
-- The OG image is generated at build time from `src/app/opengraph-image.tsx`.
-
-Set `NEXT_PUBLIC_SITE_URL` per environment; it drives canonicals, `sitemap.xml`,
-`robots.txt`, `llms.txt` and OG URLs. Without it, dev falls back to
-`http://localhost:3000` and production to `https://kevinpierik.dev`.
+Set `NEXT_PUBLIC_SITE_URL` per environment: the full origin, with protocol, no
+trailing slash (`https://kevinpierik.dev`). Without it, dev falls back to
+`http://localhost:3000` and a production build to `https://kevinpierik.dev`. It
+drives canonicals, `sitemap.xml`, `robots.txt`, `llms.txt`, `metadataBase` and
+the domain shown in the OG image.
 
 ## Design tokens
 
 `src/app/globals.css` is the single source of truth (Tailwind v4 `@theme`):
 
-- Palette: `paper`, `ink`, `ink-soft`, `mist`, `orange`, `sand` → `bg-paper`,
-  `text-ink-soft`, …
+- Palette: `paper` (#ffffff), `ink` (#232323), `ink-deep`, `ink-shade`,
+  `ink-soft`, `mist`, `orange`, `sand` → `bg-ink`, `text-mist`, …
 - shadcn semantics map onto them: `bg-background`, `text-muted-foreground`, …
-- The site runs on the dark palette: `<html>` carries `dark`, so `--background`
-  is `--color-ink` (#232323) and the footer sits one step deeper on
-  `--color-ink-deep` (#181818). There is no theme toggle.
-- Anything on the dark background needs at least 70% foreground opacity to clear
-  4.5:1 — `text-foreground/45` measures 3.9:1 and fails, `aria-hidden` or not.
-- Fonts: `font-sans` (Geist), `font-mono` (Geist Mono, used for the BIOS bars
-  and labels), `font-pixel` (Geist Pixel, `ELSH` variable axis 0–100).
-- The BIOS chrome has its own tokens (`--color-bios-*`): grey bars with navy
-  text, shared by the header, the footer bar and the 404 screen.
-
-Fonts come from `next/font/google`, which downloads them at build time and
-serves them from this domain — no runtime request to Google, no files in
-`public/`.
+- The site runs dark: `<html>` carries `dark`, so `--background` is
+  `--color-ink` (#232323) — the same tint the reference site uses, not pure
+  black. No theme toggle.
+- Text on that background needs at least 70% foreground opacity to clear 4.5:1.
+  `text-foreground/45` measures 3.9:1 and fails, `aria-hidden` or not.
+- The BIOS palette (`--color-bios-*`) belongs to the 404 screen only.
+- Geist Mono is the base font for the whole site. See the font notes in
+  `AGENTS.md` before adding a second family.
 
 ## Favicon
 
 `public/icon-light.png` and `public/icon-dark.png` are the name in Hangul (케빈),
 transparent, wired up in `layout.tsx` through `metadata.icons` with
-`prefers-color-scheme` media queries — so the glyphs are ink on a light tab strip
-and off-white on a dark one. `public/favicon.ico` is the same PNG under the
-legacy filename (browsers sniff content, not extension; contentarchitecture.dev
-does exactly this too).
-
-They are rendered images, not live text, so they do not depend on the visitor
-having a Hangul font. To change them, edit and re-render
-`icon-src.html`-style markup with headless Chrome, or swap in your own PNGs.
+`prefers-color-scheme` media queries — ink glyphs on a light tab strip,
+off-white on a dark one. `public/favicon.ico` is the same PNG under the legacy
+filename (browsers sniff content, not extension). They are rendered images, so
+they do not depend on the visitor having a Hangul font.
 
 ## Deploying to Vercel
 
-1. Push to GitHub, then import the repo at [vercel.com/new](https://vercel.com/new).
+1. Push, then import the repo at [vercel.com/new](https://vercel.com/new).
 2. Framework preset: Next.js. Root directory: the repo root.
 3. Environment variables: `NEXT_PUBLIC_SITE_URL` — the production domain for
-   Production, and the preview URL (or nothing) for Preview.
+   Production; leave Preview unset so previews fall back to it.
 4. Add the domain under Settings → Domains.
+5. Enable Speed Insights under Project → Speed Insights, or the package collects
+   nothing. It is skipped entirely outside Vercel.
 
 `main` builds Production; every other branch gets a Preview deploy.
 
+GitHub over SSH runs on port 443 here (`~/.ssh/config`), because port 22 is
+blocked on this network.
+
 ## Lighthouse
 
-The build is fully static and ships no render-blocking CSS
-(`experimental.inlineCss`). Measured with Lighthouse 13 against `bun run start`,
-mobile form factor, varying only the network:
+Fully static, no render-blocking CSS (`experimental.inlineCss`). Measured with
+Lighthouse 13 against `bun run start`, mobile form factor, varying only the
+network:
 
-| Network profile | Performance | LCP | TBT |
-| --- | --- | --- | --- |
-| Slow 4G (1.6 Mbps / 150 ms — Lighthouse default) | 98 | 2.3 s | 90 ms |
-| Fast 4G (9 Mbps / 40 ms) | 100 | 0.6 s | 30 ms |
-| Wifi (30 Mbps / 10 ms) | 100 | 0.2 s | 0 ms |
-| Unthrottled | 100 | 0.1 s | 0 ms |
+| Network profile | Performance |
+| --- | --- |
+| Slow 4G (1.6 Mbps / 150 ms — Lighthouse default) | 99 |
+| Fast 4G (9 Mbps / 40 ms) | 100 |
+| Wifi (30 Mbps / 10 ms) | 100 |
 
-Accessibility, SEO and Agentic Browsing are 100 on every profile; desktop is 100
-across the board. So the only score below 100 is LCP on Lighthouse's simulated
-slow-4G profile, where a single 23 KB webfont on the critical path costs those
-two points. See the font notes in `AGENTS.md` before trying to "fix" it.
+Accessibility, SEO and Agentic Browsing are 100; desktop is 100 across the
+board. The only gap is LCP on the simulated slow-4G profile, where the single
+23 KB webfont sits on the critical path.
 
-Keep the scores: no client components unless something is really interactive, no
-unsized media, no third-party scripts without measuring, and interactive targets
-at least 48px.
-
-Lighthouse cannot audit the 404 — it refuses any page that answers with a 404
-status. Its contrast was verified by hand: the lowest ratio on that screen is
-6.7:1 against a 4.5 requirement.
-
-## Speed Insights
-
-`@vercel/speed-insights` is wired into the root layout. It reports Core Web
-Vitals from real visitors, which is the number that actually matters — the table
-above is a lab simulation.
-
-Two things to know:
-
-- It only collects anything once deployed to Vercel **and** enabled under
-  Project → Speed Insights in the dashboard. The package alone does nothing.
-- Locally it drops Best Practices from 100 to 96: the script lives at
-  `/_vercel/speed-insights/script.js`, which Vercel's edge serves and
-  `next start` does not, so you get a 404 and a console error. That is expected
-  on localhost.
-
-It is also the reason the privacy policy no longer claims the site loads no
-third-party scripts. If you remove the package, fix that page too.
+Speed Insights only renders when `VERCEL_ENV` is set, so nothing 404s locally
+and Best Practices stays at 100. Lighthouse still refuses to audit the 404 page
+— it rejects any non-2xx document.

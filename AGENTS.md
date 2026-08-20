@@ -13,220 +13,155 @@ The block above is managed by `next dev` — keep everything of ours below the
 
 ---
 
-## Stack
+## What this site is
+
+A single page styled as a small desktop: a framed screen, a header row, files in
+the top-left, and windows you can drag. Plus a 404 that pretends to be a BIOS
+boot screen. There is no CMS, no blog, no scrolling — content lives in typed TS
+under `src/content/` and `src/config/site.ts`.
 
 | Layer | Choice |
 | --- | --- |
-| Framework | Next.js 16 (App Router, RSC, fully static output) |
+| Framework | Next.js 16 (App Router, RSC, fully static) |
 | React | 19 |
-| Components | shadcn CLI (`style: base-nova`) on **Base UI** primitives — not Radix |
+| Components | shadcn CLI (`style: base-nova`) on **Base UI** — not Radix |
 | Styling | Tailwind v4, CSS-first config in `src/app/globals.css` |
 | Icons | `lucide-react` |
-| Fonts | Geist Mono everywhere; Geist (sans) only in `ContentPage`; Geist Pixel only on the 404 |
-| Smooth scroll | lenis, dynamically imported |
-| Content | Typed TS modules in `src/content/`, partly generated — there is no CMS |
+| Font | Geist Mono, the only family on the site |
+| Analytics | `@vercel/speed-insights`, on Vercel only |
 | Runtime | Bun on the host, deployed on Vercel |
-
-Everything runs on the host: `bun dev`, `bun run qa`, `bun run build`. No Docker.
 
 Run `bun run qa` (lint + typecheck) before calling work done.
 
 ## Next.js 16 traps confirmed in this repo
 
-- `middleware.ts` no longer exists; it is `proxy.ts` exporting `proxy()`.
+- `middleware.ts` is gone; it is `proxy.ts` exporting `proxy()`.
 - `params` and `searchParams` are Promises — always `await` them.
 - Turbopack is the bundler: loaders go under `turbopack.rules`, never `webpack`.
-  Pass no `options` to a loader unless you have to — that path has bitten us
-  before (every route 404s).
-- Layout/page props come from the generated `LayoutProps<"/">` / `PageProps<…>`
-  globals; do not hand-roll those types.
+- Layout/page props come from the generated `LayoutProps` / `PageProps` globals.
 - Error boundaries get a `retry` prop, not `unstable_retry`.
+- Deleting a route leaves a stale `.next/types/validator.ts` behind, so
+  `typecheck` fails until you rebuild. Build, then re-run qa.
+
+## The desktop
+
+`src/app/page.tsx` is a server component that owns the frame, the header and the
+window *contents*. `src/components/desktop/desktop.tsx` is the only client
+component in the tree: it holds which windows are open, their stacking order and
+their offsets.
+
+Window contents are passed **into** the client component as a `content` record
+of server-rendered nodes. Keep it that way: it keeps the copy, `siteConfig` and
+`src/content/` out of the client bundle. Moving that content inside the client
+component measured 2 points of mobile Performance.
+
+`WindowFrame` handles chrome, drag, and keyboard movement:
+
+- Dragging uses pointer capture on the title bar and moves the window with a
+  `transform`, not `left`/`top`.
+- Position is a delta from the CSS-centred rest position, clamped to the
+  **offset parent** (the desktop area), so a window can never leave the frame.
+- Movement state updates go through the functional form
+  (`onMove((previous) => …)`). Reading the state from the render closure loses
+  steps when events arrive in the same tick — three arrow keys moved the window
+  16px instead of 48px before this was fixed.
+- Offsets live in `Desktop`, so closing and reopening a window keeps its place.
+
+Adding a file: add an entry to `desktopFiles`, add a matching key to the
+`content` record in `page.tsx`, and write a server component for the body.
 
 ## Metadata
 
 Follow the Next.js docs: **every route exports its own `metadata` object.** No
-wrapper helpers, no `createMetadata()` — that indirection was deliberately
-removed.
+wrapper helpers.
 
-- Site-wide defaults live in `src/app/layout.tsx`: `metadataBase`, title
-  template, description, Open Graph, Twitter, robots, `formatDetection`, and the
-  `viewport` export with `themeColor`.
-- A page adds only what differs, plus its own `alternates.canonical`.
+- Site-wide defaults live in `src/app/layout.tsx`.
 - **Nested fields are replaced, not merged.** A page that defines `openGraph`
-  loses every `openGraph` field from the layout. To share part of one, export a
-  constant and spread it (the pattern the Next docs recommend).
+  loses every `openGraph` field from the layout.
 - Never set `maximumScale` or `userScalable` in `viewport` — it fails the
-  Lighthouse accessibility audit.
-- File conventions carry the rest: `icon.svg`, `opengraph-image.tsx`,
-  `robots.ts`, `sitemap.ts`, `llms.txt/route.ts`. Keep them driven by
-  `siteConfig`/`content` so a copy change updates every surface at once.
-- JSON-LD goes inline in the route as the docs show — a plain `<script
-  type="application/ld+json">` with `JSON.stringify(...).replace(/</g, "\\u003c")`.
+  accessibility audit.
+- File conventions carry the rest: `opengraph-image.tsx`, `robots.ts`,
+  `sitemap.ts`, `llms.txt/route.ts`. Keep them driven by `siteConfig`.
+- The favicon is **not** an app-dir `icon.*` file: two rendered PNGs in
+  `public/` wired through `metadata.icons` with `prefers-color-scheme` queries,
+  because the glyphs are Hangul and must not depend on the visitor's fonts.
 
 ## The 404 screen
 
 `src/app/global-not-found.tsx` (enabled by `experimental.globalNotFound`)
-renders its **own `<html>`/`<body>`**, so the site header and footer are not
-around it. Two consequences:
+renders its **own `<html>`/`<body>`**. Two consequences:
 
-1. It must declare the fonts and import `globals.css` itself.
+1. It declares its font and imports `globals.css` itself.
 2. **Navigating out of it needs a full document load.** A client transition
-   (`router.push`, `next/link`) swaps the URL but leaves the 404 document in
-   place — the homepage never renders. `BiosScreen` therefore uses
+   swaps the URL but leaves the 404 document in place, so `BiosScreen` uses
    `window.location.assign()` and a plain `<a href>`.
 
-The BIOS palette (`--color-bios-*`) is a deliberate exception to the site
-tokens; it belongs to this screen only. Boot-log copy lives in
-`src/content/bios.ts`.
-
-The keydown handler ignores `Tab`, `Shift` and modifier combos so keyboard users
-can still reach the reboot link. Lighthouse cannot score this page: it refuses
-any document that answers with a 404 status.
-
-## Components and styling
-
-Order of preference:
-
-1. An existing component in `src/components/` — `Container`
-2. A shadcn component in `src/components/ui/`
-3. Pull a new one in: `bunx shadcn@latest add <component>`
-4. Only then hand-roll, into `src/components/<domain>/`
-
-`src/components/ui/` is shadcn-owned. Edit those files only to bind them to our
-tokens, and keep the component API intact so future `add` runs stay clean. Base
-UI primitives import per component: `import { Button } from
-"@base-ui/react/button"`. For a link that looks like a button, use
-`buttonVariants()` on an `<a>` instead of rendering the Button as an anchor.
-
-- Utility classes belong *inside* a component, not sprinkled across call sites.
-  The same class string twice is a component.
-- Variants → `cva`; class merging → `cn()` with `className` last so callers can
-  override; tag roots with `data-slot`.
-- `Container` is padding only (24px, 120px from `lg`) — there is no max width.
-  Constrain text with `max-w-prose` / `max-w-[NNch]` on the element itself.
-- Flip a block to the ink palette by adding the `dark` class to it. There is no
-  theme toggle and no `dark:` variants in components.
-- The BIOS chrome (`--color-bios-*`) is shared by the header, the footer bar and
-  the 404 screen. Keep those three in sync — they are one visual idea.
-
-## Design tokens
-
-`src/app/globals.css` is the single source of truth:
-
-- Palette: `--color-paper`, `--color-ink`, `--color-ink-deep`,
-  `--color-ink-soft`, `--color-mist`, `--color-orange`, `--color-sand`
-- shadcn semantics (`--background`, `--muted-foreground`, …) map onto that
-  palette; use `bg-background`/`text-muted-foreground` in components so inverted
-  sections keep working
-- Headings get their sizes from the base layer — do not restate them per page
-- `font-mono` is for labels, nav and meta; `font-sans` for prose; `font-pixel`
-  is the display accent (variable `ELSH` axis, 0–100)
-
-Avoid arbitrary values for anything reusable — make it a token.
-
-## Generated content
-
-`src/content/ascii-text.ts` and `src/content/text-field.ts` are **generated
-files** — never hand-edit them. Change the constants in
-`scripts/generate-ascii-text.mjs` / `scripts/generate-text-field.mjs` and re-run
-`bun run generate:ascii` / `bun run generate:field`.
-
-The generators export the true column and row count next to the art, and the
-components scale from those numbers, so art of any size keeps working without
-touching CSS. `AsciiPanel` uses `@container` + `cqw`, so it scales to its panel
-rather than the viewport. Both blocks are `aria-hidden` with an `sr-only` caption
-where the art carries meaning — that is also what keeps the contrast audit happy
-about a backdrop at 10% opacity.
-
-Keep the art small: it ships inside the HTML (the backdrop is ~8 KB of very
-compressible text).
-
-## The scroll shell
-
-`layout.tsx` wraps the page in the reveal structure:
-
-The reveal lives in `src/app/page.tsx`, not in the root layout:
-
-```tsx
-<div className="relative">
-  <main id="main" className="sticky top-0 h-svh overflow-hidden">…</main>
-  <SiteFooter />
-</div>
-```
-
-`main` is pinned while the footer scrolls up over it — plain CSS, no JS, no
-scroll listeners. lenis only smooths the scroll itself. Consequences:
-
-- The root layout renders `{children}` and nothing else, so each page owns its
-  own `<main>` and footer. Pages that scroll normally use `ContentPage` (see the
-  legal pages); only the homepage pins.
-- The footer needs `relative z-10`; without the stacking context it slides
-  *under* the pinned main.
+The BIOS palette (`--color-bios-*`) belongs to that screen only. Its keydown
+handler ignores `Tab`, `Shift` and modifier combos so keyboard users can still
+reach the reboot link. Lighthouse cannot score this page: it refuses any
+document that answers with a 404 status.
 
 ## Fonts and the critical path
 
-**next/font preloads based on where a font is *declared*, not where it is used.**
-A font declared in the root layout is preloaded on every route, even if no
-element on that route uses it. That cost us 46 KB of preloaded fonts on a page
-with three lines of text.
+**next/font preloads based on where a font is declared, not where it is used.** A
+font declared in the root layout is preloaded on every route, even if nothing
+uses it. That cost 46 KB of preloaded fonts on a page with three lines of text.
 
-So the declarations are placed deliberately:
+Geist Mono is declared in the root layout and is the base font
+(`html { font-mono }`). It is the only family; `--font-sans` keeps a
+`ui-sans-serif, system-ui` fallback in the theme for anything that asks for
+`font-sans`. If you need a second family, declare it in the route that needs it.
 
-- `Geist_Mono` — root layout. It is the base font (`html { font-mono }`), so
-  every page needs it.
-- `Geist` (sans) — declared inside `src/components/layout/content-page.tsx` and
-  applied there via `geistSans.variable`, so only the legal pages pay for it.
-- `Geist_Pixel` — declared in `global-not-found.tsx` with `preload: false`, so
-  the 404 screen can use it without preloading it everywhere.
+Measured on the homepage: 3 preloaded fonts (69 KB) → LCP 2.6 s; 1 font (23 KB)
+→ 2.3 s. `preload: false` on the base font makes LCP *and* CLS worse.
 
-`--font-sans` therefore only resolves inside `ContentPage`; the theme gives it a
-`ui-sans-serif, system-ui` fallback so `font-sans` elsewhere degrades sanely
-instead of breaking. If you need sans on a new route, declare the font in that
-route rather than hoisting it back into the root layout.
+## Styling
+
+- Tokens in `src/app/globals.css` are the single source of truth. Palette:
+  `paper` (#ffffff), `ink` (#232323), `ink-deep`, `ink-shade`, `ink-soft`,
+  `mist`, `orange`, `sand`. shadcn semantics map onto them.
+- The site runs dark: `<html>` carries `dark`, `--background` is `--color-ink`.
+  No theme toggle, no `dark:` variants in components.
+- **Text on the dark background needs ≥70% foreground opacity for 4.5:1.**
+  `text-foreground/45` measures 3.9:1 and fails; `aria-hidden` does not exempt
+  it from the contrast audit.
+- Utility classes belong inside a component. Variants → `cva`; class merging →
+  `cn()` with `className` last; tag roots with `data-slot`.
+- Interactive targets: Lighthouse dropped its `tap-targets` audit, but WCAG 2.2
+  still asks for 24×24px. Small controls keep a visually small box and grow
+  their hit area with a `before:-inset-*` pseudo-element (see the close button).
+
+## Analytics and privacy
+
+`@vercel/speed-insights` renders only when `process.env.VERCEL_ENV` is set, so it
+never loads locally — its script lives at `/_vercel/speed-insights/script.js`,
+which only Vercel's edge serves, and a 404 there trips `errors-in-console` and
+costs Best Practices 4 points.
+
+The privacy text lives in the **Privacy window**, not a route. It makes concrete
+claims about cookies, scripts and third-party requests: adding or removing
+anything in that category means editing `src/content/desktop.ts` in the same
+commit.
 
 ## Performance rules
 
-The site is fully static and scores 100 on desktop across all Lighthouse
-categories. What keeps it there:
+Fully static. Desktop scores 100 across all five categories; mobile is 99, with
+the gap being LCP on Lighthouse's simulated slow-4G profile. On fast 4G and wifi
+mobile is 100 too, so treat that last point as a scoring artefact.
 
-- Server Components by default. `"use client"` only for real interaction
-  (`SmoothScroll`, `BiosScreen`).
+- Server Components by default. `"use client"` only for real interaction.
 - `experimental.inlineCss` removes the render-blocking stylesheet. Leave it on.
-- Measured: 3 preloaded fonts (69 KB) → LCP 2.6 s / Perf 97; 2 fonts (52 KB) →
-  2.4 s / 98; 1 font (23 KB) → 2.3 s / 98. `preload: false` on the base font was
-  also measured and made LCP *and* CLS worse, because the text swaps late.
-  Lighthouse needs LCP ≈ 1.2 s for a perfect 25/25, which on simulated slow 4G
-  means no webfont on the critical path at all.
-- lenis is imported dynamically and skipped entirely under
-  `prefers-reduced-motion`. Note that headless screenshots taken during a
-  lenis-driven scroll capture half-painted frames — verify scroll behaviour with
-  `getBoundingClientRect`, not with a picture.
-- Interactive targets are at least 48px tall (`min-h-12`) so mobile audits pass.
-- On the dark background, text needs ≥70% foreground opacity for 4.5:1. `/45`
-  fails at 3.9:1, and `aria-hidden` does not exempt it from the contrast audit.
-- No third-party scripts without measuring first.
-
-## Analytics and the privacy policy
-
-`@vercel/speed-insights` is the only third-party script on the site. Adding or
-removing anything in that category means editing
-`src/app/privacy-policy/page.tsx` in the same commit — that page makes concrete
-claims about cookies, scripts and third-party requests, and a stale privacy
-policy is worse than none.
-
-Expect Best Practices to read 96 locally: `/_vercel/speed-insights/script.js`
-404s outside Vercel and the console error trips `errors-in-console`.
+- No third-party scripts without measuring.
 
 ## Conventions
 
 - **Dutch** commit messages, **English** for file names, symbols, UI copy and
   repo docs.
 - Conventional commits, present tense, lowercase:
-  `feat(404): voegt bios-scherm toe`. No `Co-Authored-By` trailer, no ticket
-  footer in this repo.
+  `feat(desktop): voegt sleepbaar venster toe`. No `Co-Authored-By`, no ticket
+  footer.
 - Imports use the `@/*` alias, never deep relative paths.
-- **No explanatory comments in committed code.** Components must read on their
-  own; the *why* goes here or in the README.
-- Local env values belong in `.env.local` (gitignored); `.env.example`
-  documents the keys.
-- SVGs live in `src/assets/` and import as React components through SVGR.
+- **No explanatory comments in committed code.** The *why* goes here.
+- Local env values belong in `.env.local`; `.env.example` documents the keys.
+- GitHub over SSH runs on port 443 (`~/.ssh/config`) — port 22 is blocked on
+  this network.

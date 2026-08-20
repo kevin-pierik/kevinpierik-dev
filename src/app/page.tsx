@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 
-import { Container } from "@/components/layout/container";
-import { SiteFooter } from "@/components/layout/site-footer";
+import { AboutContent } from "@/components/desktop/about-content";
+import { Desktop } from "@/components/desktop/desktop";
+import { PrivacyContent } from "@/components/desktop/privacy-content";
 import { LocalTime } from "@/components/sections/local-time";
-import { ScrollHint } from "@/components/sections/scroll-hint";
 import { siteConfig } from "@/config/site";
 
 export const metadata: Metadata = {
@@ -12,22 +12,26 @@ export const metadata: Metadata = {
 
 export default function Home() {
   return (
-    <div className="relative">
-      <main
-        id="main"
-        className="sticky top-0 h-svh overflow-hidden bg-background"
-      >
-        <Container className="flex h-full flex-col justify-between py-8 sm:py-10">
-          <div className="flex flex-wrap items-baseline justify-between gap-x-8 gap-y-2">
-            <h1 className="text-sm tracking-[-0.01em]">{siteConfig.name}</h1>
-            <LocalTime />
+    <main id="main" className="h-svh bg-background px-1.5 pb-1.5">
+      <div className="flex h-full flex-col border-x border-b border-paper/20">
+        <header className="flex h-9 shrink-0 items-center justify-between gap-4 border-b border-paper/15 px-2.5">
+          <div className="flex items-center gap-2">
+            <span aria-hidden className="size-1.5 rounded-full bg-orange" />
+            <h1 className="font-mono text-xs tracking-[0.08em]">
+              {siteConfig.name}
+            </h1>
           </div>
 
-          <ScrollHint />
-        </Container>
-      </main>
+          <LocalTime />
+        </header>
 
-      <SiteFooter />
-    </div>
+        <Desktop
+          content={{
+            about: <AboutContent />,
+            privacy: <PrivacyContent />,
+          }}
+        />
+      </div>
+    </main>
   );
 }
