@@ -13,8 +13,9 @@ export default function PrivacyPolicy() {
   return (
     <ContentPage title="Privacy policy" updated="Last updated 19 August 2026">
       <p>
-        This is a static website. It sets no cookies, runs no analytics, loads no
-        tracking scripts, and has no accounts, comments or forms.
+        This is a static website. It sets no cookies and has no accounts,
+        comments or forms. One script loads: Vercel Speed Insights, which
+        measures how fast pages render.
       </p>
 
       <h2>What gets processed</h2>
@@ -26,8 +27,19 @@ export default function PrivacyPolicy() {
         me.
       </p>
       <p>
-        Fonts and every other asset are served from this domain, so loading a
-        page makes no request to a third party.
+        Fonts and every other asset are served from this domain, so apart from
+        the measurement script above, loading a page makes no third-party
+        request.
+      </p>
+
+      <h2>Performance measurement</h2>
+      <p>
+        Vercel Speed Insights measures loading performance — Core Web Vitals such
+        as how long the largest element on a page takes to paint — and sends
+        those measurements to Vercel. It sets no cookies, and I cannot identify
+        individual visitors from it: what I see is an aggregate dashboard telling
+        me whether the site is fast enough. Vercel documents what the product
+        collects in its own privacy documentation.
       </p>
 
       <h2>Email</h2>

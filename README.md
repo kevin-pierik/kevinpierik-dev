@@ -170,18 +170,20 @@ having a Hangul font. To change them, edit and re-render
 ## Lighthouse
 
 The build is fully static and ships no render-blocking CSS
-(`experimental.inlineCss`). Measured with Lighthouse 13:
+(`experimental.inlineCss`). Measured with Lighthouse 13 against `bun run start`,
+mobile form factor, varying only the network:
 
-| | Performance | Accessibility | Best Practices | SEO | Agentic Browsing |
-| --- | --- | --- | --- | --- | --- |
-| Desktop | 100 | 100 | 100 | 100 | 100 |
-| Mobile | 98 | 100 | 100 | 100 | 100 |
+| Network profile | Performance | LCP | TBT |
+| --- | --- | --- | --- |
+| Slow 4G (1.6 Mbps / 150 ms — Lighthouse default) | 98 | 2.3 s | 90 ms |
+| Fast 4G (9 Mbps / 40 ms) | 100 | 0.6 s | 30 ms |
+| Wifi (30 Mbps / 10 ms) | 100 | 0.2 s | 0 ms |
+| Unthrottled | 100 | 0.1 s | 0 ms |
 
-Mobile Performance is capped by LCP under Lighthouse's simulated slow 4G. The
-homepage now preloads a single 23 KB font (see the font notes in `AGENTS.md`),
-which took LCP from 2.6 s to 2.3 s. Getting the last two points would mean
-serving no webfont at all on the critical path — the measured render delay is
-already ~140 ms, so that is a scoring artefact rather than a real problem.
+Accessibility, SEO and Agentic Browsing are 100 on every profile; desktop is 100
+across the board. So the only score below 100 is LCP on Lighthouse's simulated
+slow-4G profile, where a single 23 KB webfont on the critical path costs those
+two points. See the font notes in `AGENTS.md` before trying to "fix" it.
 
 Keep the scores: no client components unless something is really interactive, no
 unsized media, no third-party scripts without measuring, and interactive targets
@@ -190,3 +192,21 @@ at least 48px.
 Lighthouse cannot audit the 404 — it refuses any page that answers with a 404
 status. Its contrast was verified by hand: the lowest ratio on that screen is
 6.7:1 against a 4.5 requirement.
+
+## Speed Insights
+
+`@vercel/speed-insights` is wired into the root layout. It reports Core Web
+Vitals from real visitors, which is the number that actually matters — the table
+above is a lab simulation.
+
+Two things to know:
+
+- It only collects anything once deployed to Vercel **and** enabled under
+  Project → Speed Insights in the dashboard. The package alone does nothing.
+- Locally it drops Best Practices from 100 to 96: the script lives at
+  `/_vercel/speed-insights/script.js`, which Vercel's edge serves and
+  `next start` does not, so you get a 404 and a console error. That is expected
+  on localhost.
+
+It is also the reason the privacy policy no longer claims the site loads no
+third-party scripts. If you remove the package, fix that page too.

@@ -206,6 +206,17 @@ categories. What keeps it there:
   fails at 3.9:1, and `aria-hidden` does not exempt it from the contrast audit.
 - No third-party scripts without measuring first.
 
+## Analytics and the privacy policy
+
+`@vercel/speed-insights` is the only third-party script on the site. Adding or
+removing anything in that category means editing
+`src/app/privacy-policy/page.tsx` in the same commit — that page makes concrete
+claims about cookies, scripts and third-party requests, and a stale privacy
+policy is worse than none.
+
+Expect Best Practices to read 96 locally: `/_vercel/speed-insights/script.js`
+404s outside Vercel and the console error trips `errors-in-console`.
+
 ## Conventions
 
 - **Dutch** commit messages, **English** for file names, symbols, UI copy and
