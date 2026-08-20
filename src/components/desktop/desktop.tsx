@@ -197,12 +197,6 @@ export function Desktop({ mode, name, status, content }: DesktopProps) {
               );
             })}
 
-            {projects.length === 0 && (
-              <li className="flex min-h-7 items-center gap-1.5 border-b border-paper/20 px-2 font-mono text-[11px] text-foreground/70">
-                <Folder aria-hidden className="size-3" />
-                Nothing here...
-              </li>
-            )}
           </ul>
 
           <p className="mt-auto p-2 font-mono text-[11px] text-mist">
