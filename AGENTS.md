@@ -127,9 +127,18 @@ Measured on the homepage: 3 preloaded fonts (69 KB) → LCP 2.6 s; 1 font (23 KB
   it from the contrast audit.
 - Utility classes belong inside a component. Variants → `cva`; class merging →
   `cn()` with `className` last; tag roots with `data-slot`.
-- Interactive targets: Lighthouse dropped its `tap-targets` audit, but WCAG 2.2
-  still asks for 24×24px. Small controls keep a visually small box and grow
+- Interactive targets: Lighthouse 13 dropped both `tap-targets` and `font-size`,
+  so small text and small controls no longer cost points. WCAG 2.2 still asks
+  for 24×24px targets, so small controls keep a visually small box and grow
   their hit area with a `before:-inset-*` pseudo-element (see the close button).
+- The page never scrolls: `html`/`body` carry `overscroll-none` and `body` is
+  `overflow-hidden`, which is how the reference site kills rubber-banding too —
+  no scroll library involved.
+- A pointer-capturing drag handle swallows clicks on buttons inside it. The
+  title bar's `onPointerDown` bails out when the event target is a button;
+  without that, the close button never fires. Test drag handles with a real
+  click, not a dispatched `click` event — a synthetic click skips pointerdown
+  and hides the bug.
 
 ## Analytics and privacy
 

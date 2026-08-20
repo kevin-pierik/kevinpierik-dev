@@ -47,6 +47,7 @@ export function WindowFrame({
 
   function onPointerDown(event: React.PointerEvent<HTMLDivElement>) {
     if (event.button !== 0) return;
+    if ((event.target as HTMLElement).closest("button")) return;
 
     grab.current = { x: event.clientX - offset.x, y: event.clientY - offset.y };
     event.currentTarget.setPointerCapture(event.pointerId);
@@ -100,7 +101,7 @@ export function WindowFrame({
         aria-label={`${title} window, use the arrow keys to move`}
         tabIndex={0}
       >
-        <h2 className="truncate font-mono text-xs tracking-[0.12em] uppercase">
+        <h2 className="truncate font-mono text-[11px]">
           {title}
         </h2>
 

@@ -149,10 +149,10 @@
     @apply border-border outline-ring/50;
   }
   html {
-    @apply font-mono;
+    @apply overscroll-none font-mono;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply overflow-hidden overscroll-none bg-background text-foreground;
   }
   :is(h1, h2, h3, h4, h5, h6) {
     @apply font-medium tracking-tight text-balance;
