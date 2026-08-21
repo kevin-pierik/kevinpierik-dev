@@ -4,6 +4,10 @@ import { notFound } from "next/navigation";
 import { ExtraScreen } from "@/features/desktop/extra-screen";
 import { readingFont } from "@/features/desktop/reading-font";
 import { getProject, getProjectSlugs } from "@/features/desktop/resolve";
+import {
+  breadcrumbStructuredData,
+  serialiseJsonLd,
+} from "@/features/site/seo/structured-data";
 import { robotsFor } from "@/features/site/seo/utils";
 
 export async function generateStaticParams() {
@@ -34,5 +38,21 @@ export default async function ProjectPage({
   const project = await getProject(slug);
   if (!project) notFound();
 
-  return <ExtraScreen slug={slug} fontClassName={readingFont.variable} />;
+  return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: serialiseJsonLd(
+            breadcrumbStructuredData([
+              { name: "Home", href: "/" },
+              { name: "Extra", href: "/extra" },
+              { name: project.title, href: `/extra/${slug}` },
+            ]),
+          ),
+        }}
+      />
+      <ExtraScreen slug={slug} fontClassName={readingFont.variable} />
+    </>
+  );
 }
