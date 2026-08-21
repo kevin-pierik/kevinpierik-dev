@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, ResolvingMetadata } from "next";
 import { notFound } from "next/navigation";
 
 import { readingFont } from "@/features/desktop/reading-font";
@@ -13,9 +13,10 @@ export async function generateStaticParams() {
   return getStandaloneSlugs();
 }
 
-export async function generateMetadata({
-  params,
-}: PageProps<"/[slug]">): Promise<Metadata> {
+export async function generateMetadata(
+  { params }: PageProps<"/[slug]">,
+  parent: ResolvingMetadata,
+): Promise<Metadata> {
   const { slug } = await params;
   const page = await getStandalonePage(slug);
   if (!page) return {};
@@ -24,6 +25,7 @@ export async function generateMetadata({
     title: page.seo.metaTitle ?? page.title,
     description: page.seo.metaDescription ?? undefined,
     alternates: { canonical: `/${slug}` },
+    openGraph: { ...(await parent).openGraph, url: `/${slug}` },
     robots: robotsFor(page.seo),
   };
 }

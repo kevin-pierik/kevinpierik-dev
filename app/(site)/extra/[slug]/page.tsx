@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, ResolvingMetadata } from "next";
 import { notFound } from "next/navigation";
 
 import { ExtraScreen } from "@/features/desktop/extra-screen";
@@ -10,9 +10,10 @@ export async function generateStaticParams() {
   return getProjectSlugs();
 }
 
-export async function generateMetadata({
-  params,
-}: PageProps<"/extra/[slug]">): Promise<Metadata> {
+export async function generateMetadata(
+  { params }: PageProps<"/extra/[slug]">,
+  parent: ResolvingMetadata,
+): Promise<Metadata> {
   const { slug } = await params;
   const project = await getProject(slug);
   if (!project) return {};
@@ -21,6 +22,7 @@ export async function generateMetadata({
     title: project.seo.metaTitle ?? project.title,
     description: project.seo.metaDescription ?? undefined,
     alternates: { canonical: `/extra/${slug}` },
+    openGraph: { ...(await parent).openGraph, url: `/extra/${slug}` },
     robots: robotsFor(project.seo),
   };
 }

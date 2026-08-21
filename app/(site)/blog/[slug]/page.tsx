@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, ResolvingMetadata } from "next";
 import { notFound } from "next/navigation";
 
 import { getPost, getPostSlugs } from "@/features/blog/resolve";
@@ -10,9 +10,10 @@ export async function generateStaticParams() {
   return getPostSlugs();
 }
 
-export async function generateMetadata({
-  params,
-}: PageProps<"/blog/[slug]">): Promise<Metadata> {
+export async function generateMetadata(
+  { params }: PageProps<"/blog/[slug]">,
+  parent: ResolvingMetadata,
+): Promise<Metadata> {
   const { slug } = await params;
   const post = await getPost(slug);
   if (!post) return {};
@@ -23,10 +24,12 @@ export async function generateMetadata({
     alternates: { canonical: `/blog/${slug}` },
     robots: robotsFor(post.seo),
     openGraph: {
+      ...(await parent).openGraph,
       type: "article",
       title: post.seo.metaTitle ?? post.title,
       description: post.seo.metaDescription ?? post.excerpt ?? undefined,
       publishedTime: post.publishedAt || undefined,
+      url: `/blog/${slug}`,
     },
   };
 }
