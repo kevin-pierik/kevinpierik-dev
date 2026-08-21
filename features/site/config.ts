@@ -18,7 +18,7 @@ export type SiteConfig = {
 
 const fallbackUrl =
   process.env.NODE_ENV === "production"
-    ? "https://kevinpierik.dev"
+    ? "https://www.kevinpierik.dev"
     : "http://localhost:3000";
 
 const url = (process.env.NEXT_PUBLIC_SITE_URL ?? fallbackUrl).replace(

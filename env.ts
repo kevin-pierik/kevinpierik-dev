@@ -2,7 +2,7 @@ const read = (value: string | undefined) => value?.trim() ?? "";
 
 const fallbackSiteUrl =
   process.env.NODE_ENV === "production"
-    ? "https://kevinpierik.dev"
+    ? "https://www.kevinpierik.dev"
     : "http://localhost:3000";
 
 export const siteUrl = (

@@ -22,14 +22,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     },
   ];
 
-  if (entries.posts.length > 0) {
-    routes.push({
-      url: `${siteConfig.url}/blog`,
-      lastModified: now,
-      changeFrequency: "weekly",
-      priority: 0.8,
-    });
-  }
+  routes.push({
+    url: `${siteConfig.url}/blog`,
+    lastModified: now,
+    changeFrequency: "weekly",
+    priority: 0.8,
+  });
 
   for (const page of entries.pages) {
     if (!page.slug) continue;

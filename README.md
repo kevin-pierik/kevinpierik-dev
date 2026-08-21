@@ -41,11 +41,11 @@ One-time setup. Steps 1 to 3 need a Sanity account and a browser.
 
 2. Allow the browser to talk to the Content Lake: open
    [localhost:3000/studio](http://localhost:3000/studio) and press **Add CORS
-   origin**, or add `http://localhost:3000` under *API → CORS origins* in
+   origin**, or add `http://localhost:3000` under _API → CORS origins_ in
    [sanity.io/manage](https://sanity.io/manage) with credentials allowed. Until
    this is done the Studio cannot sign you in and `<SanityLive>` cannot connect.
 
-3. Create a **Viewer** token under *API → Tokens* and put it in `.env.local` as
+3. Create a **Viewer** token under _API → Tokens_ and put it in `.env.local` as
    `SANITY_API_READ_TOKEN`. A public dataset serves published content without
    one; the token is what enables draft mode and the Presentation tool. Never
    commit it.
@@ -70,30 +70,30 @@ One-time setup. Steps 1 to 3 need a Sanity account and a browser.
 
 ## Editing content
 
-| Where | What it drives |
-| --- | --- |
-| Site settings | Name, email, version, social links, header navigation, default meta title and description |
-| Windows → Home files | The files in the top-left of `/` |
-| Windows → Extra folders | The folders in the `/extra` sidebar, each opening a document or a PDF |
-| Windows → Corner links | The small links bottom-right, such as Privacy |
-| Posts | The `/writing` screen |
+| Where                   | What it drives                                                                            |
+| ----------------------- | ----------------------------------------------------------------------------------------- |
+| Site settings           | Name, email, version, social links, header navigation, default meta title and description |
+| Windows → Home files    | The files in the top-left of `/`                                                          |
+| Windows → Extra folders | The folders in the `/extra` sidebar, each opening a document or a PDF                     |
+| Windows → Corner links  | The small links bottom-right, such as Privacy                                             |
+| Posts                   | The `/writing` screen                                                                     |
 
 Press **Presentation** in the Studio to edit the site side by side with a live
 preview and click-to-edit overlays.
 
 ## Scripts
 
-| Script | Description |
-| --- | --- |
-| `bun dev` | Dev server (Turbopack, hot reload) |
-| `bun run build` | Production build |
-| `bun run start` | Serve the production build |
-| `bun run lint` | ESLint |
-| `bun run typecheck` | `tsc --noEmit` |
-| `bun run qa` | Lint + typecheck — run this before committing |
-| `bun run sanity:typegen` | Re-extract the schema and regenerate GROQ result types |
-| `bun run sanity:seed` | Write `seed/content.ndjson` from the code-level defaults |
-| `bun run sanity:deploy` | Deploy the Studio to a `sanity.studio` subdomain |
+| Script                   | Description                                              |
+| ------------------------ | -------------------------------------------------------- |
+| `bun dev`                | Dev server (Turbopack, hot reload)                       |
+| `bun run build`          | Production build                                         |
+| `bun run start`          | Serve the production build                               |
+| `bun run lint`           | ESLint                                                   |
+| `bun run typecheck`      | `tsc --noEmit`                                           |
+| `bun run qa`             | Lint + typecheck — run this before committing            |
+| `bun run sanity:typegen` | Re-extract the schema and regenerate GROQ result types   |
+| `bun run sanity:seed`    | Write `seed/content.ndjson` from the code-level defaults |
+| `bun run sanity:deploy`  | Deploy the Studio to a `sanity.studio` subdomain         |
 
 ## Project structure
 
@@ -156,8 +156,8 @@ the last segment that defines them — spread a shared constant if a page needs 
 override one field and keep the rest.
 
 Set `NEXT_PUBLIC_SITE_URL` per environment: the full origin, with protocol, no
-trailing slash (`https://kevinpierik.dev`). Without it, dev falls back to
-`http://localhost:3000` and a production build to `https://kevinpierik.dev`. It
+trailing slash (`https://www.kevinpierik.dev`). Without it, dev falls back to
+`http://localhost:3000` and a production build to `https://www.kevinpierik.dev`. It
 drives canonicals, `sitemap.xml`, `robots.txt`, `llms.txt`, `metadataBase` and
 the domain shown in the OG image.
 
@@ -194,19 +194,19 @@ they do not depend on the visitor having a Hangul font.
 3. Environment variables — set these for **Production, Preview and
    Development**, or a preview deploy silently renders the code-level fallbacks:
 
-   | Variable | Value |
-   | --- | --- |
-   | `NEXT_PUBLIC_SITE_URL` | The production domain. Leave Preview unset so previews fall back to it. |
-   | `NEXT_PUBLIC_SANITY_PROJECT_ID` | From sanity.io/manage |
-   | `NEXT_PUBLIC_SANITY_DATASET` | `production` |
-   | `SANITY_API_READ_TOKEN` | The Viewer token. Secret — never a `NEXT_PUBLIC_` name. |
+   | Variable                        | Value                                                                   |
+   | ------------------------------- | ----------------------------------------------------------------------- |
+   | `NEXT_PUBLIC_SITE_URL`          | The production domain. Leave Preview unset so previews fall back to it. |
+   | `NEXT_PUBLIC_SANITY_PROJECT_ID` | From sanity.io/manage                                                   |
+   | `NEXT_PUBLIC_SANITY_DATASET`    | `production`                                                            |
+   | `SANITY_API_READ_TOKEN`         | The Viewer token. Secret — never a `NEXT_PUBLIC_` name.                 |
 
 4. Add the domain under Settings → Domains.
 5. Add the production origin (and `https://*.vercel.app` if you use previews)
-   under *API → CORS origins* in sanity.io/manage, credentials allowed. Without
+   under _API → CORS origins_ in sanity.io/manage, credentials allowed. Without
    it `<SanityLive>` cannot connect and published edits will not appear until
    the next deploy.
-6. Point the Studio at production: set `SANITY_STUDIO_PREVIEW_URL` is *not*
+6. Point the Studio at production: set `SANITY_STUDIO_PREVIEW_URL` is _not_
    needed here — the Studio is embedded, so Presentation previews whatever origin
    it is served from.
 7. Enable Speed Insights under Project → Speed Insights, or the package collects
@@ -227,11 +227,11 @@ Fully static, no render-blocking CSS (`experimental.inlineCss`). Measured with
 Lighthouse 13 against `bun run start`, mobile form factor, varying only the
 network:
 
-| Network profile | Performance |
-| --- | --- |
-| Slow 4G (1.6 Mbps / 150 ms — Lighthouse default) | 99 |
-| Fast 4G (9 Mbps / 40 ms) | 100 |
-| Wifi (30 Mbps / 10 ms) | 100 |
+| Network profile                                  | Performance |
+| ------------------------------------------------ | ----------- |
+| Slow 4G (1.6 Mbps / 150 ms — Lighthouse default) | 99          |
+| Fast 4G (9 Mbps / 40 ms)                         | 100         |
+| Wifi (30 Mbps / 10 ms)                           | 100         |
 
 Accessibility, SEO and Agentic Browsing are 100; desktop is 100 across the
 board. The only gap is LCP on the simulated slow-4G profile, where the single
