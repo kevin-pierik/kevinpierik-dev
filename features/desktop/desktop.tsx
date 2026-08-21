@@ -6,6 +6,8 @@ import { useRouter } from "next/navigation";
 import type { ReactNode } from "react";
 import { useState } from "react";
 
+import { Button } from "@/components/ui/button";
+import { FileTree, FileTreeFile } from "@/components/ui/file-tree";
 import { InfiniteDesk } from "@/features/desktop/infinite-desk";
 import type { WindowOffset } from "@/features/desktop/window-frame";
 import { WindowFrame } from "@/features/desktop/window-frame";
@@ -122,43 +124,40 @@ export function Desktop({
           <div className="flex h-7 items-center justify-between border-b border-paper/20 px-2 font-mono text-[11px] text-mist">
             <p>[{String(sidebar.length).padStart(2, "0")}]</p>
 
-            <button
-              type="button"
+            <Button
+              variant="control"
+              size="none"
               onClick={() => setSidebarExpanded((previous) => !previous)}
               aria-label={`${sidebarExpanded ? "Collapse" : "Expand"} ${sidebarLabel}`}
               aria-pressed={sidebarExpanded}
-              className="relative hidden size-3.5 shrink-0 cursor-pointer items-center justify-center rounded-full bg-paper text-ink before:absolute before:-inset-2.5 hover:bg-mist focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring lg:flex"
+              className="hidden size-3.5 hover:border-transparent hover:bg-mist hover:text-ink lg:flex lg:items-center lg:justify-center"
             >
               {sidebarExpanded ? (
                 <Minus aria-hidden className="size-2.5" strokeWidth={2} />
               ) : (
                 <Plus aria-hidden className="size-2.5" strokeWidth={2} />
               )}
-            </button>
+            </Button>
           </div>
 
-          <ul>
+          <FileTree className="w-full gap-0">
             {sidebar.map((entry) => {
               const isOpen = entry.id === document?.id;
               const FolderIcon = isOpen ? FolderOpen : Folder;
 
               return (
-                <li key={entry.id} className="border-b border-paper/20">
-                  <Link
-                    href={entry.href}
-                    aria-current={isOpen ? "page" : undefined}
-                    className={cn(
-                      "flex min-h-7 w-full items-center gap-1.5 px-2 font-mono text-[11px] transition-colors hover:bg-paper/8 hover:text-paper focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-ring",
-                      isOpen ? "bg-paper/10 text-paper" : "text-mist",
-                    )}
-                  >
-                    <FolderIcon aria-hidden className="size-3" />
-                    {entry.label}
-                  </Link>
-                </li>
+                <FileTreeFile
+                  key={entry.id}
+                  variant="folder"
+                  active={isOpen}
+                  render={<Link href={entry.href} />}
+                >
+                  <FolderIcon aria-hidden className="size-3" />
+                  {entry.label}
+                </FileTreeFile>
               );
             })}
-          </ul>
+          </FileTree>
 
           <div className="mt-auto flex flex-col gap-1 p-2 font-mono text-[11px] text-mist">
             {footerNote && <p>{footerNote}</p>}
@@ -185,44 +184,40 @@ export function Desktop({
         {showDesk && <InfiniteDesk />}
 
         {view === "desktop" && files.length > 0 && (
-          <ul className="absolute top-0 left-0 z-10 flex flex-col items-start gap-0.5 bg-background p-2">
+          <FileTree className="absolute top-0 left-0 z-10 bg-background p-2">
             {files.map((file) => {
               const isOpen = stack.includes(file.id);
 
               return (
-                <li key={file.id}>
-                  <button
-                    type="button"
-                    onClick={() => toggle(file.id)}
-                    aria-pressed={isOpen}
-                    className="inline-flex min-h-6 items-center gap-1.5 px-1 font-mono text-[11px] text-mist transition-colors hover:text-paper focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
-                  >
-                    <File
-                      aria-hidden
-                      className={cn("size-3", isOpen && "fill-current")}
-                    />
-                    {file.label}
-                  </button>
-                </li>
+                <FileTreeFile
+                  key={file.id}
+                  active={isOpen}
+                  onClick={() => toggle(file.id)}
+                >
+                  <File
+                    aria-hidden
+                    className={cn("size-3", isOpen && "fill-current")}
+                  />
+                  {file.label}
+                </FileTreeFile>
               );
             })}
-          </ul>
+          </FileTree>
         )}
 
         {showDesk && corner.length > 0 && (
-          <div className="absolute right-3 bottom-2 z-10 flex items-center gap-3">
+          <FileTree className="absolute right-3 bottom-2 z-10 flex-row items-center gap-3">
             {corner.map((item) => (
-              <button
+              <FileTreeFile
                 key={item.id}
-                type="button"
+                variant="link"
+                active={stack.includes(item.id)}
                 onClick={() => toggle(item.id)}
-                aria-pressed={stack.includes(item.id)}
-                className="inline-flex min-h-6 items-center font-mono text-[11px] text-mist underline underline-offset-2 transition-colors hover:text-paper hover:decoration-dashed focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
               >
                 {item.label}
-              </button>
+              </FileTreeFile>
             ))}
-          </div>
+          </FileTree>
         )}
 
         {floating.map((entry, index) => {

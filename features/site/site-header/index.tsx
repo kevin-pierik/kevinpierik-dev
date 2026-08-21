@@ -4,6 +4,7 @@ import Link from "next/link";
 import type { ReactNode } from "react";
 import { useState } from "react";
 
+import { Button } from "@/components/ui/button";
 import { cn } from "@/features/style/utils";
 import type { SiteLink } from "@/features/site/types";
 
@@ -39,15 +40,16 @@ export function SiteHeader({
         <Name className="font-mono text-xs font-normal tracking-[0.08em]">
           {name}
         </Name>
-        <button
-          type="button"
+        <Button
+          variant="desk"
+          size="none"
           onClick={() => setMenuOpen((previous) => !previous)}
           aria-expanded={menuOpen}
           aria-controls="mobile-menu"
-          className="font-mono text-xs text-paper focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring lg:hidden"
+          className="text-xs text-paper lg:hidden"
         >
           {menuOpen ? "Close Menu" : "Open Menu"}
-        </button>
+        </Button>
       </header>
 
       <nav

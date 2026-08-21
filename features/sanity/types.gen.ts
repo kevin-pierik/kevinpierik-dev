@@ -355,7 +355,7 @@ export type POST_SLUGS_QUERY_RESULT = Array<{
 
 // Source: features/desktop/query.ts
 // Variable: SHELL_QUERY
-// Query: {  "settings": *[_type == "settings" && _id == "siteSettings"][0]{   name,  title,  description,  email,  version,  footerNote,  social[]{ label, href },  navigation[]{ label, href } },  "corner": *[_type == "desktopWindow" && placement == "corner"] | order(order asc, label asc){      _id,  label,  title,  "slug": slug.current,  placement,  order,  seo,    body  }}
+// Query: {  "settings": *[_type == "settings" && _id == "siteSettings"][0]{   name,  title,  description,  email,  version,  footerNote,  social[]{ label, href },  navigation[]{ label, href } },  "corner": *[_type == "desktopWindow" && placement == "corner"] | order(order asc, label asc){      _id,  label,  title,  "slug": slug.current,  placement,  order,  seo,    "body": coalesce(body, text)  }}
 export type SHELL_QUERY_RESULT = {
   settings: {
     name: string | null;
@@ -381,7 +381,7 @@ export type SHELL_QUERY_RESULT = {
     placement: "corner";
     order: number | null;
     seo: Seo | null;
-    body: ArticleText | null;
+    body: ArticleText | WindowText | null;
   }>;
 };
 
@@ -515,7 +515,7 @@ declare module "@sanity/client" {
     '\n  *[_type == "post" && defined(slug.current)] | order(publishedAt desc){ \n  _id,\n  title,\n  "slug": slug.current,\n  excerpt,\n  publishedAt\n }\n': POSTS_QUERY_RESULT;
     '\n  *[_type == "post" && slug.current == $slug][0]{\n    \n  _id,\n  title,\n  "slug": slug.current,\n  excerpt,\n  publishedAt\n,\n    body,\n    seo\n  }\n': POST_QUERY_RESULT;
     '\n  *[_type == "post" && defined(slug.current)]{ "slug": slug.current }\n': POST_SLUGS_QUERY_RESULT;
-    '{\n  "settings": *[_type == "settings" && _id == "siteSettings"][0]{ \n  name,\n  title,\n  description,\n  email,\n  version,\n  footerNote,\n  social[]{ label, href },\n  navigation[]{ label, href }\n },\n  "corner": *[_type == "desktopWindow" && placement == "corner"] | order(order asc, label asc){\n    \n  _id,\n  label,\n  title,\n  "slug": slug.current,\n  placement,\n  order,\n  seo\n,\n    body\n  }\n}': SHELL_QUERY_RESULT;
+    '{\n  "settings": *[_type == "settings" && _id == "siteSettings"][0]{ \n  name,\n  title,\n  description,\n  email,\n  version,\n  footerNote,\n  social[]{ label, href },\n  navigation[]{ label, href }\n },\n  "corner": *[_type == "desktopWindow" && placement == "corner"] | order(order asc, label asc){\n    \n  _id,\n  label,\n  title,\n  "slug": slug.current,\n  placement,\n  order,\n  seo\n,\n    "body": coalesce(body, text)\n  }\n}': SHELL_QUERY_RESULT;
     '\n  *[_type == "desktopWindow" && placement == "home"] | order(order asc, label asc){\n    \n  _id,\n  label,\n  title,\n  "slug": slug.current,\n  placement,\n  order,\n  seo\n,\n    "body": coalesce(body, text)\n  }\n': HOME_WINDOWS_QUERY_RESULT;
     '\n  *[_type == "desktopWindow" && placement == "project" && defined(slug.current)]\n    | order(order asc, label asc){ \n  _id,\n  label,\n  title,\n  "slug": slug.current,\n  placement,\n  order,\n  seo\n }\n': PROJECT_WINDOWS_QUERY_RESULT;
     '\n  *[_type == "desktopWindow" && placement == "project" && slug.current == $slug][0]{\n    \n  \n  _id,\n  label,\n  title,\n  "slug": slug.current,\n  placement,\n  order,\n  seo\n,\n  "body": coalesce(body, text),\n  details[]{ label, value },\n  "file": file.asset->{ url, originalFilename }\n\n  }\n': PROJECT_WINDOW_QUERY_RESULT;

@@ -23,7 +23,7 @@ export const SHELL_QUERY = defineQuery(`{
   "settings": *[_type == "settings" && _id == "siteSettings"][0]{ ${settingsFields} },
   "corner": *[_type == "desktopWindow" && placement == "corner"] | order(order asc, label asc){
     ${windowFields},
-    body
+    "body": coalesce(body, text)
   }
 }`);
 
