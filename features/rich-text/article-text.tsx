@@ -1,11 +1,9 @@
 import { PortableText, type PortableTextComponents } from "@portabletext/react";
 import Image from "next/image";
 
+import { linkVariants } from "@/components/link";
 import type { PortableTextValue } from "@/features/rich-text/types";
 import { urlForImage } from "@/features/sanity/image";
-
-const linkStyle =
-  "underline underline-offset-2 hover:decoration-dashed focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring";
 
 const components: PortableTextComponents = {
   block: {
@@ -48,7 +46,7 @@ const components: PortableTextComponents = {
         draggable={false}
         target={value?.openInNewTab ? "_blank" : undefined}
         rel={value?.openInNewTab ? "noreferrer" : undefined}
-        className={linkStyle}
+        className={linkVariants()}
       >
         {children}
       </a>

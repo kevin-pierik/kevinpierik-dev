@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 
 import { HomeScreen } from "@/features/desktop/home-screen";
+import { JsonLd } from "@/components/json-ld";
 import { getSettings } from "@/features/site/resolve";
 import {
-  serialiseJsonLd,
   websiteStructuredData,
 } from "@/features/site/seo/structured-data";
 
@@ -16,12 +16,7 @@ export default async function Home() {
 
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: serialiseJsonLd(websiteStructuredData(settings)),
-        }}
-      />
+      <JsonLd data={websiteStructuredData(settings)} />
       <HomeScreen />
     </>
   );

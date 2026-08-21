@@ -4,11 +4,11 @@ import { notFound } from "next/navigation";
 import { getPost, getPostSlugs } from "@/features/blog/resolve";
 import { BlogScreen } from "@/features/blog/blog-screen";
 import { readingFont } from "@/features/desktop/reading-font";
+import { JsonLd } from "@/components/json-ld";
 import { getSettings } from "@/features/site/resolve";
 import {
   blogPostingStructuredData,
   breadcrumbStructuredData,
-  serialiseJsonLd,
 } from "@/features/site/seo/structured-data";
 import { robotsFor } from "@/features/site/seo/utils";
 
@@ -49,18 +49,15 @@ export default async function PostPage({
 
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: serialiseJsonLd([
-            breadcrumbStructuredData([
-              { name: "Home", href: "/" },
-              { name: "Blog", href: "/blog" },
-              { name: post.title, href: `/blog/${slug}` },
-            ]),
-            blogPostingStructuredData(post, settings.name),
+      <JsonLd
+        data={[
+          breadcrumbStructuredData([
+            { name: "Home", href: "/" },
+            { name: "Blog", href: "/blog" },
+            { name: post.title, href: `/blog/${slug}` },
           ]),
-        }}
+          blogPostingStructuredData(post, settings.name),
+        ]}
       />
       <BlogScreen slug={slug} fontClassName={readingFont.variable} />
     </>

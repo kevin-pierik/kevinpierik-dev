@@ -26,17 +26,17 @@ piece of copy has a code-level default in `features/desktop/defaults.ts` and
 `features/site/config.ts`, so the site builds and renders with no Sanity project
 configured at all.
 
-| Layer | Choice |
-| --- | --- |
-| Framework | Next.js 16 (App Router, RSC, fully static) |
-| React | 19 |
-| CMS | Sanity v6, Studio embedded at `/studio`, `next-sanity` v13 |
+| Layer      | Choice                                                     |
+| ---------- | ---------------------------------------------------------- |
+| Framework  | Next.js 16 (App Router, RSC, fully static)                 |
+| React      | 19                                                         |
+| CMS        | Sanity v6, Studio embedded at `/studio`, `next-sanity` v13 |
 | Components | shadcn CLI (`style: base-nova`) on **Base UI** — not Radix |
-| Styling | Tailwind v4, CSS-first config in `src/app/globals.css` |
-| Icons | `lucide-react` |
-| Font | Geist Mono, the only family on the site |
-| Analytics | `@vercel/speed-insights`, on Vercel only |
-| Runtime | Bun on the host, deployed on Vercel |
+| Styling    | Tailwind v4, CSS-first config in `src/app/globals.css`     |
+| Icons      | `lucide-react`                                             |
+| Font       | Geist Mono, the only family on the site                    |
+| Analytics  | `@vercel/speed-insights`, on Vercel only                   |
+| Runtime    | Bun on the host, deployed on Vercel                        |
 
 Run `bun run qa` (lint + typecheck) before calling work done. `typecheck` runs
 `next typegen` first, because `PageProps` / `LayoutProps` come from generated
@@ -48,8 +48,8 @@ There is no `src/`. Next.js finds `app/` in the repo root, and `@/*` maps to
 `./*`. The layout follows the-content-architecture convention:
 
 ```text
-app/          routes only, split into (site) and (studio) route groups
-components/   domain-less primitives (shadcn)
+app/          routes; the site sits in a (site) group, the studio in sanity-studio/
+components/   domain-less primitives, flat: button, link, json-ld, file-tree
 features/     feature modules — the code lives here, not in app/
 sanity/       schema + Studio structure. Liftable: no imports of app code
 scripts/      one-off CLI scripts run with bun
@@ -80,9 +80,15 @@ therefore live in `features/sanity/`, not in `sanity/`.
   both exist: `app/global-not-found.tsx` (own `<html>`) and
   `app/(site)/not-found.tsx` (inside the site layout).
 - Two root layouts, no top-level `app/layout.tsx`: `app/(site)/layout.tsx` owns
-  the dark, no-scroll document, `app/(studio)/layout.tsx` gives the Studio a
+  the dark, no-scroll document, `app/sanity-studio/layout.tsx` gives the Studio a
   clean one. The Studio cannot live under the site layout — `body` is
-  `overflow-hidden`, which breaks it.
+  `overflow-hidden`, which breaks it. A route group is not required for a second
+  root layout; any top-level segment can carry one.
+- `not-found.tsx` lives **inside** `(site)`, not at `app/` root. That is what
+  gives the BIOS screen the site layout: the dark document, `overflow-hidden` and
+  Geist Mono. Moved to the root it would have no layout at all, because there is
+  no top-level one — and it would need a hand-rolled shared layout component to
+  get that chrome back.
 
 ## Sanity
 
@@ -113,7 +119,7 @@ Useful to know:
   config import.
 - After changing a schema or a query, run `bun run sanity:typegen`.
   `sanity/schema.json` and `features/sanity/types.gen.ts` are committed so `qa`
-  works without the Sanity CLI. Required fields are *not* enforced in typegen, so
+  works without the Sanity CLI. Required fields are _not_ enforced in typegen, so
   every field arrives nullable and the resolvers are forced to handle it.
 - Stega-encoded strings are template-literal branded types, so they never satisfy
   a literal union. Run control values (`placement`, hrefs, labels) through
@@ -142,7 +148,7 @@ the client component measured 2 points of mobile Performance.
 
 Adding a file to a screen is content work, not code work: create a
 `desktopWindow` in the Studio with the right `placement`. Only a genuinely new
-*kind* of window body needs code.
+_kind_ of window body needs code.
 
 `WindowFrame` handles chrome, drag, and keyboard movement:
 
@@ -164,7 +170,7 @@ wrapper helpers.
 - Site-wide defaults live in `app/(site)/layout.tsx`, now as an async
   `generateMetadata` because the title and description come from `settings`.
 - Per-document overrides come from the `seo` object (`metaTitle`,
-  `metaDescription`, `noIndex`). `noIndex` sets the robots tag *and* drops the
+  `metaDescription`, `noIndex`). `noIndex` sets the robots tag _and_ drops the
   URL from the sitemap — both, or it leaks.
 - **Nested fields are replaced, not merged.** A page that defines `openGraph`
   loses every `openGraph` field from the layout.
@@ -208,7 +214,7 @@ Geist Mono is declared in the root layout and is the base font
 `font-sans`. If you need a second family, declare it in the route that needs it.
 
 Measured on the homepage: 3 preloaded fonts (69 KB) → LCP 2.6 s; 1 font (23 KB)
-→ 2.3 s. `preload: false` on the base font makes LCP *and* CLS worse.
+→ 2.3 s. `preload: false` on the base font makes LCP _and_ CLS worse.
 
 ## Styling
 
@@ -225,6 +231,13 @@ Measured on the homepage: 3 preloaded fonts (69 KB) → LCP 2.6 s; 1 font (23 KB
   it from the contrast audit.
 - Utility classes belong inside a component. Variants → `cva`; class merging →
   `cn()` with `className` last; tag roots with `data-slot`.
+- `components/` is flat, no `ui/` subfolder; `components.json` aliases shadcn's
+  `ui` at `@/components` so `shadcn add` still lands there. shadcn is scaffolding
+  here, not a dependency — `button.tsx` has diverged, `collapsible.tsx` is a Base
+  UI passthrough and `file-tree.tsx` is bespoke.
+- Shared link styling lives in `linkVariants` (`components/link.tsx`). Portable
+  text keeps a raw `<a>`: the href comes from Sanity and may be a `mailto:` or
+  absent, which `next/link` cannot take.
 - Interactive targets: Lighthouse 13 dropped both `tap-targets` and `font-size`,
   so small text and small controls no longer cost points. WCAG 2.2 still asks
   for 24×24px targets, so small controls keep a visually small box and grow
@@ -248,12 +261,13 @@ costs Best Practices 4 points.
 The privacy text lives in the **Privacy window** — a `desktopWindow` with
 `placement: "corner"` — not a route. It makes concrete claims about cookies,
 scripts and third-party requests. Adding or removing anything in that category
-means updating that document in Sanity *and* its fallback in
+means updating that document in Sanity _and_ its fallback in
 `features/desktop/defaults.ts` in the same commit, or the two drift and the
 published claim becomes false.
 
-The Studio at `/studio` ships the `sanity` bundle, so it is excluded from the
-site's performance budget and disallowed in `robots.ts`. It is code-split behind
+The Studio at `/sanity-studio` ships the `sanity` bundle, so it is excluded from
+the site's performance budget and disallowed in `robots.ts`. `/studio` keeps a
+temporary redirect to it. It is code-split behind
 its own route group and loads nothing on the site's routes.
 
 ## Performance rules
@@ -277,7 +291,7 @@ mobile is 100 too, so treat that last point as a scoring artefact.
   footer.
 - Imports use the `@/*` alias (now `./*`), never deep relative paths — except
   inside `sanity/`, which stays relative so it can be lifted out.
-- **No explanatory comments in committed code.** The *why* goes here.
+- **No explanatory comments in committed code.** The _why_ goes here.
 - Local env values belong in `.env.local`; `.env.example` documents the keys.
 - GitHub over SSH runs on port 443 (`~/.ssh/config`) — port 22 is blocked on
   this network.

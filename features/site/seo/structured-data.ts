@@ -15,9 +15,6 @@ export function personStructuredData(settings: Settings) {
   };
 }
 
-export function serialiseJsonLd(data: unknown) {
-  return JSON.stringify(data).replace(/</g, "\\u003c");
-}
 
 export function websiteStructuredData(settings: Settings) {
   return {

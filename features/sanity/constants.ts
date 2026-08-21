@@ -1,1 +1,1 @@
-export const studioBasePath = "/studio";
+export const studioBasePath = "/sanity-studio";

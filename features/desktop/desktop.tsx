@@ -6,8 +6,8 @@ import { useRouter } from "next/navigation";
 import type { ReactNode } from "react";
 import { useState } from "react";
 
-import { Button } from "@/components/ui/button";
-import { FileTree, FileTreeFile } from "@/components/ui/file-tree";
+import { Button } from "@/components/button";
+import { FileTree, FileTreeFile } from "@/components/file-tree";
 import { InfiniteDesk } from "@/features/desktop/infinite-desk";
 import type { WindowOffset } from "@/features/desktop/window-frame";
 import { WindowFrame } from "@/features/desktop/window-frame";

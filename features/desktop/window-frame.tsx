@@ -4,7 +4,7 @@ import { Minus, Plus } from "lucide-react";
 import type { ReactNode } from "react";
 import { useRef } from "react";
 
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/button";
 import { cn } from "@/features/style/utils";
 
 export type WindowOffset = { x: number; y: number };

@@ -4,12 +4,12 @@ import { Folder, FolderOpen } from "lucide-react"
 import { cva, type VariantProps } from "class-variance-authority"
 import { cloneElement, isValidElement, type ComponentProps } from "react"
 
-import { Button } from "@/components/ui/button"
+import { Button } from "@/components/button"
 import {
   Collapsible,
   CollapsibleContent,
   CollapsibleTrigger,
-} from "@/components/ui/collapsible"
+} from "@/components/collapsible"
 import { cn } from "@/features/style/utils"
 
 const fileTreeItemVariants = cva(

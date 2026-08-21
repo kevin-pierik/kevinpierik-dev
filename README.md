@@ -3,7 +3,7 @@
 Personal site of Kevin Pierik — a static Next.js site built as a small desktop:
 files and folders open into windows, including a browser-native PDF viewer for
 the curriculum vitae. Content is edited in a Sanity Studio embedded at
-`/studio`, with code-level defaults so the site builds before Sanity exists.
+`/sanity-studio`, with code-level defaults so the site builds before Sanity exists.
 
 ## Requirements
 
@@ -40,7 +40,7 @@ One-time setup. Steps 1 to 3 need a Sanity account and a browser.
    which writes the project id and dataset into `.env.local`.
 
 2. Allow the browser to talk to the Content Lake: open
-   [localhost:3000/studio](http://localhost:3000/studio) and press **Add CORS
+   [localhost:3000/sanity-studio](http://localhost:3000/sanity-studio) and press **Add CORS
    origin**, or add `http://localhost:3000` under _API → CORS origins_ in
    [sanity.io/manage](https://sanity.io/manage) with credentials allowed. Until
    this is done the Studio cannot sign you in and `<SanityLive>` cannot connect.
@@ -66,7 +66,7 @@ One-time setup. Steps 1 to 3 need a Sanity account and a browser.
    Append `-- --replace` to overwrite documents that already exist.
 
 5. Restart `bun dev` and open
-   [localhost:3000/studio](http://localhost:3000/studio).
+   [localhost:3000/sanity-studio](http://localhost:3000/sanity-studio).
 
 ## Editing content
 
@@ -105,11 +105,11 @@ app/
 │   ├── not-found.tsx      # BIOS screen for notFound() inside the site
 │   ├── extra/[slug]/      # Folder documents
 │   └── writing/[slug]/    # Posts
-├── (studio)/              # Second root layout, clean, for the Studio
+├── sanity-studio/         # Second root layout, clean, for the Studio
 ├── api/draft-mode/        # Enable and disable draft mode
 ├── global-not-found.tsx   # BIOS screen for URLs matching no route
 ├── robots.ts, sitemap.ts, llms.txt/
-components/ui/             # shadcn primitives
+components/                # flat primitives: button, link, json-ld, file-tree
 features/
 ├── bios/                  # The 404 boot screen
 ├── blog/                  # Posts: query, resolve, reading time, post window

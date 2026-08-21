@@ -1,9 +1,7 @@
 import { PortableText, type PortableTextComponents } from "@portabletext/react";
 
+import { linkVariants } from "@/components/link";
 import type { PortableTextValue } from "@/features/rich-text/types";
-
-const linkStyle =
-  "underline underline-offset-2 hover:decoration-dashed focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring";
 
 const components: PortableTextComponents = {
   block: {
@@ -16,7 +14,7 @@ const components: PortableTextComponents = {
         draggable={false}
         target={value?.openInNewTab ? "_blank" : undefined}
         rel={value?.openInNewTab ? "me noreferrer" : undefined}
-        className={linkStyle}
+        className={linkVariants()}
       >
         {children}
       </a>

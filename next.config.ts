@@ -43,6 +43,12 @@ const nextConfig: NextConfig = {
       { source: "/works/:slug", destination: "/extra/:slug", permanent: true },
       { source: "/writing", destination: "/blog", permanent: true },
       { source: "/writing/:slug", destination: "/blog/:slug", permanent: true },
+      { source: "/studio", destination: "/sanity-studio", permanent: false },
+      {
+        source: "/studio/:path*",
+        destination: "/sanity-studio/:path*",
+        permanent: false,
+      },
     ];
   },
 };

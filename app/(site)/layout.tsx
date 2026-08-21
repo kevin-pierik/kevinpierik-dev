@@ -13,8 +13,8 @@ import { siteConfig } from "@/features/site/config";
 import { getSettings } from "@/features/site/resolve";
 import {
   personStructuredData,
-  serialiseJsonLd,
 } from "@/features/site/seo/structured-data";
+import { JsonLd } from "@/components/json-ld";
 import { cn } from "@/features/style/utils";
 
 const geistMono = Geist_Mono({
@@ -96,12 +96,7 @@ export default async function SiteLayout({ children }: LayoutProps<"/">) {
       className={cn("dark h-full", geistMono.variable)}
     >
       <body className="antialiased">
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: serialiseJsonLd(personStructuredData(settings)),
-          }}
-        />
+        <JsonLd data={personStructuredData(settings)} />
         {children}
         {isDraftMode && isSanityConfigured && (
           <>

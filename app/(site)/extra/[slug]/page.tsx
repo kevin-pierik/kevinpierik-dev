@@ -4,9 +4,9 @@ import { notFound } from "next/navigation";
 import { ExtraScreen } from "@/features/desktop/extra-screen";
 import { readingFont } from "@/features/desktop/reading-font";
 import { getProject, getProjectSlugs } from "@/features/desktop/resolve";
+import { JsonLd } from "@/components/json-ld";
 import {
   breadcrumbStructuredData,
-  serialiseJsonLd,
 } from "@/features/site/seo/structured-data";
 import { robotsFor } from "@/features/site/seo/utils";
 
@@ -40,18 +40,11 @@ export default async function ProjectPage({
 
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: serialiseJsonLd(
-            breadcrumbStructuredData([
+      <JsonLd data={breadcrumbStructuredData([
               { name: "Home", href: "/" },
               { name: "Extra", href: "/extra" },
               { name: project.title, href: `/extra/${slug}` },
-            ]),
-          ),
-        }}
-      />
+            ])} />
       <ExtraScreen slug={slug} fontClassName={readingFont.variable} />
     </>
   );

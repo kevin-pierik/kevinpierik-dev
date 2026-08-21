@@ -7,9 +7,9 @@ import {
   getStandaloneSlugs,
 } from "@/features/desktop/resolve";
 import { StandaloneScreen } from "@/features/desktop/standalone-screen";
+import { JsonLd } from "@/components/json-ld";
 import {
   breadcrumbStructuredData,
-  serialiseJsonLd,
 } from "@/features/site/seo/structured-data";
 import { robotsFor } from "@/features/site/seo/utils";
 
@@ -41,17 +41,10 @@ export default async function StandalonePage({ params }: PageProps<"/[slug]">) {
 
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: serialiseJsonLd(
-            breadcrumbStructuredData([
+      <JsonLd data={breadcrumbStructuredData([
               { name: "Home", href: "/" },
               { name: page.title, href: `/${slug}` },
-            ]),
-          ),
-        }}
-      />
+            ])} />
       <StandaloneScreen page={page} fontClassName={readingFont.variable} />
     </>
   );

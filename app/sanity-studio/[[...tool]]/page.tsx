@@ -1,4 +1,4 @@
-import { Studio } from "@/app/(studio)/studio/[[...tool]]/studio";
+import { Studio } from "@/app/sanity-studio/[[...tool]]/studio";
 
 export const dynamic = "force-static";
 
