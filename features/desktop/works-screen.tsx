@@ -28,7 +28,7 @@ export async function WorksScreen({ slug, fontClassName }: WorksScreenProps) {
       className={cn("h-svh bg-background px-1.5 pb-1.5", fontClassName)}
     >
       <Desktop
-        view="explorer"
+        view={scattered ? "document" : "explorer"}
         name={settings.name}
         navigation={settings.navigation}
         activeHref="/works"

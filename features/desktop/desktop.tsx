@@ -208,8 +208,8 @@ export function Desktop({
             {scattered && (
               <ul className="absolute top-1/2 left-1/2 z-10">
                 {scatter.map((item, index) => {
-                  const x = ((index * 7) % 19) - 9;
-                  const y = ((index * 11) % 15) - 7;
+                  const x = ((index * 13) % 33) - 16;
+                  const y = ((index * 17) % 23) - 11;
 
                   return (
                     <li
@@ -221,7 +221,7 @@ export function Desktop({
                         type="button"
                         onClick={() => setOpenPiece(item.id)}
                         style={{ width: `${item.width}rem` }}
-                        className="block cursor-zoom-in opacity-80 transition-opacity hover:opacity-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+                        className="block cursor-zoom-in focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
                       >
                         <SanityImage
                           value={item.image}
