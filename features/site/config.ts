@@ -36,7 +36,7 @@ export const siteConfig: SiteConfig = {
   version: "v1.0.0",
   language: "en",
   locale: "en_US",
-  email: "kevinpierik@icloud.com",
+  email: "hello@kevinpierik.dev",
   social: [
     { label: "LinkedIn", href: "https://nl.linkedin.com/in/kevin-pierik" },
   ],

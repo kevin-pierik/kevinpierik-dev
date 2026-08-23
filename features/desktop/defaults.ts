@@ -94,7 +94,7 @@ export const defaultWindows: WindowDocument[] = [
     body: [
       paragraph(
         "pintro",
-        "This site is a personal portfolio. It has no accounts, no forms and nothing to sign up for, so there is very little to say about your data. What follows is what actually happens when you open a page, checked against the live site rather than copied from a template.",
+        "This site is a personal portfolio. It has no accounts, no forms and nothing to sign up for, so there is very little to say about your data.",
       ),
 
       heading("ph1", "h2", "What is stored on your device"),
@@ -114,22 +114,16 @@ export const defaultWindows: WindowDocument[] = [
         "pspeed",
         "Vercel Speed Insights measures how fast pages load. It runs from this domain, uses no cookies and reports timings, not people. It is not analytics: it does not count visits, follow you between pages or build a profile.",
       ),
-      heading("ph2c", "h3", "Images and content"),
+      heading("ph2c", "h3", "Images"),
       paragraph(
         "pcdn",
-        "Text and images come from Sanity, which stores the content of this site. Images load from cdn.sanity.io and the page keeps an open connection to Sanity's API so that edits appear without a reload. Both mean Sanity's servers see your IP address, in the same way any server does when it sends you a file.",
+        "Images are served by Sanity, which holds the content of this site, so their servers see your IP address the way any server does when it sends you a file.",
       ),
 
       heading("ph3", "h2", "What this site does not do"),
       paragraph(
         "pnot",
         "There are no advertisements, no third-party analytics, no social media embeds, no fingerprinting and no profiling. Every script the page loads comes from this domain. Nothing you do here is sold or shared, because nothing about you is collected in the first place.",
-      ),
-
-      heading("ph4", "h2", "The editing side"),
-      paragraph(
-        "pstudio",
-        "The content of this site is edited in a Sanity Studio that lives at /sanity-studio. It requires a login, and only I have one. It stores interface preferences in the browser of whoever is signed in, which means mine, not yours.",
       ),
 
       heading("ph5", "h2", "Questions or a request"),

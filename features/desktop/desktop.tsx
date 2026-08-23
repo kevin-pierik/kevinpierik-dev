@@ -123,7 +123,7 @@ export function Desktop({
             sidebarExpanded ? "lg:col-span-12" : "lg:col-span-4",
           )}
         >
-          <div className="flex h-7 items-center justify-between border-b border-paper/20 px-2 font-mono text-[11px] text-mist">
+          <div className="flex h-8 items-center justify-between border-b border-paper/20 px-2 font-mono text-[11px] text-mist">
             <p>[{String(sidebar.length).padStart(2, "0")}]</p>
 
             <Button
@@ -152,14 +152,11 @@ export function Desktop({
                     <Link
                       href={entry.href}
                       aria-current={isOpen ? "page" : undefined}
-                      className={cn(
-                        "group/tile flex flex-col gap-1 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
-                        isOpen ? "text-paper" : "text-mist",
-                      )}
+                      className="block focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
                     >
                       <span className="relative block aspect-square overflow-hidden bg-paper/6">
                         {entry.cover && (
-                          <span className="absolute inset-2 flex items-center justify-center">
+                          <span className="absolute inset-0 flex items-center justify-center">
                             <SanityImage
                               value={entry.cover}
                               sizes="(max-width: 1024px) 45vw, 8rem"
@@ -168,9 +165,7 @@ export function Desktop({
                           </span>
                         )}
                       </span>
-                      <span className="truncate px-0.5 text-center font-mono text-[11px]">
-                        {entry.label}
-                      </span>
+                      <span className="sr-only">{entry.label}</span>
                     </Link>
                   </li>
                 );
