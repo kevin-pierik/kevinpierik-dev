@@ -8,14 +8,19 @@ const components: PortableTextComponents = {
   block: {
     normal: ({ children }) => <p>{children}</p>,
     h2: ({ children }) => (
-      <h2 className="mt-[1.6em] font-mono text-xs/relaxed tracking-[0.08em] text-paper uppercase first:mt-0">
+      <h2 className="mt-[1.2em] text-[2em]/[1.3] font-semibold text-paper first:mt-0">
         {children}
       </h2>
     ),
     h3: ({ children }) => (
-      <h3 className="mt-[1.2em] font-mono text-xs/relaxed text-paper first:mt-0">
+      <h3 className="mt-[1.2em] text-[1.5em]/[1.3] font-semibold text-paper first:mt-0">
         {children}
       </h3>
+    ),
+    h4: ({ children }) => (
+      <h4 className="mt-[1.2em] text-[1.25em]/[1.35] font-semibold text-paper first:mt-0">
+        {children}
+      </h4>
     ),
     blockquote: ({ children }) => (
       <blockquote className="border-l border-paper/25 pl-4 text-paper/80 italic">
@@ -71,7 +76,7 @@ const components: PortableTextComponents = {
     ),
     entryList: ({ value }) => (
       <section className="flex flex-col gap-[1em]">
-        <h2 className="font-mono text-xs tracking-[0.08em] text-paper uppercase">
+        <h2 className="text-[2em]/[1.3] font-semibold text-paper">
           {value?.title}
         </h2>
         <dl className="flex flex-col gap-[0.9em]">

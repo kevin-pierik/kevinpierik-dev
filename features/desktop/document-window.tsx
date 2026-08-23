@@ -1,6 +1,7 @@
 import { linkVariants } from "@/components/link";
 import { ArticleText } from "@/features/rich-text/article-text";
 import { DocumentContent } from "@/features/desktop/document-content";
+import { MediaGrid } from "@/features/desktop/media-grid";
 import type { WindowDocument } from "@/features/desktop/types";
 
 type DocumentWindowProps = {
@@ -15,7 +16,11 @@ export function DocumentWindow({ window }: DocumentWindowProps) {
         bodyClassName="overflow-hidden"
         bodyLayout="full"
         footer={
-          <a href={window.file.url} download className={linkVariants({ variant: "inset" })}>
+          <a
+            href={window.file.url}
+            download
+            className={linkVariants({ variant: "inset" })}
+          >
             Download PDF
           </a>
         }
@@ -25,6 +30,21 @@ export function DocumentWindow({ window }: DocumentWindowProps) {
           title={window.title}
           className="size-full bg-paper"
         />
+      </DocumentContent>
+    );
+  }
+
+  if (window.media.length > 0) {
+    return (
+      <DocumentContent details={window.details}>
+        <div className="flex flex-col gap-8 lg:flex-row-reverse lg:items-start lg:gap-10">
+          <div className="lg:flex-1">
+            <MediaGrid media={window.media} />
+          </div>
+          <div className="lg:w-[22rem] lg:shrink-0">
+            <ArticleText value={window.body} />
+          </div>
+        </div>
       </DocumentContent>
     );
   }

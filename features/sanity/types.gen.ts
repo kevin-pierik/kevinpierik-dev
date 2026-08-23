@@ -103,7 +103,7 @@ export type ArticleText = Array<
         _type: "span";
         _key: string;
       }>;
-      style?: "normal" | "h2" | "h3" | "blockquote";
+      style?: "normal" | "h2" | "h3" | "h4" | "blockquote";
       listItem?: "bullet" | "number";
       markDefs?: Array<
         {
@@ -175,6 +175,16 @@ export type DesktopWindow = {
   order?: number;
   text?: WindowText;
   body?: ArticleText;
+  media?: Array<{
+    asset?: SanityImageAssetReference;
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    alt?: string;
+    caption?: string;
+    _type: "image";
+    _key: string;
+  }>;
   details?: Array<
     {
       _key: string;
@@ -352,37 +362,6 @@ export type AllSanitySchemaTypes =
   | SanityImageAsset
   | Geopoint;
 
-// Source: features/blog/query.ts
-// Variable: POSTS_QUERY
-// Query: *[_type == "post" && defined(slug.current)] | order(publishedAt desc){   _id,  title,  "slug": slug.current,  excerpt,  publishedAt }
-export type POSTS_QUERY_RESULT = Array<{
-  _id: string;
-  title: string | null;
-  slug: string | null;
-  excerpt: string | null;
-  publishedAt: string | null;
-}>;
-
-// Source: features/blog/query.ts
-// Variable: POST_QUERY
-// Query: *[_type == "post" && slug.current == $slug][0]{      _id,  title,  "slug": slug.current,  excerpt,  publishedAt,    body,    seo  }
-export type POST_QUERY_RESULT = {
-  _id: string;
-  title: string | null;
-  slug: string | null;
-  excerpt: string | null;
-  publishedAt: string | null;
-  body: ArticleText | null;
-  seo: Seo | null;
-} | null;
-
-// Source: features/blog/query.ts
-// Variable: POST_SLUGS_QUERY
-// Query: *[_type == "post" && defined(slug.current)]{ "slug": slug.current }
-export type POST_SLUGS_QUERY_RESULT = Array<{
-  slug: string | null;
-}>;
-
 // Source: features/desktop/query.ts
 // Variable: SHELL_QUERY
 // Query: {  "settings": *[_type == "settings" && _id == "siteSettings"][0]{   name,  title,  description,  email,  version,  footerNote,  social[]{ label, href },  navigation[]{ label, href } },  "corner": *[_type == "desktopWindow" && placement == "corner"] | order(order asc, label asc){      _id,  label,  title,  "slug": slug.current,  placement,  order,  seo,    "body": coalesce(body, text)  }}
@@ -444,7 +423,7 @@ export type PROJECT_WINDOWS_QUERY_RESULT = Array<{
 
 // Source: features/desktop/query.ts
 // Variable: PROJECT_WINDOW_QUERY
-// Query: *[_type == "desktopWindow" && placement == "project" && slug.current == $slug][0]{        _id,  label,  title,  "slug": slug.current,  placement,  order,  seo,  "body": coalesce(body, text),  details[]{ label, value },  "file": file.asset->{ url, originalFilename }  }
+// Query: *[_type == "desktopWindow" && placement == "project" && slug.current == $slug][0]{        _id,  label,  title,  "slug": slug.current,  placement,  order,  seo,  "body": coalesce(body, text),  details[]{ label, value },  media[]{ _key, alt, caption, asset },  "file": file.asset->{ url, originalFilename }  }
 export type PROJECT_WINDOW_QUERY_RESULT = {
   _id: string;
   label: string | null;
@@ -458,6 +437,12 @@ export type PROJECT_WINDOW_QUERY_RESULT = {
     label: string | null;
     value: string | null;
   }> | null;
+  media: Array<{
+    _key: string;
+    alt: string | null;
+    caption: string | null;
+    asset: SanityImageAssetReference | null;
+  }> | null;
   file: {
     url: string | null;
     originalFilename: string | null;
@@ -466,7 +451,7 @@ export type PROJECT_WINDOW_QUERY_RESULT = {
 
 // Source: features/desktop/query.ts
 // Variable: STANDALONE_WINDOW_QUERY
-// Query: *[_type == "desktopWindow" && placement == "standalone" && slug.current == $slug][0]{        _id,  label,  title,  "slug": slug.current,  placement,  order,  seo,  "body": coalesce(body, text),  details[]{ label, value },  "file": file.asset->{ url, originalFilename }  }
+// Query: *[_type == "desktopWindow" && placement == "standalone" && slug.current == $slug][0]{        _id,  label,  title,  "slug": slug.current,  placement,  order,  seo,  "body": coalesce(body, text),  details[]{ label, value },  media[]{ _key, alt, caption, asset },  "file": file.asset->{ url, originalFilename }  }
 export type STANDALONE_WINDOW_QUERY_RESULT = {
   _id: string;
   label: string | null;
@@ -479,6 +464,12 @@ export type STANDALONE_WINDOW_QUERY_RESULT = {
   details: Array<{
     label: string | null;
     value: string | null;
+  }> | null;
+  media: Array<{
+    _key: string;
+    alt: string | null;
+    caption: string | null;
+    asset: SanityImageAssetReference | null;
   }> | null;
   file: {
     url: string | null;
@@ -538,21 +529,52 @@ export type SITEMAP_QUERY_RESULT = {
   }>;
 };
 
+// Source: features/words/query.ts
+// Variable: POSTS_QUERY
+// Query: *[_type == "post" && defined(slug.current)] | order(publishedAt desc){   _id,  title,  "slug": slug.current,  excerpt,  publishedAt }
+export type POSTS_QUERY_RESULT = Array<{
+  _id: string;
+  title: string | null;
+  slug: string | null;
+  excerpt: string | null;
+  publishedAt: string | null;
+}>;
+
+// Source: features/words/query.ts
+// Variable: POST_QUERY
+// Query: *[_type == "post" && slug.current == $slug][0]{      _id,  title,  "slug": slug.current,  excerpt,  publishedAt,    body,    seo  }
+export type POST_QUERY_RESULT = {
+  _id: string;
+  title: string | null;
+  slug: string | null;
+  excerpt: string | null;
+  publishedAt: string | null;
+  body: ArticleText | null;
+  seo: Seo | null;
+} | null;
+
+// Source: features/words/query.ts
+// Variable: POST_SLUGS_QUERY
+// Query: *[_type == "post" && defined(slug.current)]{ "slug": slug.current }
+export type POST_SLUGS_QUERY_RESULT = Array<{
+  slug: string | null;
+}>;
+
 // Query TypeMap
 import "@sanity/client";
 declare module "@sanity/client" {
   interface SanityQueries {
-    '\n  *[_type == "post" && defined(slug.current)] | order(publishedAt desc){ \n  _id,\n  title,\n  "slug": slug.current,\n  excerpt,\n  publishedAt\n }\n': POSTS_QUERY_RESULT;
-    '\n  *[_type == "post" && slug.current == $slug][0]{\n    \n  _id,\n  title,\n  "slug": slug.current,\n  excerpt,\n  publishedAt\n,\n    body,\n    seo\n  }\n': POST_QUERY_RESULT;
-    '\n  *[_type == "post" && defined(slug.current)]{ "slug": slug.current }\n': POST_SLUGS_QUERY_RESULT;
     '{\n  "settings": *[_type == "settings" && _id == "siteSettings"][0]{ \n  name,\n  title,\n  description,\n  email,\n  version,\n  footerNote,\n  social[]{ label, href },\n  navigation[]{ label, href }\n },\n  "corner": *[_type == "desktopWindow" && placement == "corner"] | order(order asc, label asc){\n    \n  _id,\n  label,\n  title,\n  "slug": slug.current,\n  placement,\n  order,\n  seo\n,\n    "body": coalesce(body, text)\n  }\n}': SHELL_QUERY_RESULT;
     '\n  *[_type == "desktopWindow" && placement == "home"] | order(order asc, label asc){\n    \n  _id,\n  label,\n  title,\n  "slug": slug.current,\n  placement,\n  order,\n  seo\n,\n    "body": coalesce(body, text)\n  }\n': HOME_WINDOWS_QUERY_RESULT;
     '\n  *[_type == "desktopWindow" && placement == "project" && defined(slug.current)]\n    | order(order asc, label asc){ \n  _id,\n  label,\n  title,\n  "slug": slug.current,\n  placement,\n  order,\n  seo\n }\n': PROJECT_WINDOWS_QUERY_RESULT;
-    '\n  *[_type == "desktopWindow" && placement == "project" && slug.current == $slug][0]{\n    \n  \n  _id,\n  label,\n  title,\n  "slug": slug.current,\n  placement,\n  order,\n  seo\n,\n  "body": coalesce(body, text),\n  details[]{ label, value },\n  "file": file.asset->{ url, originalFilename }\n\n  }\n': PROJECT_WINDOW_QUERY_RESULT;
-    '\n  *[_type == "desktopWindow" && placement == "standalone" && slug.current == $slug][0]{\n    \n  \n  _id,\n  label,\n  title,\n  "slug": slug.current,\n  placement,\n  order,\n  seo\n,\n  "body": coalesce(body, text),\n  details[]{ label, value },\n  "file": file.asset->{ url, originalFilename }\n\n  }\n': STANDALONE_WINDOW_QUERY_RESULT;
+    '\n  *[_type == "desktopWindow" && placement == "project" && slug.current == $slug][0]{\n    \n  \n  _id,\n  label,\n  title,\n  "slug": slug.current,\n  placement,\n  order,\n  seo\n,\n  "body": coalesce(body, text),\n  details[]{ label, value },\n  media[]{ _key, alt, caption, asset },\n  "file": file.asset->{ url, originalFilename }\n\n  }\n': PROJECT_WINDOW_QUERY_RESULT;
+    '\n  *[_type == "desktopWindow" && placement == "standalone" && slug.current == $slug][0]{\n    \n  \n  _id,\n  label,\n  title,\n  "slug": slug.current,\n  placement,\n  order,\n  seo\n,\n  "body": coalesce(body, text),\n  details[]{ label, value },\n  media[]{ _key, alt, caption, asset },\n  "file": file.asset->{ url, originalFilename }\n\n  }\n': STANDALONE_WINDOW_QUERY_RESULT;
     '\n  *[_type == "desktopWindow" && placement == "standalone" && defined(slug.current)]{\n    "slug": slug.current\n  }\n': STANDALONE_SLUGS_QUERY_RESULT;
     '\n  *[_type == "desktopWindow" && placement == "project" && defined(slug.current)]{\n    "slug": slug.current\n  }\n': PROJECT_SLUGS_QUERY_RESULT;
     '\n  *[_type == "settings" && _id == "siteSettings"][0]{ \n  name,\n  title,\n  description,\n  email,\n  version,\n  footerNote,\n  social[]{ label, href },\n  navigation[]{ label, href }\n }\n': SETTINGS_QUERY_RESULT;
     '{\n  "pages": *[_type == "desktopWindow" && placement == "standalone"\n    && defined(slug.current) && seo.noIndex != true]{ "slug": slug.current, _updatedAt },\n  "windows": *[_type == "desktopWindow" && placement == "project"\n    && defined(slug.current) && seo.noIndex != true]{ "slug": slug.current, _updatedAt },\n  "posts": *[_type == "post" && defined(slug.current) && seo.noIndex != true]{\n    "slug": slug.current,\n    _updatedAt\n  }\n}': SITEMAP_QUERY_RESULT;
+    '\n  *[_type == "post" && defined(slug.current)] | order(publishedAt desc){ \n  _id,\n  title,\n  "slug": slug.current,\n  excerpt,\n  publishedAt\n }\n': POSTS_QUERY_RESULT;
+    '\n  *[_type == "post" && slug.current == $slug][0]{\n    \n  _id,\n  title,\n  "slug": slug.current,\n  excerpt,\n  publishedAt\n,\n    body,\n    seo\n  }\n': POST_QUERY_RESULT;
+    '\n  *[_type == "post" && defined(slug.current)]{ "slug": slug.current }\n': POST_SLUGS_QUERY_RESULT;
   }
 }

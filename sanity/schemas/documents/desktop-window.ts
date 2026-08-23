@@ -2,7 +2,7 @@ import { DocumentIcon } from "@sanity/icons/Document";
 import { DocumentsIcon } from "@sanity/icons/Documents";
 import { FolderIcon } from "@sanity/icons/Folder";
 import { LinkIcon } from "@sanity/icons/Link";
-import { defineField, defineType } from "sanity";
+import { defineArrayMember, defineField, defineType } from "sanity";
 
 import { contentGroups } from "../fields/content-groups";
 import { createOrderField } from "../fields/create-order-field";
@@ -80,6 +80,32 @@ export const desktopWindow = defineType({
       description:
         "Full article text: headings, lists, images and code. Used by folders and standalone pages.",
       hidden: ({ parent }) => !isDocument(parent?.placement),
+    }),
+    defineField({
+      name: "media",
+      title: "Media",
+      type: "array",
+      group: "content",
+      description:
+        "Images and GIFs, shown as a grid. Each one keeps its own proportions inside a square tile.",
+      hidden: ({ parent }) => !isDocument(parent?.placement),
+      of: [
+        defineArrayMember({
+          type: "image",
+          options: { hotspot: true },
+          fields: [
+            defineField({
+              name: "alt",
+              title: "Alternative text",
+              type: "string",
+              description:
+                "Describe the image for screen readers and search engines.",
+              validation: (rule) => rule.required(),
+            }),
+            defineField({ name: "caption", title: "Caption", type: "string" }),
+          ],
+        }),
+      ],
     }),
     defineField({
       name: "details",

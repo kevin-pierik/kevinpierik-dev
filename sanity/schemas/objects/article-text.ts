@@ -11,6 +11,7 @@ export const articleText = defineType({
         { title: "Paragraph", value: "normal" },
         { title: "Heading", value: "h2" },
         { title: "Subheading", value: "h3" },
+        { title: "Small heading", value: "h4" },
         { title: "Quote", value: "blockquote" },
       ],
       lists: [

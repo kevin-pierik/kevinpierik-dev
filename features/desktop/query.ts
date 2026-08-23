@@ -16,6 +16,7 @@ const documentFields = /* groq */ `
   ${windowFields},
   "body": coalesce(body, text),
   details[]{ label, value },
+  media[]{ _key, alt, caption, asset },
   "file": file.asset->{ url, originalFilename }
 `;
 
