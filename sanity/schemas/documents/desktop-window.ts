@@ -1,7 +1,7 @@
 import { DocumentIcon } from "@sanity/icons/Document";
 import { DocumentsIcon } from "@sanity/icons/Documents";
 import { FolderIcon } from "@sanity/icons/Folder";
-import { defineArrayMember, defineField, defineType } from "sanity";
+import { defineField, defineType } from "sanity";
 
 import { contentGroups } from "../fields/content-groups";
 import { createOrderField } from "../fields/create-order-field";

@@ -153,6 +153,18 @@ Adding a file to a screen is content work, not code work: create a
 `desktopWindow` in the Studio with the right `placement`. Only a genuinely new
 _kind_ of window body needs code.
 
+`WorksRail` is the left panel on `/works`: an endless loop of cover tiles. It
+keeps native scrolling and wraps `scrollTop` by one repeat unit at either end, so
+the DOM stays proportional to the number of works instead of how far you scrolled
+— fourteen tiles for one work, and one network request because they share an
+image.
+
+A repeat unit is a whole number of grid rows, `lcm(columns, works) / columns`, or
+a single work would fill one cell and leave the other column empty. The pitch is
+measured as the distance between two units so the gap between them counts. Only
+the first unit is reachable by keyboard; the repeats are `aria-hidden` with
+`tabIndex={-1}`, so each work is announced once and clickable everywhere.
+
 `InfiniteDesk` pans and zooms. Drag or scroll to pan; ctrl or cmd plus wheel
 zooms, which is also what a trackpad pinch sends. Scale runs 0.71 to 2.86 with
 1 as the default, and the readout bottom-left shows that as a percentage — it

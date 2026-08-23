@@ -8,8 +8,8 @@ import { useState } from "react";
 
 import { Button } from "@/components/button";
 import { FileTree, FileTreeFile } from "@/components/file-tree";
-import { SanityImage } from "@/components/sanity-image";
 import { InfiniteDesk } from "@/features/desktop/infinite-desk";
+import { WorksRail } from "@/features/desktop/works-rail";
 import type { WindowOffset } from "@/features/desktop/window-frame";
 import { WindowFrame } from "@/features/desktop/window-frame";
 import { SiteHeader } from "@/features/site/site-header";
@@ -143,34 +143,7 @@ export function Desktop({
           </div>
 
           {sidebar.some((entry) => entry.cover) ? (
-            <ul className="grid grid-cols-2 gap-1.5 p-1.5">
-              {sidebar.map((entry) => {
-                const isOpen = entry.id === document?.id;
-
-                return (
-                  <li key={entry.id}>
-                    <Link
-                      href={entry.href}
-                      aria-current={isOpen ? "page" : undefined}
-                      className="block focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
-                    >
-                      <span className="relative block aspect-square overflow-hidden bg-paper/6">
-                        {entry.cover && (
-                          <span className="absolute inset-[7%] flex items-center justify-center">
-                            <SanityImage
-                              value={entry.cover}
-                              sizes="(max-width: 1024px) 50vw, 40vw"
-                              className="h-full w-full object-contain"
-                            />
-                          </span>
-                        )}
-                      </span>
-                      <span className="sr-only">{entry.label}</span>
-                    </Link>
-                  </li>
-                );
-              })}
-            </ul>
+            <WorksRail entries={sidebar} activeId={document?.id} />
           ) : (
             <FileTree className="w-full gap-0">
               {sidebar.map((entry) => {
