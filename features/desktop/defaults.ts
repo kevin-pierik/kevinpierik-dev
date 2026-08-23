@@ -1,5 +1,5 @@
 import { siteConfig } from "@/features/site/config";
-import { paragraph } from "@/features/rich-text/paragraph";
+import { heading, paragraph } from "@/features/rich-text/paragraph";
 import { emptySeo } from "@/features/site/seo/utils";
 import type { WindowDocument } from "@/features/desktop/types";
 
@@ -45,9 +45,24 @@ export const defaultWindows: WindowDocument[] = [
         _type: "linkRow",
         _key: "links",
         links: [
-          { _key: "email", _type: "labelledLink", label: "Email", href: `mailto:${siteConfig.email}` },
-          { _key: "linkedin", _type: "labelledLink", label: "LinkedIn", href: linkedIn },
-          { _key: "resume", _type: "labelledLink", label: "PDF resume", href: "/files/kevin-pierik.pdf" },
+          {
+            _key: "email",
+            _type: "labelledLink",
+            label: "Email",
+            href: `mailto:${siteConfig.email}`,
+          },
+          {
+            _key: "linkedin",
+            _type: "labelledLink",
+            label: "LinkedIn",
+            href: linkedIn,
+          },
+          {
+            _key: "resume",
+            _type: "labelledLink",
+            label: "PDF resume",
+            href: "/files/kevin-pierik.pdf",
+          },
         ],
       },
       {
@@ -77,15 +92,52 @@ export const defaultWindows: WindowDocument[] = [
     title: "Privacy",
     placement: "standalone",
     body: [
-      paragraph("privacy1", "No cookies, no forms, no accounts."),
       paragraph(
-        "privacy2",
-        "Vercel hosts this site and measures page speed. Standard server logs, nothing that identifies you.",
+        "pintro",
+        "This site is a personal portfolio. It has no accounts, no forms and nothing to sign up for, so there is very little to say about your data. What follows is what actually happens when you open a page, checked against the live site rather than copied from a template.",
       ),
+
+      heading("ph1", "h2", "What is stored on your device"),
       paragraph(
-        "privacy3",
-        "Mail me and I keep it to reply. Nothing else. ",
+        "pcookies",
+        "Nothing. The site sets no cookies and writes nothing to local storage. There is no cookie banner because there is nothing to consent to.",
+      ),
+
+      heading("ph2", "h2", "Who sees that you visited"),
+      heading("ph2a", "h3", "Hosting"),
+      paragraph(
+        "phost",
+        `Vercel serves this site and keeps standard server logs: the page you requested, your IP address, your browser's user agent and the time. Those logs exist to keep the site running and are not linked to anything else.`,
+      ),
+      heading("ph2b", "h3", "Performance measurement"),
+      paragraph(
+        "pspeed",
+        "Vercel Speed Insights measures how fast pages load. It runs from this domain, uses no cookies and reports timings, not people. It is not analytics: it does not count visits, follow you between pages or build a profile.",
+      ),
+      heading("ph2c", "h3", "Images and content"),
+      paragraph(
+        "pcdn",
+        "Text and images come from Sanity, which stores the content of this site. Images load from cdn.sanity.io and the page keeps an open connection to Sanity's API so that edits appear without a reload. Both mean Sanity's servers see your IP address, in the same way any server does when it sends you a file.",
+      ),
+
+      heading("ph3", "h2", "What this site does not do"),
+      paragraph(
+        "pnot",
+        "There are no advertisements, no third-party analytics, no social media embeds, no fingerprinting and no profiling. Every script the page loads comes from this domain. Nothing you do here is sold or shared, because nothing about you is collected in the first place.",
+      ),
+
+      heading("ph4", "h2", "The editing side"),
+      paragraph(
+        "pstudio",
+        "The content of this site is edited in a Sanity Studio that lives at /sanity-studio. It requires a login, and only I have one. It stores interface preferences in the browser of whoever is signed in, which means mine, not yours.",
+      ),
+
+      heading("ph5", "h2", "Questions or a request"),
+      paragraph(
+        "pcontact",
+        "If you want to know what is in those server logs about you, or want them removed, mail me and I will look. ",
         { text: siteConfig.email, href: `mailto:${siteConfig.email}` },
+        ".",
       ),
     ],
     details: [],

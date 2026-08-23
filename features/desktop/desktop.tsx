@@ -168,7 +168,7 @@ export function Desktop({
                           </span>
                         )}
                       </span>
-                      <span className="truncate px-0.5 font-mono text-[11px]">
+                      <span className="truncate px-0.5 text-center font-mono text-[11px]">
                         {entry.label}
                       </span>
                     </Link>
