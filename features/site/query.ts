@@ -8,7 +8,8 @@ export const settingsFields = /* groq */ `
   version,
   footerNote,
   social[]{ label, href },
-  navigation[]{ label, href }
+  navigation[]{ label, href },
+  cornerLinks[]{ label, href }
 `;
 
 export const SETTINGS_QUERY = defineQuery(`

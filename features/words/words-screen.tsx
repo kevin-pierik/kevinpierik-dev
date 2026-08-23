@@ -2,7 +2,7 @@ import { PostWindow } from "@/features/words/post-window";
 import { getPost, getPosts } from "@/features/words/resolve";
 import { Desktop } from "@/features/desktop/desktop";
 import { LocalTime } from "@/features/desktop/local-time";
-import { getShellContext, toEntry } from "@/features/desktop/shell";
+import { getShellContext } from "@/features/desktop/shell";
 import { cn } from "@/features/style/utils";
 
 type WordsScreenProps = {
@@ -11,7 +11,7 @@ type WordsScreenProps = {
 };
 
 export async function WordsScreen({ slug, fontClassName }: WordsScreenProps) {
-  const [{ settings, corner, cornerContent }, posts] = await Promise.all([
+  const [{ settings }, posts] = await Promise.all([
     getShellContext(),
     getPosts(),
   ]);
@@ -31,7 +31,7 @@ export async function WordsScreen({ slug, fontClassName }: WordsScreenProps) {
         activeHref="/words"
         status={<LocalTime />}
         footerNote={settings.footerNote}
-        corner={corner.map(toEntry)}
+        cornerLinks={settings.cornerLinks}
         sidebar={posts.map((post) => ({
           id: post.slug,
           label: post.title,
@@ -45,7 +45,6 @@ export async function WordsScreen({ slug, fontClassName }: WordsScreenProps) {
             : undefined
         }
         content={{
-          ...cornerContent,
           ...(open
             ? { [open.slug]: <PostWindow post={open} author={settings.name} /> }
             : {}),

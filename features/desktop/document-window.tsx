@@ -1,6 +1,9 @@
 import { linkVariants } from "@/components/link";
 import { ArticleText } from "@/features/rich-text/article-text";
-import { DocumentContent } from "@/features/desktop/document-content";
+import {
+  DocumentContent,
+  DocumentMetadata,
+} from "@/features/desktop/document-content";
 import { MediaGrid } from "@/features/desktop/media-grid";
 import type { WindowDocument } from "@/features/desktop/types";
 
@@ -36,16 +39,19 @@ export function DocumentWindow({ window }: DocumentWindowProps) {
 
   if (window.media.length > 0) {
     return (
-      <DocumentContent details={window.details}>
-        <div className="flex flex-col gap-8 lg:flex-row-reverse lg:items-start lg:gap-10">
-          <div className="lg:flex-1">
-            <MediaGrid media={window.media} />
-          </div>
-          <div className="lg:w-[22rem] lg:shrink-0">
-            <ArticleText value={window.body} />
-          </div>
+      <article
+        data-slot="document-content"
+        className="flex min-h-0 flex-1 flex-col overflow-y-auto lg:flex-row lg:overflow-hidden"
+      >
+        <aside className="flex shrink-0 flex-col gap-8 border-b border-paper/25 p-2 lg:w-72 lg:justify-between lg:overflow-y-auto lg:border-r lg:border-b-0">
+          <DocumentMetadata details={window.details} />
+          <ArticleText value={window.body} />
+        </aside>
+
+        <div className="min-h-0 flex-1 p-2 lg:overflow-y-auto">
+          <MediaGrid media={window.media} />
         </div>
-      </DocumentContent>
+      </article>
     );
   }
 

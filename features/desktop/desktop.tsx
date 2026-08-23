@@ -37,7 +37,7 @@ type DesktopProps = {
   navigation: SiteLink[];
   activeHref: string;
   status: ReactNode;
-  corner: DesktopEntry[];
+  cornerLinks: SiteLink[];
   content: Record<string, ReactNode>;
   files?: DesktopEntry[];
   sidebar?: SidebarEntry[];
@@ -53,7 +53,7 @@ export function Desktop({
   navigation,
   activeHref,
   status,
-  corner,
+  cornerLinks,
   content,
   files = [],
   sidebar = [],
@@ -101,7 +101,7 @@ export function Desktop({
   const hasDocument = Boolean(document);
   const isFullWidth = view === "desktop" || view === "document";
   const showDesk = view === "desktop" || !hasDocument;
-  const floating = [...files, ...corner];
+  const floating = files;
 
   return (
     <div className="relative grid h-full grid-cols-[auto_1fr] grid-rows-[2.25rem_minmax(0,1fr)] gap-x-3 lg:grid-cols-12 lg:gap-x-4">
@@ -205,14 +205,14 @@ export function Desktop({
           </FileTree>
         )}
 
-        {showDesk && corner.length > 0 && (
+        {showDesk && cornerLinks.length > 0 && (
           <FileTree className="absolute right-3 bottom-2 z-10 flex-row items-center gap-3">
-            {corner.map((item) => (
+            {cornerLinks.map((item) => (
               <FileTreeFile
-                key={item.id}
+                key={item.href}
                 variant="link"
-                active={stack.includes(item.id)}
-                onClick={() => toggle(item.id)}
+                nativeButton={false}
+                render={<Link href={item.href} />}
               >
                 {item.label}
               </FileTreeFile>

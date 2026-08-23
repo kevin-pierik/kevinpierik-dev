@@ -109,24 +109,12 @@ function toWindow(window: RawWindow): WindowDocument | null {
   };
 }
 
-export const getShell = cache(
-  async (): Promise<{ settings: Settings; corner: WindowDocument[] }> => {
-    if (!isSanityConfigured) {
-      return {
-        settings: settingsDefaults,
-        corner: windowsByPlacement("corner"),
-      };
-    }
+export const getShell = cache(async (): Promise<Settings> => {
+  if (!isSanityConfigured) return settingsDefaults;
 
-    const { data } = await sanityFetch({ query: SHELL_QUERY });
-    const corner = data.corner.flatMap((window) => toWindow(window) ?? []);
-
-    return {
-      settings: toSettings(data.settings),
-      corner: corner.length > 0 ? corner : windowsByPlacement("corner"),
-    };
-  },
-);
+  const { data } = await sanityFetch({ query: SHELL_QUERY });
+  return toSettings(data);
+});
 
 export async function getHomeWindows(): Promise<WindowDocument[]> {
   if (!isSanityConfigured) return windowsByPlacement("home");

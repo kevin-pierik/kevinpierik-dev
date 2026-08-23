@@ -955,10 +955,6 @@
             {
               "type": "string",
               "value": "standalone"
-            },
-            {
-              "type": "string",
-              "value": "corner"
             }
           ]
         },
@@ -1277,6 +1273,28 @@
         "optional": true
       },
       "social": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "array",
+          "of": {
+            "type": "object",
+            "attributes": {
+              "_key": {
+                "type": "objectAttribute",
+                "value": {
+                  "type": "string"
+                }
+              }
+            },
+            "rest": {
+              "type": "inline",
+              "name": "labelledLink"
+            }
+          }
+        },
+        "optional": true
+      },
+      "cornerLinks": {
         "type": "objectAttribute",
         "value": {
           "type": "array",

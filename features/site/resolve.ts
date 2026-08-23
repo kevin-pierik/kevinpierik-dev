@@ -18,6 +18,7 @@ export const settingsDefaults: Settings = {
   footerNote: null,
   social: siteConfig.social,
   navigation: siteConfig.navigation,
+  cornerLinks: siteConfig.cornerLinks,
 };
 
 type RawSettings = {
@@ -29,6 +30,7 @@ type RawSettings = {
   footerNote?: string | null;
   social?: { label?: string | null; href?: string | null }[] | null;
   navigation?: { label?: string | null; href?: string | null }[] | null;
+  cornerLinks?: { label?: string | null; href?: string | null }[] | null;
 } | null;
 
 export function toSettings(data: RawSettings): Settings {
@@ -43,6 +45,7 @@ export function toSettings(data: RawSettings): Settings {
     footerNote: text(data.footerNote),
     social: toLinks(data.social, settingsDefaults.social),
     navigation: toLinks(data.navigation, settingsDefaults.navigation),
+    cornerLinks: toLinks(data.cornerLinks, settingsDefaults.cornerLinks),
   };
 }
 

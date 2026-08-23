@@ -1,7 +1,6 @@
 import { DocumentIcon } from "@sanity/icons/Document";
 import { DocumentsIcon } from "@sanity/icons/Documents";
 import { FolderIcon } from "@sanity/icons/Folder";
-import { LinkIcon } from "@sanity/icons/Link";
 import { defineArrayMember, defineField, defineType } from "sanity";
 
 import { contentGroups } from "../fields/content-groups";
@@ -13,18 +12,15 @@ const placements = [
   { title: "File on the home desktop", value: "home" },
   { title: "Folder under Works", value: "project" },
   { title: "Standalone page", value: "standalone" },
-  { title: "Link in the bottom corner", value: "corner" },
 ] as const;
 
 const placementIcons = {
   home: DocumentIcon,
   project: FolderIcon,
   standalone: DocumentsIcon,
-  corner: LinkIcon,
 } as const;
 
-const isWindow = (placement?: string) =>
-  placement === "home" || placement === "corner";
+const isWindow = (placement?: string) => placement === "home";
 
 const isDocument = (placement?: string) =>
   placement === "project" || placement === "standalone";

@@ -12,6 +12,7 @@ export type Settings = {
   footerNote: string | null;
   social: SiteLink[];
   navigation: SiteLink[];
+  cornerLinks: SiteLink[];
 };
 
 export type SeoFields = {

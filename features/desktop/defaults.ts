@@ -72,9 +72,10 @@ export const defaultWindows: WindowDocument[] = [
   },
   {
     id: "privacy",
-    label: "privacy",
+    slug: "privacy",
+    label: "Privacy",
     title: "Privacy",
-    placement: "corner",
+    placement: "standalone",
     body: [
       paragraph("privacy1", "No cookies, no forms, no accounts."),
       paragraph(

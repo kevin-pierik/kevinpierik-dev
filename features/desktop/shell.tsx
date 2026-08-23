@@ -31,16 +31,6 @@ export function windowTextContent(
   );
 }
 
-export async function getShellContext(): Promise<{
-  settings: Settings;
-  corner: WindowDocument[];
-  cornerContent: Record<string, ReactNode>;
-}> {
-  const { settings, corner } = await getShell();
-
-  return {
-    settings,
-    corner,
-    cornerContent: windowTextContent(corner, settings.name),
-  };
+export async function getShellContext(): Promise<{ settings: Settings }> {
+  return { settings: await getShell() };
 }

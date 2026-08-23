@@ -20,13 +20,9 @@ const documentFields = /* groq */ `
   "file": file.asset->{ url, originalFilename }
 `;
 
-export const SHELL_QUERY = defineQuery(`{
-  "settings": *[_type == "settings" && _id == "siteSettings"][0]{ ${settingsFields} },
-  "corner": *[_type == "desktopWindow" && placement == "corner"] | order(order asc, label asc){
-    ${windowFields},
-    "body": coalesce(body, text)
-  }
-}`);
+export const SHELL_QUERY = defineQuery(`
+  *[_type == "settings" && _id == "siteSettings"][0]{ ${settingsFields} }
+`);
 
 export const HOME_WINDOWS_QUERY = defineQuery(`
   *[_type == "desktopWindow" && placement == "home"] | order(order asc, label asc){

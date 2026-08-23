@@ -14,6 +14,7 @@ export type SiteConfig = {
   email: string;
   social: SiteLink[];
   navigation: SiteLink[];
+  cornerLinks: SiteLink[];
 };
 
 const fallbackUrl =
@@ -44,4 +45,5 @@ export const siteConfig: SiteConfig = {
     { label: "Words", href: "/words" },
     { label: "About", href: "/about" },
   ],
+  cornerLinks: [{ label: "privacy", href: "/privacy" }],
 };

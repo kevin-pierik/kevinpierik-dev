@@ -1,5 +1,5 @@
 import { CogIcon } from "@sanity/icons/Cog";
-import { defineField, defineType } from "sanity";
+import { defineArrayMember, defineField, defineType } from "sanity";
 
 export const SETTINGS_ID = "siteSettings";
 
@@ -51,6 +51,15 @@ export const settings = defineType({
       type: "array",
       group: "identity",
       of: [{ type: "labelledLink" }],
+    }),
+    defineField({
+      name: "cornerLinks",
+      title: "Corner links",
+      type: "array",
+      group: "navigation",
+      description:
+        "Small links in the bottom corner of every screen, like privacy.",
+      of: [defineArrayMember({ type: "labelledLink" })],
     }),
     defineField({
       name: "navigation",

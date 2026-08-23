@@ -14,7 +14,7 @@ export async function WorksScreen({
   slug,
   fontClassName,
 }: WorksScreenProps) {
-  const [{ settings, corner, cornerContent }, projects] = await Promise.all([
+  const [{ settings }, projects] = await Promise.all([
     getShellContext(),
     getProjects(),
   ]);
@@ -34,7 +34,7 @@ export async function WorksScreen({
         activeHref="/works"
         status={<LocalTime />}
         footerNote={settings.footerNote}
-        corner={corner.map(toEntry)}
+        cornerLinks={settings.cornerLinks}
         sidebar={projects.map((project) => ({
           id: project.id,
           label: project.label,
@@ -44,7 +44,6 @@ export async function WorksScreen({
         indexHref="/works"
         document={open ? toEntry(open) : undefined}
         content={{
-          ...cornerContent,
           ...(open ? { [open.id]: <DocumentWindow window={open} /> } : {}),
         }}
       />

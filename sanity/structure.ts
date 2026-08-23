@@ -3,7 +3,6 @@ import { DocumentIcon } from "@sanity/icons/Document";
 import { DocumentTextIcon } from "@sanity/icons/DocumentText";
 import { DocumentsIcon } from "@sanity/icons/Documents";
 import { FolderIcon } from "@sanity/icons/Folder";
-import { LinkIcon } from "@sanity/icons/Link";
 import type { StructureBuilder, StructureResolver } from "sanity/structure";
 
 import { SETTINGS_ID } from "./schemas/documents/site-settings";
@@ -52,11 +51,5 @@ export const structure: StructureResolver = (S) =>
         title: "Pages",
         value: "standalone",
         icon: DocumentsIcon,
-      }),
-      S.divider(),
-      placementList(S, {
-        title: "Corner links",
-        value: "corner",
-        icon: LinkIcon,
       }),
     ]);

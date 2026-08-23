@@ -11,7 +11,7 @@ export const contentType = "image/png";
 const line = "1px solid rgba(255,255,255,0.2)";
 
 export default async function OpengraphImage() {
-  const [{ settings }, windows] = await Promise.all([
+  const [settings, windows] = await Promise.all([
     getShell(),
     getHomeWindows(),
   ]);

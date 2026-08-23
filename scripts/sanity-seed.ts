@@ -2,7 +2,6 @@ import { mkdir, writeFile } from "node:fs/promises";
 import { dirname, join } from "node:path";
 
 import { defaultWindows } from "@/features/desktop/defaults";
-import { paragraph } from "@/features/rich-text/paragraph";
 import { siteConfig } from "@/features/site/config";
 
 const target = join(process.cwd(), "seed", "content.ndjson");

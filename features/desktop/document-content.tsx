@@ -16,6 +16,21 @@ type DocumentContentProps = {
   bodyLayout?: "article" | "full";
 };
 
+export function DocumentMetadata({ details }: { details: DocumentDetail[] }) {
+  if (details.length === 0) return null;
+
+  return (
+    <dl className="grid grid-cols-[auto_1fr] gap-x-3 gap-y-1 font-mono text-[11px]/relaxed">
+      {details.map(({ label, value }) => (
+        <div key={label} className="contents">
+          <dt className="text-mist uppercase">[{label}]</dt>
+          <dd className="min-w-0 text-paper">{value}</dd>
+        </div>
+      ))}
+    </dl>
+  );
+}
+
 export function DocumentContent({
   details,
   children,

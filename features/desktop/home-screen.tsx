@@ -8,7 +8,7 @@ import {
 } from "@/features/desktop/shell";
 
 export async function HomeScreen() {
-  const [{ settings, corner, cornerContent }, files] = await Promise.all([
+  const [{ settings }, files] = await Promise.all([
     getShellContext(),
     getHomeWindows(),
   ]);
@@ -26,9 +26,8 @@ export async function HomeScreen() {
         activeHref="/"
         status={<LocalTime />}
         files={files.map(toEntry)}
-        corner={corner.map(toEntry)}
+        cornerLinks={settings.cornerLinks}
         content={{
-          ...cornerContent,
           ...windowTextContent(files, settings.name),
         }}
       />

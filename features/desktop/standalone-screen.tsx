@@ -14,7 +14,7 @@ export async function StandaloneScreen({
   page,
   fontClassName,
 }: StandaloneScreenProps) {
-  const { settings, corner, cornerContent } = await getShellContext();
+  const { settings } = await getShellContext();
 
   return (
     <main
@@ -28,11 +28,10 @@ export async function StandaloneScreen({
         navigation={settings.navigation}
         activeHref={`/${page.id}`}
         status={<LocalTime />}
-        corner={corner.map(toEntry)}
+        cornerLinks={settings.cornerLinks}
         indexHref="/"
         document={toEntry(page)}
         content={{
-          ...cornerContent,
           [page.id]: <DocumentWindow window={page} />,
         }}
       />

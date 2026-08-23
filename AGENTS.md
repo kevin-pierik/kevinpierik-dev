@@ -105,8 +105,10 @@ Useful to know:
 - `useCdn: false`. The Next data cache does the caching; the CDN would only add
   staleness on publish.
 - The content model is three types: `settings` (singleton), `desktopWindow`
-  (`placement` = `home` | `project` | `corner`) and `post`. A window with a PDF
-  renders the embed; without one it renders its portable text.
+  (`placement` = `home` | `project` | `standalone`) and `post`. A window with a
+  PDF renders the embed, one with `media` renders the two-column grid with its
+  metadata and description in the left column, and otherwise it renders its
+  portable text.
 - `<SanityLive>` and `<VisualEditing>` render **only** when
   `isSanityConfigured`. Without a project id they hammer
   `placeholder.api.sanity.io` and every failed request costs Best Practices

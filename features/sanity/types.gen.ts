@@ -171,7 +171,7 @@ export type DesktopWindow = {
   label?: string;
   title?: string;
   slug?: Slug;
-  placement?: "home" | "project" | "standalone" | "corner";
+  placement?: "home" | "project" | "standalone";
   order?: number;
   text?: WindowText;
   body?: ArticleText;
@@ -225,6 +225,11 @@ export type Settings = {
   version?: string;
   footerNote?: string;
   social?: Array<
+    {
+      _key: string;
+    } & LabelledLink
+  >;
+  cornerLinks?: Array<
     {
       _key: string;
     } & LabelledLink
@@ -364,35 +369,27 @@ export type AllSanitySchemaTypes =
 
 // Source: features/desktop/query.ts
 // Variable: SHELL_QUERY
-// Query: {  "settings": *[_type == "settings" && _id == "siteSettings"][0]{   name,  title,  description,  email,  version,  footerNote,  social[]{ label, href },  navigation[]{ label, href } },  "corner": *[_type == "desktopWindow" && placement == "corner"] | order(order asc, label asc){      _id,  label,  title,  "slug": slug.current,  placement,  order,  seo,    "body": coalesce(body, text)  }}
+// Query: *[_type == "settings" && _id == "siteSettings"][0]{   name,  title,  description,  email,  version,  footerNote,  social[]{ label, href },  navigation[]{ label, href },  cornerLinks[]{ label, href } }
 export type SHELL_QUERY_RESULT = {
-  settings: {
-    name: string | null;
-    title: string | null;
-    description: string | null;
-    email: string | null;
-    version: string | null;
-    footerNote: string | null;
-    social: Array<{
-      label: string | null;
-      href: string | null;
-    }> | null;
-    navigation: Array<{
-      label: string | null;
-      href: string | null;
-    }> | null;
-  } | null;
-  corner: Array<{
-    _id: string;
+  name: string | null;
+  title: string | null;
+  description: string | null;
+  email: string | null;
+  version: string | null;
+  footerNote: string | null;
+  social: Array<{
     label: string | null;
-    title: string | null;
-    slug: string | null;
-    placement: "corner";
-    order: number | null;
-    seo: Seo | null;
-    body: ArticleText | WindowText | null;
-  }>;
-};
+    href: string | null;
+  }> | null;
+  navigation: Array<{
+    label: string | null;
+    href: string | null;
+  }> | null;
+  cornerLinks: Array<{
+    label: string | null;
+    href: string | null;
+  }> | null;
+} | null;
 
 // Source: features/desktop/query.ts
 // Variable: HOME_WINDOWS_QUERY
@@ -416,7 +413,7 @@ export type PROJECT_WINDOWS_QUERY_RESULT = Array<{
   label: string | null;
   title: string | null;
   slug: string | null;
-  placement: "corner" | "home" | "project" | "standalone" | null;
+  placement: "home" | "project" | "standalone" | null;
   order: number | null;
   seo: Seo | null;
 }>;
@@ -429,7 +426,7 @@ export type PROJECT_WINDOW_QUERY_RESULT = {
   label: string | null;
   title: string | null;
   slug: string | null;
-  placement: "corner" | "home" | "project" | "standalone" | null;
+  placement: "home" | "project" | "standalone" | null;
   order: number | null;
   seo: Seo | null;
   body: ArticleText | WindowText | null;
@@ -457,7 +454,7 @@ export type STANDALONE_WINDOW_QUERY_RESULT = {
   label: string | null;
   title: string | null;
   slug: string | null;
-  placement: "corner" | "home" | "project" | "standalone" | null;
+  placement: "home" | "project" | "standalone" | null;
   order: number | null;
   seo: Seo | null;
   body: ArticleText | WindowText | null;
@@ -493,7 +490,7 @@ export type PROJECT_SLUGS_QUERY_RESULT = Array<{
 
 // Source: features/site/query.ts
 // Variable: SETTINGS_QUERY
-// Query: *[_type == "settings" && _id == "siteSettings"][0]{   name,  title,  description,  email,  version,  footerNote,  social[]{ label, href },  navigation[]{ label, href } }
+// Query: *[_type == "settings" && _id == "siteSettings"][0]{   name,  title,  description,  email,  version,  footerNote,  social[]{ label, href },  navigation[]{ label, href },  cornerLinks[]{ label, href } }
 export type SETTINGS_QUERY_RESULT = {
   name: string | null;
   title: string | null;
@@ -506,6 +503,10 @@ export type SETTINGS_QUERY_RESULT = {
     href: string | null;
   }> | null;
   navigation: Array<{
+    label: string | null;
+    href: string | null;
+  }> | null;
+  cornerLinks: Array<{
     label: string | null;
     href: string | null;
   }> | null;
@@ -564,14 +565,14 @@ export type POST_SLUGS_QUERY_RESULT = Array<{
 import "@sanity/client";
 declare module "@sanity/client" {
   interface SanityQueries {
-    '{\n  "settings": *[_type == "settings" && _id == "siteSettings"][0]{ \n  name,\n  title,\n  description,\n  email,\n  version,\n  footerNote,\n  social[]{ label, href },\n  navigation[]{ label, href }\n },\n  "corner": *[_type == "desktopWindow" && placement == "corner"] | order(order asc, label asc){\n    \n  _id,\n  label,\n  title,\n  "slug": slug.current,\n  placement,\n  order,\n  seo\n,\n    "body": coalesce(body, text)\n  }\n}': SHELL_QUERY_RESULT;
+    '\n  *[_type == "settings" && _id == "siteSettings"][0]{ \n  name,\n  title,\n  description,\n  email,\n  version,\n  footerNote,\n  social[]{ label, href },\n  navigation[]{ label, href },\n  cornerLinks[]{ label, href }\n }\n':
+      SHELL_QUERY_RESULT | SETTINGS_QUERY_RESULT;
     '\n  *[_type == "desktopWindow" && placement == "home"] | order(order asc, label asc){\n    \n  _id,\n  label,\n  title,\n  "slug": slug.current,\n  placement,\n  order,\n  seo\n,\n    "body": coalesce(body, text)\n  }\n': HOME_WINDOWS_QUERY_RESULT;
     '\n  *[_type == "desktopWindow" && placement == "project" && defined(slug.current)]\n    | order(order asc, label asc){ \n  _id,\n  label,\n  title,\n  "slug": slug.current,\n  placement,\n  order,\n  seo\n }\n': PROJECT_WINDOWS_QUERY_RESULT;
     '\n  *[_type == "desktopWindow" && placement == "project" && slug.current == $slug][0]{\n    \n  \n  _id,\n  label,\n  title,\n  "slug": slug.current,\n  placement,\n  order,\n  seo\n,\n  "body": coalesce(body, text),\n  details[]{ label, value },\n  media[]{ _key, alt, caption, asset },\n  "file": file.asset->{ url, originalFilename }\n\n  }\n': PROJECT_WINDOW_QUERY_RESULT;
     '\n  *[_type == "desktopWindow" && placement == "standalone" && slug.current == $slug][0]{\n    \n  \n  _id,\n  label,\n  title,\n  "slug": slug.current,\n  placement,\n  order,\n  seo\n,\n  "body": coalesce(body, text),\n  details[]{ label, value },\n  media[]{ _key, alt, caption, asset },\n  "file": file.asset->{ url, originalFilename }\n\n  }\n': STANDALONE_WINDOW_QUERY_RESULT;
     '\n  *[_type == "desktopWindow" && placement == "standalone" && defined(slug.current)]{\n    "slug": slug.current\n  }\n': STANDALONE_SLUGS_QUERY_RESULT;
     '\n  *[_type == "desktopWindow" && placement == "project" && defined(slug.current)]{\n    "slug": slug.current\n  }\n': PROJECT_SLUGS_QUERY_RESULT;
-    '\n  *[_type == "settings" && _id == "siteSettings"][0]{ \n  name,\n  title,\n  description,\n  email,\n  version,\n  footerNote,\n  social[]{ label, href },\n  navigation[]{ label, href }\n }\n': SETTINGS_QUERY_RESULT;
     '{\n  "pages": *[_type == "desktopWindow" && placement == "standalone"\n    && defined(slug.current) && seo.noIndex != true]{ "slug": slug.current, _updatedAt },\n  "windows": *[_type == "desktopWindow" && placement == "project"\n    && defined(slug.current) && seo.noIndex != true]{ "slug": slug.current, _updatedAt },\n  "posts": *[_type == "post" && defined(slug.current) && seo.noIndex != true]{\n    "slug": slug.current,\n    _updatedAt\n  }\n}': SITEMAP_QUERY_RESULT;
     '\n  *[_type == "post" && defined(slug.current)] | order(publishedAt desc){ \n  _id,\n  title,\n  "slug": slug.current,\n  excerpt,\n  publishedAt\n }\n': POSTS_QUERY_RESULT;
     '\n  *[_type == "post" && slug.current == $slug][0]{\n    \n  _id,\n  title,\n  "slug": slug.current,\n  excerpt,\n  publishedAt\n,\n    body,\n    seo\n  }\n': POST_QUERY_RESULT;
