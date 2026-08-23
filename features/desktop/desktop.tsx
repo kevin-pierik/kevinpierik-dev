@@ -118,7 +118,7 @@ export function Desktop({
       {view === "explorer" && !documentExpanded && (
         <aside
           className={cn(
-            "col-span-2 col-start-1 row-start-2 min-w-40 flex-col overflow-hidden border-x border-b border-paper/20 lg:col-start-1 lg:flex",
+            "col-span-2 col-start-1 row-start-2 min-w-40 flex-col overflow-hidden border border-paper/20 lg:col-start-1 lg:flex",
             hasDocument ? "hidden lg:flex" : "flex",
             sidebarExpanded ? "lg:col-span-12" : "lg:col-span-4",
           )}
@@ -157,14 +157,7 @@ export function Desktop({
                         isOpen ? "text-paper" : "text-mist",
                       )}
                     >
-                      <span
-                        className={cn(
-                          "relative block aspect-square overflow-hidden border transition-colors",
-                          isOpen
-                            ? "border-paper/70 bg-paper/12"
-                            : "border-paper/20 bg-paper/6 group-hover/tile:border-paper/50",
-                        )}
-                      >
+                      <span className="relative block aspect-square overflow-hidden bg-paper/6">
                         {entry.cover && (
                           <span className="absolute inset-2 flex items-center justify-center">
                             <SanityImage
@@ -215,7 +208,7 @@ export function Desktop({
 
       <section
         className={cn(
-          "relative row-start-2 overflow-hidden border-x border-b border-paper/20",
+          "relative row-start-2 overflow-hidden border border-paper/20",
           isFullWidth
             ? "col-span-2 col-start-1 lg:col-span-12"
             : hasDocument
