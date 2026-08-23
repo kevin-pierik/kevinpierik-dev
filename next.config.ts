@@ -39,12 +39,18 @@ const nextConfig: NextConfig = {
 
   async redirects() {
     return [
-      { source: "/extra", destination: "/works", permanent: true },
-      { source: "/extra/:slug", destination: "/works/:slug", permanent: true },
-      { source: "/blog", destination: "/words", permanent: true },
-      { source: "/blog/:slug", destination: "/words/:slug", permanent: true },
-      { source: "/writing", destination: "/words", permanent: true },
-      { source: "/writing/:slug", destination: "/words/:slug", permanent: true },
+      { source: "/works", destination: "/", permanent: true },
+      { source: "/works/:slug", destination: "/", permanent: true },
+      { source: "/words", destination: "/", permanent: true },
+      { source: "/words/:slug", destination: "/", permanent: true },
+      { source: "/about", destination: "/", permanent: true },
+      { source: "/privacy", destination: "/", permanent: true },
+      { source: "/extra", destination: "/", permanent: true },
+      { source: "/extra/:slug", destination: "/", permanent: true },
+      { source: "/blog", destination: "/", permanent: true },
+      { source: "/blog/:slug", destination: "/", permanent: true },
+      { source: "/writing", destination: "/", permanent: true },
+      { source: "/writing/:slug", destination: "/", permanent: true },
       { source: "/studio", destination: "/sanity-studio", permanent: false },
       {
         source: "/studio/:path*",

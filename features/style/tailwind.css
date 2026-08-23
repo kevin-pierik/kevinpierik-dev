@@ -12,6 +12,7 @@
   --color-ink-soft: #5b5a56;
   --color-mist: #dedede;
   --color-orange: #ff9100;
+  --color-signal: #df3f2f;
   --color-sand: #d6a878;
   --color-ink-deep: #181818;
   --color-bios-blue: #0000a8;
@@ -80,4 +81,3 @@
   --radius-3xl: calc(var(--radius) * 2.2);
   --radius-4xl: calc(var(--radius) * 2.6);
 }
-

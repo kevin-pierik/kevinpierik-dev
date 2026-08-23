@@ -1,19 +1,11 @@
 import type { Metadata, Viewport } from "next";
-import { draftMode } from "next/headers";
 import { Geist_Mono } from "next/font/google";
 import { SpeedInsights } from "@vercel/speed-insights/next";
-import { VisualEditing } from "next-sanity/visual-editing";
 
 import "@/features/style/global.css";
 
-import { isSanityConfigured } from "@/env";
-import { DraftModeBar } from "@/features/draft-mode";
-import { SanityLive } from "@/features/sanity/live";
 import { siteConfig } from "@/features/site/config";
-import { getSettings } from "@/features/site/resolve";
-import {
-  personStructuredData,
-} from "@/features/site/seo/structured-data";
+import { personStructuredData } from "@/features/site/seo/structured-data";
 import { JsonLd } from "@/components/json-ld";
 import { cn } from "@/features/style/utils";
 
@@ -23,88 +15,81 @@ const geistMono = Geist_Mono({
   display: "swap",
 });
 
-export async function generateMetadata(): Promise<Metadata> {
-  const settings = await getSettings();
-
-  return {
-    metadataBase: new URL(siteConfig.url),
-    title: {
-      default: settings.title,
-      template: `%s — ${settings.name}`,
-    },
-    description: settings.description,
-    applicationName: settings.name,
-    authors: [{ name: settings.name, url: siteConfig.url }],
-    creator: settings.name,
-    publisher: settings.name,
-    openGraph: {
-      type: "website",
-      siteName: settings.name,
-      locale: siteConfig.locale,
-      url: siteConfig.url,
-      title: settings.title,
-      description: settings.description,
-    },
-    twitter: {
-      card: "summary_large_image",
-      title: settings.title,
-      description: settings.description,
-    },
-    robots: {
+export const metadata: Metadata = {
+  metadataBase: new URL(siteConfig.url),
+  title: {
+    default: siteConfig.title,
+    template: `%s — ${siteConfig.name}`,
+  },
+  description: siteConfig.description,
+  applicationName: siteConfig.name,
+  authors: [{ name: siteConfig.name, url: siteConfig.url }],
+  creator: siteConfig.name,
+  publisher: siteConfig.name,
+  openGraph: {
+    type: "profile",
+    siteName: siteConfig.name,
+    locale: siteConfig.locale,
+    url: siteConfig.url,
+    title: siteConfig.title,
+    description: siteConfig.description,
+    images: [
+      {
+        url: "/og.png",
+        width: 1200,
+        height: 630,
+        alt: "Kevin Pierik — Frontend Developer in Hardenberg, NL",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: siteConfig.title,
+    description: siteConfig.description,
+    images: ["/og.png"],
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
       index: true,
       follow: true,
-      googleBot: {
-        index: true,
-        follow: true,
-        "max-image-preview": "large",
-        "max-snippet": -1,
-        "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+      "max-video-preview": -1,
+    },
+  },
+  formatDetection: { telephone: false },
+  icons: {
+    icon: [
+      {
+        url: "/icon-light.png",
+        type: "image/png",
+        media: "(prefers-color-scheme: light)",
       },
-    },
-    formatDetection: { telephone: false },
-    icons: {
-      icon: [
-        {
-          url: "/icon-light.png",
-          type: "image/png",
-          media: "(prefers-color-scheme: light)",
-        },
-        {
-          url: "/icon-dark.png",
-          type: "image/png",
-          media: "(prefers-color-scheme: dark)",
-        },
-      ],
-    },
-  };
-}
-
-export const viewport: Viewport = {
-  colorScheme: "dark",
-  themeColor: "#232323",
+      {
+        url: "/icon-dark.png",
+        type: "image/png",
+        media: "(prefers-color-scheme: dark)",
+      },
+    ],
+  },
 };
 
-export default async function SiteLayout({ children }: LayoutProps<"/">) {
-  const [{ isEnabled: isDraftMode }, settings] = await Promise.all([
-    draftMode(),
-    getSettings(),
-  ]);
+export const viewport: Viewport = {
+  colorScheme: "light",
+  themeColor: "#ffffff",
+};
 
+export default function SiteLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang={siteConfig.language}
-      className={cn("dark h-full", geistMono.variable)}
+      className={cn("h-full", geistMono.variable)}
     >
       <body className="antialiased">
-        <JsonLd data={personStructuredData(settings)} />
+        <JsonLd data={personStructuredData()} />
         {children}
-        {isDraftMode && isSanityConfigured && (
-          <>
-            <DraftModeBar />
-            <VisualEditing />
-          </>
-        )}
-        {isSanityConfigured && <SanityLive />}
         {process.env.VERCEL_ENV ? <SpeedInsights /> : null}
       </body>
     </html>
