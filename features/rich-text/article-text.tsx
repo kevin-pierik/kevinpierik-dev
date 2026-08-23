@@ -53,6 +53,65 @@ const components: PortableTextComponents = {
     ),
   },
   types: {
+    linkRow: ({ value }) => (
+      <ul className="flex flex-wrap items-center gap-x-4 gap-y-1 text-paper/45">
+        {(value?.links ?? []).map(
+          (link: { _key: string; label?: string; href?: string }) => (
+            <li key={link._key}>
+              <a
+                href={link.href}
+                draggable={false}
+                className="transition-colors hover:text-paper focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+              >
+                {link.label}
+              </a>
+            </li>
+          ),
+        )}
+      </ul>
+    ),
+    entryList: ({ value }) => (
+      <section className="flex flex-col gap-[1em]">
+        <h2 className="font-mono text-xs tracking-[0.08em] text-paper uppercase">
+          {value?.title}
+        </h2>
+        <dl className="flex flex-col gap-[0.9em]">
+          {(value?.entries ?? []).map(
+            (entry: {
+              _key: string;
+              meta?: string;
+              title?: string;
+              description?: string;
+              href?: string;
+            }) => (
+              <div key={entry._key} className="flex flex-col">
+                {entry.meta && (
+                  <dt className="font-mono text-[11px] text-paper/45">
+                    {entry.meta}
+                  </dt>
+                )}
+                <dd className="text-paper">
+                  {entry.href ? (
+                    <a
+                      href={entry.href}
+                      draggable={false}
+                      className={linkVariants()}
+                    >
+                      {entry.title}
+                    </a>
+                  ) : (
+                    entry.title
+                  )}
+                </dd>
+                {entry.description && (
+                  <dd className="text-paper/45">{entry.description}</dd>
+                )}
+              </div>
+            ),
+          )}
+        </dl>
+      </section>
+    ),
     codeBlock: ({ value }) => (
       <pre className="overflow-x-auto border border-paper/25 p-3 font-mono text-[11px]/relaxed text-mist">
         <code>{value?.code}</code>

@@ -22,6 +22,15 @@ export type Seo = {
   noIndex?: boolean;
 };
 
+export type LinkRow = {
+  _type: "linkRow";
+  links?: Array<
+    {
+      _key: string;
+    } & LabelledLink
+  >;
+};
+
 export type Link = {
   _type: "link";
   href?: string;
@@ -32,6 +41,19 @@ export type LabelledLink = {
   _type: "labelledLink";
   label?: string;
   href?: string;
+};
+
+export type EntryList = {
+  _type: "entryList";
+  title?: string;
+  entries?: Array<{
+    meta?: string;
+    title?: string;
+    description?: string;
+    href?: string;
+    _type: "entry";
+    _key: string;
+  }>;
 };
 
 export type Detail = {
@@ -105,6 +127,12 @@ export type ArticleText = Array<
   | ({
       _key: string;
     } & CodeBlock)
+  | ({
+      _key: string;
+    } & LinkRow)
+  | ({
+      _key: string;
+    } & EntryList)
 >;
 
 export type Post = {
@@ -299,8 +327,10 @@ export type Geopoint = {
 
 export type AllSanitySchemaTypes =
   | Seo
+  | LinkRow
   | Link
   | LabelledLink
+  | EntryList
   | Detail
   | CodeBlock
   | WindowText

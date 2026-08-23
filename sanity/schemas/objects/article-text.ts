@@ -45,5 +45,7 @@ export const articleText = defineType({
       ],
     }),
     defineArrayMember({ type: "codeBlock" }),
+    defineArrayMember({ type: "linkRow" }),
+    defineArrayMember({ type: "entryList" }),
   ],
 });
