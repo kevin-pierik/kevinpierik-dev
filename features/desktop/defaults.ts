@@ -14,11 +14,11 @@ export const defaultWindows: WindowDocument[] = [
     body: [
       paragraph(
         "about1",
-        `${siteConfig.name} is a frontend developer and student in Hardenberg, the Netherlands.`,
+        "I am a frontend developer and student in Hardenberg, the Netherlands.",
       ),
       paragraph(
         "about2",
-        "Find him on ",
+        "Find me on ",
         { text: "LinkedIn", href: linkedIn },
         " or ",
         { text: "get in touch directly", href: `mailto:${siteConfig.email}` },
@@ -39,7 +39,7 @@ export const defaultWindows: WindowDocument[] = [
     body: [
       paragraph(
         "page1",
-        `${siteConfig.name} is a frontend developer in Hardenberg, working at a digital agency while completing his software development studies.`,
+        "I am a frontend developer in Hardenberg, working at a digital agency while I finish my software development studies.",
       ),
       {
         _type: "linkRow",

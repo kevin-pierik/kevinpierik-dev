@@ -156,7 +156,7 @@ export function Desktop({
                     >
                       <span className="relative block aspect-square overflow-hidden bg-paper/6">
                         {entry.cover && (
-                          <span className="absolute inset-0 flex items-center justify-center">
+                          <span className="absolute inset-[7%] flex items-center justify-center">
                             <SanityImage
                               value={entry.cover}
                               sizes="(max-width: 1024px) 50vw, 40vw"
