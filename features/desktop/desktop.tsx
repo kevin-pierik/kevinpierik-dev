@@ -8,6 +8,7 @@ import { useState } from "react";
 
 import { Button } from "@/components/button";
 import { FileTree, FileTreeFile } from "@/components/file-tree";
+import { SanityImage } from "@/components/sanity-image";
 import { InfiniteDesk } from "@/features/desktop/infinite-desk";
 import type { WindowOffset } from "@/features/desktop/window-frame";
 import { WindowFrame } from "@/features/desktop/window-frame";
@@ -26,6 +27,7 @@ export type DesktopEntry = {
 };
 
 export type SidebarEntry = {
+  cover?: { alt: string; asset: { _ref?: string } } | null;
   id: string;
   label: string;
   href: string;
@@ -140,24 +142,67 @@ export function Desktop({
             </Button>
           </div>
 
-          <FileTree className="w-full gap-0">
-            {sidebar.map((entry) => {
-              const isOpen = entry.id === document?.id;
-              const FolderIcon = isOpen ? FolderOpen : Folder;
+          {sidebar.some((entry) => entry.cover) ? (
+            <ul className="grid grid-cols-2 gap-1.5 p-1.5">
+              {sidebar.map((entry) => {
+                const isOpen = entry.id === document?.id;
 
-              return (
-                <FileTreeFile
-                  key={entry.id}
-                  variant="folder"
-                  active={isOpen}
-                  render={<Link href={entry.href} />}
-                >
-                  <FolderIcon aria-hidden className="size-3" />
-                  {entry.label}
-                </FileTreeFile>
-              );
-            })}
-          </FileTree>
+                return (
+                  <li key={entry.id}>
+                    <Link
+                      href={entry.href}
+                      aria-current={isOpen ? "page" : undefined}
+                      className={cn(
+                        "group/tile flex flex-col gap-1 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+                        isOpen ? "text-paper" : "text-mist",
+                      )}
+                    >
+                      <span
+                        className={cn(
+                          "relative block aspect-square overflow-hidden border transition-colors",
+                          isOpen
+                            ? "border-paper/70 bg-paper/12"
+                            : "border-paper/20 bg-paper/6 group-hover/tile:border-paper/50",
+                        )}
+                      >
+                        {entry.cover && (
+                          <span className="absolute inset-2 flex items-center justify-center">
+                            <SanityImage
+                              value={entry.cover}
+                              sizes="(max-width: 1024px) 45vw, 8rem"
+                              className="max-h-full w-auto max-w-full object-contain"
+                            />
+                          </span>
+                        )}
+                      </span>
+                      <span className="truncate px-0.5 font-mono text-[11px]">
+                        {entry.label}
+                      </span>
+                    </Link>
+                  </li>
+                );
+              })}
+            </ul>
+          ) : (
+            <FileTree className="w-full gap-0">
+              {sidebar.map((entry) => {
+                const isOpen = entry.id === document?.id;
+                const FolderIcon = isOpen ? FolderOpen : Folder;
+
+                return (
+                  <FileTreeFile
+                    key={entry.id}
+                    variant="folder"
+                    active={isOpen}
+                    render={<Link href={entry.href} />}
+                  >
+                    <FolderIcon aria-hidden className="size-3" />
+                    {entry.label}
+                  </FileTreeFile>
+                );
+              })}
+            </FileTree>
+          )}
 
           <div className="mt-auto flex flex-col gap-1 p-2 font-mono text-[11px] text-mist">
             {footerNote && <p>{footerNote}</p>}

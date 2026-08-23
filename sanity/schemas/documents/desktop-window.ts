@@ -78,28 +78,20 @@ export const desktopWindow = defineType({
       hidden: ({ parent }) => !isDocument(parent?.placement),
     }),
     defineField({
-      name: "media",
-      title: "Media",
-      type: "array",
+      name: "cover",
+      title: "Cover image",
+      type: "image",
       group: "content",
+      options: { hotspot: true },
       description:
-        "Images and GIFs, shown as a grid. Each one keeps its own proportions inside a square tile.",
-      hidden: ({ parent }) => !isDocument(parent?.placement),
-      of: [
-        defineArrayMember({
-          type: "image",
-          options: { hotspot: true },
-          fields: [
-            defineField({
-              name: "alt",
-              title: "Alternative text",
-              type: "string",
-              description:
-                "Describe the image for screen readers and search engines.",
-              validation: (rule) => rule.required(),
-            }),
-            defineField({ name: "caption", title: "Caption", type: "string" }),
-          ],
+        "Shown as the tile in the left panel. Without one the entry falls back to a text row.",
+      hidden: ({ parent }) => parent?.placement !== "project",
+      fields: [
+        defineField({
+          name: "alt",
+          title: "Alternative text",
+          type: "string",
+          validation: (rule) => rule.required(),
         }),
       ],
     }),

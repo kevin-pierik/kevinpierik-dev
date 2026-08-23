@@ -8,18 +8,17 @@ export type DesktopItem = {
   label: string;
   title: string;
   placement: WindowPlacement;
+  cover?: WindowCover | null;
+};
+
+export type WindowCover = {
+  alt: string;
+  asset: { _ref?: string };
 };
 
 export type WindowDetail = {
   label: string;
   value: string;
-};
-
-export type WindowMedia = {
-  key: string;
-  alt: string;
-  caption: string | null;
-  asset: { _ref?: string };
 };
 
 export type WindowFile = {
@@ -31,7 +30,7 @@ export type WindowDocument = DesktopItem & {
   slug?: string;
   body: PortableTextValue;
   details: WindowDetail[];
-  media: WindowMedia[];
+  cover: WindowCover | null;
   file: WindowFile | null;
   seo: SeoFields;
 };

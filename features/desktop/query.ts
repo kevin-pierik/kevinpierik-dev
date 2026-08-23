@@ -16,7 +16,7 @@ const documentFields = /* groq */ `
   ${windowFields},
   "body": coalesce(body, text),
   details[]{ label, value },
-  media[]{ _key, alt, caption, asset },
+  cover{ alt, asset },
   "file": file.asset->{ url, originalFilename }
 `;
 
@@ -33,7 +33,7 @@ export const HOME_WINDOWS_QUERY = defineQuery(`
 
 export const PROJECT_WINDOWS_QUERY = defineQuery(`
   *[_type == "desktopWindow" && placement == "project" && defined(slug.current)]
-    | order(order asc, label asc){ ${windowFields} }
+    | order(order asc, label asc){ ${windowFields}, cover{ alt, asset } }
 `);
 
 export const PROJECT_WINDOW_QUERY = defineQuery(`

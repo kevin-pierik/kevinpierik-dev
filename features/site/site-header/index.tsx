@@ -27,11 +27,6 @@ export function SiteHeader({
 
   return (
     <>
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-x-0 top-9 z-40 border-b border-paper/15"
-      />
-
       <header
         data-slot="site-header"
         className="col-span-2 col-start-1 row-start-1 flex items-center justify-between gap-4 px-2 lg:col-span-4"

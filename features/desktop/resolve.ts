@@ -37,14 +37,7 @@ type RawWindow = {
   placement?: Nullable;
   body?: PortableTextValue;
   details?: ({ label?: Nullable; value?: Nullable } | null)[] | null;
-  media?:
-    | ({
-        _key?: string | null;
-        alt?: Nullable;
-        caption?: Nullable;
-        asset?: { _ref?: string } | null;
-      } | null)[]
-    | null;
+  cover?: { alt?: Nullable; asset?: { _ref?: string } | null } | null;
   file?: { url?: Nullable; originalFilename?: Nullable } | null;
   seo?: RawSeo;
 };
@@ -89,19 +82,12 @@ function toWindow(window: RawWindow): WindowDocument | null {
       const value = text(detail?.value);
       return label && value ? [{ label, value }] : [];
     }),
-    media: (window.media ?? []).flatMap((item) => {
-      const reference = item?.asset?._ref;
-      if (!reference) return [];
-
-      return [
-        {
-          key: item?._key ?? reference,
-          alt: text(item?.alt) ?? "",
-          caption: text(item?.caption),
-          asset: { _ref: reference },
-        },
-      ];
-    }),
+    cover: window.cover?.asset?._ref
+      ? {
+          alt: text(window.cover.alt) ?? "",
+          asset: { _ref: window.cover.asset._ref },
+        }
+      : null,
     file: url
       ? { url, name: text(window.file?.originalFilename) ?? "document.pdf" }
       : null,
@@ -129,7 +115,22 @@ export async function getProjects(): Promise<DesktopItem[]> {
   if (!isSanityConfigured) return windowsByPlacement("project");
 
   const { data } = await sanityFetch({ query: PROJECT_WINDOWS_QUERY });
-  const projects = data.flatMap((window) => toItem(window) ?? []);
+  const projects = data.flatMap((window) => {
+    const item = toItem(window);
+    if (!item) return [];
+
+    return [
+      {
+        ...item,
+        cover: window.cover?.asset?._ref
+          ? {
+              alt: text(window.cover.alt) ?? "",
+              asset: { _ref: window.cover.asset._ref },
+            }
+          : null,
+      },
+    ];
+  });
 
   return projects.length > 0 ? projects : windowsByPlacement("project");
 }

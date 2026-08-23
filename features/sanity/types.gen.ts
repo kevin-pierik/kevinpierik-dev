@@ -175,16 +175,14 @@ export type DesktopWindow = {
   order?: number;
   text?: WindowText;
   body?: ArticleText;
-  media?: Array<{
+  cover?: {
     asset?: SanityImageAssetReference;
     media?: unknown;
     hotspot?: SanityImageHotspot;
     crop?: SanityImageCrop;
     alt?: string;
-    caption?: string;
     _type: "image";
-    _key: string;
-  }>;
+  };
   details?: Array<
     {
       _key: string;
@@ -407,7 +405,7 @@ export type HOME_WINDOWS_QUERY_RESULT = Array<{
 
 // Source: features/desktop/query.ts
 // Variable: PROJECT_WINDOWS_QUERY
-// Query: *[_type == "desktopWindow" && placement == "project" && defined(slug.current)]    | order(order asc, label asc){   _id,  label,  title,  "slug": slug.current,  placement,  order,  seo }
+// Query: *[_type == "desktopWindow" && placement == "project" && defined(slug.current)]    | order(order asc, label asc){   _id,  label,  title,  "slug": slug.current,  placement,  order,  seo, cover{ alt, asset } }
 export type PROJECT_WINDOWS_QUERY_RESULT = Array<{
   _id: string;
   label: string | null;
@@ -416,11 +414,15 @@ export type PROJECT_WINDOWS_QUERY_RESULT = Array<{
   placement: "home" | "project" | "standalone" | null;
   order: number | null;
   seo: Seo | null;
+  cover: {
+    alt: string | null;
+    asset: SanityImageAssetReference | null;
+  } | null;
 }>;
 
 // Source: features/desktop/query.ts
 // Variable: PROJECT_WINDOW_QUERY
-// Query: *[_type == "desktopWindow" && placement == "project" && slug.current == $slug][0]{        _id,  label,  title,  "slug": slug.current,  placement,  order,  seo,  "body": coalesce(body, text),  details[]{ label, value },  media[]{ _key, alt, caption, asset },  "file": file.asset->{ url, originalFilename }  }
+// Query: *[_type == "desktopWindow" && placement == "project" && slug.current == $slug][0]{        _id,  label,  title,  "slug": slug.current,  placement,  order,  seo,  "body": coalesce(body, text),  details[]{ label, value },  cover{ alt, asset },  "file": file.asset->{ url, originalFilename }  }
 export type PROJECT_WINDOW_QUERY_RESULT = {
   _id: string;
   label: string | null;
@@ -434,12 +436,10 @@ export type PROJECT_WINDOW_QUERY_RESULT = {
     label: string | null;
     value: string | null;
   }> | null;
-  media: Array<{
-    _key: string;
+  cover: {
     alt: string | null;
-    caption: string | null;
     asset: SanityImageAssetReference | null;
-  }> | null;
+  } | null;
   file: {
     url: string | null;
     originalFilename: string | null;
@@ -448,7 +448,7 @@ export type PROJECT_WINDOW_QUERY_RESULT = {
 
 // Source: features/desktop/query.ts
 // Variable: STANDALONE_WINDOW_QUERY
-// Query: *[_type == "desktopWindow" && placement == "standalone" && slug.current == $slug][0]{        _id,  label,  title,  "slug": slug.current,  placement,  order,  seo,  "body": coalesce(body, text),  details[]{ label, value },  media[]{ _key, alt, caption, asset },  "file": file.asset->{ url, originalFilename }  }
+// Query: *[_type == "desktopWindow" && placement == "standalone" && slug.current == $slug][0]{        _id,  label,  title,  "slug": slug.current,  placement,  order,  seo,  "body": coalesce(body, text),  details[]{ label, value },  cover{ alt, asset },  "file": file.asset->{ url, originalFilename }  }
 export type STANDALONE_WINDOW_QUERY_RESULT = {
   _id: string;
   label: string | null;
@@ -462,12 +462,10 @@ export type STANDALONE_WINDOW_QUERY_RESULT = {
     label: string | null;
     value: string | null;
   }> | null;
-  media: Array<{
-    _key: string;
+  cover: {
     alt: string | null;
-    caption: string | null;
     asset: SanityImageAssetReference | null;
-  }> | null;
+  } | null;
   file: {
     url: string | null;
     originalFilename: string | null;
@@ -568,9 +566,9 @@ declare module "@sanity/client" {
     '\n  *[_type == "settings" && _id == "siteSettings"][0]{ \n  name,\n  title,\n  description,\n  email,\n  version,\n  footerNote,\n  social[]{ label, href },\n  navigation[]{ label, href },\n  cornerLinks[]{ label, href }\n }\n':
       SHELL_QUERY_RESULT | SETTINGS_QUERY_RESULT;
     '\n  *[_type == "desktopWindow" && placement == "home"] | order(order asc, label asc){\n    \n  _id,\n  label,\n  title,\n  "slug": slug.current,\n  placement,\n  order,\n  seo\n,\n    "body": coalesce(body, text)\n  }\n': HOME_WINDOWS_QUERY_RESULT;
-    '\n  *[_type == "desktopWindow" && placement == "project" && defined(slug.current)]\n    | order(order asc, label asc){ \n  _id,\n  label,\n  title,\n  "slug": slug.current,\n  placement,\n  order,\n  seo\n }\n': PROJECT_WINDOWS_QUERY_RESULT;
-    '\n  *[_type == "desktopWindow" && placement == "project" && slug.current == $slug][0]{\n    \n  \n  _id,\n  label,\n  title,\n  "slug": slug.current,\n  placement,\n  order,\n  seo\n,\n  "body": coalesce(body, text),\n  details[]{ label, value },\n  media[]{ _key, alt, caption, asset },\n  "file": file.asset->{ url, originalFilename }\n\n  }\n': PROJECT_WINDOW_QUERY_RESULT;
-    '\n  *[_type == "desktopWindow" && placement == "standalone" && slug.current == $slug][0]{\n    \n  \n  _id,\n  label,\n  title,\n  "slug": slug.current,\n  placement,\n  order,\n  seo\n,\n  "body": coalesce(body, text),\n  details[]{ label, value },\n  media[]{ _key, alt, caption, asset },\n  "file": file.asset->{ url, originalFilename }\n\n  }\n': STANDALONE_WINDOW_QUERY_RESULT;
+    '\n  *[_type == "desktopWindow" && placement == "project" && defined(slug.current)]\n    | order(order asc, label asc){ \n  _id,\n  label,\n  title,\n  "slug": slug.current,\n  placement,\n  order,\n  seo\n, cover{ alt, asset } }\n': PROJECT_WINDOWS_QUERY_RESULT;
+    '\n  *[_type == "desktopWindow" && placement == "project" && slug.current == $slug][0]{\n    \n  \n  _id,\n  label,\n  title,\n  "slug": slug.current,\n  placement,\n  order,\n  seo\n,\n  "body": coalesce(body, text),\n  details[]{ label, value },\n  cover{ alt, asset },\n  "file": file.asset->{ url, originalFilename }\n\n  }\n': PROJECT_WINDOW_QUERY_RESULT;
+    '\n  *[_type == "desktopWindow" && placement == "standalone" && slug.current == $slug][0]{\n    \n  \n  _id,\n  label,\n  title,\n  "slug": slug.current,\n  placement,\n  order,\n  seo\n,\n  "body": coalesce(body, text),\n  details[]{ label, value },\n  cover{ alt, asset },\n  "file": file.asset->{ url, originalFilename }\n\n  }\n': STANDALONE_WINDOW_QUERY_RESULT;
     '\n  *[_type == "desktopWindow" && placement == "standalone" && defined(slug.current)]{\n    "slug": slug.current\n  }\n': STANDALONE_SLUGS_QUERY_RESULT;
     '\n  *[_type == "desktopWindow" && placement == "project" && defined(slug.current)]{\n    "slug": slug.current\n  }\n': PROJECT_SLUGS_QUERY_RESULT;
     '{\n  "pages": *[_type == "desktopWindow" && placement == "standalone"\n    && defined(slug.current) && seo.noIndex != true]{ "slug": slug.current, _updatedAt },\n  "windows": *[_type == "desktopWindow" && placement == "project"\n    && defined(slug.current) && seo.noIndex != true]{ "slug": slug.current, _updatedAt },\n  "posts": *[_type == "post" && defined(slug.current) && seo.noIndex != true]{\n    "slug": slug.current,\n    _updatedAt\n  }\n}': SITEMAP_QUERY_RESULT;

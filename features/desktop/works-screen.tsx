@@ -10,10 +10,7 @@ type WorksScreenProps = {
   fontClassName?: string;
 };
 
-export async function WorksScreen({
-  slug,
-  fontClassName,
-}: WorksScreenProps) {
+export async function WorksScreen({ slug, fontClassName }: WorksScreenProps) {
   const [{ settings }, projects] = await Promise.all([
     getShellContext(),
     getProjects(),
@@ -39,6 +36,7 @@ export async function WorksScreen({
           id: project.id,
           label: project.label,
           href: `/works/${project.id}`,
+          cover: project.cover ?? null,
         }))}
         sidebarLabel="works"
         indexHref="/works"

@@ -106,9 +106,10 @@ Useful to know:
   staleness on publish.
 - The content model is three types: `settings` (singleton), `desktopWindow`
   (`placement` = `home` | `project` | `standalone`) and `post`. A window with a
-  PDF renders the embed, one with `media` renders the two-column grid with its
-  metadata and description in the left column, and otherwise it renders its
-  portable text.
+  PDF renders the embed and otherwise it renders its portable text, with the
+  `details` rows above it. A `project` window with a `cover` becomes an image
+  tile in the left panel instead of a text row; images _inside_ a work are
+  image blocks in its body, like a post.
 - `<SanityLive>` and `<VisualEditing>` render **only** when
   `isSanityConfigured`. Without a project id they hammer
   `placeholder.api.sanity.io` and every failed request costs Best Practices
@@ -275,6 +276,13 @@ its own route group and loads nothing on the site's routes.
 ## Images
 
 Measured against the Content Lake, not assumed:
+
+- **A tile is square, the image is not.** Consistency comes from the container:
+  `aspect-square` on the tile with `object-contain` on the image, so a 16:9
+  screenshot and a portrait shot sit in equal tiles without cropping. Sanity's
+  crop would cut parts off a UI screenshot, which is why it is not used here.
+  `aspect-ratio` is not a hard limit, so the image is absolutely positioned —
+  in the flow a portrait image stretched a 157px tile to 182px.
 
 - **Asset dimensions are in the `_ref`**: `image-<hash>-1800x1013-png`. `parseImageRef`
   reads them, so `width`/`height` need no extra query and no `metadata.dimensions`
