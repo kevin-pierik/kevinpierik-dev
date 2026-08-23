@@ -1,4 +1,4 @@
-import { getPosts } from "@/features/blog/resolve";
+import { getPosts } from "@/features/words/resolve";
 import { getProjects } from "@/features/desktop/resolve";
 import { getSitemapEntries } from "@/features/site/resolve";
 import { siteConfig } from "@/features/site/config";
@@ -22,10 +22,10 @@ export async function GET(): Promise<Response> {
     "## Pages",
     "",
     `- [Home](${siteConfig.url}): Landing page of ${settings.name}.`,
-    `- [Extra](${siteConfig.url}/extra): Additional work and documents by ${settings.name}.`,
+    `- [Works](${siteConfig.url}/works): Additional work and documents by ${settings.name}.`,
     ...projects.map(
       (project) =>
-        `- [${project.title}](${siteConfig.url}/extra/${project.id}): Document by ${settings.name}.`,
+        `- [${project.title}](${siteConfig.url}/works/${project.id}): Document by ${settings.name}.`,
     ),
   ];
 
@@ -37,10 +37,10 @@ export async function GET(): Promise<Response> {
 
   if (posts.length > 0) {
     lines.push(
-      `- [Blog](${siteConfig.url}/blog): Notes and articles by ${settings.name}.`,
+      `- [Words](${siteConfig.url}/words): Notes and articles by ${settings.name}.`,
       ...posts.map(
         (post) =>
-          `- [${post.title}](${siteConfig.url}/blog/${post.slug})${post.excerpt ? `: ${post.excerpt}` : ""}`,
+          `- [${post.title}](${siteConfig.url}/words/${post.slug})${post.excerpt ? `: ${post.excerpt}` : ""}`,
       ),
     );
   }

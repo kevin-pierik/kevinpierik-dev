@@ -1,4 +1,4 @@
-import type { PostSummary } from "@/features/blog/types";
+import type { PostSummary } from "@/features/words/types";
 import { siteConfig } from "@/features/site/config";
 import type { Settings } from "@/features/site/types";
 
@@ -48,7 +48,7 @@ export function breadcrumbStructuredData(crumbs: Crumb[]) {
 }
 
 export function blogPostingStructuredData(post: PostSummary, name: string) {
-  const url = `${siteConfig.url}/blog/${post.slug}`;
+  const url = `${siteConfig.url}/words/${post.slug}`;
 
   return {
     "@context": "https://schema.org",

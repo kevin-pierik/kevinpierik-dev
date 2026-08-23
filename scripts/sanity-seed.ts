@@ -32,7 +32,7 @@ const windows = defaultWindows.map((window, index) => ({
   _type: "desktopWindow",
   label: window.label,
   title: window.title,
-  slug: { _type: "slug", current: window.id },
+  slug: { _type: "slug", current: window.slug ?? window.id },
   placement: window.placement,
   order: (index + 1) * 10,
   ...(Array.isArray(window.body) && window.body.length > 0

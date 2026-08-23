@@ -5,15 +5,15 @@ import { getProject, getProjects } from "@/features/desktop/resolve";
 import { getShellContext, toEntry } from "@/features/desktop/shell";
 import { cn } from "@/features/style/utils";
 
-type ExtraScreenProps = {
+type WorksScreenProps = {
   slug?: string;
   fontClassName?: string;
 };
 
-export async function ExtraScreen({
+export async function WorksScreen({
   slug,
   fontClassName,
-}: ExtraScreenProps) {
+}: WorksScreenProps) {
   const [{ settings, corner, cornerContent }, projects] = await Promise.all([
     getShellContext(),
     getProjects(),
@@ -24,24 +24,24 @@ export async function ExtraScreen({
   return (
     <main
       id="main"
-      data-slot="extra-desktop"
+      data-slot="works-desktop"
       className={cn("h-svh bg-background px-1.5 pb-1.5", fontClassName)}
     >
       <Desktop
         view="explorer"
         name={settings.name}
         navigation={settings.navigation}
-        activeHref="/extra"
+        activeHref="/works"
         status={<LocalTime />}
         footerNote={settings.footerNote}
         corner={corner.map(toEntry)}
         sidebar={projects.map((project) => ({
           id: project.id,
           label: project.label,
-          href: `/extra/${project.id}`,
+          href: `/works/${project.id}`,
         }))}
-        sidebarLabel="extra"
-        indexHref="/extra"
+        sidebarLabel="works"
+        indexHref="/works"
         document={open ? toEntry(open) : undefined}
         content={{
           ...cornerContent,

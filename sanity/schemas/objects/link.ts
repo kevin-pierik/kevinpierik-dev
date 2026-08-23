@@ -12,7 +12,7 @@ export const link = defineType({
       title: "URL",
       type: "string",
       description:
-        "An absolute URL (https://…), a mailto:/tel: address, or a path on this site (/extra).",
+        "An absolute URL (https://…), a mailto:/tel: address, or a path on this site (/works).",
       validation: (rule) =>
         rule
           .required()

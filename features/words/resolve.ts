@@ -7,8 +7,8 @@ import {
   POST_QUERY,
   POST_SLUGS_QUERY,
   POSTS_QUERY,
-} from "@/features/blog/query";
-import type { Post, PostSummary } from "@/features/blog/types";
+} from "@/features/words/query";
+import type { Post, PostSummary } from "@/features/words/types";
 import { sanityFetch } from "@/features/sanity/live";
 import {
   type Nullable,

@@ -42,7 +42,7 @@ export const settings = defineType({
       type: "string",
       group: "identity",
       description:
-        "One short line shown above the copyright in the sidebar of Extra and Blog. Leave empty to hide it.",
+        "One short line shown above the copyright in the sidebar of Works and Words. Leave empty to hide it.",
       validation: (rule) => rule.max(80),
     }),
     defineField({

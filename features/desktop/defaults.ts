@@ -30,6 +30,44 @@ export const defaultWindows: WindowDocument[] = [
     seo: emptySeo,
   },
   {
+    id: "about-page",
+    slug: "about",
+    label: "About",
+    title: "About",
+    placement: "standalone",
+    body: [
+      paragraph(
+        "page1",
+        `${siteConfig.name} is a frontend developer in Hardenberg, working at a digital agency while completing his software development studies.`,
+      ),
+      {
+        _type: "linkRow",
+        _key: "links",
+        links: [
+          { _key: "email", _type: "labelledLink", label: "Email", href: `mailto:${siteConfig.email}` },
+          { _key: "linkedin", _type: "labelledLink", label: "LinkedIn", href: linkedIn },
+        ],
+      },
+      {
+        _type: "entryList",
+        _key: "work",
+        title: "Work",
+        entries: [
+          {
+            _key: "friday",
+            _type: "entry",
+            meta: "2025-",
+            title: "Friday",
+            description: "Frontend developer",
+          },
+        ],
+      },
+    ],
+    details: [],
+    file: null,
+    seo: emptySeo,
+  },
+  {
     id: "curriculum-vitae",
     label: "Curriculum Vitae",
     title: "Curriculum Vitae",

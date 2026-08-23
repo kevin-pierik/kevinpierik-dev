@@ -15,7 +15,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 1,
     },
     {
-      url: `${siteConfig.url}/extra`,
+      url: `${siteConfig.url}/works`,
       lastModified: now,
       changeFrequency: "monthly",
       priority: 0.8,
@@ -23,7 +23,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   ];
 
   routes.push({
-    url: `${siteConfig.url}/blog`,
+    url: `${siteConfig.url}/words`,
     lastModified: now,
     changeFrequency: "weekly",
     priority: 0.8,
@@ -44,7 +44,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     if (!window.slug) continue;
 
     routes.push({
-      url: `${siteConfig.url}/extra/${window.slug}`,
+      url: `${siteConfig.url}/works/${window.slug}`,
       lastModified: new Date(window._updatedAt),
       changeFrequency: "monthly",
       priority: 0.7,
@@ -55,7 +55,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     if (!post.slug) continue;
 
     routes.push({
-      url: `${siteConfig.url}/blog/${post.slug}`,
+      url: `${siteConfig.url}/words/${post.slug}`,
       lastModified: new Date(post._updatedAt),
       changeFrequency: "monthly",
       priority: 0.6,

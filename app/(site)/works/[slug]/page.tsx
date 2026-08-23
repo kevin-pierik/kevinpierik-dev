@@ -1,7 +1,7 @@
 import type { Metadata, ResolvingMetadata } from "next";
 import { notFound } from "next/navigation";
 
-import { ExtraScreen } from "@/features/desktop/extra-screen";
+import { WorksScreen } from "@/features/desktop/works-screen";
 import { readingFont } from "@/features/desktop/reading-font";
 import { getProject, getProjectSlugs } from "@/features/desktop/resolve";
 import { JsonLd } from "@/components/json-ld";
@@ -15,7 +15,7 @@ export async function generateStaticParams() {
 }
 
 export async function generateMetadata(
-  { params }: PageProps<"/extra/[slug]">,
+  { params }: PageProps<"/works/[slug]">,
   parent: ResolvingMetadata,
 ): Promise<Metadata> {
   const { slug } = await params;
@@ -25,15 +25,15 @@ export async function generateMetadata(
   return {
     title: project.seo.metaTitle ?? project.title,
     description: project.seo.metaDescription ?? undefined,
-    alternates: { canonical: `/extra/${slug}` },
-    openGraph: { ...(await parent).openGraph, url: `/extra/${slug}` },
+    alternates: { canonical: `/works/${slug}` },
+    openGraph: { ...(await parent).openGraph, url: `/works/${slug}` },
     robots: robotsFor(project.seo),
   };
 }
 
 export default async function ProjectPage({
   params,
-}: PageProps<"/extra/[slug]">) {
+}: PageProps<"/works/[slug]">) {
   const { slug } = await params;
   const project = await getProject(slug);
   if (!project) notFound();
@@ -42,10 +42,10 @@ export default async function ProjectPage({
     <>
       <JsonLd data={breadcrumbStructuredData([
               { name: "Home", href: "/" },
-              { name: "Extra", href: "/extra" },
-              { name: project.title, href: `/extra/${slug}` },
+              { name: "Works", href: "/works" },
+              { name: project.title, href: `/works/${slug}` },
             ])} />
-      <ExtraScreen slug={slug} fontClassName={readingFont.variable} />
+      <WorksScreen slug={slug} fontClassName={readingFont.variable} />
     </>
   );
 }

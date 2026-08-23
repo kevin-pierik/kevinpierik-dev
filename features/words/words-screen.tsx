@@ -1,16 +1,16 @@
-import { PostWindow } from "@/features/blog/post-window";
-import { getPost, getPosts } from "@/features/blog/resolve";
+import { PostWindow } from "@/features/words/post-window";
+import { getPost, getPosts } from "@/features/words/resolve";
 import { Desktop } from "@/features/desktop/desktop";
 import { LocalTime } from "@/features/desktop/local-time";
 import { getShellContext, toEntry } from "@/features/desktop/shell";
 import { cn } from "@/features/style/utils";
 
-type BlogScreenProps = {
+type WordsScreenProps = {
   slug?: string;
   fontClassName?: string;
 };
 
-export async function BlogScreen({ slug, fontClassName }: BlogScreenProps) {
+export async function WordsScreen({ slug, fontClassName }: WordsScreenProps) {
   const [{ settings, corner, cornerContent }, posts] = await Promise.all([
     getShellContext(),
     getPosts(),
@@ -21,24 +21,24 @@ export async function BlogScreen({ slug, fontClassName }: BlogScreenProps) {
   return (
     <main
       id="main"
-      data-slot="blog-desktop"
+      data-slot="words-desktop"
       className={cn("h-svh bg-background px-1.5 pb-1.5", fontClassName)}
     >
       <Desktop
         view="explorer"
         name={settings.name}
         navigation={settings.navigation}
-        activeHref="/blog"
+        activeHref="/words"
         status={<LocalTime />}
         footerNote={settings.footerNote}
         corner={corner.map(toEntry)}
         sidebar={posts.map((post) => ({
           id: post.slug,
           label: post.title,
-          href: `/blog/${post.slug}`,
+          href: `/words/${post.slug}`,
         }))}
-        sidebarLabel="blog"
-        indexHref="/blog"
+        sidebarLabel="words"
+        indexHref="/words"
         document={
           open
             ? { id: open.slug, label: open.title, title: open.title }

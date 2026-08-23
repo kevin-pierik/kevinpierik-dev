@@ -1,11 +1,7 @@
 import type { PortableTextValue } from "@/features/rich-text/types";
 import type { SeoFields } from "@/features/site/types";
 
-export type WindowPlacement =
-  | "home"
-  | "project"
-  | "standalone"
-  | "corner";
+export type WindowPlacement = "home" | "project" | "standalone" | "corner";
 
 export type DesktopItem = {
   id: string;
@@ -25,6 +21,7 @@ export type WindowFile = {
 };
 
 export type WindowDocument = DesktopItem & {
+  slug?: string;
   body: PortableTextValue;
   details: WindowDetail[];
   file: WindowFile | null;

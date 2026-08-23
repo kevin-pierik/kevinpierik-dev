@@ -1,8 +1,8 @@
 import type { Metadata, ResolvingMetadata } from "next";
 import { notFound } from "next/navigation";
 
-import { getPost, getPostSlugs } from "@/features/blog/resolve";
-import { BlogScreen } from "@/features/blog/blog-screen";
+import { getPost, getPostSlugs } from "@/features/words/resolve";
+import { WordsScreen } from "@/features/words/words-screen";
 import { readingFont } from "@/features/desktop/reading-font";
 import { JsonLd } from "@/components/json-ld";
 import { getSettings } from "@/features/site/resolve";
@@ -17,7 +17,7 @@ export async function generateStaticParams() {
 }
 
 export async function generateMetadata(
-  { params }: PageProps<"/blog/[slug]">,
+  { params }: PageProps<"/words/[slug]">,
   parent: ResolvingMetadata,
 ): Promise<Metadata> {
   const { slug } = await params;
@@ -27,7 +27,7 @@ export async function generateMetadata(
   return {
     title: post.seo.metaTitle ?? post.title,
     description: post.seo.metaDescription ?? post.excerpt ?? undefined,
-    alternates: { canonical: `/blog/${slug}` },
+    alternates: { canonical: `/words/${slug}` },
     robots: robotsFor(post.seo),
     openGraph: {
       ...(await parent).openGraph,
@@ -35,14 +35,14 @@ export async function generateMetadata(
       title: post.seo.metaTitle ?? post.title,
       description: post.seo.metaDescription ?? post.excerpt ?? undefined,
       publishedTime: post.publishedAt || undefined,
-      url: `/blog/${slug}`,
+      url: `/words/${slug}`,
     },
   };
 }
 
 export default async function PostPage({
   params,
-}: PageProps<"/blog/[slug]">) {
+}: PageProps<"/words/[slug]">) {
   const { slug } = await params;
   const [post, settings] = await Promise.all([getPost(slug), getSettings()]);
   if (!post) notFound();
@@ -53,13 +53,13 @@ export default async function PostPage({
         data={[
           breadcrumbStructuredData([
             { name: "Home", href: "/" },
-            { name: "Blog", href: "/blog" },
-            { name: post.title, href: `/blog/${slug}` },
+            { name: "Words", href: "/words" },
+            { name: post.title, href: `/words/${slug}` },
           ]),
           blogPostingStructuredData(post, settings.name),
         ]}
       />
-      <BlogScreen slug={slug} fontClassName={readingFont.variable} />
+      <WordsScreen slug={slug} fontClassName={readingFont.variable} />
     </>
   );
 }

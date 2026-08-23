@@ -11,7 +11,7 @@ import { createSlugField } from "../fields/create-slug-field";
 
 const placements = [
   { title: "File on the home desktop", value: "home" },
-  { title: "Folder under Extra", value: "project" },
+  { title: "Folder under Works", value: "project" },
   { title: "Standalone page", value: "standalone" },
   { title: "Link in the bottom corner", value: "corner" },
 ] as const;

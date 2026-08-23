@@ -1,6 +1,6 @@
-import { formatDate } from "@/features/blog/format-date";
-import { readingTime } from "@/features/blog/reading-time";
-import type { Post } from "@/features/blog/types";
+import { formatDate } from "@/features/words/format-date";
+import { readingTime } from "@/features/words/reading-time";
+import type { Post } from "@/features/words/types";
 import { DocumentContent } from "@/features/desktop/document-content";
 import { ArticleText } from "@/features/rich-text/article-text";
 

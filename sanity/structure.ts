@@ -46,8 +46,8 @@ export const structure: StructureResolver = (S) =>
         .child(S.document().schemaType("settings").documentId(SETTINGS_ID)),
       S.divider(),
       placementList(S, { title: "Home", value: "home", icon: DocumentIcon }),
-      S.documentTypeListItem("post").title("Blog").icon(DocumentTextIcon),
-      placementList(S, { title: "Extra", value: "project", icon: FolderIcon }),
+      S.documentTypeListItem("post").title("Words").icon(DocumentTextIcon),
+      placementList(S, { title: "Works", value: "project", icon: FolderIcon }),
       placementList(S, {
         title: "Pages",
         value: "standalone",
