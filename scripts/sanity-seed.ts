@@ -59,27 +59,7 @@ const windows = defaultWindows.map((window, index) => ({
     : {}),
 }));
 
-const post = {
-  _id: "post-first-post",
-  _type: "post",
-  title: "First post",
-  slug: { _type: "slug", current: "first-post" },
-  publishedAt: "2026-08-21T09:00:00.000Z",
-  excerpt:
-    "A placeholder so the Writing screen has something to show. Rewrite or delete it in the Studio.",
-  body: [
-    paragraph(
-      "seedpost1",
-      "Every window on this site is a document in Sanity. Open the Studio, edit the text, and the screen updates.",
-    ),
-    paragraph(
-      "seedpost2",
-      "This post exists so the Writing screen is not empty on the first run. Rewrite it, or delete it and write your own.",
-    ),
-  ],
-};
-
-const documents = [settings, ...windows, post];
+const documents = [settings, ...windows];
 const ndjson = `${documents.map((doc) => JSON.stringify(doc)).join("\n")}\n`;
 
 await mkdir(dirname(target), { recursive: true });

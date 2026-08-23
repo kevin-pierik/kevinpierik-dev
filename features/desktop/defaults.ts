@@ -47,6 +47,7 @@ export const defaultWindows: WindowDocument[] = [
         links: [
           { _key: "email", _type: "labelledLink", label: "Email", href: `mailto:${siteConfig.email}` },
           { _key: "linkedin", _type: "labelledLink", label: "LinkedIn", href: linkedIn },
+          { _key: "resume", _type: "labelledLink", label: "PDF resume", href: "/files/kevin-pierik.pdf" },
         ],
       },
       {
@@ -67,25 +68,6 @@ export const defaultWindows: WindowDocument[] = [
     details: [],
     media: [],
     file: null,
-    seo: emptySeo,
-  },
-  {
-    id: "curriculum-vitae",
-    label: "Curriculum Vitae",
-    title: "Curriculum Vitae",
-    placement: "project",
-    body: [],
-    details: [
-      { label: "AUTHOR", value: siteConfig.name },
-      { label: "UPDATED", value: "20 August 2026" },
-      { label: "PAGES", value: "1" },
-      {
-        label: "ABOUT",
-        value: "Experience, education, and skills in frontend development.",
-      },
-    ],
-    media: [],
-    file: { url: "/files/kevin-pierik.pdf", name: "kevin-pierik.pdf" },
     seo: emptySeo,
   },
   {
