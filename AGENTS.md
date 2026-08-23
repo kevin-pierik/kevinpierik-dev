@@ -162,9 +162,17 @@ image.
 A work with `pieces` opens as a scatter instead of a document: the images sit
 loose on the desk, so they pan and zoom with the grid because they are children
 of `InfiniteDesk`. Clicking one opens a fullscreen modal with the image, its meta
-and its note — Escape closes it and focus returns to the trigger. Positions come
-from the index, never from `Math.random`, or server and client would disagree
-and hydration would fail.
+and its note — Escape closes it and focus returns to the trigger. Positions are random per load, which forces two things. They are set in an effect
+after mount, never during render, or the server and client would disagree and
+hydration would fail — hence the `set-state-in-effect` disable. And the pieces
+are therefore absent from the prerendered html: they appear a frame after load,
+and a piece can land outside the first viewport, which is what panning is for.
+
+The field tiles: `InfiniteDesk` takes a `tile` and wraps its translate modulo
+that size, the same trick the background grid uses, while the scatter renders a
+three by three block of copies around the middle one. So panning never runs out.
+Only the middle copy is reachable by keyboard; the eight others are `aria-hidden`
+with `tabIndex={-1}`.
 
 A work **without** a cover renders as a bordered card with its title and the
 number of entries in its list, and it is pinned below the loop instead of

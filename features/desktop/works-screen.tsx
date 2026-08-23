@@ -19,7 +19,7 @@ export async function WorksScreen({ slug, fontClassName }: WorksScreenProps) {
   const open = slug ? await getProject(slug) : null;
   const pieces = open?.pieces ?? [];
   const scattered = pieces.length > 0;
-  const widths = [18, 13, 22, 15, 20];
+  const widths = [26, 14, 36, 19, 30, 16];
 
   return (
     <main

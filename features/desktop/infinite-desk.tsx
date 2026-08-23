@@ -5,6 +5,7 @@ import { useEffect, useRef } from "react";
 
 type InfiniteDeskProps = {
   children?: ReactNode;
+  tile?: { width: number; height: number };
 };
 
 type Motion = {
@@ -31,7 +32,7 @@ const ZOOM_STEP = 1.12;
 const clampScale = (value: number) =>
   Math.min(MAX_SCALE, Math.max(MIN_SCALE, value));
 
-export function InfiniteDesk({ children }: InfiniteDeskProps) {
+export function InfiniteDesk({ children, tile }: InfiniteDeskProps) {
   const viewport = useRef<HTMLDivElement>(null);
   const surface = useRef<HTMLDivElement>(null);
   const world = useRef<HTMLDivElement>(null);
@@ -83,7 +84,15 @@ export function InfiniteDesk({ children }: InfiniteDeskProps) {
       const gridY = ((motion.y % cell) + cell) % cell;
       backgroundElement.style.backgroundSize = `${cell}px ${cell}px`;
       backgroundElement.style.backgroundPosition = `${gridX}px ${gridY}px`;
-      worldElement.style.transform = `translate3d(${motion.x}px, ${motion.y}px, 0) scale(${motion.scale})`;
+      if (tile) {
+        const spanX = tile.width * motion.scale;
+        const spanY = tile.height * motion.scale;
+        const wrappedX = (((motion.x % spanX) + spanX) % spanX) - spanX;
+        const wrappedY = (((motion.y % spanY) + spanY) % spanY) - spanY;
+        worldElement.style.transform = `translate3d(${wrappedX}px, ${wrappedY}px, 0) scale(${motion.scale})`;
+      } else {
+        worldElement.style.transform = `translate3d(${motion.x}px, ${motion.y}px, 0) scale(${motion.scale})`;
+      }
       zoomLabel.value = `${Math.round(motion.scale * 100)}%`;
     }
 
@@ -291,7 +300,7 @@ export function InfiniteDesk({ children }: InfiniteDeskProps) {
       window.clearTimeout(hideTimer);
       if (frameId) cancelAnimationFrame(frameId);
     };
-  }, []);
+  }, [tile]);
 
   return (
     <div

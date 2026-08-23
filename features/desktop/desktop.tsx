@@ -4,7 +4,7 @@ import { File, Folder, FolderOpen, Minus, Plus } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import type { ReactNode } from "react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { Button } from "@/components/button";
 import { FileTree, FileTreeFile } from "@/components/file-tree";
@@ -27,6 +27,20 @@ export type DesktopEntry = {
   label: string;
   title: string;
 };
+
+const SCATTER_TILE = { width: 1100, height: 760 };
+const SCATTER_WIDTH = 24;
+const COPIES: [number, number][] = [
+  [-1, -1],
+  [0, -1],
+  [1, -1],
+  [-1, 0],
+  [0, 0],
+  [1, 0],
+  [-1, 1],
+  [0, 1],
+  [1, 1],
+];
 
 export type ScatterItem = {
   id: string;
@@ -86,6 +100,21 @@ export function Desktop({
   const [sidebarExpanded, setSidebarExpanded] = useState(false);
   const [documentExpanded, setDocumentExpanded] = useState(false);
   const [openPiece, setOpenPiece] = useState<string | null>(null);
+  const [spots, setSpots] = useState<{ x: number; y: number }[] | null>(null);
+
+  const pieceCount = scatter.length;
+
+  useEffect(() => {
+    if (pieceCount === 0) return;
+
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setSpots(
+      Array.from({ length: pieceCount }, () => ({
+        x: Math.random() * SCATTER_TILE.width,
+        y: Math.random() * SCATTER_TILE.height,
+      })),
+    );
+  }, [pieceCount]);
 
   function toggle(id: string) {
     setStack((previous) =>
@@ -204,35 +233,48 @@ export function Desktop({
         )}
       >
         {showDesk && (
-          <InfiniteDesk>
-            {scattered && (
-              <ul className="absolute top-1/2 left-1/2 z-10">
-                {scatter.map((item, index) => {
-                  const x = ((index * 13) % 33) - 16;
-                  const y = ((index * 17) % 23) - 11;
+          <InfiniteDesk tile={scattered ? SCATTER_TILE : undefined}>
+            {scattered && spots && (
+              <ul
+                className="absolute top-0 left-0"
+                style={{
+                  width: SCATTER_TILE.width,
+                  height: SCATTER_TILE.height,
+                }}
+              >
+                {COPIES.flatMap(([column, row]) =>
+                  scatter.map((item, index) => {
+                    const spot = spots[index];
+                    const middle = column === 0 && row === 0;
 
-                  return (
-                    <li
-                      key={item.id}
-                      className="absolute -translate-x-1/2 -translate-y-1/2"
-                      style={{ left: `${x}rem`, top: `${y}rem` }}
-                    >
-                      <button
-                        type="button"
-                        onClick={() => setOpenPiece(item.id)}
-                        style={{ width: `${item.width}rem` }}
-                        className="block cursor-zoom-in focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+                    return (
+                      <li
+                        key={`${column}.${row}.${item.id}`}
+                        aria-hidden={middle ? undefined : true}
+                        className="absolute -translate-x-1/2 -translate-y-1/2"
+                        style={{
+                          left: spot.x + column * SCATTER_TILE.width,
+                          top: spot.y + row * SCATTER_TILE.height,
+                        }}
                       >
-                        <SanityImage
-                          value={item.image}
-                          sizes="20rem"
-                          className="w-full"
-                        />
-                        <span className="sr-only">{item.label}</span>
-                      </button>
-                    </li>
-                  );
-                })}
+                        <button
+                          type="button"
+                          tabIndex={middle ? undefined : -1}
+                          onClick={() => setOpenPiece(item.id)}
+                          style={{ width: `${SCATTER_WIDTH}rem` }}
+                          className="block cursor-zoom-in focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+                        >
+                          <SanityImage
+                            value={item.image}
+                            sizes={`${SCATTER_WIDTH * 2}rem`}
+                            className="w-full"
+                          />
+                          <span className="sr-only">{item.label}</span>
+                        </button>
+                      </li>
+                    );
+                  }),
+                )}
               </ul>
             )}
           </InfiniteDesk>
