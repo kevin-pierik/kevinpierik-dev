@@ -33,7 +33,11 @@ export const HOME_WINDOWS_QUERY = defineQuery(`
 
 export const PROJECT_WINDOWS_QUERY = defineQuery(`
   *[_type == "desktopWindow" && placement == "project" && defined(slug.current)]
-    | order(order asc, label asc){ ${windowFields}, cover{ alt, asset } }
+    | order(order asc, label asc){
+      ${windowFields},
+      cover{ alt, asset },
+      "itemCount": count(body[_type == "entryList"][0].entries)
+    }
 `);
 
 export const PROJECT_WINDOW_QUERY = defineQuery(`

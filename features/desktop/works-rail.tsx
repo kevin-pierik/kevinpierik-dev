@@ -5,11 +5,60 @@ import { useEffect, useRef, useState } from "react";
 
 import { SanityImage } from "@/components/sanity-image";
 import type { SidebarEntry } from "@/features/desktop/desktop";
+import { cn } from "@/features/style/utils";
 
 const COLUMNS = 2;
 
 const greatestCommonDivisor = (a: number, b: number): number =>
   b === 0 ? a : greatestCommonDivisor(b, a % b);
+
+type TileProps = {
+  entry: SidebarEntry;
+  active: boolean;
+  reachable: boolean;
+};
+
+export function WorkTile({ entry, active, reachable }: TileProps) {
+  return (
+    <Link
+      href={entry.href}
+      tabIndex={reachable ? undefined : -1}
+      aria-current={reachable && active ? "page" : undefined}
+      className="block focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+    >
+      {entry.cover ? (
+        <span className="relative block aspect-square overflow-hidden bg-paper/6">
+          <span className="absolute inset-[7%] flex items-center justify-center">
+            <SanityImage
+              value={entry.cover}
+              sizes="(max-width: 1024px) 50vw, 40vw"
+              className="h-full w-full object-contain"
+            />
+          </span>
+          <span className="sr-only">{entry.label}</span>
+        </span>
+      ) : (
+        <span
+          className={cn(
+            "flex aspect-square flex-col items-center justify-center gap-1 border px-3 text-center transition-colors",
+            active
+              ? "border-paper/60"
+              : "border-paper/25 hover:border-paper/50",
+          )}
+        >
+          <span className="text-[1.15em]/[1.2] font-semibold text-paper">
+            {entry.label}
+          </span>
+          {entry.itemCount ? (
+            <span className="font-mono text-[11px] text-mist/60">
+              {entry.itemCount} {entry.itemCount === 1 ? "item" : "items"}
+            </span>
+          ) : null}
+        </span>
+      )}
+    </Link>
+  );
+}
 
 type WorksRailProps = {
   entries: SidebarEntry[];
@@ -88,27 +137,11 @@ export function WorksRail({ entries, activeId }: WorksRailProps) {
                   key={`${unit}-${cell}`}
                   aria-hidden={primary ? undefined : true}
                 >
-                  <Link
-                    href={entry.href}
-                    tabIndex={primary ? undefined : -1}
-                    aria-current={
-                      primary && entry.id === activeId ? "page" : undefined
-                    }
-                    className="block focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
-                  >
-                    <span className="relative block aspect-square overflow-hidden bg-paper/6">
-                      {entry.cover && (
-                        <span className="absolute inset-[7%] flex items-center justify-center">
-                          <SanityImage
-                            value={entry.cover}
-                            sizes="(max-width: 1024px) 50vw, 40vw"
-                            className="h-full w-full object-contain"
-                          />
-                        </span>
-                      )}
-                    </span>
-                    <span className="sr-only">{entry.label}</span>
-                  </Link>
+                  <WorkTile
+                    entry={entry}
+                    active={entry.id === activeId}
+                    reachable={primary}
+                  />
                 </li>
               );
             })}

@@ -37,6 +37,7 @@ export async function WorksScreen({ slug, fontClassName }: WorksScreenProps) {
           label: project.label,
           href: `/works/${project.id}`,
           cover: project.cover ?? null,
+          itemCount: project.itemCount ?? 0,
         }))}
         sidebarLabel="works"
         indexHref="/works"

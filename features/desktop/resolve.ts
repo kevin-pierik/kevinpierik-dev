@@ -128,6 +128,7 @@ export async function getProjects(): Promise<DesktopItem[]> {
               asset: { _ref: window.cover.asset._ref },
             }
           : null,
+        itemCount: window.itemCount ?? 0,
       },
     ];
   });

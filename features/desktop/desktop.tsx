@@ -9,7 +9,7 @@ import { useState } from "react";
 import { Button } from "@/components/button";
 import { FileTree, FileTreeFile } from "@/components/file-tree";
 import { InfiniteDesk } from "@/features/desktop/infinite-desk";
-import { WorksRail } from "@/features/desktop/works-rail";
+import { WorkTile, WorksRail } from "@/features/desktop/works-rail";
 import type { WindowOffset } from "@/features/desktop/window-frame";
 import { WindowFrame } from "@/features/desktop/window-frame";
 import { SiteHeader } from "@/features/site/site-header";
@@ -28,6 +28,7 @@ export type DesktopEntry = {
 
 export type SidebarEntry = {
   cover?: { alt: string; asset: { _ref?: string } } | null;
+  itemCount?: number;
   id: string;
   label: string;
   href: string;
@@ -70,6 +71,8 @@ export function Desktop({
   );
   const [offsets, setOffsets] = useState<Record<string, WindowOffset>>({});
   const [sidebarExpanded, setSidebarExpanded] = useState(false);
+  const pinned = sidebar.filter((entry) => !entry.cover);
+  const looping = sidebar.filter((entry) => entry.cover);
   const [documentExpanded, setDocumentExpanded] = useState(false);
 
   function toggle(id: string) {
@@ -142,8 +145,8 @@ export function Desktop({
             </Button>
           </div>
 
-          {sidebar.some((entry) => entry.cover) ? (
-            <WorksRail entries={sidebar} activeId={document?.id} />
+          {looping.length > 0 ? (
+            <WorksRail entries={looping} activeId={document?.id} />
           ) : (
             <FileTree className="w-full gap-0">
               {sidebar.map((entry) => {
@@ -163,6 +166,20 @@ export function Desktop({
                 );
               })}
             </FileTree>
+          )}
+
+          {pinned.length > 0 && (
+            <ul className="grid shrink-0 grid-cols-2 gap-1.5 border-t border-paper/20 p-1.5">
+              {pinned.map((entry) => (
+                <li key={entry.id}>
+                  <WorkTile
+                    entry={entry}
+                    active={entry.id === document?.id}
+                    reachable
+                  />
+                </li>
+              ))}
+            </ul>
           )}
 
           <div className="mt-auto flex flex-col gap-1 p-2 font-mono text-[11px] text-mist">

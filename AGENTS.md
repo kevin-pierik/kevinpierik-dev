@@ -159,6 +159,13 @@ the DOM stays proportional to the number of works instead of how far you scrolle
 — fourteen tiles for one work, and one network request because they share an
 image.
 
+A work **without** a cover renders as a bordered card with its title and the
+number of entries in its list, and it is pinned below the loop instead of
+cycling in it — an endless list has no last position, so "always last" only
+means anything outside the loop. That is how Extra works: one `desktopWindow`
+with an `entryList` in its body, so the small pieces are content, not a second
+document type. Adding one is a row in the Studio.
+
 A repeat unit is a whole number of grid rows, `lcm(columns, works) / columns`, or
 a single work would fill one cell and leave the other column empty. The pitch is
 measured as the distance between two units so the gap between them counts. Only

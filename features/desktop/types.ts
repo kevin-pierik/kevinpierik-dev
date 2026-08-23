@@ -9,6 +9,7 @@ export type DesktopItem = {
   title: string;
   placement: WindowPlacement;
   cover?: WindowCover | null;
+  itemCount?: number;
 };
 
 export type WindowCover = {

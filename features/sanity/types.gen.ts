@@ -405,7 +405,7 @@ export type HOME_WINDOWS_QUERY_RESULT = Array<{
 
 // Source: features/desktop/query.ts
 // Variable: PROJECT_WINDOWS_QUERY
-// Query: *[_type == "desktopWindow" && placement == "project" && defined(slug.current)]    | order(order asc, label asc){   _id,  label,  title,  "slug": slug.current,  placement,  order,  seo, cover{ alt, asset } }
+// Query: *[_type == "desktopWindow" && placement == "project" && defined(slug.current)]    | order(order asc, label asc){        _id,  label,  title,  "slug": slug.current,  placement,  order,  seo,      cover{ alt, asset },      "itemCount": count(body[_type == "entryList"][0].entries)    }
 export type PROJECT_WINDOWS_QUERY_RESULT = Array<{
   _id: string;
   label: string | null;
@@ -418,6 +418,7 @@ export type PROJECT_WINDOWS_QUERY_RESULT = Array<{
     alt: string | null;
     asset: SanityImageAssetReference | null;
   } | null;
+  itemCount: number | null;
 }>;
 
 // Source: features/desktop/query.ts
@@ -566,7 +567,7 @@ declare module "@sanity/client" {
     '\n  *[_type == "settings" && _id == "siteSettings"][0]{ \n  name,\n  title,\n  description,\n  email,\n  version,\n  footerNote,\n  social[]{ label, href },\n  navigation[]{ label, href },\n  cornerLinks[]{ label, href }\n }\n':
       SHELL_QUERY_RESULT | SETTINGS_QUERY_RESULT;
     '\n  *[_type == "desktopWindow" && placement == "home"] | order(order asc, label asc){\n    \n  _id,\n  label,\n  title,\n  "slug": slug.current,\n  placement,\n  order,\n  seo\n,\n    "body": coalesce(body, text)\n  }\n': HOME_WINDOWS_QUERY_RESULT;
-    '\n  *[_type == "desktopWindow" && placement == "project" && defined(slug.current)]\n    | order(order asc, label asc){ \n  _id,\n  label,\n  title,\n  "slug": slug.current,\n  placement,\n  order,\n  seo\n, cover{ alt, asset } }\n': PROJECT_WINDOWS_QUERY_RESULT;
+    '\n  *[_type == "desktopWindow" && placement == "project" && defined(slug.current)]\n    | order(order asc, label asc){\n      \n  _id,\n  label,\n  title,\n  "slug": slug.current,\n  placement,\n  order,\n  seo\n,\n      cover{ alt, asset },\n      "itemCount": count(body[_type == "entryList"][0].entries)\n    }\n': PROJECT_WINDOWS_QUERY_RESULT;
     '\n  *[_type == "desktopWindow" && placement == "project" && slug.current == $slug][0]{\n    \n  \n  _id,\n  label,\n  title,\n  "slug": slug.current,\n  placement,\n  order,\n  seo\n,\n  "body": coalesce(body, text),\n  details[]{ label, value },\n  cover{ alt, asset },\n  "file": file.asset->{ url, originalFilename }\n\n  }\n': PROJECT_WINDOW_QUERY_RESULT;
     '\n  *[_type == "desktopWindow" && placement == "standalone" && slug.current == $slug][0]{\n    \n  \n  _id,\n  label,\n  title,\n  "slug": slug.current,\n  placement,\n  order,\n  seo\n,\n  "body": coalesce(body, text),\n  details[]{ label, value },\n  cover{ alt, asset },\n  "file": file.asset->{ url, originalFilename }\n\n  }\n': STANDALONE_WINDOW_QUERY_RESULT;
     '\n  *[_type == "desktopWindow" && placement == "standalone" && defined(slug.current)]{\n    "slug": slug.current\n  }\n': STANDALONE_SLUGS_QUERY_RESULT;
