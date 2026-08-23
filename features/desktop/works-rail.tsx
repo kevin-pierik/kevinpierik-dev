@@ -46,7 +46,7 @@ export function WorkTile({ entry, active, reachable }: TileProps) {
               : "border-paper/25 hover:border-paper/50",
           )}
         >
-          <span className="text-[1.15em]/[1.2] font-semibold text-paper">
+          <span className="font-sans text-[0.95em]/[1.2] font-medium text-paper">
             {entry.label}
           </span>
           {entry.itemCount ? (
