@@ -60,7 +60,7 @@ export const defaultWindows: WindowDocument[] = [
           {
             _key: "resume",
             _type: "labelledLink",
-            label: "PDF resume",
+            label: "Curriculum Vitae",
             href: "/files/kevin-pierik.pdf",
           },
         ],
