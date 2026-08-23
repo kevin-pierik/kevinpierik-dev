@@ -153,6 +153,19 @@ Adding a file to a screen is content work, not code work: create a
 `desktopWindow` in the Studio with the right `placement`. Only a genuinely new
 _kind_ of window body needs code.
 
+`InfiniteDesk` pans and zooms. Drag or scroll to pan; ctrl or cmd plus wheel
+zooms, which is also what a trackpad pinch sends. Scale runs 0.71 to 2.86 with
+1 as the default, and the readout bottom-left shows that as a percentage — it
+fades in while you zoom and out again after 1.2s, so it is absent at rest.
+
+Zoom is anchored at the pointer: `t' = p - (p - t) * (s'/s)`, otherwise the desk
+slides away from the cursor. The grid follows through `backgroundSize`, not a
+transform, so it stays one repeating layer at any scale.
+
+The windows live **outside** the desk in `Desktop`, so zooming moves the grid and
+not them. That is deliberate: they carry their own drag and stacking, and scaling
+them would fight the offsets that survive closing and reopening a window.
+
 `WindowFrame` handles chrome, drag, and keyboard movement:
 
 - Dragging uses pointer capture on the title bar and moves the window with a
