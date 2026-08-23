@@ -1,9 +1,8 @@
 import { PortableText, type PortableTextComponents } from "@portabletext/react";
-import Image from "next/image";
 
 import { linkVariants } from "@/components/link";
+import { SanityImage } from "@/components/sanity-image";
 import type { PortableTextValue } from "@/features/rich-text/types";
-import { urlForImage } from "@/features/sanity/image";
 
 const components: PortableTextComponents = {
   block: {
@@ -122,13 +121,10 @@ const components: PortableTextComponents = {
 
       return (
         <figure className="flex flex-col gap-2">
-          <Image
-            src={urlForImage(value).width(1400).url()}
-            alt={value.alt ?? ""}
-            width={700}
-            height={394}
+          <SanityImage
+            value={value}
             sizes="(max-width: 1024px) 100vw, 50rem"
-            className="h-auto w-full border border-paper/25"
+            className="border border-paper/25"
           />
           {value.caption && (
             <figcaption className="font-mono text-[11px] text-mist">

@@ -270,6 +270,28 @@ the site's performance budget and disallowed in `robots.ts`. `/studio` keeps a
 temporary redirect to it. It is code-split behind
 its own route group and loads nothing on the site's routes.
 
+## Images
+
+Measured against the Content Lake, not assumed:
+
+- **Asset dimensions are in the `_ref`**: `image-<hash>-1800x1013-png`. `parseImageRef`
+  reads them, so `width`/`height` need no extra query and no `metadata.dimensions`
+  projection. Without them the intrinsic ratio is a guess and every image with an
+  unexpected ratio costs CLS — the old renderer hardcoded 700x394.
+- **Animated GIFs survive transforms.** `?w=800` keeps all frames. What does _not_
+  work is `auto=format`: it leaves a GIF a GIF. Only an explicit `fm=webp` converts
+  it, and that yields a genuinely animated WebP (`ANIM` + one `ANMF` per frame) at
+  roughly two thirds of the size. Screen recordings compress far worse as GIF, so
+  the real saving is larger.
+- **No srcset for animated images.** Every candidate width is a full animation, so
+  a srcset makes Sanity render several of them on the first hit for no benefit —
+  the browser downloads one. `imageSources` caps animated images at 1200 instead.
+- **`<img>` on purpose, not `next/image`.** Sanity's CDN already resizes and
+  negotiates AVIF/WebP; routing that through the Next optimiser transforms twice
+  and spends Vercel's image quota, and it cannot optimise animated images at all.
+  `components/sanity-image.tsx` therefore builds its own srcset and carries the
+  eslint disable for `no-img-element`.
+
 ## Performance rules
 
 Fully static. Desktop scores 100 across all five categories; mobile is 99, with
