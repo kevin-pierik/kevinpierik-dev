@@ -159,6 +159,13 @@ the DOM stays proportional to the number of works instead of how far you scrolle
 — fourteen tiles for one work, and one network request because they share an
 image.
 
+A work with `pieces` opens as a scatter instead of a document: the images sit
+loose on the desk, so they pan and zoom with the grid because they are children
+of `InfiniteDesk`. Clicking one opens a fullscreen modal with the image, its meta
+and its note — Escape closes it and focus returns to the trigger. Positions come
+from the index, never from `Math.random`, or server and client would disagree
+and hydration would fail.
+
 A work **without** a cover renders as a bordered card with its title and the
 number of entries in its list, and it is pinned below the loop instead of
 cycling in it — an endless list has no last position, so "always last" only

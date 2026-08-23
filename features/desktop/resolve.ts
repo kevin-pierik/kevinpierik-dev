@@ -38,6 +38,15 @@ type RawWindow = {
   body?: PortableTextValue;
   details?: ({ label?: Nullable; value?: Nullable } | null)[] | null;
   cover?: { alt?: Nullable; asset?: { _ref?: string } | null } | null;
+  pieces?:
+    | ({
+        _key?: string | null;
+        title?: Nullable;
+        meta?: Nullable;
+        description?: Nullable;
+        image?: { alt?: Nullable; asset?: { _ref?: string } | null } | null;
+      } | null)[]
+    | null;
   file?: { url?: Nullable; originalFilename?: Nullable } | null;
   seo?: RawSeo;
 };
@@ -81,6 +90,21 @@ function toWindow(window: RawWindow): WindowDocument | null {
       const label = text(detail?.label);
       const value = text(detail?.value);
       return label && value ? [{ label, value }] : [];
+    }),
+    pieces: (window.pieces ?? []).flatMap((piece) => {
+      const reference = piece?.image?.asset?._ref;
+      const title = text(piece?.title);
+      if (!reference || !title) return [];
+
+      return [
+        {
+          key: piece?._key ?? reference,
+          title,
+          meta: text(piece?.meta),
+          description: text(piece?.description),
+          image: { alt: text(piece?.image?.alt) ?? "", asset: { _ref: reference } },
+        },
+      ];
     }),
     cover: window.cover?.asset?._ref
       ? {

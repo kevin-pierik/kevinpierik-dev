@@ -8,8 +8,10 @@ import { useState } from "react";
 
 import { Button } from "@/components/button";
 import { FileTree, FileTreeFile } from "@/components/file-tree";
+import { SanityImage } from "@/components/sanity-image";
 import { InfiniteDesk } from "@/features/desktop/infinite-desk";
-import { WorkTile, WorksRail } from "@/features/desktop/works-rail";
+import { PieceModal } from "@/features/desktop/piece-modal";
+import { WorksRail } from "@/features/desktop/works-rail";
 import type { WindowOffset } from "@/features/desktop/window-frame";
 import { WindowFrame } from "@/features/desktop/window-frame";
 import { SiteHeader } from "@/features/site/site-header";
@@ -24,6 +26,15 @@ export type DesktopEntry = {
   id: string;
   label: string;
   title: string;
+};
+
+export type ScatterItem = {
+  id: string;
+  label: string;
+  image: { alt: string; asset: { _ref?: string } };
+  width: number;
+  meta?: string | null;
+  description?: string | null;
 };
 
 export type SidebarEntry = {
@@ -44,6 +55,7 @@ type DesktopProps = {
   content: Record<string, ReactNode>;
   files?: DesktopEntry[];
   sidebar?: SidebarEntry[];
+  scatter?: ScatterItem[];
   sidebarLabel?: string;
   indexHref?: string;
   footerNote?: string | null;
@@ -60,6 +72,7 @@ export function Desktop({
   content,
   files = [],
   sidebar = [],
+  scatter = [],
   sidebarLabel = "folders",
   indexHref = "/",
   footerNote,
@@ -71,9 +84,8 @@ export function Desktop({
   );
   const [offsets, setOffsets] = useState<Record<string, WindowOffset>>({});
   const [sidebarExpanded, setSidebarExpanded] = useState(false);
-  const pinned = sidebar.filter((entry) => !entry.cover);
-  const looping = sidebar.filter((entry) => entry.cover);
   const [documentExpanded, setDocumentExpanded] = useState(false);
+  const [openPiece, setOpenPiece] = useState<string | null>(null);
 
   function toggle(id: string) {
     setStack((previous) =>
@@ -105,7 +117,8 @@ export function Desktop({
 
   const hasDocument = Boolean(document);
   const isFullWidth = view === "desktop" || view === "document";
-  const showDesk = view === "desktop" || !hasDocument;
+  const scattered = scatter.length > 0;
+  const showDesk = view === "desktop" || scattered || !hasDocument;
   const floating = files;
 
   return (
@@ -145,8 +158,8 @@ export function Desktop({
             </Button>
           </div>
 
-          {looping.length > 0 ? (
-            <WorksRail entries={looping} activeId={document?.id} />
+          {sidebar.length > 0 ? (
+            <WorksRail entries={sidebar} activeId={document?.id} />
           ) : (
             <FileTree className="w-full gap-0">
               {sidebar.map((entry) => {
@@ -166,20 +179,6 @@ export function Desktop({
                 );
               })}
             </FileTree>
-          )}
-
-          {pinned.length > 0 && (
-            <ul className="grid shrink-0 grid-cols-2 gap-1.5 border-t border-paper/20 p-1.5">
-              {pinned.map((entry) => (
-                <li key={entry.id}>
-                  <WorkTile
-                    entry={entry}
-                    active={entry.id === document?.id}
-                    reachable
-                  />
-                </li>
-              ))}
-            </ul>
           )}
 
           <div className="mt-auto flex flex-col gap-1 p-2 font-mono text-[11px] text-mist">
@@ -204,7 +203,40 @@ export function Desktop({
           view === "explorer" && sidebarExpanded && "lg:hidden",
         )}
       >
-        {showDesk && <InfiniteDesk />}
+        {showDesk && (
+          <InfiniteDesk>
+            {scattered && (
+              <ul className="absolute top-1/2 left-1/2 z-10">
+                {scatter.map((item, index) => {
+                  const x = ((index * 7) % 19) - 9;
+                  const y = ((index * 11) % 15) - 7;
+
+                  return (
+                    <li
+                      key={item.id}
+                      className="absolute -translate-x-1/2 -translate-y-1/2"
+                      style={{ left: `${x}rem`, top: `${y}rem` }}
+                    >
+                      <button
+                        type="button"
+                        onClick={() => setOpenPiece(item.id)}
+                        style={{ width: `${item.width}rem` }}
+                        className="block cursor-zoom-in opacity-80 transition-opacity hover:opacity-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+                      >
+                        <SanityImage
+                          value={item.image}
+                          sizes="20rem"
+                          className="w-full"
+                        />
+                        <span className="sr-only">{item.label}</span>
+                      </button>
+                    </li>
+                  );
+                })}
+              </ul>
+            )}
+          </InfiniteDesk>
+        )}
 
         {view === "desktop" && files.length > 0 && (
           <FileTree className="absolute top-0 left-0 z-10 bg-background p-2">
@@ -226,6 +258,13 @@ export function Desktop({
               );
             })}
           </FileTree>
+        )}
+
+        {openPiece && (
+          <PieceModal
+            piece={scatter.find((item) => item.id === openPiece)!}
+            onClose={() => setOpenPiece(null)}
+          />
         )}
 
         {showDesk && cornerLinks.length > 0 && (

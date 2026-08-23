@@ -22,6 +22,14 @@ export type WindowDetail = {
   value: string;
 };
 
+export type WindowPiece = {
+  key: string;
+  title: string;
+  meta: string | null;
+  description: string | null;
+  image: WindowCover;
+};
+
 export type WindowFile = {
   url: string;
   name: string;
@@ -32,6 +40,7 @@ export type WindowDocument = DesktopItem & {
   body: PortableTextValue;
   details: WindowDetail[];
   cover: WindowCover | null;
+  pieces: WindowPiece[];
   file: WindowFile | null;
   seo: SeoFields;
 };

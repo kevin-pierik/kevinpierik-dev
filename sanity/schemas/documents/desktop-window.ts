@@ -1,7 +1,7 @@
 import { DocumentIcon } from "@sanity/icons/Document";
 import { DocumentsIcon } from "@sanity/icons/Documents";
 import { FolderIcon } from "@sanity/icons/Folder";
-import { defineField, defineType } from "sanity";
+import { defineArrayMember, defineField, defineType } from "sanity";
 
 import { contentGroups } from "../fields/content-groups";
 import { createOrderField } from "../fields/create-order-field";
@@ -92,6 +92,54 @@ export const desktopWindow = defineType({
           title: "Alternative text",
           type: "string",
           validation: (rule) => rule.required(),
+        }),
+      ],
+    }),
+    defineField({
+      name: "pieces",
+      title: "Loose pieces",
+      type: "array",
+      group: "content",
+      description:
+        "Scattered on the desk instead of a document. Click one and its title and note open in a window.",
+      hidden: ({ parent }) => parent?.placement !== "project",
+      of: [
+        defineArrayMember({
+          type: "object",
+          name: "piece",
+          fields: [
+            defineField({
+              name: "image",
+              title: "Image",
+              type: "image",
+              options: { hotspot: true },
+              validation: (rule) => rule.required(),
+              fields: [
+                defineField({
+                  name: "alt",
+                  title: "Alternative text",
+                  type: "string",
+                  validation: (rule) => rule.required(),
+                }),
+              ],
+            }),
+            defineField({
+              name: "title",
+              title: "Title",
+              type: "string",
+              validation: (rule) => rule.required(),
+            }),
+            defineField({ name: "meta", title: "Meta", type: "string" }),
+            defineField({
+              name: "description",
+              title: "Description",
+              type: "text",
+              rows: 3,
+            }),
+          ],
+          preview: {
+            select: { title: "title", subtitle: "meta", media: "image" },
+          },
         }),
       ],
     }),

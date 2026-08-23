@@ -17,6 +17,9 @@ export async function WorksScreen({ slug, fontClassName }: WorksScreenProps) {
   ]);
 
   const open = slug ? await getProject(slug) : null;
+  const pieces = open?.pieces ?? [];
+  const scattered = pieces.length > 0;
+  const widths = [18, 13, 22, 15, 20];
 
   return (
     <main
@@ -41,10 +44,38 @@ export async function WorksScreen({ slug, fontClassName }: WorksScreenProps) {
         }))}
         sidebarLabel="works"
         indexHref="/works"
-        document={open ? toEntry(open) : undefined}
-        content={{
-          ...(open ? { [open.id]: <DocumentWindow window={open} /> } : {}),
-        }}
+        scatter={pieces.map((piece, index) => ({
+          id: piece.key,
+          label: piece.title,
+          image: piece.image,
+          width: widths[index % widths.length],
+          meta: piece.meta,
+          description: piece.description,
+        }))}
+        document={open && !scattered ? toEntry(open) : undefined}
+        content={
+          scattered
+            ? Object.fromEntries(
+                pieces.map((piece) => [
+                  piece.key,
+                  <div key={piece.key} className="flex flex-col gap-2 p-3">
+                    {piece.meta && (
+                      <p className="font-mono text-[11px] text-mist">
+                        {piece.meta}
+                      </p>
+                    )}
+                    {piece.description && (
+                      <p className="font-sans text-[13px]/[1.6] text-paper/85">
+                        {piece.description}
+                      </p>
+                    )}
+                  </div>,
+                ]),
+              )
+            : open
+              ? { [open.id]: <DocumentWindow window={open} /> }
+              : {}
+        }
       />
     </main>
   );
