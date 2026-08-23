@@ -159,8 +159,8 @@ export function Desktop({
                           <span className="absolute inset-0 flex items-center justify-center">
                             <SanityImage
                               value={entry.cover}
-                              sizes="(max-width: 1024px) 45vw, 8rem"
-                              className="max-h-full w-auto max-w-full object-contain"
+                              sizes="(max-width: 1024px) 50vw, 40vw"
+                              className="h-full w-full object-contain"
                             />
                           </span>
                         )}

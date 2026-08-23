@@ -71,11 +71,18 @@ export const defaultWindows: WindowDocument[] = [
         title: "Work",
         entries: [
           {
-            _key: "friday",
+            _key: "friday-ux",
             _type: "entry",
             meta: "2025-",
-            title: "Friday",
-            description: "Frontend developer",
+            title: "Friday Digital Agency",
+            description: "Junior UX Developer",
+          },
+          {
+            _key: "friday-intern",
+            _type: "entry",
+            meta: "2024-2025",
+            title: "Friday Digital Agency",
+            description: "Developer Intern",
           },
         ],
       },
