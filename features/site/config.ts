@@ -40,7 +40,6 @@ export const siteConfig: SiteConfig = {
     { label: "LinkedIn", href: "https://nl.linkedin.com/in/kevin-pierik" },
   ],
   navigation: [
-    { label: "Home", href: "/" },
     { label: "Blog", href: "/blog" },
     { label: "Extra", href: "/extra" },
   ],
