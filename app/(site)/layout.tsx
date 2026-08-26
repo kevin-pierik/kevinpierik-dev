@@ -85,9 +85,9 @@ export default function SiteLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang={siteConfig.language}
-      className={cn("h-full bg-black", geistMono.variable)}
+      className={cn("dark h-full bg-black", geistMono.variable)}
     >
-      <body className="antialiased">
+      <body className="bg-black antialiased">
         <JsonLd data={personStructuredData()} />
         {children}
         {process.env.VERCEL_ENV ? <SpeedInsights /> : null}
