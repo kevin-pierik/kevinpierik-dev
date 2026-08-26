@@ -40,6 +40,7 @@ export const siteConfig: SiteConfig = {
   email: "kevinpierik@icloud.com",
   social: [
     { label: "LinkedIn", href: "https://nl.linkedin.com/in/kevin-pierik" },
+    { label: "Instagram", href: "https://www.instagram.com/kevinpierikk" },
   ],
   navigation: [],
   cornerLinks: [],

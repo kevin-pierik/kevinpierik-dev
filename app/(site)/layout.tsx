@@ -77,15 +77,15 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  colorScheme: "light",
-  themeColor: "#ffffff",
+  colorScheme: "dark",
+  themeColor: "#000000",
 };
 
 export default function SiteLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang={siteConfig.language}
-      className={cn("h-full", geistMono.variable)}
+      className={cn("h-full bg-black", geistMono.variable)}
     >
       <body className="antialiased">
         <JsonLd data={personStructuredData()} />

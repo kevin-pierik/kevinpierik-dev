@@ -1,69 +1,123 @@
+import {
+  contact,
+  education,
+  experience,
+  information,
+  role,
+  social,
+  type ResumeRow,
+  type ResumeSection,
+} from "@/features/resume/content";
 import { siteConfig } from "@/features/site/config";
 import { cn } from "@/features/style/utils";
-import { Geist } from "next/font/google";
 
-const geist = Geist({
-  display: "swap",
-  subsets: ["latin"],
-});
-
-const linkedIn = siteConfig.social[0]?.href ?? "";
-
+const gridClass =
+  "grid grid-cols-1 gap-x-[1vw] gap-y-[1.35em] sm:grid-cols-[2fr_3fr_3fr_4fr] sm:gap-y-0";
+const headingClass = "text-[1em]/[inherit] font-bold uppercase";
+const entryClass = "text-[1em]/[inherit] font-bold";
+const indentClass = "pl-[3em]";
 const linkClass =
-  "underline decoration-1 underline-offset-2 hover:no-underline focus-visible:no-underline focus-visible:outline-none";
-const labelClass =
-  "mb-5 text-[0.56rem]/[1.1] font-medium uppercase tracking-[0.04em]";
+  "underline decoration-mist/35 decoration-1 underline-offset-[0.25em] hover:decoration-mist focus-visible:decoration-mist focus-visible:outline-none";
+
+function Section({
+  section,
+  className,
+}: {
+  section: ResumeSection;
+  className?: string;
+}) {
+  return (
+    <section className={className}>
+      <h2 className={headingClass}>{section.label}</h2>
+      {section.entries.map((entry) => (
+        <div key={entry.title}>
+          <h3 className={entryClass}>{entry.title}</h3>
+          <ul>
+            {entry.lines.map((line) => (
+              <li className={indentClass} key={line}>
+                {line}
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))}
+    </section>
+  );
+}
+
+function Row({ row }: { row: ResumeRow }) {
+  const value = row.href ? (
+    <a className={linkClass} href={row.href}>
+      {row.value}
+    </a>
+  ) : (
+    row.value
+  );
+
+  if (!row.key) {
+    return <li className={indentClass}>{value}</li>;
+  }
+
+  return (
+    <li className="flex">
+      <span className="w-[3em] shrink-0">{row.key}</span>
+      <span>{value}</span>
+    </li>
+  );
+}
 
 export function ResumePage() {
   return (
     <main
-      className={cn(
-        geist.className,
-        "h-svh overflow-hidden bg-paper p-4 text-left text-[clamp(0.6rem,0.55vw,0.7rem)]/[1.25] font-normal text-ink sm:px-[3vw] sm:py-8",
-      )}
+      className="flex h-svh flex-col overflow-y-auto overscroll-none bg-black px-[1.35vw] py-[1.35vw] text-[0.75rem]/[1.32] font-bold text-mist [font-family:'Helvetica_Neue',Helvetica,Arial,sans-serif]"
+      id="main"
     >
-      <h1 className="text-left text-[inherit] leading-[1.05] font-medium tracking-normal">
-        Kevin Pierik is a frontend developer based in Hardenberg, the
-        Netherlands.
+      <header className={gridClass}>
+        <p>
+          {siteConfig.name}
+          <br />
+          {role}
+        </p>
+
+        <ul className="sm:col-start-4">
+          {social.map((item) => (
+            <li key={item.value}>
+              <a className={linkClass} href={item.href}>
+                {item.value}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </header>
+
+      <h1 className="mt-auto -ml-[0.088em] text-[17.6vw]/[0.78] font-bold tracking-[-0.02em]">
+        Résumé
       </h1>
 
-      <div className="mt-[clamp(4rem,8vh,7rem)] grid grid-cols-1 gap-10 sm:grid-cols-3 sm:gap-[6vw]">
-        <section>
-          <h2 className={labelClass}>Agency;</h2>
-          <a className={linkClass} href="https://friday.nl">
-            Friday Digital Agency
-          </a>
-        </section>
+      <div className={cn(gridClass, "mt-[7.8vh]")}>
+        <Section className="sm:col-start-2" section={education} />
 
-        <section>
-          <h2 className={labelClass}>Services;</h2>
-          <p>
-            Frontend development
-            <br />
-            UX implementation
-          </p>
+        <Section className="sm:col-start-3" section={experience} />
 
-          <h2 className={cn(labelClass, "mt-10")}>Résumé;</h2>
-          <a className={linkClass} href="/files/kevin-pierik.pdf">
-            Download
-          </a>
-        </section>
+        <div className="sm:col-start-4">
+          <section>
+            <h2 className={headingClass}>Contact</h2>
+            <ul>
+              {contact.map((row) => (
+                <Row key={row.value} row={row} />
+              ))}
+            </ul>
+          </section>
 
-        <section>
-          <h2 className={labelClass}>Contact;</h2>
-          <a className={linkClass} href={`mailto:${siteConfig.email}`}>
-            {siteConfig.email}
-          </a>
-
-          {linkedIn ? (
-            <>
-              <h2 className={cn(labelClass, "mt-10")}>Social;</h2>
-              <a className={linkClass} href={linkedIn}>
-                @kevinpierik
-              </a>
-            </>
-          ) : null}
-        </section>
+          <section className="mt-[1.35em] max-w-[41em]">
+            <h2 className={headingClass}>Information</h2>
+            {information.map((paragraph, index) => (
+              <p className={cn(index > 0 && "mt-[1.35em]")} key={paragraph}>
+                {paragraph}
+              </p>
+            ))}
+          </section>
+        </div>
       </div>
     </main>
   );
