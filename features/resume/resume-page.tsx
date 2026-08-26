@@ -4,6 +4,7 @@ import {
   experience,
   information,
   role,
+  skills,
   social,
   type ResumeRow,
   type ResumeSection,
@@ -12,7 +13,7 @@ import { siteConfig } from "@/features/site/config";
 import { cn } from "@/features/style/utils";
 
 const gridClass =
-  "grid grid-cols-1 gap-x-[1vw] gap-y-[1.35em] sm:grid-cols-[2fr_3fr_3fr_4fr] sm:gap-y-0";
+  "grid grid-cols-2 gap-x-[4vw] gap-y-[1.35em] sm:grid-cols-[2fr_3fr_3fr_4fr] sm:gap-x-[1vw] sm:gap-y-0";
 const headingClass = "text-[1em]/[inherit] font-bold uppercase";
 const entryClass = "text-[1em]/[inherit] font-bold";
 const indentClass = "pl-[3em]";
@@ -69,7 +70,7 @@ function Row({ row }: { row: ResumeRow }) {
 export function ResumePage() {
   return (
     <main
-      className="flex h-svh flex-col overflow-y-auto overscroll-none bg-black px-[1.35vw] py-[1.35vw] text-[0.75rem]/[1.32] font-bold text-mist [font-family:'Helvetica_Neue',Helvetica,Arial,sans-serif]"
+      className="flex h-svh flex-col overflow-y-auto overscroll-none bg-black px-3 py-3 sm:px-[1.35vw] sm:py-[1.35vw] text-[0.75rem]/[1.32] font-bold text-mist [font-family:'Helvetica_Neue',Helvetica,Arial,sans-serif]"
       id="main"
     >
       <header className={gridClass}>
@@ -95,11 +96,14 @@ export function ResumePage() {
       </h1>
 
       <div className={cn(gridClass, "mt-[7.8vh]")}>
-        <Section className="sm:col-start-2" section={education} />
+        <div className="sm:col-start-2">
+          <Section section={education} />
+          <Section className="mt-[1.35em]" section={skills} />
+        </div>
 
         <Section className="sm:col-start-3" section={experience} />
 
-        <div className="sm:col-start-4">
+        <div className="col-span-2 sm:col-span-1 sm:col-start-4">
           <section>
             <h2 className={headingClass}>Contact</h2>
             <ul>
@@ -109,7 +113,7 @@ export function ResumePage() {
             </ul>
           </section>
 
-          <section className="mt-[1.35em] max-w-[41em]">
+          <section className="mt-[1.35em] max-w-[75%] sm:max-w-[41em]">
             <h2 className={headingClass}>Information</h2>
             {information.map((paragraph, index) => (
               <p className={cn(index > 0 && "mt-[1.35em]")} key={paragraph}>

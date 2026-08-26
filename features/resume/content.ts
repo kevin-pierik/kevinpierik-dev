@@ -34,6 +34,16 @@ export const education: ResumeSection = {
   ],
 };
 
+export const skills: ResumeSection = {
+  label: "Software Skills",
+  entries: [
+    {
+      title: "Working knowledge in:",
+      lines: ["Next.js, TypeScript,", "Tailwind, Vercel"],
+    },
+  ],
+};
+
 export const experience: ResumeSection = {
   label: "Work Experience",
   entries: [
