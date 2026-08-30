@@ -5,8 +5,6 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 import "@/features/style/global.css";
 
 import { siteConfig } from "@/features/site/config";
-import { personStructuredData } from "@/features/site/seo/structured-data";
-import { JsonLd } from "@/components/json-ld";
 import { cn } from "@/features/style/utils";
 
 const geistMono = Geist_Mono({
@@ -88,7 +86,6 @@ export default function SiteLayout({ children }: LayoutProps<"/">) {
       className={cn("dark h-full bg-black", geistMono.variable)}
     >
       <body className="bg-black antialiased">
-        <JsonLd data={personStructuredData()} />
         {children}
         {process.env.VERCEL_ENV ? <SpeedInsights /> : null}
       </body>

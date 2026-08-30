@@ -1,5 +1,7 @@
 "use client";
 
+import { siteConfig } from "@/features/site/config";
+
 export default function GlobalError({
   retry,
 }: {
@@ -7,7 +9,7 @@ export default function GlobalError({
   retry: () => void;
 }) {
   return (
-    <html lang="en">
+    <html lang={siteConfig.language}>
       <body
         style={{
           margin: 0,

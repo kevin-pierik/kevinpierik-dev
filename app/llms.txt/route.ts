@@ -4,13 +4,13 @@ export const dynamic = "force-static";
 
 export async function GET(): Promise<Response> {
   const lines = [
-    `# ${siteConfig.name}`,
+    `# ${siteConfig.name} — Frontend Developer`,
     "",
     `> ${siteConfig.description}`,
     "",
-    "## Pages",
+    "## Canonical page",
     "",
-    `- [Curriculum vitae](${siteConfig.url}): One-page profile, experience, practice and contact details.`,
+    `- [Homepage and curriculum vitae](${siteConfig.url}): Professional profile, education, software skills, work experience, and contact details.`,
     "",
     "## Contact",
     "",
@@ -20,7 +20,7 @@ export async function GET(): Promise<Response> {
     ),
   ];
 
-  return new Response(lines.join("\n"), {
+  return new Response(`${lines.join("\n")}\n`, {
     headers: { "content-type": "text/plain; charset=utf-8" },
   });
 }
