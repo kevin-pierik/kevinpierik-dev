@@ -1,0 +1,18 @@
+---
+import { SanityStudio } from "../../features/sanity/studio";
+
+export const prerender = false;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1" name="viewport" />
+    <meta content="noindex, nofollow" name="robots" />
+    <title>kevinpierik.dev Studio</title>
+  </head>
+  <body style="margin: 0">
+    <SanityStudio client:only="react" />
+  </body>
+</html>

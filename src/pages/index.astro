@@ -1,0 +1,12 @@
+---
+import ResumePage from "../features/resume/resume-page.astro";
+import { profileStructuredData } from "../features/site/seo/structured-data";
+import SiteLayout from "../layouts/site-layout.astro";
+
+export const prerender = true;
+---
+
+<SiteLayout>
+  <script is:inline type="application/ld+json" set:html={JSON.stringify(profileStructuredData())} />
+  <ResumePage />
+</SiteLayout>

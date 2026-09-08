@@ -1,114 +1,46 @@
 # kevinpierik.dev
 
-A one-page professional profile and curriculum vitae for **Kevin Pierik**, built
-with Next.js and React. The public site has one canonical page at `/`, a
-BIOS-style 404 for unknown URLs, and an embedded Sanity Studio at
-`/studio` that is retained for future content work.
+The source for [kevinpierik.dev](https://www.kevinpierik.dev): a fast, one-page professional profile and curriculum vitae for Kevin Pierik.
 
-## Requirements
+## Stack
 
-| Requirement | Version |
-| --- | --- |
-| Bun | 1.3.14, as pinned in `package.json` |
-| Node.js | 22 or newer for supporting tooling |
+- Astro 7, with static prerendering for the public profile
+- React only for the embedded Sanity Studio at `/studio`
+- Tailwind CSS 4
+- Sanity Studio 6
+- Vercel
 
-## Local development
+## Project structure
+
+The project follows Astro’s `src/` convention while retaining feature ownership inspired by the supplied reference:
+
+```text
+src/
+├── features/    # Domain UI, content, site config, styles, and Studio bridge
+├── layouts/     # Shared document shells and metadata
+└── pages/       # File-based routes and static SEO endpoints
+```
+
+`src/pages/index.astro`, the 404 screen, `robots.txt`, `sitemap.xml`, and `llms.txt` are prerendered. The dormant Sanity Studio is the only on-demand route.
+
+## Development
 
 ```bash
 bun install
 cp .env.example .env.local
-bun dev
+bun run dev
 ```
 
-The site is available at [http://localhost:3000](http://localhost:3000). It
-works without Sanity configuration because all public content is code-based.
+The site is available at [http://localhost:4321](http://localhost:4321). It renders without Sanity configuration because public content is code-based.
 
-## Quality checks
-
-Run the following before committing or deploying:
+Run the full quality and production-build check before committing:
 
 ```bash
 bun run qa
-bun run build
 ```
 
-`qa` runs ESLint and TypeScript checks. The build confirms static routes,
-metadata routes, and the retained Studio compile correctly.
+## Environment
 
-## Public routes and SEO
+Set `PUBLIC_SITE_URL` to the final HTTPS origin without a trailing slash. It drives canonical URLs, Open Graph URLs, `robots.txt`, `sitemap.xml`, and `llms.txt`.
 
-| URL | Purpose | Indexing |
-| --- | --- | --- |
-| `/` | Canonical profile and CV | Allowed; the only sitemap entry |
-| `/robots.txt` | Crawl rules | Allows `/`, disallows Studio and API paths |
-| `/sitemap.xml` | Public URL inventory | Contains only `/` |
-| `/llms.txt` | LLM-readable site summary | Lists the canonical homepage and contact links |
-| Unknown path | BIOS-style 404 | Not indexed |
-
-The homepage defines an explicit title, meta description, canonical URL, English
-language alternate, Open Graph and Twitter defaults, and Schema.org
-`WebSite`, `ProfilePage`, and `Person` JSON-LD. The site language and base URL
-are centralised in `features/site/config.ts`.
-
-## Heading and accessibility model
-
-The page has one `<h1>` for Kevin Pierik. Its primary CV groups use `<h2>`, and
-individual education, skill, and employment entries use `<h3>`. Deeper heading
-levels are intentionally absent: a heading rank is added only when the content
-has a real nested section, so ranks never skip merely for visual styling.
-
-Semantic landmarks identify the main content, social navigation, and each CV
-section. Links retain visible keyboard focus styles; grouped details use native
-lists; and global reduced-motion rules respect user preferences.
-
-## Sanity Studio
-
-Sanity is intentionally **dormant**. The Studio route and minimal configuration
-are kept so a content model can be added later, but the public page does not
-fetch from Sanity and the Studio currently has no schemas.
-
-To configure and deploy the Studio in the future, add its project settings to
-`.env.local` and use the retained commands:
-
-```bash
-bun run sanity:login
-bun run sanity:cors
-bun run sanity:deploy
-```
-
-Do not connect public rendering, preview endpoints, or Sanity schemas until the
-future content model is explicitly defined.
-
-## Project structure
-
-```text
-app/
-├── (site)/                # Homepage, shared metadata, and route-level 404
-├── studio/                # Separate Studio root layout
-├── global-error.tsx       # Emergency document-level error fallback
-├── global-not-found.tsx   # BIOS-style unmatched-route document
-├── llms.txt/route.ts      # Machine-readable site summary
-├── robots.ts              # Crawl directives
-└── sitemap.ts             # Canonical one-page sitemap
-components/
-└── json-ld.tsx            # Safe JSON-LD serialization
-features/
-├── bios/                  # 404 display and copy
-├── resume/                # Homepage content and layout
-├── sanity/                # Studio base-path constant
-├── site/                  # Identity configuration and structured data
-└── style/                 # Shared Tailwind and accessibility styles
-sanity/
-└── schemas/index.ts       # Empty, schema-ready Studio registry
-env.ts                     # Environment-variable defaults
-```
-
-## Deployment
-
-Deploy to Vercel as a Next.js project. Set `NEXT_PUBLIC_SITE_URL` to the final
-HTTPS origin without a trailing slash, for example
-`https://www.kevinpierik.dev`. This value drives `metadataBase`, canonical URLs,
-Open Graph URLs, `robots.txt`, `sitemap.xml`, and `llms.txt`.
-
-The optional `@vercel/speed-insights` script renders only on Vercel, preventing
-local development requests from producing console errors.
+Sanity is intentionally dormant: the Studio remains available at `/studio`, but public rendering does not fetch from it. Configure the optional `PUBLIC_SANITY_*` values in `.env.local` only when a content model is introduced.

@@ -1,0 +1,64 @@
+---
+import {
+  contact,
+  education,
+  experience,
+  information,
+  role,
+  skills,
+  social,
+} from "./content";
+import { siteConfig } from "../site/config";
+
+const sections = [
+  { id: "education", section: education },
+  { id: "skills", section: skills, className: "mt-[1.35em]" },
+];
+---
+
+<main aria-labelledby="page-title" class="flex h-svh flex-col overflow-y-auto overscroll-none bg-black px-3 py-3 text-[0.75rem]/[1.32] font-bold text-mist [font-family:'Helvetica_Neue',Helvetica,Arial,sans-serif] sm:px-[1.35vw] sm:py-[1.35vw]" id="main">
+  <header class="grid grid-cols-2 gap-x-[4vw] gap-y-[1.35em] sm:grid-cols-[2fr_3fr_3fr_4fr] sm:gap-x-[1vw] sm:gap-y-0">
+    <p>{siteConfig.name}<br />{role}</p>
+    <nav aria-label="Social profiles" class="sm:col-start-4">
+      <ul>
+        {social.map((item) => <li><a class="underline decoration-mist/35 decoration-1 underline-offset-[0.25em] hover:decoration-mist focus-visible:decoration-mist focus-visible:outline-none" href={item.href}>{item.value}</a></li>)}
+      </ul>
+    </nav>
+  </header>
+
+  <h1 class="mt-auto -ml-[0.088em] text-[14vw]/[0.78] font-bold tracking-[-0.02em]" id="page-title">{siteConfig.name}</h1>
+
+  <div class="mt-[7.8vh] grid grid-cols-2 gap-x-[4vw] gap-y-[1.35em] sm:grid-cols-[2fr_3fr_3fr_4fr] sm:gap-x-[1vw] sm:gap-y-0">
+    <div class="sm:col-start-2">
+      {sections.map(({ id, section, className }) => <section aria-labelledby={id} class={className}>
+        <h2 class="text-[1em]/[inherit] font-bold uppercase" id={id}>{section.label}</h2>
+        {section.entries.map((entry) => <div>
+          <h3 class="text-[1em]/[inherit] font-bold">{entry.title}</h3>
+          <ul>{entry.lines.map((line) => <li class="pl-[3em]">{line}</li>)}</ul>
+        </div>)}
+      </section>)}
+    </div>
+
+    <section aria-labelledby="experience" class="sm:col-start-3">
+      <h2 class="text-[1em]/[inherit] font-bold uppercase" id="experience">{experience.label}</h2>
+      {experience.entries.map((entry) => <div>
+        <h3 class="text-[1em]/[inherit] font-bold">{entry.title}</h3>
+        <ul>{entry.lines.map((line) => <li class="pl-[3em]">{line}</li>)}</ul>
+      </div>)}
+    </section>
+
+    <div class="col-span-2 sm:col-span-1 sm:col-start-4">
+      <section aria-labelledby="contact">
+        <h2 class="text-[1em]/[inherit] font-bold uppercase" id="contact">Contact</h2>
+        <ul>{contact.map((row) => <li class={row.key ? "flex" : "pl-[3em]"}>
+          {row.key && <span class="w-[3em] shrink-0">{row.key}</span>}
+          <span>{row.href ? <a class="underline decoration-mist/35 decoration-1 underline-offset-[0.25em] hover:decoration-mist focus-visible:decoration-mist focus-visible:outline-none" href={row.href}>{row.value}</a> : row.value}</span>
+        </li>)}</ul>
+      </section>
+      <section aria-labelledby="information" class="mt-[1.35em] max-w-[75%] sm:max-w-[41em]">
+        <h2 class="text-[1em]/[inherit] font-bold uppercase" id="information">Information</h2>
+        {information.map((paragraph, index) => <p class={index > 0 ? "mt-[1.35em]" : undefined}>{paragraph}</p>)}
+      </section>
+    </div>
+  </div>
+</main>

@@ -6,13 +6,12 @@ import {
   sanityClientProjectId,
   sanityDataset,
 } from "./env";
-import { studioBasePath } from "./features/sanity/constants";
 import { schemaTypes } from "./sanity/schemas";
 
 export default defineConfig({
   name: "kevinpierik",
   title: "kevinpierik.dev",
-  basePath: studioBasePath,
+  basePath: "/studio",
   projectId: sanityClientProjectId,
   dataset: sanityDataset,
   schema: { types: schemaTypes },

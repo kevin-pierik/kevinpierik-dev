@@ -1,0 +1,59 @@
+---
+import { siteConfig } from "../features/site/config";
+import SiteLayout from "../layouts/site-layout.astro";
+
+export const prerender = true;
+
+const bootLog = [
+  ["BIOS Date: 08/19/26  17:42:04  Ver: 4.0.4", "text-bios-text"],
+  [`${siteConfig.name} Web Core(tm) CPU @ 3.40GHz`, "text-bios-text"],
+  ["Speed: 3400 MHz", "text-bios-text"],
+  ["", "text-bios-text"],
+  ["Press any key to run Setup,  ESC for Boot Menu", "text-bios-cyan"],
+  ["Initializing static routes ..  Done.", "text-bios-cyan"],
+  ["65536MB OK", "text-bios-cyan"],
+  ["", "text-bios-text"],
+  ["Auto-Detecting HTTP routes ...", "text-bios-text"],
+  ["  Route 0 : /            OK", "text-bios-text"],
+] as const;
+
+const errorLog = [
+  ["", "text-bios-text"],
+  ["ERROR 404: Requested route not found on this device.", "text-bios-bright"],
+  ["Reboot and select a proper route,", "text-bios-text"],
+  ["or insert boot media in the selected device and press a key", "text-bios-text"],
+] as const;
+---
+
+<SiteLayout description="This route does not exist on this device." noindex title="Page not found">
+  <main class="h-svh" id="main">
+    <div class="flex h-full flex-col bg-bios-blue bg-[radial-gradient(ellipse_at_top,var(--color-bios-blue),var(--color-bios-blue-deep))] font-mono text-[clamp(0.75rem,2.4vw,0.85rem)]/[1.55]">
+      <div class="flex shrink-0 items-center justify-between gap-6 bg-bios-bar px-3 py-1 font-semibold text-bios-bar-text">
+        <span>KPBIOS(C)2026 {siteConfig.name} Systems, Inc.</span>
+        <span>v4.0.4</span>
+      </div>
+      <div class="flex-1 overflow-y-auto px-3 py-6 sm:px-6">
+        <pre class="whitespace-pre-wrap wrap-anywhere">{bootLog.map(([text, tone]) => <span class:list={["block", tone]}>{text || " "}</span>)}<span class="block text-bios-text">  Route 4 : <span data-route>Unknown</span>    None</span>{errorLog.map(([text, tone]) => <span class:list={["block", tone]}>{text || " "}</span>)}</pre>
+      </div>
+      <div class="flex shrink-0 flex-wrap items-center justify-between gap-x-6 bg-bios-bar px-1 text-bios-bar-text">
+        <a class="inline-flex min-h-12 items-center px-2 underline-offset-2 hover:underline focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-bios-bar-text" href="/">Press any key to reboot</a>
+        <span class="px-2">F1: Home  ESC: Home</span>
+      </div>
+    </div>
+  </main>
+</SiteLayout>
+
+<script>
+  const route = document.querySelector<HTMLElement>("[data-route]");
+  if (route) route.textContent = window.location.pathname;
+
+  const ignoredKeys = new Set(["Tab", "Shift", "Control", "Alt", "Meta"]);
+  const reboot = () => window.location.assign("/");
+  const onKeyDown = (event: KeyboardEvent) => {
+    if (ignoredKeys.has(event.key) || event.metaKey || event.ctrlKey || event.altKey) return;
+    reboot();
+  };
+
+  window.addEventListener("keydown", onKeyDown);
+  window.addEventListener("pointerdown", reboot, { once: true });
+</script>

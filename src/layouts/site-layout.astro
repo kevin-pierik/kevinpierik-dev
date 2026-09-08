@@ -1,0 +1,60 @@
+---
+import SpeedInsights from "@vercel/speed-insights/astro";
+
+import { siteConfig } from "../features/site/config";
+import "../features/style/global.css";
+
+interface Props {
+  title?: string;
+  description?: string;
+  noindex?: boolean;
+}
+
+const {
+  title = siteConfig.title,
+  description = siteConfig.description,
+  noindex = false,
+} = Astro.props;
+const canonical = new URL(Astro.url.pathname, siteConfig.url).toString();
+---
+
+<!doctype html>
+<html class="dark h-full bg-black" lang={siteConfig.language}>
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1" name="viewport" />
+    <meta content="dark" name="color-scheme" />
+    <meta content="#000000" name="theme-color" />
+    <meta content="telephone=no" name="format-detection" />
+    <meta content={description} name="description" />
+    {noindex ? (
+      <meta content="noindex, nofollow" name="robots" />
+    ) : (
+      <meta content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" name="robots" />
+    )}
+    <link href={canonical} rel="canonical" />
+    <link href={canonical} hreflang={siteConfig.language} rel="alternate" />
+    <link href="/favicon.ico" rel="icon" sizes="any" />
+    <link href="/icon-light.png" media="(prefers-color-scheme: light)" rel="icon" type="image/png" />
+    <link href="/icon-dark.png" media="(prefers-color-scheme: dark)" rel="icon" type="image/png" />
+    <meta content="profile" property="og:type" />
+    <meta content={siteConfig.name} property="og:site_name" />
+    <meta content={siteConfig.locale} property="og:locale" />
+    <meta content={canonical} property="og:url" />
+    <meta content={title} property="og:title" />
+    <meta content={description} property="og:description" />
+    <meta content="/og.png" property="og:image" />
+    <meta content="Kevin Pierik — Frontend Developer in Hardenberg, NL" property="og:image:alt" />
+    <meta content="1200" property="og:image:width" />
+    <meta content="630" property="og:image:height" />
+    <meta content="summary_large_image" name="twitter:card" />
+    <meta content={title} name="twitter:title" />
+    <meta content={description} name="twitter:description" />
+    <meta content="/og.png" name="twitter:image" />
+    <title>{title}</title>
+  </head>
+  <body class="bg-black antialiased">
+    <slot />
+    {import.meta.env.VERCEL_ENV ? <SpeedInsights /> : null}
+  </body>
+</html>

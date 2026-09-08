@@ -7,9 +7,10 @@
 # testing
 /coverage
 
-# next.js
+# Astro
+/.astro/
 /.next/
-/out/
+/dist/
 
 # production
 /build
@@ -31,7 +32,6 @@ bun-debug.log*
 
 # typescript
 *.tsbuildinfo
-next-env.d.ts
 
 # claude code local settings
 .claude/settings.local.json
