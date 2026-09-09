@@ -1,0 +1,6 @@
+@import "tailwindcss";
+
+@theme static {
+  --color-black: #000000;
+  --color-white: #ffffff;
+}

@@ -9,7 +9,7 @@ export default defineConfig({
   adapter: vercel(),
   integrations: [react()],
   vite: {
-    envPrefix: ["PUBLIC_", "NEXT_PUBLIC_"],
+    envPrefix: ["PUBLIC_"],
     plugins: [tailwindcss()],
     resolve: {
       alias: {

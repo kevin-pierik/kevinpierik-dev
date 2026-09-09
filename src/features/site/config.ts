@@ -6,7 +6,6 @@ const fallbackUrl = import.meta.env.PROD
 
 const url = (
   import.meta.env.PUBLIC_SITE_URL ||
-  import.meta.env.NEXT_PUBLIC_SITE_URL ||
   fallbackUrl
 ).replace(/\/+$/, "");
 

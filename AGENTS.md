@@ -8,7 +8,7 @@
 | --- | --- |
 | Framework | Astro 7, static output where possible |
 | UI | Astro components; React only for the Sanity Studio island |
-| Styling | Tailwind CSS v4, CSS-first config in `src/features/style/` |
+| Styling | Tailwind CSS v4, CSS-first config in `src/styles/` |
 | CMS | Sanity v6 Studio, retained but not connected to the public page |
 | Runtime | Bun locally and on the host; deployed on Vercel |
 | Analytics | `@vercel/speed-insights`, only when `VERCEL_ENV` is set |
@@ -39,7 +39,7 @@ Keep application code in its feature directory; route files should compose featu
 
 The homepage has one visible `<h1>` for the person’s name. Each top-level CV section has an `<h2>`; individual education, skill, and employment entries use `<h3>`. Do not create `h4`–`h6` merely to use every tag: add a deeper heading only for a genuine subordinate content section, and never skip heading ranks.
 
-Use landmarks and accessible names for main content, navigation, and sections. Maintain visible focus styles, semantic lists for grouped information, native links for external destinations, and the reduced-motion rules in `src/features/style/animations.css`.
+Use landmarks and accessible names for main content, navigation, and sections. Maintain visible focus styles, semantic lists for grouped information, native links for external destinations, and the reduced-motion rules in `src/styles/animations.css`.
 
 Structured data resides in `src/features/site/seo/structured-data.ts` and is rendered by the homepage route. Keep it consistent with visible content and the canonical URL. Site identity, URL, locale, and default meta description belong in `src/features/site/config.ts`.
 
@@ -49,7 +49,7 @@ Sanity is intentionally dormant. Keep `sanity.config.ts`, `sanity.cli.ts`, `src/
 
 ## Styling and performance
 
-Global styling is imported only through `src/layouts/site-layout.astro`; tokens live under `src/features/style/`. The site is dark by default. Text on dark surfaces requires at least a 4.5:1 contrast ratio. Astro components are the default; add React only where client-side interaction is required.
+Global styling is imported only through `src/layouts/site-layout.astro`; tokens live under `src/styles/`. The site is dark by default. Text on dark surfaces requires at least a 4.5:1 contrast ratio. Astro components are the default; add React only where client-side interaction is required.
 
 ## Conventions
 

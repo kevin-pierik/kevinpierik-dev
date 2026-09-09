@@ -1,0 +1,13 @@
+@layer base {
+  html { font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; }
+  body { line-height: 1.5; }
+  :is(h1, h2, h3, h4, h5, h6) { font-weight: 500; letter-spacing: -0.025em; text-wrap: balance; }
+  h1 { font-size: 2.5rem; line-height: 1.05; }
+  h2 { font-size: 1.875rem; line-height: 1.1; }
+  h3 { font-size: 1.25rem; line-height: 1.2; }
+  @media (min-width: 640px) {
+    h1 { font-size: 3.75rem; line-height: 1.02; }
+    h2 { font-size: 2.75rem; line-height: 1.08; }
+    h3 { font-size: 1.5rem; line-height: 1.2; }
+  }
+}

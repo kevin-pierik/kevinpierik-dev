@@ -1,0 +1,13 @@
+:root {
+  --background: var(--color-white);
+  --foreground: var(--color-black);
+  --border: color-mix(in oklab, var(--color-black) 14%, transparent);
+  --ring: var(--color-black);
+}
+
+.dark {
+  --background: var(--color-black);
+  --foreground: var(--color-white);
+  --border: color-mix(in oklab, var(--color-white) 18%, transparent);
+  --ring: var(--color-white);
+}
