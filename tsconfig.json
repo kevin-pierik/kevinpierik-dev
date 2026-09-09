@@ -7,6 +7,6 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": [".astro/types.d.ts", "src", "env.ts", "sanity.config.ts", "sanity.cli.ts"],
+  "include": ["src", "env.ts", "sanity.config.ts", "sanity.cli.ts"],
   "exclude": ["dist", "node_modules"]
 }
