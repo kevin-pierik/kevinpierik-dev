@@ -1,5 +1,10 @@
 import { siteConfig } from "../config";
 
+export type BreadcrumbItem = {
+  name: string;
+  url: string;
+};
+
 export function profileStructuredData() {
   const personId = `${siteConfig.url}/#person`;
 
@@ -39,5 +44,18 @@ export function profileStructuredData() {
         sameAs: siteConfig.social.map((item) => item.href),
       },
     ],
+  };
+}
+
+export function breadcrumbStructuredData(items: BreadcrumbItem[]) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: items.map((item, index) => ({
+      "@type": "ListItem",
+      position: index + 1,
+      name: item.name,
+      item: item.url,
+    })),
   };
 }
