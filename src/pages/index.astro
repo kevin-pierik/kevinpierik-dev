@@ -1,7 +1,6 @@
 ---
-import { siteConfig } from "../features/site/config";
 import { profileStructuredData } from "../features/site/seo/structured-data";
-import SiteLayout from "../layouts/site-layout.astro";
+import WebLayout from "../layouts/web.astro";
 
 type ResumeEntry = { title: string; lines: string[] };
 type ResumeSection = { label: string; entries: ResumeEntry[] };
@@ -29,9 +28,12 @@ const contact: ResumeRow[] = [
   { value: "Hardenberg, Overijssel" },
   { value: "The Netherlands" },
   { key: "P:", value: "+31 6 15545687", href: "tel:+31615545687" },
-  { key: "E:", value: siteConfig.email, href: `mailto:${siteConfig.email}` },
+  { key: "E:", value: "kevinpierik@icloud.com", href: "mailto:kevinpierik@icloud.com" },
 ];
-const social: ResumeRow[] = siteConfig.social.map((item) => ({ value: item.label, href: item.href }));
+const social: ResumeRow[] = [
+  { value: "LinkedIn", href: "https://nl.linkedin.com/in/kevin-pierik" },
+  { value: "Instagram", href: "https://www.instagram.com/kevinpierikk" },
+];
 const role = "Frontend Developer";
 const information = [
   "Kevin Pierik is a frontend developer based in Hardenberg, the Netherlands, working at Friday Digital Agency.",
@@ -42,18 +44,18 @@ const sections = [
   { id: "skills", section: skills, className: "mt-[1.35em]" },
 ];
 ---
-<SiteLayout>
+<WebLayout>
   <script is:inline type="application/ld+json" set:html={JSON.stringify(profileStructuredData())} />
   <main aria-labelledby="page-title" class="flex h-svh flex-col overflow-y-auto overscroll-none bg-black px-3 py-3 text-[0.75rem]/[1.32] font-bold text-white sm:px-[1.35vw] sm:py-[1.35vw]" id="main">
     <header class="grid grid-cols-2 gap-x-[4vw] gap-y-[1.35em] sm:grid-cols-[2fr_3fr_3fr_4fr] sm:gap-x-[1vw] sm:gap-y-0">
-      <p>{siteConfig.name}<br />{role}</p>
+      <p>Kevin Pierik<br />{role}</p>
       <nav aria-label="Social profiles" class="sm:col-start-4">
         <ul>
           {social.map((item) => <li><a class="underline decoration-white/35 decoration-1 underline-offset-[0.25em] hover:decoration-white focus-visible:decoration-white focus-visible:outline-none" href={item.href}>{item.value}</a></li>)}
         </ul>
       </nav>
     </header>
-    <h1 class="mt-auto -ml-[0.088em] text-[14vw]/[0.78] font-bold tracking-[-0.02em]" id="page-title">{siteConfig.name}</h1>
+    <h1 class="mt-auto -ml-[0.088em] text-[14vw]/[0.78] font-bold tracking-[-0.02em]" id="page-title">Kevin Pierik</h1>
     <div class="mt-[7.8vh] grid grid-cols-2 gap-x-[4vw] gap-y-[1.35em] sm:grid-cols-[2fr_3fr_3fr_4fr] sm:gap-x-[1vw] sm:gap-y-0">
       <div class="sm:col-start-2">
         {sections.map(({ id, section, className }) => <section aria-labelledby={id} class={className}>
@@ -86,4 +88,4 @@ const sections = [
       </div>
     </div>
   </main>
-</SiteLayout>
+</WebLayout>

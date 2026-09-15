@@ -1,47 +1,49 @@
-import { siteConfig } from "../config";
-
 export type BreadcrumbItem = {
   name: string;
   url: string;
 };
 
 export function profileStructuredData() {
-  const personId = `${siteConfig.url}/#person`;
-
   return {
     "@context": "https://schema.org",
     "@graph": [
       {
         "@type": "WebSite",
-        "@id": `${siteConfig.url}/#website`,
-        name: siteConfig.name,
-        url: siteConfig.url,
-        description: siteConfig.description,
-        inLanguage: siteConfig.language,
+        "@id": "https://www.kevinpierik.dev/#website",
+        name: "Kevin Pierik",
+        url: "https://www.kevinpierik.dev",
+        description:
+          "Frontend developer focused on clear, useful interfaces in Hardenberg, the Netherlands.",
+        inLanguage: "en",
       },
       {
         "@type": "ProfilePage",
-        "@id": `${siteConfig.url}/#webpage`,
-        url: siteConfig.url,
-        name: siteConfig.title,
-        description: siteConfig.description,
-        inLanguage: siteConfig.language,
-        isPartOf: { "@id": `${siteConfig.url}/#website` },
-        mainEntity: { "@id": personId },
+        "@id": "https://www.kevinpierik.dev/#webpage",
+        url: "https://www.kevinpierik.dev",
+        name: "Frontend Developer | Kevin Pierik",
+        description:
+          "Frontend developer focused on clear, useful interfaces in Hardenberg, the Netherlands.",
+        inLanguage: "en",
+        isPartOf: { "@id": "https://www.kevinpierik.dev/#website" },
+        mainEntity: { "@id": "https://www.kevinpierik.dev/#person" },
       },
       {
         "@type": "Person",
-        "@id": personId,
-        name: siteConfig.name,
-        url: siteConfig.url,
-        email: siteConfig.email,
-        description: siteConfig.description,
+        "@id": "https://www.kevinpierik.dev/#person",
+        name: "Kevin Pierik",
+        url: "https://www.kevinpierik.dev",
+        email: "kevinpierik@icloud.com",
+        description:
+          "Frontend developer focused on clear, useful interfaces in Hardenberg, the Netherlands.",
         jobTitle: "Frontend Developer",
         homeLocation: {
           "@type": "Place",
           name: "Hardenberg, Overijssel, Netherlands",
         },
-        sameAs: siteConfig.social.map((item) => item.href),
+        sameAs: [
+          "https://nl.linkedin.com/in/kevin-pierik",
+          "https://www.instagram.com/kevinpierikk",
+        ],
       },
     ],
   };

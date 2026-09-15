@@ -16,7 +16,7 @@ The project follows Astro’s `src/` convention while retaining feature ownershi
 
 ```text
 src/
-├── features/    # Domain UI, content, site config, styles, and Studio bridge
+├── features/    # Domain UI, SEO structured data, styles, and Studio bridge
 ├── layouts/     # Shared document shells and metadata
 └── pages/       # File-based routes and static SEO endpoints
 ```
@@ -41,6 +41,6 @@ bun run qa
 
 ## Environment
 
-Set `PUBLIC_SITE_URL` to the final HTTPS origin without a trailing slash. It drives canonical URLs, Open Graph URLs, `robots.txt`, `sitemap.xml`, and `llms.txt`.
+The current profile content and canonical site metadata are hardcoded at their points of use until a Sanity content model is introduced. See `structure.md` for the planned migration boundaries.
 
 Sanity is intentionally dormant: the Studio remains available at `/studio`, but public rendering does not fetch from it. Configure the optional `PUBLIC_SANITY_*` values in `.env.local` only when a content model is introduced.

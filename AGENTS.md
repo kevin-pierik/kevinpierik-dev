@@ -19,7 +19,7 @@ Run `bun run qa` before considering work complete. It lints, type-checks, and bu
 
 ```text
 src/
-├── features/     page features, site configuration, styles, and 404 screen
+├── features/     page features, SEO structured data, styles, and Studio bridge
 ├── layouts/      shared document and metadata shells
 └── pages/        file-based routes and static endpoints
 sanity/           dormant, liftable Studio configuration
@@ -30,7 +30,7 @@ Keep application code in its feature directory; route files should compose featu
 ## Routes and metadata
 
 - `/` is the canonical public page. It owns its canonical URL, description, language alternate, and profile JSON-LD.
-- `src/layouts/site-layout.astro` owns shared metadata, the `lang` attribute, global styles, icon links, and Vercel-only analytics.
+- `src/layouts/web.astro` owns shared metadata, the `lang` attribute, global styles, icon links, and Vercel-only analytics.
 - `src/pages/404.astro` retains the BIOS 404. It must remain noindex.
 - `robots.txt`, `sitemap.xml`, and `llms.txt` must list or allow only canonical public content. Studio and API paths stay disallowed in `robots.txt`.
 - Public page and SEO endpoint routes should export `prerender = true`. The Studio is the only on-demand route.
@@ -41,7 +41,7 @@ The homepage has one visible `<h1>` for the person’s name. Each top-level CV s
 
 Use landmarks and accessible names for main content, navigation, and sections. Maintain visible focus styles, semantic lists for grouped information, native links for external destinations, and the reduced-motion rules in `src/styles/animations.css`.
 
-Structured data resides in `src/features/site/seo/structured-data.ts` and is rendered by the homepage route. Keep it consistent with visible content and the canonical URL. Site identity, URL, locale, and default meta description belong in `src/features/site/config.ts`.
+Structured data resides in `src/features/site/seo/structured-data.ts` and is rendered by the homepage route. Keep it consistent with visible content and the canonical URL. Profile content and metadata are currently hardcoded at their points of use and are intended to migrate to Sanity when a content model is introduced.
 
 ## Sanity
 
@@ -49,7 +49,7 @@ Sanity is intentionally dormant. Keep `sanity.config.ts`, `sanity.cli.ts`, `src/
 
 ## Styling and performance
 
-Global styling is imported only through `src/layouts/site-layout.astro`; tokens live under `src/styles/`. The site is dark by default. Text on dark surfaces requires at least a 4.5:1 contrast ratio. Astro components are the default; add React only where client-side interaction is required.
+Global styling is imported only through `src/layouts/web.astro`; tokens live under `src/styles/`. The site is dark by default. Text on dark surfaces requires at least a 4.5:1 contrast ratio. Astro components are the default; add React only where client-side interaction is required.
 
 ## Conventions
 

@@ -1,7 +1,7 @@
 ---
+import Analytics from "@vercel/analytics/astro";
 import SpeedInsights from "@vercel/speed-insights/astro";
 
-import { siteConfig } from "../features/site/config";
 import "../styles/global.css";
 
 interface Props {
@@ -11,15 +11,18 @@ interface Props {
 }
 
 const {
-  title = siteConfig.title,
-  description = siteConfig.description,
+  title = "Frontend Developer | Kevin Pierik",
+  description = "Frontend developer focused on clear, useful interfaces in Hardenberg, the Netherlands.",
   noindex = false,
 } = Astro.props;
-const canonical = new URL(Astro.url.pathname, siteConfig.url).toString();
+const canonical = new URL(
+  Astro.url.pathname,
+  "https://www.kevinpierik.dev",
+).toString();
 ---
 
 <!doctype html>
-<html class="dark h-full bg-black" lang={siteConfig.language}>
+<html class="dark h-full bg-black" lang="en">
   <head>
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1" name="viewport" />
@@ -33,13 +36,13 @@ const canonical = new URL(Astro.url.pathname, siteConfig.url).toString();
       <meta content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" name="robots" />
     )}
     <link href={canonical} rel="canonical" />
-    <link href={canonical} hreflang={siteConfig.language} rel="alternate" />
+    <link href={canonical} hreflang="en" rel="alternate" />
     <link href="/favicon.ico" rel="icon" sizes="any" />
     <link href="/icon-light.png" media="(prefers-color-scheme: light)" rel="icon" type="image/png" />
     <link href="/icon-dark.png" media="(prefers-color-scheme: dark)" rel="icon" type="image/png" />
     <meta content="profile" property="og:type" />
-    <meta content={siteConfig.name} property="og:site_name" />
-    <meta content={siteConfig.locale} property="og:locale" />
+    <meta content="Kevin Pierik" property="og:site_name" />
+    <meta content="en_US" property="og:locale" />
     <meta content={canonical} property="og:url" />
     <meta content={title} property="og:title" />
     <meta content={description} property="og:description" />
@@ -55,6 +58,7 @@ const canonical = new URL(Astro.url.pathname, siteConfig.url).toString();
   </head>
   <body class="bg-black antialiased">
     <slot />
+    {import.meta.env.VERCEL_ENV ? <Analytics /> : null}
     {import.meta.env.VERCEL_ENV ? <SpeedInsights /> : null}
   </body>
 </html>

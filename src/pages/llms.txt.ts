@@ -1,23 +1,22 @@
 import type { APIRoute } from "astro";
 
-import { siteConfig } from "../features/site/config";
-
 export const prerender = true;
 
 export const GET: APIRoute = () => {
   const lines = [
-    `# ${siteConfig.name} — Frontend Developer`,
+    "# Kevin Pierik — Frontend Developer",
     "",
-    `> ${siteConfig.description}`,
+    "> Frontend developer focused on clear, useful interfaces in Hardenberg, the Netherlands.",
     "",
     "## Canonical page",
     "",
-    `- [Homepage and curriculum vitae](${siteConfig.url}): Professional profile, education, software skills, work experience, and contact details.`,
+    "- [Homepage and curriculum vitae](https://www.kevinpierik.dev): Professional profile, education, software skills, work experience, and contact details.",
     "",
     "## Contact",
     "",
-    `- [Email](mailto:${siteConfig.email})`,
-    ...siteConfig.social.map((item) => `- [${item.label}](${item.href})`),
+    "- [Email](mailto:kevinpierik@icloud.com)",
+    "- [LinkedIn](https://nl.linkedin.com/in/kevin-pierik)",
+    "- [Instagram](https://www.instagram.com/kevinpierikk)",
   ];
 
   return new Response(`${lines.join("\n")}\n`, {
