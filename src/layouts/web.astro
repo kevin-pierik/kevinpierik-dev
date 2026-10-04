@@ -2,6 +2,8 @@
 import Analytics from "@vercel/analytics/astro";
 import SpeedInsights from "@vercel/speed-insights/astro";
 
+import { pageTitle, profile } from "../features/site/profile";
+
 import "../styles/global.css";
 
 interface Props {
@@ -11,13 +13,13 @@ interface Props {
 }
 
 const {
-  title = "Frontend Developer | Kevin Pierik",
-  description = "Frontend developer focused on clear, useful interfaces in Hardenberg, the Netherlands.",
+  title = pageTitle,
+  description = profile.description,
   noindex = false,
 } = Astro.props;
 const canonical = new URL(
   Astro.url.pathname,
-  "https://www.kevinpierik.dev",
+  profile.url,
 ).toString();
 ---
 

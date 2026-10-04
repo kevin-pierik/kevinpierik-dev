@@ -1,22 +1,23 @@
 import type { APIRoute } from "astro";
 
+import { emailHref, profile } from "../features/site/profile";
+
 export const prerender = true;
 
 export const GET: APIRoute = () => {
   const lines = [
-    "# Kevin Pierik — Frontend Developer",
+    `# ${profile.name} — ${profile.role}`,
     "",
-    "> Frontend developer focused on clear, useful interfaces in Hardenberg, the Netherlands.",
+    `> ${profile.description}`,
     "",
     "## Canonical page",
     "",
-    "- [Homepage and curriculum vitae](https://www.kevinpierik.dev): Professional profile, education, software skills, work experience, and contact details.",
+    `- [Homepage and curriculum vitae](${profile.url}): Professional profile, education, software skills, work experience, and contact details.`,
     "",
     "## Contact",
     "",
-    "- [Email](mailto:kevinpierik@icloud.com)",
-    "- [LinkedIn](https://nl.linkedin.com/in/kevin-pierik)",
-    "- [Instagram](https://www.instagram.com/kevinpierikk)",
+    `- [Email](${emailHref})`,
+    ...profile.social.map(({ label, href }) => `- [${label}](${href})`),
   ];
 
   return new Response(`${lines.join("\n")}\n`, {

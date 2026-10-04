@@ -1,49 +1,47 @@
+import { pageTitle, profile } from "../profile";
+
 export type BreadcrumbItem = {
   name: string;
   url: string;
 };
 
 export function profileStructuredData() {
+  const { address } = profile.contact;
+
   return {
     "@context": "https://schema.org",
     "@graph": [
       {
         "@type": "WebSite",
-        "@id": "https://www.kevinpierik.dev/#website",
-        name: "Kevin Pierik",
-        url: "https://www.kevinpierik.dev",
-        description:
-          "Frontend developer focused on clear, useful interfaces in Hardenberg, the Netherlands.",
+        "@id": `${profile.url}/#website`,
+        name: profile.name,
+        url: profile.url,
+        description: profile.description,
         inLanguage: "en",
       },
       {
         "@type": "ProfilePage",
-        "@id": "https://www.kevinpierik.dev/#webpage",
-        url: "https://www.kevinpierik.dev",
-        name: "Frontend Developer | Kevin Pierik",
-        description:
-          "Frontend developer focused on clear, useful interfaces in Hardenberg, the Netherlands.",
+        "@id": `${profile.url}/#webpage`,
+        url: profile.url,
+        name: pageTitle,
+        description: profile.description,
         inLanguage: "en",
-        isPartOf: { "@id": "https://www.kevinpierik.dev/#website" },
-        mainEntity: { "@id": "https://www.kevinpierik.dev/#person" },
+        isPartOf: { "@id": `${profile.url}/#website` },
+        mainEntity: { "@id": `${profile.url}/#person` },
       },
       {
         "@type": "Person",
-        "@id": "https://www.kevinpierik.dev/#person",
-        name: "Kevin Pierik",
-        url: "https://www.kevinpierik.dev",
-        email: "kevinpierik@icloud.com",
-        description:
-          "Frontend developer focused on clear, useful interfaces in Hardenberg, the Netherlands.",
-        jobTitle: "Frontend Developer",
+        "@id": `${profile.url}/#person`,
+        name: profile.name,
+        url: profile.url,
+        email: profile.contact.email,
+        description: profile.description,
+        jobTitle: profile.role,
         homeLocation: {
           "@type": "Place",
-          name: "Hardenberg, Overijssel, Netherlands",
+          name: `${address.locality}, ${address.region}, ${address.country}`,
         },
-        sameAs: [
-          "https://nl.linkedin.com/in/kevin-pierik",
-          "https://www.instagram.com/kevinpierikk",
-        ],
+        sameAs: profile.social.map(({ href }) => href),
       },
     ],
   };
