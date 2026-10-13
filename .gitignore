@@ -7,10 +7,9 @@
 # testing
 /coverage
 
-# Astro
-/.astro/
+# next.js
 /.next/
-/dist/
+/out/
 
 # production
 /build
@@ -32,3 +31,4 @@ bun-debug.log*
 
 # typescript
 *.tsbuildinfo
+next-env.d.ts
