@@ -1,0 +1,63 @@
+# kevinpierik.dev
+
+## What this site is
+
+`kevinpierik.dev` is a one-page professional profile and curriculum vitae. The canonical public document is `/`; unknown routes display the BIOS-style 404. There is no CMS. The homepage is a deliberately simple, hardcoded placeholder: its content lives directly in `app/(web)/page.tsx`, without a content model or per-section components.
+
+| Layer      | Choice                                                                                 |
+| ---------- | -------------------------------------------------------------------------------------- |
+| Framework  | Next.js 16 App Router, static output for every route                                   |
+| UI         | React Server Components; client components only where interaction is required (BIOS)   |
+| Styling    | Tailwind CSS v4, CSS-first config in `features/style/`                                 |
+| Fonts      | Helvetica Neue via `next/font/local` in `features/fonts/`                              |
+| Tooling    | ESLint (`eslint-config-next`) for linting, Prettier for formatting, Vitest for tests   |
+| Runtime    | Bun locally and on the host; deployed on Vercel                                        |
+| Analytics  | `@vercel/analytics` and `@vercel/speed-insights`, only when `VERCEL_ENV` is set        |
+
+Next.js 16 APIs and conventions may differ from what you know. Before writing Next.js-specific code, read the relevant guide in `node_modules/next/dist/docs/`, which always matches the installed version.
+
+Run `bun run qa` before considering work complete. It checks formatting, lints, type-checks, runs the tests, and builds the production deployment. Run `bun run format` before committing.
+
+## Folder layout
+
+```text
+app/          routes, route groups, metadata routes, and the shared HTML shell
+components/   small, feature-agnostic building blocks (JSON-LD)
+features/     BIOS 404, structured data, fonts, and styles
+public/       static assets: icons and the Open Graph image
+```
+
+Keep the number of components small. Content is hardcoded at its point of use; only extract a component or feature when it carries real behaviour or is reused. Imports use `@/*`, which maps to the project root.
+
+## Routes and metadata
+
+- `app/(web)/page.tsx` is the canonical public page. It owns all of its metadata (title, description, canonical URL, language alternate, Open Graph, Twitter, robots) and renders the profile JSON-LD. Next.js merges `openGraph` shallowly, so a page that sets any Open Graph field must declare the complete object.
+- `app/shared-web-layout.tsx` owns the `<html>`/`<body>` shell, the `lang` attribute, the font variable, global styles, and Vercel-only analytics. It also exports `sharedMetadata` (`metadataBase`, icons, format detection) and `sharedViewport`, which `app/(web)/layout.tsx` and the 404 both use.
+- `app/global-not-found.tsx` renders the BIOS 404. It must remain noindex.
+- `robots.txt`, `sitemap.xml`, and `llms.txt` must list or allow only canonical public content. API paths stay disallowed in `robots.txt`.
+- Every route must stay static (`○` in the build output). Route handlers export `dynamic = "force-static"`.
+
+## Accessibility and SEO
+
+The homepage has one visible `<h1>` for the person’s name. Each top-level CV section has an `<h2>`; individual education, skill, and employment entries use `<h3>`. Do not create `h4`–`h6` merely to use every tag: add a deeper heading only for a genuine subordinate content section, and never skip heading ranks.
+
+Use landmarks and accessible names for main content, navigation, and sections. Maintain visible focus styles, semantic lists for grouped information, native links for external destinations, and the reduced-motion rules in `features/style/animations.css`.
+
+Structured data resides in `features/seo/structured-data.ts` and is rendered by the homepage route through `components/json-ld.tsx`. Profile details are hardcoded in the page, its metadata, the structured data, and `llms.txt`; when you change one, change the others.
+
+## Styling and performance
+
+Global styling is imported only through `app/shared-web-layout.tsx`; tokens live under `features/style/`. The site is dark by default. Text on dark surfaces requires at least a 4.5:1 contrast ratio. The BIOS 404 keeps its original palette as arbitrary Tailwind classes in `features/bios/bios-screen.tsx`. Server components are the default; add `"use client"` only where client-side interaction is required.
+
+## Testing
+
+Tests use Vitest and live next to the code they cover as `*.test.ts` or `*.test.tsx`. Only test real logic or behaviour that is easy to break, such as helpers and escaping; do not test hardcoded content or framework behaviour. Import test APIs explicitly from `vitest`. Run them with `bun run test`, or `bun run test:watch` during development.
+
+## Conventions
+
+- Use Dutch commit messages, but English file names, code symbols, UI copy, and repository documentation.
+- Use kebab-case file names.
+- Put local environment values in `.env.local`; document required variables in `.env.example`.
+- Use conventional, present-tense, lowercase commit messages, for example: `feat(home): verbetert metadata`.
+- Do not add explanatory comments to committed code; document durable design decisions here instead.
+- `.rules` is the single source of agent instructions; `AGENTS.md` and `CLAUDE.md` are symlinks to it.
