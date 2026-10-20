@@ -14,9 +14,11 @@ const securityHeaders = [
 ];
 
 const nextConfig: NextConfig = {
+  reactCompiler: true,
   experimental: {
     inlineCss: true,
     globalNotFound: true,
+    turbopackRustReactCompiler: true,
   },
 
   async headers() {
