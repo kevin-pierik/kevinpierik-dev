@@ -19,9 +19,7 @@ export const viewport = sharedViewport;
 export default function GlobalNotFound() {
   return (
     <SharedWebLayout>
-      <main className="h-svh" id="main">
-        <BiosScreen />
-      </main>
+      <BiosScreen />
     </SharedWebLayout>
   );
 }

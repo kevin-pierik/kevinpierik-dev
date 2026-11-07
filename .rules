@@ -35,7 +35,7 @@ Keep the number of components small. Content is hardcoded at its point of use; o
 
 - `app/(web)/page.tsx` is the canonical public page. It owns all of its metadata (title, description, canonical URL, language alternate, Open Graph, Twitter, robots) and renders the profile JSON-LD. Next.js merges `openGraph` shallowly, so a page that sets any Open Graph field must declare the complete object.
 - `app/shared-web-layout.tsx` owns the `<html>`/`<body>` shell, the `lang` attribute, the font variable, global styles, and Vercel-only analytics. It also exports `sharedMetadata` (`metadataBase`, icons, format detection) and `sharedViewport`, which `app/(web)/layout.tsx` and the 404 both use.
-- `app/global-not-found.tsx` renders the BIOS 404. It must remain noindex.
+- `app/global-not-found.tsx` renders the BIOS 404. It must remain noindex. `BiosScreen` owns its own landmarks: a `<header>` for the top bar, a `<main id="main">` with the boot log as paragraphs and a route list (spacing comes from CSS, not from literal spaces, because Prettier collapses repeated spaces in JSX text) followed by the error as the page’s `<h1>`, and a `<footer>` with the reboot link and `<kbd>` key hints. Only Enter, Escape, and F1 trigger the reboot; never add global character-key or pointer handlers, because they break scrolling, text selection, and screen-reader keys (WCAG 2.1.4 and 2.5.2).
 - `robots.txt`, `sitemap.xml`, and `llms.txt` must list or allow only canonical public content. API paths stay disallowed in `robots.txt`.
 - Every route must stay static (`○` in the build output). Route handlers export `dynamic = "force-static"`.
 
@@ -51,7 +51,7 @@ Structured data is hardcoded in `app/(web)/page.tsx` as a `Graph` typed with `sc
 
 ## Styling and performance
 
-Global styling is imported only through `app/shared-web-layout.tsx`; tokens live under `features/style/`. The site is dark by default. Text on dark surfaces requires at least a 4.5:1 contrast ratio. The BIOS 404 keeps its original palette as arbitrary Tailwind classes in `features/bios/bios-screen.tsx`. Server components are the default; add `"use client"` only where client-side interaction is required.
+Global styling is imported only through `app/shared-web-layout.tsx`; tokens live under `features/style/`. The site is dark by default. Text on dark surfaces requires at least a 4.5:1 contrast ratio. The BIOS 404 keeps its original palette as arbitrary Tailwind classes in `features/bios/bios-screen.tsx`, a Server Component; its browser-only parts (the reboot shortcut and the requested route) live in `features/bios/bios-client.ts`. Server components are the default; add `"use client"` only where client-side interaction is required.
 
 ## Testing
 
