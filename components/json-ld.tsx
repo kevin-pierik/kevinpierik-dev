@@ -1,5 +1,7 @@
+import type { Graph, Thing, WithContext } from "schema-dts";
+
 type JsonLdProps = {
-  data: unknown;
+  data: Thing | WithContext<Thing> | Graph;
 };
 
 export function JsonLd({ data }: JsonLdProps) {

@@ -9,15 +9,20 @@ function scriptContent(markup: string) {
 
 describe("JsonLd", () => {
   test("renders a JSON-LD script tag", () => {
-    const markup = renderToStaticMarkup(<JsonLd data={{ name: "Kevin" }} />);
+    const markup = renderToStaticMarkup(
+      <JsonLd data={{ "@type": "Person", name: "Kevin" }} />,
+    );
 
     expect(markup).toBe(
-      '<script type="application/ld+json">{"name":"Kevin"}</script>',
+      '<script type="application/ld+json">{"@type":"Person","name":"Kevin"}</script>',
     );
   });
 
   test("escapes markup so data cannot close the script element", () => {
-    const data = { name: "</script><script>alert(1)</script>" };
+    const data = {
+      "@type": "Person",
+      name: "</script><script>alert(1)</script>",
+    } as const;
     const content = scriptContent(renderToStaticMarkup(<JsonLd data={data} />));
 
     expect(content).not.toContain("<");

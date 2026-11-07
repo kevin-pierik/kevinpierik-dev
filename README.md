@@ -7,6 +7,7 @@ The source for [kevinpierik.dev](https://www.kevinpierik.dev): a fast, one-page 
 - Next.js 16 App Router, with every route statically prerendered
 - React Server Components; a client component only for the interactive BIOS 404
 - Tailwind CSS 4
+- MDX for the CV content
 - ESLint, Prettier, and Vitest
 - Bun and Vercel
 
@@ -15,11 +16,11 @@ The source for [kevinpierik.dev](https://www.kevinpierik.dev): a fast, one-page 
 ```text
 app/          # Routes, metadata routes (robots, sitemap, llms.txt), and the shared HTML shell
 components/   # Small, feature-agnostic building blocks
-features/     # BIOS 404, structured data, fonts, and styles
+features/     # BIOS 404, fonts, and styles
 public/       # Icons and the Open Graph image
 ```
 
-The homepage is a hardcoded placeholder in `app/(web)/page.tsx`. Its metadata, the structured data in `features/seo/structured-data.ts`, and `llms.txt` repeat the same profile details, so keep them in sync.
+The homepage is `app/(web)/page.tsx`; its CV content lives in `app/(web)/cv.mdx`, styled through `mdx-components.tsx`. The page metadata, the `schema-dts`-typed structured data in the page, `cv.mdx`, and `llms.txt` repeat the same profile details, so keep them in sync.
 
 ## Development
 
