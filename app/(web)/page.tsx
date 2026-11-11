@@ -4,7 +4,7 @@ import type { Graph } from "schema-dts";
 import { JsonLd } from "@/components/json-ld";
 import { linkClassName as link } from "@/mdx-components";
 
-import Cv from "./cv.mdx";
+import HomeContent from "./home.mdx";
 
 const title = "Frontend Developer | Kevin Pierik";
 const description =
@@ -149,7 +149,7 @@ export default function Home() {
           Kevin Pierik
         </h1>
         <div className="mt-[7.8vh] grid grid-cols-2 gap-x-[4vw] gap-y-[1.35em] sm:grid-cols-[2fr_3fr_3fr_4fr] sm:gap-x-[1vw] sm:gap-y-0">
-          <Cv />
+          <HomeContent />
         </div>
       </main>
     </>

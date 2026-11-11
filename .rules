@@ -2,7 +2,7 @@
 
 ## What this site is
 
-`kevinpierik.dev` is a one-page professional profile and curriculum vitae. The canonical public document is `/`; unknown routes display the BIOS-style 404. There is no CMS. The homepage is a deliberately simple, hardcoded page: `app/(web)/page.tsx` owns the metadata, header, `<h1>`, grid, and structured data, while the CV content is written as markdown in `app/(web)/cv.mdx`, without a content model or per-section components.
+`kevinpierik.dev` is a one-page professional profile and curriculum vitae. The canonical public document is `/`; unknown routes display the BIOS-style 404. There is no CMS. The homepage is a deliberately simple, hardcoded page: `app/(web)/page.tsx` owns the metadata, header, `<h1>`, grid, and structured data, while the CV content is written as markdown in `app/(web)/home.mdx`, without a content model or per-section components.
 
 | Layer      | Choice                                                                                 |
 | ---------- | -------------------------------------------------------------------------------------- |
@@ -45,9 +45,9 @@ The homepage has one visible `<h1>` for the person’s name. Each top-level CV s
 
 Use landmarks and accessible names for main content, navigation, and sections. Maintain visible focus styles, semantic lists for grouped information, native links for external destinations, and the reduced-motion rules in `features/style/animations.css`.
 
-The CV content in `app/(web)/cv.mdx` uses plain markdown: `###` for entries, `-` lists for their details, and markdown links. Wrap content in `<Column className="…">` for grid placement and `<Section title="…">`, which renders the `<section aria-labelledby>` landmark and its `<h2>` with an id slugified from the title. Use `<Label>` for the hanging `P:`/`E:` labels in Contact. Styling for markdown elements lives only in `mdx-components.tsx`; do not put Tailwind classes in the MDX beyond `Column` and `Section` layout classes.
+The CV content in `app/(web)/home.mdx` uses plain markdown: `###` for entries, `-` lists for their details, and markdown links. Wrap content in `<Column className="…">` for grid placement and `<Section title="…">`, which renders the `<section aria-labelledby>` landmark and its `<h2>` with an id slugified from the title. Use `<Label>` for the hanging `P:`/`E:` labels in Contact. Styling for markdown elements lives only in `mdx-components.tsx`; do not put Tailwind classes in the MDX beyond `Column` and `Section` layout classes.
 
-Structured data is hardcoded in `app/(web)/page.tsx` as a `Graph` typed with `schema-dts` and rendered through `components/json-ld.tsx`. Profile details are repeated in the page, its metadata, the structured data, `cv.mdx`, and `llms.txt`; when you change one, change the others.
+Structured data is hardcoded in `app/(web)/page.tsx` as a `Graph` typed with `schema-dts` and rendered through `components/json-ld.tsx`. Profile details are repeated in the page, its metadata, the structured data, `home.mdx`, and `llms.txt`; when you change one, change the others.
 
 ## Styling and performance
 
