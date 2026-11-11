@@ -13,6 +13,7 @@ const body = `# Kevin Pierik — Frontend Developer
 - [Email](mailto:kevinpierik@icloud.com)
 - [LinkedIn](https://nl.linkedin.com/in/kevin-pierik)
 - [Instagram](https://www.instagram.com/kevinpierikk)
+- [GitHub](https://github.com/kevin-pierik)
 `;
 
 export function GET(): Response {

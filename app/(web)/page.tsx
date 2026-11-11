@@ -95,6 +95,7 @@ const structuredData: Graph = {
       sameAs: [
         "https://nl.linkedin.com/in/kevin-pierik",
         "https://www.instagram.com/kevinpierikk",
+        "https://github.com/kevin-pierik",
       ],
     },
   ],
@@ -131,6 +132,11 @@ export default function Home() {
                   href="https://www.instagram.com/kevinpierikk"
                 >
                   Instagram
+                </a>
+              </li>
+              <li>
+                <a className={link} href="https://github.com/kevin-pierik">
+                  GitHub
                 </a>
               </li>
             </ul>
