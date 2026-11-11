@@ -107,7 +107,7 @@ export default function Home() {
       <JsonLd data={structuredData} />
       <main
         aria-labelledby="page-title"
-        className="flex h-svh flex-col overflow-y-auto overscroll-none bg-black px-3 py-3 text-[0.75rem]/[1.32] font-bold text-white sm:px-[1.35vw] sm:py-[1.35vw]"
+        className="flex h-svh flex-col overflow-y-auto overscroll-none bg-background px-3 py-3 text-[0.75rem]/[1.32] font-bold text-foreground sm:px-[1.35vw] sm:py-[1.35vw]"
         id="main"
       >
         <header className="grid grid-cols-2 gap-x-[4vw] gap-y-[1.35em] sm:grid-cols-[2fr_3fr_3fr_4fr] sm:gap-x-[1vw] sm:gap-y-0">

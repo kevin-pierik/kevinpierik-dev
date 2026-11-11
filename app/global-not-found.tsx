@@ -1,10 +1,6 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 
-import {
-  SharedWebLayout,
-  sharedMetadata,
-  sharedViewport,
-} from "@/app/shared-web-layout";
+import { SharedWebLayout, sharedMetadata } from "@/app/shared-web-layout";
 import { BiosScreen } from "@/features/bios/bios-screen";
 
 export const metadata: Metadata = {
@@ -14,11 +10,14 @@ export const metadata: Metadata = {
   robots: { index: false, follow: false },
 };
 
-export const viewport = sharedViewport;
+export const viewport: Viewport = {
+  colorScheme: "dark",
+  themeColor: "#000000",
+};
 
 export default function GlobalNotFound() {
   return (
-    <SharedWebLayout>
+    <SharedWebLayout dark>
       <BiosScreen />
     </SharedWebLayout>
   );
