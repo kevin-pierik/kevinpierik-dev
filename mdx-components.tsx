@@ -2,7 +2,7 @@ import type { MDXComponents } from "mdx/types";
 import type { ComponentProps, ReactNode } from "react";
 
 export const linkClassName =
-  "underline decoration-white/35 decoration-1 underline-offset-[0.25em] hover:decoration-white focus-visible:decoration-white focus-visible:outline-none";
+  "underline decoration-foreground/35 decoration-1 underline-offset-[0.25em] hover:decoration-foreground focus-visible:decoration-foreground focus-visible:outline-none";
 
 function slugify(value: string) {
   return value

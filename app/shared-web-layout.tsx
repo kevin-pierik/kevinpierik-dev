@@ -28,18 +28,25 @@ export const sharedMetadata: Metadata = {
 };
 
 export const sharedViewport: Viewport = {
-  colorScheme: "dark",
-  themeColor: "#000000",
+  colorScheme: "light dark",
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#ffffff" },
+    { media: "(prefers-color-scheme: dark)", color: "#000000" },
+  ],
 };
 
 type SharedWebLayoutProps = {
   children: ReactNode;
+  dark?: boolean;
 };
 
-export function SharedWebLayout({ children }: SharedWebLayoutProps) {
+export function SharedWebLayout({ children, dark }: SharedWebLayoutProps) {
   return (
-    <html className={`dark h-full bg-black ${helvetica.variable}`} lang="en">
-      <body className="bg-black antialiased">
+    <html
+      className={`h-full bg-background ${dark ? "dark" : ""} ${helvetica.variable}`}
+      lang="en"
+    >
+      <body className="bg-background antialiased">
         {children}
         {process.env.VERCEL_ENV ? <Analytics /> : null}
         {process.env.VERCEL_ENV ? <SpeedInsights /> : null}

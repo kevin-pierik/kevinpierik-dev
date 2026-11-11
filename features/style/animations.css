@@ -8,3 +8,9 @@
     scroll-behavior: auto !important;
   }
 }
+
+@keyframes blink {
+  50% {
+    opacity: 0;
+  }
+}

@@ -2,7 +2,7 @@
 
 ## What this site is
 
-`kevinpierik.dev` is a one-page professional profile and curriculum vitae. The canonical public document is `/`; unknown routes display the BIOS-style 404. There is no CMS. The homepage is a deliberately simple, hardcoded page: `app/(web)/page.tsx` owns the metadata, header, `<h1>`, grid, and structured data, while the CV content is written as markdown in `app/(web)/cv.mdx`, without a content model or per-section components.
+`kevinpierik.dev` is a one-page professional profile and curriculum vitae. The canonical public document is `/`; unknown routes display the BIOS-style 404. There is no CMS. The homepage is a deliberately simple, hardcoded page: `app/(web)/page.tsx` owns the metadata, header, `<h1>`, grid, and structured data, while the CV content is written as markdown in `app/(web)/home.mdx`, without a content model or per-section components.
 
 | Layer      | Choice                                                                                 |
 | ---------- | -------------------------------------------------------------------------------------- |
@@ -34,7 +34,7 @@ Keep the number of components small. Content is hardcoded at its point of use; o
 ## Routes and metadata
 
 - `app/(web)/page.tsx` is the canonical public page. It owns all of its metadata (title, description, canonical URL, language alternate, Open Graph, Twitter, robots) and renders the profile JSON-LD. Next.js merges `openGraph` shallowly, so a page that sets any Open Graph field must declare the complete object.
-- `app/shared-web-layout.tsx` owns the `<html>`/`<body>` shell, the `lang` attribute, the font variable, global styles, and Vercel-only analytics. It also exports `sharedMetadata` (`metadataBase`, icons, format detection) and `sharedViewport`, which `app/(web)/layout.tsx` and the 404 both use.
+- `app/shared-web-layout.tsx` owns the `<html>`/`<body>` shell, the `lang` attribute, the font variable, global styles, and Vercel-only analytics. It also exports `sharedMetadata` (`metadataBase`, icons, format detection) and `sharedViewport` (light and dark color scheme and theme colour), which `app/(web)/layout.tsx` uses. The 404 declares its own dark-only viewport and passes `dark` to `SharedWebLayout`.
 - `app/global-not-found.tsx` renders the BIOS 404. It must remain noindex. `BiosScreen` owns its own landmarks: a `<header>` for the top bar, a `<main id="main">` with the boot log as paragraphs and a route list (spacing comes from CSS, not from literal spaces, because Prettier collapses repeated spaces in JSX text) followed by the error as the page’s `<h1>`, and a `<footer>` with the reboot link and `<kbd>` key hints. Only Enter, Escape, and F1 trigger the reboot; never add global character-key or pointer handlers, because they break scrolling, text selection, and screen-reader keys (WCAG 2.1.4 and 2.5.2).
 - `robots.txt`, `sitemap.xml`, and `llms.txt` must list or allow only canonical public content. API paths stay disallowed in `robots.txt`.
 - Every route must stay static (`○` in the build output). Route handlers export `dynamic = "force-static"`.
@@ -45,13 +45,13 @@ The homepage has one visible `<h1>` for the person’s name. Each top-level CV s
 
 Use landmarks and accessible names for main content, navigation, and sections. Maintain visible focus styles, semantic lists for grouped information, native links for external destinations, and the reduced-motion rules in `features/style/animations.css`.
 
-The CV content in `app/(web)/cv.mdx` uses plain markdown: `###` for entries, `-` lists for their details, and markdown links. Wrap content in `<Column className="…">` for grid placement and `<Section title="…">`, which renders the `<section aria-labelledby>` landmark and its `<h2>` with an id slugified from the title. Use `<Label>` for the hanging `P:`/`E:` labels in Contact. Styling for markdown elements lives only in `mdx-components.tsx`; do not put Tailwind classes in the MDX beyond `Column` and `Section` layout classes.
+The CV content in `app/(web)/home.mdx` uses plain markdown: `###` for entries, `-` lists for their details, and markdown links. Wrap content in `<Column className="…">` for grid placement and `<Section title="…">`, which renders the `<section aria-labelledby>` landmark and its `<h2>` with an id slugified from the title. Use `<Label>` for the hanging `P:`/`E:` labels in Contact. Styling for markdown elements lives only in `mdx-components.tsx`; do not put Tailwind classes in the MDX beyond `Column` and `Section` layout classes.
 
-Structured data is hardcoded in `app/(web)/page.tsx` as a `Graph` typed with `schema-dts` and rendered through `components/json-ld.tsx`. Profile details are repeated in the page, its metadata, the structured data, `cv.mdx`, and `llms.txt`; when you change one, change the others.
+Structured data is hardcoded in `app/(web)/page.tsx` as a `Graph` typed with `schema-dts` and rendered through `components/json-ld.tsx`. Profile details are repeated in the page, its metadata, the structured data, `home.mdx`, and `llms.txt`; when you change one, change the others.
 
 ## Styling and performance
 
-Global styling is imported only through `app/shared-web-layout.tsx`; tokens live under `features/style/`. The site is dark by default. Text on dark surfaces requires at least a 4.5:1 contrast ratio. The BIOS 404 keeps its original palette as arbitrary Tailwind classes in `features/bios/bios-screen.tsx`, a Server Component; its browser-only parts (the reboot shortcut and the requested route) live in `features/bios/bios-client.ts`. Server components are the default; add `"use client"` only where client-side interaction is required.
+Global styling is imported only through `app/shared-web-layout.tsx`; tokens live under `features/style/`. The site follows the system color scheme without a toggle: `features/style/colors.css` defines `--background` and `--foreground` with `light-dark()`, exposed to Tailwind as `background` and `foreground`, so use those instead of hardcoded black or white. The `.dark` class forces the dark scheme and is used only by the BIOS 404. Text requires at least a 4.5:1 contrast ratio in both schemes. The `::selection` background is the foreground colour at 99% opacity rather than opaque, because WebKit blends opaque selection colours with white and would render them grey. The BIOS 404 keeps its original palette as arbitrary Tailwind classes in `features/bios/bios-screen.tsx`, a Server Component; its browser-only parts (the reboot shortcut and the requested route) live in `features/bios/bios-client.ts`. Server components are the default; add `"use client"` only where client-side interaction is required.
 
 ## Testing
 

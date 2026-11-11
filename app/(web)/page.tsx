@@ -4,7 +4,7 @@ import type { Graph } from "schema-dts";
 import { JsonLd } from "@/components/json-ld";
 import { linkClassName as link } from "@/mdx-components";
 
-import Cv from "./cv.mdx";
+import HomeContent from "./home.mdx";
 
 const title = "Frontend Developer | Kevin Pierik";
 const description =
@@ -95,6 +95,7 @@ const structuredData: Graph = {
       sameAs: [
         "https://nl.linkedin.com/in/kevin-pierik",
         "https://www.instagram.com/kevinpierikk",
+        "https://github.com/kevin-pierik",
       ],
     },
   ],
@@ -106,7 +107,7 @@ export default function Home() {
       <JsonLd data={structuredData} />
       <main
         aria-labelledby="page-title"
-        className="flex h-svh flex-col overflow-y-auto overscroll-none bg-black px-3 py-3 text-[0.75rem]/[1.32] font-bold text-white sm:px-[1.35vw] sm:py-[1.35vw]"
+        className="flex h-svh flex-col overflow-y-auto overscroll-none bg-background px-3 py-3 text-[0.75rem]/[1.32] font-bold text-foreground sm:px-[1.35vw] sm:py-[1.35vw]"
         id="main"
       >
         <header className="grid grid-cols-2 gap-x-[4vw] gap-y-[1.35em] sm:grid-cols-[2fr_3fr_3fr_4fr] sm:gap-x-[1vw] sm:gap-y-0">
@@ -133,6 +134,11 @@ export default function Home() {
                   Instagram
                 </a>
               </li>
+              <li>
+                <a className={link} href="https://github.com/kevin-pierik">
+                  GitHub
+                </a>
+              </li>
             </ul>
           </nav>
         </header>
@@ -143,7 +149,7 @@ export default function Home() {
           Kevin Pierik
         </h1>
         <div className="mt-[7.8vh] grid grid-cols-2 gap-x-[4vw] gap-y-[1.35em] sm:grid-cols-[2fr_3fr_3fr_4fr] sm:gap-x-[1vw] sm:gap-y-0">
-          <Cv />
+          <HomeContent />
         </div>
       </main>
     </>

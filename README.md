@@ -20,7 +20,7 @@ features/     # BIOS 404, fonts, and styles
 public/       # Icons and the Open Graph image
 ```
 
-The homepage is `app/(web)/page.tsx`; its CV content lives in `app/(web)/cv.mdx`, styled through `mdx-components.tsx`. The page metadata, the `schema-dts`-typed structured data in the page, `cv.mdx`, and `llms.txt` repeat the same profile details, so keep them in sync.
+The homepage is `app/(web)/page.tsx`; its CV content lives in `app/(web)/home.mdx`, styled through `mdx-components.tsx`. The page metadata, the `schema-dts`-typed structured data in the page, `home.mdx`, and `llms.txt` repeat the same profile details, so keep them in sync.
 
 ## Development
 
