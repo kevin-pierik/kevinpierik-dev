@@ -24,4 +24,4 @@ Install or update a skill with the CLI, never by hand:
 npx skills add vercel-labs/agent-skills --skill web-design-guidelines --agent claude-code
 ```
 
-Skills are excluded from Prettier and ESLint, so their files stay identical to the source.
+Skills are excluded from Prettier and ESLint, so their files stay identical to the source. `.gitattributes` marks them as vendored, so GitHub leaves them out of the language statistics.
