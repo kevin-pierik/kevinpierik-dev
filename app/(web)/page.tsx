@@ -6,21 +6,33 @@ import { linkClassName as link } from "@/mdx-components";
 
 import HomeContent from "./home.mdx";
 
-const title = "Frontend Developer | Kevin Pierik";
+const name = "Kevin Pierik";
+const title = `${name} | Frontend Developer`;
 const description =
   "Frontend developer focused on clear, useful interfaces in Hardenberg, the Netherlands.";
+
+const siteUrl = "https://www.kevinpierik.dev";
+const copyrightYear = new Date().getFullYear();
 
 export const metadata: Metadata = {
   title,
   description,
+  applicationName: name,
+  authors: [{ name, url: siteUrl }],
+  creator: name,
+  publisher: name,
+  category: "technology",
   alternates: {
     canonical: "/",
     languages: { en: "/" },
   },
   openGraph: {
     type: "profile",
+    firstName: "Kevin",
+    lastName: "Pierik",
+    username: "kevin-pierik",
     url: "/",
-    siteName: "Kevin Pierik",
+    siteName: name,
     locale: "en_US",
     title,
     description,
@@ -46,9 +58,10 @@ export const metadata: Metadata = {
     "max-snippet": -1,
     "max-video-preview": -1,
   },
+  other: {
+    copyright: `© ${copyrightYear} ${name}`,
+  },
 };
-
-const siteUrl = "https://www.kevinpierik.dev";
 
 const structuredData: Graph = {
   "@context": "https://schema.org",
@@ -56,10 +69,13 @@ const structuredData: Graph = {
     {
       "@type": "WebSite",
       "@id": `${siteUrl}/#website`,
-      name: "Kevin Pierik",
+      name,
       url: siteUrl,
       description,
       inLanguage: "en",
+      publisher: { "@id": `${siteUrl}/#person` },
+      copyrightHolder: { "@id": `${siteUrl}/#person` },
+      copyrightYear,
     },
     {
       "@type": "ProfilePage",
@@ -74,18 +90,32 @@ const structuredData: Graph = {
     {
       "@type": "Person",
       "@id": `${siteUrl}/#person`,
-      name: "Kevin Pierik",
+      name,
+      givenName: "Kevin",
+      familyName: "Pierik",
       url: siteUrl,
+      mainEntityOfPage: { "@id": `${siteUrl}/#webpage` },
       email: "kevinpierik@icloud.com",
+      telephone: "+31615545687",
       description,
       jobTitle: "Frontend Developer",
-      homeLocation: {
-        "@type": "Place",
-        name: "Hardenberg, Overijssel, The Netherlands",
+      hasOccupation: {
+        "@type": "Occupation",
+        name: "Frontend Developer",
+        occupationLocation: { "@type": "Country", name: "Netherlands" },
       },
+      address: {
+        "@type": "PostalAddress",
+        addressLocality: "Hardenberg",
+        addressRegion: "Overijssel",
+        addressCountry: "NL",
+      },
+      nationality: { "@type": "Country", name: "Netherlands" },
+      knowsLanguage: ["nl", "en"],
       worksFor: {
         "@type": "Organization",
         name: "Friday Digital Agency",
+        url: "https://www.friday.nl",
       },
       alumniOf: [
         { "@type": "EducationalOrganization", name: "Deltion College" },
