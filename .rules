@@ -50,7 +50,7 @@ Use landmarks and accessible names for main content, navigation, and sections. M
 
 The CV content in `app/(web)/home.mdx` uses plain markdown: `###` for entries, `-` lists for their details, and markdown links. Wrap content in `<Column className="…">` for grid placement and `<Section title="…">`, which renders the `<section aria-labelledby>` landmark and its `<h2>` with an id slugified from the title. Wrap the Contact list in `<Contact>`, which renders `<address>`, and use `<Label title="Phone">P:</Label>` for its hanging labels: the visible abbreviation is hidden from assistive technology and `title` is read instead. Mark dates and durations with `<time dateTime="…">`, such as `<time dateTime="2023-09">September 2023</time>` and `<time dateTime="P5M">5 months</time>`. Styling for markdown elements lives only in `mdx-components.tsx`; do not put Tailwind classes in the MDX beyond `Column` and `Section` layout classes.
 
-Structured data is hardcoded in `app/(web)/page.tsx` as a `Graph` typed with `schema-dts` and rendered through `components/json-ld.tsx`. Profile details are repeated in the page, its metadata, the structured data, `home.mdx`, and `llms.txt`; when you change one, change the others.
+Structured data is hardcoded in `app/(web)/page.tsx` as a `Graph` typed with `schema-dts` and rendered through `components/json-ld.tsx`. Profile details are repeated in the page, its metadata, the structured data, `home.mdx`, `llms.txt`, and `app/manifest.ts`; when you change one, change the others. Titles lead with the name (`Kevin Pierik | Frontend Developer`), because that is what people search for. The copyright year comes from the build date, so every deploy keeps it current.
 
 ## Styling and performance
 
