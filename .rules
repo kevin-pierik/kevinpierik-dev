@@ -1,73 +1,50 @@
 # kevinpierik.dev
 
-## What this site is
+`kevinpierik.dev` is a one-page professional profile and curriculum vitae. The canonical public page is `/`; unknown routes show a BIOS-style 404. There is no CMS: `app/(web)/page.tsx` owns the metadata, header, `<h1>`, grid, and structured data, and the CV content is markdown in `app/(web)/home.mdx`.
 
-`kevinpierik.dev` is a one-page professional profile and curriculum vitae. The canonical public document is `/`; unknown routes display the BIOS-style 404. There is no CMS. The homepage is a deliberately simple, hardcoded page: `app/(web)/page.tsx` owns the metadata, header, `<h1>`, grid, and structured data, while the CV content is written as markdown in `app/(web)/home.mdx`, without a content model or per-section components.
+How each feature works is documented for people in `docs/` ([index](docs/README.md)). Read the feature's page before changing it, and update it in the same pull request.
 
-| Layer      | Choice                                                                                 |
-| ---------- | -------------------------------------------------------------------------------------- |
-| Framework  | Next.js 16 App Router, static output for every route                                   |
-| UI         | React Server Components; client components only where interaction is required (BIOS)   |
-| Styling    | Tailwind CSS v4, CSS-first config in `features/style/`                                 |
-| Content    | MDX via `@next/mdx`; element styling and layout components in `mdx-components.tsx`     |
-| Fonts      | Helvetica Neue via `next/font/local` in `features/fonts/`                              |
-| Tooling    | ESLint (`eslint-config-next`) for linting, Prettier for formatting, Vitest for tests   |
-| Runtime    | Bun locally and on the host; deployed on Vercel                                        |
-| Analytics  | `@vercel/analytics` and `@vercel/speed-insights`, only when `VERCEL_ENV` is set        |
-| Behaviour  | UI SDK (`@ui-sdk/react`, pinned beta): headless primitives and hooks, styled with Tailwind |
+## Before you write code
 
-Next.js 16 APIs and conventions may differ from what you know. Before writing Next.js-specific code, read the relevant guide in `node_modules/next/dist/docs/`, which always matches the installed version.
+- Next.js 16 may differ from what you know. Read the relevant guide in `node_modules/next/dist/docs/` first.
+- For UI SDK code, read the `ui-sdk` skill and `node_modules/@ui-sdk/react/docs/llms.txt` first.
+- Agent skills live in `.agents/skills/` (see [agent skills](docs/features/agent-skills.md)). Install or update them with `npx skills add`; never edit them by hand.
 
-Agent skills live in `.agents/skills/`; `.claude/skills` is a symlink to it and `skills-lock.json` records their sources. Install or update them with `npx skills add <repo> --skill <name> --agent claude-code`, never edit them by hand, and keep them out of Prettier. The installed skills are `ui-sdk`, the Next.js workflow skills from `vercel/next.js`, `agent-browser`, and from `vercel-labs/agent-skills`: React best practices, composition patterns, view transitions, web design guidelines, writing guidelines, and Vercel optimize. Use `bunx agent-browser` (a dev dependency) to verify UI changes, such as the BIOS keyboard shortcuts, in a real browser. Before writing UI SDK code, read the `ui-sdk` skill and the docs in `node_modules/@ui-sdk/react/docs/`.
+## Rules
 
-Run `bun run qa` before considering work complete. It checks formatting, lints, type-checks, runs the tests, and builds the production deployment. Run `bun run format` before committing.
+- Every route stays static (`○` in the build output). Route handlers export `dynamic = "force-static"`.
+- Server Components are the default; add `"use client"` only for real client-side interaction.
+- Keep components few. Hardcode content where it is used; extract only for real behaviour or reuse. Imports use `@/*`.
+- Global styles are imported only through `app/shared-web-layout.tsx`. Use the `background` and `foreground` colours, never hardcoded black or white, and keep text contrast at 4.5:1 or more in both schemes ([color scheme](docs/features/color-scheme.md)).
+- The homepage has one `<h1>`; CV sections use `<h2>` and entries `<h3>`. Never skip heading ranks or add deeper headings without real subsections.
+- Keep landmarks, accessible names, visible focus styles, semantic lists, native links, and the reduced-motion rules in `features/style/animations.css`.
+- Write CV content as plain markdown with the MDX components; no Tailwind classes in the MDX beyond `Column` and `Section` layout ([MDX content](docs/features/mdx-content.md)).
+- Profile details are repeated in `home.mdx`, the page metadata, the structured data, `llms.txt`, and `app/manifest.ts`. Change them together ([SEO](docs/features/seo-and-structured-data.md)).
+- Next.js merges `openGraph` shallowly, so declare the complete object.
+- `robots.txt`, `sitemap.xml`, and `llms.txt` list only canonical public content; `/api/` stays disallowed.
+- The BIOS 404 stays `noindex`. Only Enter, Escape, and F1 reboot it; never add page-wide character-key or pointer handlers (WCAG 2.1.4 and 2.5.2) ([BIOS 404](docs/features/bios-404.md)).
 
-## Folder layout
+## Quality
 
-```text
-app/          routes, route groups, metadata routes, and the shared HTML shell
-components/   small, feature-agnostic building blocks (JSON-LD)
-features/     BIOS 404, fonts, and styles
-public/       static assets: icons and the Open Graph image
-mdx-components.tsx   global MDX element styles and the Column, Section, Label, and Contact components
-```
+Run `bun run qa` before considering work complete: it checks formatting, lints, type-checks, tests, and builds. Run `bun run format` before committing. Verify UI changes in a real browser with `bunx agent-browser` ([browser automation](docs/features/browser-automation.md)).
 
-Keep the number of components small. Content is hardcoded at its point of use; only extract a component or feature when it carries real behaviour or is reused. Imports use `@/*`, which maps to the project root.
-
-## Routes and metadata
-
-- `app/(web)/page.tsx` is the canonical public page. It owns all of its metadata (title, description, canonical URL, language alternate, Open Graph, Twitter, robots) and renders the profile JSON-LD. Next.js merges `openGraph` shallowly, so a page that sets any Open Graph field must declare the complete object.
-- `app/shared-web-layout.tsx` owns the `<html>`/`<body>` shell, the `lang` attribute, the font variable, global styles, and Vercel-only analytics. It also exports `sharedMetadata` (`metadataBase`, icons, format detection) and `sharedViewport` (light and dark color scheme and theme colour), which `app/(web)/layout.tsx` uses. The 404 declares its own dark-only viewport and passes `dark` to `SharedWebLayout`.
-- `app/global-not-found.tsx` renders the BIOS 404. It must remain noindex. `BiosScreen` owns its own landmarks: a `<header>` for the top bar, a `<main id="main">` with the boot log as paragraphs and a route list (spacing comes from CSS, not from literal spaces, because Prettier collapses repeated spaces in JSX text) followed by the error as the page’s `<h1>`, and a `<footer>` with the reboot link and `<kbd>` key hints. Only Enter, Escape, and F1 trigger the reboot, registered with UI SDK’s `useShortcut` and filtered by `isPlainKeyPress` from `features/bios/reboot-keys.ts`, which also gives the reboot link its `aria-keyshortcuts`, so repeats and modified presses are ignored; never add global character-key or pointer handlers, because they break scrolling, text selection, and screen-reader keys (WCAG 2.1.4 and 2.5.2).
-- `robots.txt`, `sitemap.xml`, and `llms.txt` must list or allow only canonical public content. API paths stay disallowed in `robots.txt`.
-- Every route must stay static (`○` in the build output). Route handlers export `dynamic = "force-static"`.
-
-## Accessibility and SEO
-
-The homepage has one visible `<h1>` for the person’s name. Each top-level CV section has an `<h2>`; individual education, skill, and employment entries use `<h3>`. Do not create `h4`–`h6` merely to use every tag: add a deeper heading only for a genuine subordinate content section, and never skip heading ranks.
-
-Use landmarks and accessible names for main content, navigation, and sections. Maintain visible focus styles, semantic lists for grouped information, native links for external destinations, and the reduced-motion rules in `features/style/animations.css`.
-
-The CV content in `app/(web)/home.mdx` uses plain markdown: `###` for entries, `-` lists for their details, and markdown links. Wrap content in `<Column className="…">` for grid placement and `<Section title="…">`, which renders the `<section aria-labelledby>` landmark and its `<h2>` with an id slugified from the title. Wrap the Contact list in `<Contact>`, which renders `<address>`, and use `<Label title="Phone">P:</Label>` for its hanging labels: the visible abbreviation is hidden from assistive technology and `title` is read instead. Mark dates and durations with `<time dateTime="…">`, such as `<time dateTime="2023-09">September 2023</time>` and `<time dateTime="P5M">5 months</time>`. Styling for markdown elements lives only in `mdx-components.tsx`; do not put Tailwind classes in the MDX beyond `Column` and `Section` layout classes.
-
-Structured data is hardcoded in `app/(web)/page.tsx` as a `Graph` typed with `schema-dts` and rendered through `components/json-ld.tsx`. Profile details are repeated in the page, its metadata, the structured data, `home.mdx`, `llms.txt`, and `app/manifest.ts`; when you change one, change the others. Titles lead with the name (`Kevin Pierik | Frontend Developer`), because that is what people search for. The copyright year comes from the build date, so every deploy keeps it current.
-
-## Styling and performance
-
-Global styling is imported only through `app/shared-web-layout.tsx`; tokens live under `features/style/`. The site follows the system color scheme without a toggle: `features/style/colors.css` defines `--background` and `--foreground` with `light-dark()`, exposed to Tailwind as `background` and `foreground`, so use those instead of hardcoded black or white. The `.dark` class forces the dark scheme and is used only by the BIOS 404. Text requires at least a 4.5:1 contrast ratio in both schemes. The `::selection` background is the foreground colour at 99% opacity rather than opaque, because WebKit blends opaque selection colours with white and would render them grey. The BIOS 404 keeps its original palette as arbitrary Tailwind classes in `features/bios/bios-screen.tsx`, a Server Component; its browser-only parts (the reboot shortcut and the requested route) live in `features/bios/bios-client.ts`. Server components are the default; add `"use client"` only where client-side interaction is required.
-
-## Testing
-
-Tests use Vitest and live next to the code they cover as `*.test.ts` or `*.test.tsx`. Only test real logic or behaviour that is easy to break, such as helpers and escaping; do not test hardcoded content or framework behaviour. Import test APIs explicitly from `vitest`. Run them with `bun run test`, or `bun run test:watch` during development.
+Tests use Vitest, live next to the code as `*.test.ts(x)`, and import their APIs from `vitest`. Test only real logic that is easy to break, not hardcoded content or framework behaviour.
 
 ## Conventions
 
-- Write everything in English: commit messages, PR descriptions, file names, code symbols, UI copy, and repository documentation.
-- Use kebab-case file names.
-- Put local environment values in `.env.local`; document required variables in `.env.example`.
-- Follow Zed’s commit style: `area: Description`, where `area` is the lowercase feature or folder (`bios`, `home`, `style`, `agents`) and the description is imperative and sentence-case, for example `bios: Use ui-sdk shortcuts for reboot`. Omit the prefix only for project-wide changes, such as `Bump Next.js to 16.4.6`. No trailing period and no Co-authored-by trailers.
-- `main` is the only long-lived branch; there is no `develop`. Do every change on a short kebab-case branch off `main` named after its area, such as `bios-ui-sdk`, and rely on Vercel preview deployments to review it.
-- Squash-merge pull requests into `main`, so the commit title ends with the PR number, for example `home: Add GitHub link (#4)`. The PR description uses the sections `Summary` (what, why, and `Closes #n`), `Testing` (how it was verified), `Self-review`, and a final `Release Notes:` line followed by one bullet: `Added …`, `Fixed …`, `Improved …`, or `N/A`.
-- Do not add explanatory comments to committed code; document durable design decisions here instead.
-- Community files live at the root (`LICENSE`, `CONTRIBUTING.md`, `CODE_OF_CONDUCT.md`, `SECURITY.md`) and in `.github/` (`CODEOWNERS`, the pull request template). The MIT License covers code only; keep its personal-content exclusion when content moves.
+- Write everything in English: commits, PRs, file names, code, UI copy, and documentation. Use kebab-case file names.
+- Commits follow Zed's style: `area: Description`, imperative and sentence case, such as `bios: Use ui-sdk shortcuts for reboot`. Omit the area only for project-wide changes. No trailing period and no Co-authored-by trailers.
+- `main` is the only long-lived branch. Work on a short kebab-case branch named after its area and squash-merge it through a pull request that follows `.github/pull_request_template.md` ([deployment](docs/deployment.md)).
+- No explanatory comments in code; put lasting decisions in `docs/`.
+- Local environment values go in `.env.local`; document them in `.env.example`.
+- The MIT License covers code only; keep its personal-content exclusion.
 - `.rules` is the single source of agent instructions; `AGENTS.md` and `CLAUDE.md` are symlinks to it.
+
+## Rules hygiene
+
+Rules are traps to avoid, not maps to follow. The stack and folder layout are in the [README](README.md); how features work is in `docs/`.
+
+- Do not edit `.rules` during normal feature or fix work. If you hit a trap a rule would have prevented, propose the rule in the pull request description instead.
+- Add a rule only when an agent made, or would plausibly make, the same mistake again. One incident in unusual code is not enough.
+- Do not put here what the code, the docs, or the tooling already enforce: project structure, feature explanations, formatting, or lint rules.
+- When a rule no longer applies, remove it in the same pull request that changes the code.

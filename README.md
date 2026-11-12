@@ -17,6 +17,7 @@ The source for [kevinpierik.dev](https://www.kevinpierik.dev): a fast, one-page 
 app/          # Routes, metadata routes (robots, sitemap, llms.txt), and the shared HTML shell
 components/   # Small, feature-agnostic building blocks
 features/     # BIOS 404, fonts, and styles
+docs/         # Deployment notes and per-feature documentation
 public/       # Icons and the Open Graph image
 ```
 
