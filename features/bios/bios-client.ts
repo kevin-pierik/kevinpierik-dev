@@ -1,9 +1,20 @@
 "use client";
 
+import { useShortcut } from "@ui-sdk/react/shortcuts";
 import { useRouter } from "next/navigation";
-import { useEffect, useSyncExternalStore } from "react";
+import { useSyncExternalStore } from "react";
 
-const rebootKeys = new Set(["Enter", "Escape", "F1"]);
+export const rebootKeys = ["enter", "escape", "f1"] as const;
+
+export function isPlainKeyPress(event: KeyboardEvent) {
+  return (
+    !event.repeat &&
+    !event.metaKey &&
+    !event.ctrlKey &&
+    !event.altKey &&
+    !event.shiftKey
+  );
+}
 
 const subscribeToNothing = () => () => {};
 
@@ -18,20 +29,13 @@ export function RequestedRoute() {
 export function RebootShortcut() {
   const router = useRouter();
 
-  useEffect(() => {
-    function onKeyDown(event: KeyboardEvent) {
-      if (!rebootKeys.has(event.key) || event.repeat) return;
-      if (event.metaKey || event.ctrlKey || event.altKey || event.shiftKey) {
-        return;
-      }
-      event.preventDefault();
-      router.push("/");
-    }
+  function reboot(event: KeyboardEvent) {
+    if (isPlainKeyPress(event)) router.push("/");
+  }
 
-    window.addEventListener("keydown", onKeyDown);
-
-    return () => window.removeEventListener("keydown", onKeyDown);
-  }, [router]);
+  useShortcut(rebootKeys[0], reboot, { description: "Reboot" });
+  useShortcut(rebootKeys[1], reboot, { description: "Home" });
+  useShortcut(rebootKeys[2], reboot, { description: "Home" });
 
   return null;
 }

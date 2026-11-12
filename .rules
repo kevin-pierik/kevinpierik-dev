@@ -14,8 +14,11 @@
 | Tooling    | ESLint (`eslint-config-next`) for linting, Prettier for formatting, Vitest for tests   |
 | Runtime    | Bun locally and on the host; deployed on Vercel                                        |
 | Analytics  | `@vercel/analytics` and `@vercel/speed-insights`, only when `VERCEL_ENV` is set        |
+| Behaviour  | UI SDK (`@ui-sdk/react`, pinned beta): headless primitives and hooks, styled with Tailwind |
 
 Next.js 16 APIs and conventions may differ from what you know. Before writing Next.js-specific code, read the relevant guide in `node_modules/next/dist/docs/`, which always matches the installed version.
+
+Agent skills live in `.agents/skills/`; `.claude/skills` is a symlink to it and `skills-lock.json` records their sources. Install or update them with `npx skills add <repo> --skill <name> --agent claude-code`, never edit them by hand, and keep them out of Prettier. The installed skills are `ui-sdk`, the Next.js workflow skills from `vercel/next.js`, `agent-browser`, and from `vercel-labs/agent-skills`: React best practices, composition patterns, view transitions, web design guidelines, writing guidelines, and Vercel optimize. Use `bunx agent-browser` (a dev dependency) to verify UI changes, such as the BIOS keyboard shortcuts, in a real browser. Before writing UI SDK code, read the `ui-sdk` skill and the docs in `node_modules/@ui-sdk/react/docs/`.
 
 Run `bun run qa` before considering work complete. It checks formatting, lints, type-checks, runs the tests, and builds the production deployment. Run `bun run format` before committing.
 
@@ -35,7 +38,7 @@ Keep the number of components small. Content is hardcoded at its point of use; o
 
 - `app/(web)/page.tsx` is the canonical public page. It owns all of its metadata (title, description, canonical URL, language alternate, Open Graph, Twitter, robots) and renders the profile JSON-LD. Next.js merges `openGraph` shallowly, so a page that sets any Open Graph field must declare the complete object.
 - `app/shared-web-layout.tsx` owns the `<html>`/`<body>` shell, the `lang` attribute, the font variable, global styles, and Vercel-only analytics. It also exports `sharedMetadata` (`metadataBase`, icons, format detection) and `sharedViewport` (light and dark color scheme and theme colour), which `app/(web)/layout.tsx` uses. The 404 declares its own dark-only viewport and passes `dark` to `SharedWebLayout`.
-- `app/global-not-found.tsx` renders the BIOS 404. It must remain noindex. `BiosScreen` owns its own landmarks: a `<header>` for the top bar, a `<main id="main">` with the boot log as paragraphs and a route list (spacing comes from CSS, not from literal spaces, because Prettier collapses repeated spaces in JSX text) followed by the error as the page’s `<h1>`, and a `<footer>` with the reboot link and `<kbd>` key hints. Only Enter, Escape, and F1 trigger the reboot; never add global character-key or pointer handlers, because they break scrolling, text selection, and screen-reader keys (WCAG 2.1.4 and 2.5.2).
+- `app/global-not-found.tsx` renders the BIOS 404. It must remain noindex. `BiosScreen` owns its own landmarks: a `<header>` for the top bar, a `<main id="main">` with the boot log as paragraphs and a route list (spacing comes from CSS, not from literal spaces, because Prettier collapses repeated spaces in JSX text) followed by the error as the page’s `<h1>`, and a `<footer>` with the reboot link and `<kbd>` key hints. Only Enter, Escape, and F1 trigger the reboot, registered with UI SDK’s `useShortcut` and filtered by `isPlainKeyPress` so repeats and modified presses are ignored; never add global character-key or pointer handlers, because they break scrolling, text selection, and screen-reader keys (WCAG 2.1.4 and 2.5.2).
 - `robots.txt`, `sitemap.xml`, and `llms.txt` must list or allow only canonical public content. API paths stay disallowed in `robots.txt`.
 - Every route must stay static (`○` in the build output). Route handlers export `dynamic = "force-static"`.
 
@@ -59,9 +62,11 @@ Tests use Vitest and live next to the code they cover as `*.test.ts` or `*.test.
 
 ## Conventions
 
-- Use Dutch commit messages, but English file names, code symbols, UI copy, and repository documentation.
+- Write everything in English: commit messages, PR descriptions, file names, code symbols, UI copy, and repository documentation.
 - Use kebab-case file names.
 - Put local environment values in `.env.local`; document required variables in `.env.example`.
-- Use conventional, present-tense, lowercase commit messages, for example: `feat(home): verbetert metadata`.
+- Follow Zed’s commit style: `area: Description`, where `area` is the lowercase feature or folder (`bios`, `home`, `style`, `agents`) and the description is imperative and sentence-case, for example `bios: Use ui-sdk shortcuts for reboot`. Omit the prefix only for project-wide changes, such as `Bump Next.js to 16.4.6`. No trailing period and no Co-authored-by trailers.
+- `main` is the only long-lived branch; there is no `develop`. Do every change on a short kebab-case branch off `main` named after its area, such as `bios-ui-sdk`, and rely on Vercel preview deployments to review it.
+- Squash-merge pull requests into `main`, so the commit title ends with the PR number, for example `home: Add GitHub link (#4)`. The PR description uses the sections `Summary` (what, why, and `Closes #n`), `Testing` (how it was verified), `Self-review`, and a final `Release Notes:` line followed by one bullet: `Added …`, `Fixed …`, `Improved …`, or `N/A`.
 - Do not add explanatory comments to committed code; document durable design decisions here instead.
 - `.rules` is the single source of agent instructions; `AGENTS.md` and `CLAUDE.md` are symlinks to it.
