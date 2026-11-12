@@ -2,3 +2,5 @@
 bun.lock
 public
 node_modules
+.agents
+skills-lock.json
