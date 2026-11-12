@@ -64,4 +64,5 @@ Tests use Vitest and live next to the code they cover as `*.test.ts` or `*.test.
 - Put local environment values in `.env.local`; document required variables in `.env.example`.
 - Use conventional, present-tense, lowercase commit messages, for example: `feat(home): verbetert metadata`.
 - Do not add explanatory comments to committed code; document durable design decisions here instead.
+- Community files live at the root (`LICENSE`, `CONTRIBUTING.md`, `CODE_OF_CONDUCT.md`, `SECURITY.md`) and in `.github/` (`CODEOWNERS`, the pull request template). The MIT License covers code only; keep its personal-content exclusion when content moves.
 - `.rules` is the single source of agent instructions; `AGENTS.md` and `CLAUDE.md` are symlinks to it.

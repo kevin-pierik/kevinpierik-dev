@@ -39,3 +39,7 @@ bun run qa
 ```
 
 `bun run qa` checks formatting, lints, type-checks, runs the Vitest suite, and builds the production deployment. Use `bun run test:watch` while working on tests.
+
+## License
+
+The source code is available under the [MIT License](LICENSE). The CV content, name, and images are not covered by it and remain all rights reserved. See [CONTRIBUTING.md](CONTRIBUTING.md) to contribute.
