@@ -1,6 +1,7 @@
 import Link from "next/link";
 
 import { RebootShortcut, RequestedRoute } from "./bios-client";
+import { rebootAriaKeyshortcuts } from "./reboot-keys";
 
 export function BiosScreen() {
   return (
@@ -58,6 +59,7 @@ export function BiosScreen() {
       <footer className="flex shrink-0 flex-wrap items-center justify-between gap-x-6 bg-[#a8a8a8] px-1 text-[#000080]">
         <Link
           className="inline-flex min-h-6 items-center gap-x-[1ch] px-2 underline-offset-2 hover:underline focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-[#000080]"
+          aria-keyshortcuts={rebootAriaKeyshortcuts}
           href="/"
         >
           Press Enter to reboot

@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { isPlainKeyPress } from "./bios-client";
+import { isPlainKeyPress, rebootAriaKeyshortcuts } from "./reboot-keys";
 
 const press = (init: Partial<KeyboardEvent>) =>
   ({
@@ -23,4 +23,10 @@ describe("isPlainKeyPress", () => {
       expect(isPlainKeyPress(press({ [flag]: true }))).toBe(false);
     },
   );
+});
+
+describe("rebootAriaKeyshortcuts", () => {
+  it("names every reboot key for assistive technology", () => {
+    expect(rebootAriaKeyshortcuts).toBe("Enter Escape F1");
+  });
 });

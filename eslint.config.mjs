@@ -11,7 +11,13 @@ const eslintConfig = defineConfig([
     files: ["**/*.{js,jsx,ts,tsx}"],
     rules: jsxA11y.flatConfigs.recommended.rules,
   },
-  globalIgnores([".agents/**", ".next/**", "out/**", "build/**", "next-env.d.ts"]),
+  globalIgnores([
+    ".agents/**",
+    ".next/**",
+    "out/**",
+    "build/**",
+    "next-env.d.ts",
+  ]),
   prettier,
 ]);
 

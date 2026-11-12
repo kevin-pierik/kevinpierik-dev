@@ -4,17 +4,7 @@ import { useShortcut } from "@ui-sdk/react/shortcuts";
 import { useRouter } from "next/navigation";
 import { useSyncExternalStore } from "react";
 
-export const rebootKeys = ["enter", "escape", "f1"] as const;
-
-export function isPlainKeyPress(event: KeyboardEvent) {
-  return (
-    !event.repeat &&
-    !event.metaKey &&
-    !event.ctrlKey &&
-    !event.altKey &&
-    !event.shiftKey
-  );
-}
+import { isPlainKeyPress, rebootKeys } from "./reboot-keys";
 
 const subscribeToNothing = () => () => {};
 
