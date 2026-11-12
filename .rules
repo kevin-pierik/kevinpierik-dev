@@ -69,4 +69,5 @@ Tests use Vitest and live next to the code they cover as `*.test.ts` or `*.test.
 - `main` is the only long-lived branch; there is no `develop`. Do every change on a short kebab-case branch off `main` named after its area, such as `bios-ui-sdk`, and rely on Vercel preview deployments to review it.
 - Squash-merge pull requests into `main`, so the commit title ends with the PR number, for example `home: Add GitHub link (#4)`. The PR description uses the sections `Summary` (what, why, and `Closes #n`), `Testing` (how it was verified), `Self-review`, and a final `Release Notes:` line followed by one bullet: `Added …`, `Fixed …`, `Improved …`, or `N/A`.
 - Do not add explanatory comments to committed code; document durable design decisions here instead.
+- Community files live at the root (`LICENSE`, `CONTRIBUTING.md`, `CODE_OF_CONDUCT.md`, `SECURITY.md`) and in `.github/` (`CODEOWNERS`, the pull request template). The MIT License covers code only; keep its personal-content exclusion when content moves.
 - `.rules` is the single source of agent instructions; `AGENTS.md` and `CLAUDE.md` are symlinks to it.
