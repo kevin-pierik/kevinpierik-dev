@@ -2,7 +2,7 @@ import type { MDXComponents } from "mdx/types";
 import type { ComponentProps, ReactNode } from "react";
 
 export const linkClassName =
-  "underline decoration-foreground/35 decoration-1 underline-offset-[0.25em] hover:decoration-foreground focus-visible:decoration-foreground focus-visible:outline-none";
+  "underline decoration-foreground/35 decoration-1 underline-offset-[0.25em] hover:decoration-foreground focus-visible:decoration-foreground focus-visible:outline-2 focus-visible:outline-offset-2";
 
 function slugify(value: string) {
   return value
@@ -12,11 +12,12 @@ function slugify(value: string) {
     .replace(/^-|-$/g, "");
 }
 
-function Column({ className, children }: ComponentProps<"div">) {
+function Column({ className, ...props }: ComponentProps<"div">) {
   return (
-    <div className={`flex flex-col gap-[1.35em] ${className ?? ""}`}>
-      {children}
-    </div>
+    <div
+      className={`flex flex-col gap-[1.35em] ${className ?? ""}`}
+      {...props}
+    />
   );
 }
 
@@ -39,8 +40,24 @@ function Section({ title, className, children }: SectionProps) {
   );
 }
 
-function Label({ children }: { children: ReactNode }) {
-  return <span className="ml-[-3em] inline-block w-[3em]">{children}</span>;
+type LabelProps = {
+  title: string;
+  children: ReactNode;
+};
+
+function Label({ title, children }: LabelProps) {
+  return (
+    <>
+      <span aria-hidden="true" className="ml-[-3em] inline-block w-[3em]">
+        {children}
+      </span>
+      <span className="sr-only">{title}: </span>
+    </>
+  );
+}
+
+function Contact({ children }: { children: ReactNode }) {
+  return <address className="not-italic">{children}</address>;
 }
 
 const components: MDXComponents = {
@@ -59,6 +76,7 @@ const components: MDXComponents = {
   Column,
   Section,
   Label,
+  Contact,
 };
 
 export function useMDXComponents(): MDXComponents {
