@@ -2,18 +2,6 @@
 
 `kevinpierik.dev` is a one-page professional profile and curriculum vitae. The canonical public page is `/`; unknown routes show a BIOS-style 404. There is no CMS: `app/(web)/page.tsx` owns the metadata, header, `<h1>`, grid, and structured data, and the CV content is markdown in `app/(web)/home.mdx`.
 
-| Layer     | Choice                                                                                  |
-| --------- | --------------------------------------------------------------------------------------- |
-| Framework | Next.js 16 App Router, static output for every route                                    |
-| UI        | React Server Components; client components only where interaction is required (BIOS)    |
-| Behaviour | UI SDK (`@ui-sdk/react`, pinned beta): headless primitives and hooks                    |
-| Styling   | Tailwind CSS v4, CSS-first config in `features/style/`                                  |
-| Content   | MDX via `@next/mdx`; element styles and layout components in `mdx-components.tsx`       |
-| Fonts     | Helvetica Neue via `next/font/local` in `features/fonts/`                               |
-| Tooling   | ESLint, Prettier, Vitest                                                                |
-| Runtime   | Bun locally and on the host; deployed on Vercel                                         |
-| Analytics | `@vercel/analytics` and `@vercel/speed-insights`, only when `VERCEL_ENV` is set         |
-
 How each feature works is documented for people in `docs/` ([index](docs/README.md)). Read the feature's page before changing it, and update it in the same pull request.
 
 ## Before you write code
@@ -51,3 +39,12 @@ Tests use Vitest, live next to the code as `*.test.ts(x)`, and import their APIs
 - Local environment values go in `.env.local`; document them in `.env.example`.
 - The MIT License covers code only; keep its personal-content exclusion.
 - `.rules` is the single source of agent instructions; `AGENTS.md` and `CLAUDE.md` are symlinks to it.
+
+## Rules hygiene
+
+Rules are traps to avoid, not maps to follow. The stack and folder layout are in the [README](README.md); how features work is in `docs/`.
+
+- Do not edit `.rules` during normal feature or fix work. If you hit a trap a rule would have prevented, propose the rule in the pull request description instead.
+- Add a rule only when an agent made, or would plausibly make, the same mistake again. One incident in unusual code is not enough.
+- Do not put here what the code, the docs, or the tooling already enforce: project structure, feature explanations, formatting, or lint rules.
+- When a rule no longer applies, remove it in the same pull request that changes the code.
