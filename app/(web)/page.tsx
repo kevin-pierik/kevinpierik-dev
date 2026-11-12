@@ -115,6 +115,7 @@ const structuredData: Graph = {
       worksFor: {
         "@type": "Organization",
         name: "Friday Digital Agency",
+        url: "https://www.friday.nl",
       },
       alumniOf: [
         { "@type": "EducationalOrganization", name: "Deltion College" },
