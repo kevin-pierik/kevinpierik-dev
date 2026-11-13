@@ -7,7 +7,7 @@ export async function SiteFooter() {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="pt-[10lh] pb-16 text-muted sm:pb-[4.5rem]">
+    <footer className="px-6 pt-[10lh] pb-6 text-muted sm:pb-8">
       <p>© {year} Kevin Pierik.</p>
       <p className="mt-[1lh] max-w-[80ch]">{colophon}</p>
       <nav

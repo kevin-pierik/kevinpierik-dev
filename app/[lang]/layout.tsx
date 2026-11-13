@@ -25,12 +25,10 @@ export default async function WebLayout({ children }: LayoutProps<"/[lang]">) {
     <SharedWebLayout lang={await getLocale()}>
       <Lenis />
       <SiteHeader />
-      <div className="mx-auto w-full max-w-[1440px] px-[max(22px,3.5%)]">
-        <div className="min-[800px]:px-[16.9583%]">
-          {children}
-          <SiteFooter />
-        </div>
+      <div className="mx-auto w-full max-w-[1440px] px-[max(1.5rem,3.5%)]">
+        <div className="min-[800px]:px-[16.9583%]">{children}</div>
       </div>
+      <SiteFooter />
     </SharedWebLayout>
   );
 }

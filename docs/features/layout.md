@@ -4,7 +4,7 @@ The site aims for an editorial, almost unstyled look, modelled on nunocoelho.me:
 
 ## Container
 
-`app/[lang]/layout.tsx` renders the header at full width, then a container that copies nunocoelho.me. The container is at most 1440px wide, with 3.5% side padding (at least 22px). From 800px, `<main>` and the footer get another 16.9583% on each side, so the CV sits in the middle two-thirds. Running text stops at 80ch, following the Modern Web Guidance typography guide.
+`app/[lang]/layout.tsx` renders the header and footer at full width, with the same 1.5rem side padding, and between them a container that copies nunocoelho.me. The header and footer frame every page; only page content goes in the container. The container is at most 1440px wide, with 3.5% side padding (at least 1.5rem, so narrow screens line up with the header and footer). From 800px, `<main>` gets another 16.9583% on each side, so the CV sits in the middle two-thirds. Running text stops at 80ch, following the Modern Web Guidance typography guide.
 
 ## Site header
 
@@ -14,7 +14,7 @@ The site aims for an editorial, almost unstyled look, modelled on nunocoelho.me:
 
 ## Site footer
 
-`features/site/site-footer/index.tsx` sits 10 lines below the content, in `muted`: the copyright line (the year is taken at build time), a one-line colophon, and the [language switcher](languages.md) behind a globe icon.
+`features/site/site-footer/index.tsx` spans the full width and sits 10 lines below the content, in `muted`: the copyright line (the year is taken at build time), a one-line colophon, and the [language switcher](languages.md) behind a globe icon.
 
 ## Typography
 
