@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import type { Graph } from "schema-dts";
 
 import { JsonLd } from "@/components/json-ld";
-import { linkClassName as link } from "@/mdx-components";
+import { Link } from "@/components/link";
 
 import HomeContent from "./home.mdx";
 
@@ -149,25 +149,17 @@ export default function Home() {
           <nav aria-label="Social profiles" className="sm:col-start-4">
             <ul>
               <li>
-                <a
-                  className={link}
-                  href="https://nl.linkedin.com/in/kevin-pierik"
-                >
+                <Link href="https://nl.linkedin.com/in/kevin-pierik">
                   LinkedIn
-                </a>
+                </Link>
               </li>
               <li>
-                <a
-                  className={link}
-                  href="https://www.instagram.com/kevinpierikk"
-                >
+                <Link href="https://www.instagram.com/kevinpierikk">
                   Instagram
-                </a>
+                </Link>
               </li>
               <li>
-                <a className={link} href="https://github.com/kevin-pierik">
-                  GitHub
-                </a>
+                <Link href="https://github.com/kevin-pierik">GitHub</Link>
               </li>
             </ul>
           </nav>

@@ -15,7 +15,7 @@ Only `Column` and `Section` take Tailwind classes in the MDX, and only for layou
 
 ## Styling
 
-All element styles and the components above live in `mdx-components.tsx`. Links share `linkClassName` with the header in `page.tsx`, which includes a keyboard-only focus outline.
+All element styles and the components above live in `mdx-components.tsx`. Markdown links render through `Link`, the same component the header in `page.tsx` uses. See [Links and buttons](links-and-buttons.md).
 
 ## Keeping details in sync
 

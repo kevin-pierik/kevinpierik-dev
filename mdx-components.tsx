@@ -1,8 +1,7 @@
 import type { MDXComponents } from "mdx/types";
 import type { ComponentProps, ReactNode } from "react";
 
-export const linkClassName =
-  "underline decoration-foreground/35 decoration-1 underline-offset-[0.25em] hover:decoration-foreground focus-visible:decoration-foreground focus-visible:outline-2 focus-visible:outline-offset-2";
+import { Link } from "@/components/link";
 
 function slugify(value: string) {
   return value
@@ -68,10 +67,10 @@ const components: MDXComponents = {
   ),
   li: (props) => <li className="pl-[3em]" {...props} />,
   p: (props) => <p className="[p+&]:mt-[1.35em]" {...props} />,
-  a: ({ children, ...props }) => (
-    <a className={linkClassName} {...props}>
+  a: ({ href = "", children, ...props }) => (
+    <Link href={href} {...props}>
       {children}
-    </a>
+    </Link>
   ),
   Column,
   Section,
