@@ -6,10 +6,10 @@ import type { ComponentProps, ReactNode } from "react";
 
 import { buttonClassName } from "@/components/button";
 
-type LinkVariant = "text" | "button";
+type LinkVariant = "text" | "primary" | "button";
 
 const textClassName =
-  "underline decoration-foreground/35 decoration-1 underline-offset-[0.25em] transition-colors hover:decoration-foreground focus-visible:decoration-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-foreground";
+  "underline decoration-foreground/35 decoration-1 underline-offset-[0.25em] transition-colors hover:decoration-foreground focus-visible:decoration-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring";
 
 type LinkProps = Omit<
   ComponentProps<"a">,
@@ -29,7 +29,9 @@ export function Link({
   ...props
 }: LinkProps) {
   const variantClassName =
-    variant === "button" ? buttonClassName("solid") : textClassName;
+    variant === "text"
+      ? textClassName
+      : buttonClassName(variant === "primary" ? "primary" : "solid");
 
   return (
     <Button

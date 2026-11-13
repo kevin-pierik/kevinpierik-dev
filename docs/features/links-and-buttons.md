@@ -17,12 +17,14 @@ An `href` that starts with `/` renders through Next.js `Link`, which keeps clien
 Variants:
 
 - `text` (default): an inline link with a 35% underline that becomes solid on hover and focus. The CV and the header use it.
-- `button`: the solid button look, for calls to action.
+- `primary`: the blue `primary` button look, for the main call to action.
+- `button`: the solid button look, for other calls to action.
 
 ## Button
 
-The look follows ui-sdk.dev: square, monochrome blocks with a minimum height of 2.5rem.
+The look follows ui-sdk.dev: square blocks with a minimum height of 2.5rem.
 
+- `primary`: a blue `primary` fill with white text. On hover, it darkens to `primary-hover`.
 - `solid` (default): a `foreground` fill with `background` text. On hover, the fill drops to 85%.
 - `outline`: a 1px `foreground` border on `background`. On hover, it gets a 6% `foreground` tint.
 
@@ -30,6 +32,6 @@ Disabled buttons are at 50% opacity, through ui-sdk's `data-disabled`. Nothing u
 
 ## Focus and colour
 
-Links and buttons show a 2px `foreground` outline, offset by 2px, on `:focus-visible`. Don't add `outline-none`: in Tailwind 4 it sets `--tw-outline-style: none`, which `outline-2` reads, so the outline disappears.
+Links and buttons show a 2px blue `ring` outline, offset by 2px, on `:focus-visible`. Don't add `outline-none`: in Tailwind 4 it sets `--tw-outline-style: none`, which `outline-2` reads, so the outline disappears.
 
-Only the `background` and `foreground` colours are used, so text contrast stays far above 4.5:1 in both schemes, including the 85% hover fill.
+The colours come from the tokens in [Color scheme](color-scheme.md), which lists their contrast ratios. Text stays at 4.5:1 or more in both schemes, on the hover fills too.
