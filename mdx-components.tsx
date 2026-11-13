@@ -1,8 +1,7 @@
 import type { MDXComponents } from "mdx/types";
 import type { ComponentProps, ReactNode } from "react";
 
-export const linkClassName =
-  "underline decoration-foreground/35 decoration-1 underline-offset-[0.25em] hover:decoration-foreground focus-visible:decoration-foreground focus-visible:outline-2 focus-visible:outline-offset-2";
+import { Link } from "@/components/link";
 
 function slugify(value: string) {
   return value
@@ -15,7 +14,7 @@ function slugify(value: string) {
 function Column({ className, ...props }: ComponentProps<"div">) {
   return (
     <div
-      className={`flex flex-col gap-[1.35em] ${className ?? ""}`}
+      className={`flex flex-col gap-[2.5lh] ${className ?? ""}`}
       {...props}
     />
   );
@@ -57,21 +56,28 @@ function Label({ title, children }: LabelProps) {
 }
 
 function Contact({ children }: { children: ReactNode }) {
-  return <address className="not-italic">{children}</address>;
+  return (
+    <address className="not-italic [&_a:not(:hover)]:no-underline [&_li]:flex">
+      {children}
+    </address>
+  );
 }
 
 const components: MDXComponents = {
   h3: ({ children, ...props }) => (
-    <h3 className="text-[1em]/[inherit] font-bold" {...props}>
+    <h3
+      className="text-[1em]/[inherit] font-bold [h3~&]:mt-[0.75lh]"
+      {...props}
+    >
       {children}
     </h3>
   ),
   li: (props) => <li className="pl-[3em]" {...props} />,
-  p: (props) => <p className="[p+&]:mt-[1.35em]" {...props} />,
-  a: ({ children, ...props }) => (
-    <a className={linkClassName} {...props}>
+  p: (props) => <p className="[p+&]:mt-[1lh]" {...props} />,
+  a: ({ href = "", children, ...props }) => (
+    <Link href={href} {...props}>
       {children}
-    </a>
+    </Link>
   ),
   Column,
   Section,

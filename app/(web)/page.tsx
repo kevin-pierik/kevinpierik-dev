@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import type { Graph } from "schema-dts";
 
 import { JsonLd } from "@/components/json-ld";
-import { linkClassName as link } from "@/mdx-components";
+import { Link } from "@/components/link";
 
 import HomeContent from "./home.mdx";
 
@@ -137,10 +137,10 @@ export default function Home() {
       <JsonLd data={structuredData} />
       <main
         aria-labelledby="page-title"
-        className="flex h-svh flex-col overflow-y-auto overscroll-none bg-background px-3 py-3 text-[0.75rem]/[1.32] font-bold text-foreground sm:px-[1.35vw] sm:py-[1.35vw]"
+        className="flex h-svh flex-col overflow-y-auto overscroll-none bg-background px-3 py-3 text-[0.75rem]/[1.45] font-bold text-foreground sm:px-[1.35vw] sm:py-[1.35vw]"
         id="main"
       >
-        <header className="grid grid-cols-2 gap-x-[4vw] gap-y-[1.35em] sm:grid-cols-[2fr_3fr_3fr_4fr] sm:gap-x-[1vw] sm:gap-y-0">
+        <header className="grid grid-cols-2 gap-x-[4vw] gap-y-[2lh] sm:grid-cols-[2fr_3fr_3fr_4fr] sm:gap-x-[1vw] sm:gap-y-0">
           <p>
             Kevin Pierik
             <br />
@@ -149,25 +149,25 @@ export default function Home() {
           <nav aria-label="Social profiles" className="sm:col-start-4">
             <ul>
               <li>
-                <a
-                  className={link}
+                <Link
+                  variant="nav"
                   href="https://nl.linkedin.com/in/kevin-pierik"
                 >
                   LinkedIn
-                </a>
+                </Link>
               </li>
               <li>
-                <a
-                  className={link}
+                <Link
+                  variant="nav"
                   href="https://www.instagram.com/kevinpierikk"
                 >
                   Instagram
-                </a>
+                </Link>
               </li>
               <li>
-                <a className={link} href="https://github.com/kevin-pierik">
+                <Link variant="nav" href="https://github.com/kevin-pierik">
                   GitHub
-                </a>
+                </Link>
               </li>
             </ul>
           </nav>
@@ -178,7 +178,7 @@ export default function Home() {
         >
           Kevin Pierik
         </h1>
-        <div className="mt-[7.8vh] grid grid-cols-2 gap-x-[4vw] gap-y-[1.35em] sm:grid-cols-[2fr_3fr_3fr_4fr] sm:gap-x-[1vw] sm:gap-y-0">
+        <div className="mt-[7.8vh] grid grid-cols-2 gap-x-[4vw] gap-y-[2lh] sm:grid-cols-[2fr_3fr_3fr_4fr] sm:gap-x-[1vw] sm:gap-y-0">
           <HomeContent />
         </div>
       </main>
