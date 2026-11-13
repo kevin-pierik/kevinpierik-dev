@@ -8,5 +8,11 @@
   "languageLabel": "Taal",
   "colophon": "Dit is een statische website, gebouwd met Next.js en gehost op Vercel.",
   "navigationLabel": "Site",
-  "indexLabel": "Index"
+  "indexLabel": "Index",
+  "theme": {
+    "label": "Thema",
+    "system": "Systeem",
+    "light": "Licht",
+    "dark": "Donker"
+  }
 }

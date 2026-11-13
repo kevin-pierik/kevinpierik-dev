@@ -14,7 +14,7 @@ The site aims for an editorial, almost unstyled look, modelled on nunocoelho.me:
 
 ## Site footer
 
-`features/site/site-footer/index.tsx` spans the full width and sits 10 lines below the content, in `muted`: the copyright line (the year is taken at build time), a one-line colophon, and the [language switcher](languages.md) behind a globe icon.
+`features/site/site-footer/index.tsx` spans the full width and sits 10 lines below the content, in `muted`: the copyright line (the year is taken at build time), a one-line colophon, and a row with the [language switcher](languages.md) behind a globe icon on the left and the [theme switcher](color-scheme.md#theme-switcher) on the right.
 
 ## Typography
 

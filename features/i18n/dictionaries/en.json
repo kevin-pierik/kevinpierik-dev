@@ -8,5 +8,11 @@
   "languageLabel": "Language",
   "colophon": "This is a static website built with Next.js and hosted on Vercel.",
   "navigationLabel": "Site",
-  "indexLabel": "Index"
+  "indexLabel": "Index",
+  "theme": {
+    "label": "Theme",
+    "system": "System",
+    "light": "Light",
+    "dark": "Dark"
+  }
 }

@@ -6,6 +6,7 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 import "@/features/style/global.css";
 
 import { geist } from "@/features/fonts";
+import { themeScript } from "@/features/site/theme";
 
 export const sharedMetadata: Metadata = {
   metadataBase: new URL("https://www.kevinpierik.dev"),
@@ -50,7 +51,13 @@ export function SharedWebLayout({
     <html
       className={`bg-background ${dark ? "dark" : ""} ${geist.variable}`}
       lang={lang}
+      suppressHydrationWarning
     >
+      {dark ? null : (
+        <head>
+          <script dangerouslySetInnerHTML={{ __html: themeScript }} />
+        </head>
+      )}
       <body className="bg-background antialiased">
         {children}
         {process.env.VERCEL_ENV ? <Analytics /> : null}
