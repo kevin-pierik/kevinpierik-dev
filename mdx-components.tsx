@@ -35,15 +35,28 @@ function year(date: string) {
 
 type EntryProps = {
   title: string;
+  href?: string;
   start: string;
   end?: string;
-  children: ReactNode;
+  location: string;
+  children?: ReactNode;
 };
 
-function Entry({ title, start, end, children }: EntryProps) {
+function Entry({ title, href, start, end, location, children }: EntryProps) {
   return (
     <div className="grid grid-cols-[7rem_1fr] gap-x-4 max-sm:grid-cols-1 [&+&]:mt-[1lh]">
-      <h3 className="sm:col-start-2">{title}</h3>
+      <h3 className="sm:col-start-2">
+        {href ? (
+          <Link href={href} variant="nav">
+            {title}
+            <span aria-hidden="true" className="ml-0.5 text-muted">
+              ↗
+            </span>
+          </Link>
+        ) : (
+          title
+        )}
+      </h3>
       <p className="text-muted tabular-nums max-sm:order-first sm:col-start-1 sm:row-start-1">
         <time dateTime={start}>{year(start)}</time>
         {end === "present" ? (
@@ -55,7 +68,10 @@ function Entry({ title, start, end, children }: EntryProps) {
           </>
         ) : null}
       </p>
-      <div className="text-muted sm:col-start-2">{children}</div>
+      <div className="text-muted sm:col-start-2">
+        {children ? <div>{children}</div> : null}
+        <div>{location}</div>
+      </div>
     </div>
   );
 }

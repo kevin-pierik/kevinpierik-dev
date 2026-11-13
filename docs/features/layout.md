@@ -14,7 +14,7 @@ The header, `<main>`, and the footer share one centred column, at most 50rem wid
 
 ## Site footer
 
-`features/site/site-footer/index.tsx` sits 10 lines below the content, in `muted`: the copyright year, taken at build time, and a short colophon that links to the source. Keep the colophon true. The site does load Vercel Web Analytics and Speed Insights, which use no cookies, so don't claim that it collects no data at all.
+`features/site/site-footer/index.tsx` sits 10 lines below the content and holds only the copyright line in `muted`. The year is taken at build time.
 
 ## Typography
 
