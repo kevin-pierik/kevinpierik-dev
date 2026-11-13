@@ -14,6 +14,10 @@
   --selection-foreground: var(--foreground);
 }
 
+.light {
+  color-scheme: light;
+}
+
 .dark {
   color-scheme: dark;
 }

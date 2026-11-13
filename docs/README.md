@@ -11,7 +11,7 @@ How kevinpierik.dev is built and run. Start with the [project README](../README.
 - [MDX content](features/mdx-content.md): how the CV is written and styled.
 - [Languages](features/languages.md): the English and Dutch pages and the language switcher.
 - [Links and buttons](features/links-and-buttons.md): the `Link` and `Button` components built on ui-sdk.
-- [Color scheme](features/color-scheme.md): following the system light and dark mode.
+- [Color scheme](features/color-scheme.md): following the system light and dark mode, and the theme switcher.
 - [SEO and structured data](features/seo-and-structured-data.md): metadata, JSON-LD, sitemap, and manifest.
 - [llms.txt](features/llms-txt.md): a plain-text summary for language models.
 - [Agent skills](features/agent-skills.md): the skills installed for coding agents.
