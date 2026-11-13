@@ -5,7 +5,7 @@
 ## Files
 
 - `components/link.tsx`: `Link`, a client module. Server Components and MDX can render it.
-- `components/button.tsx`: `Button` and `buttonClassName(variant)`.
+- `components/button.tsx`: `Button` and `buttonClassName(variant, size)`.
 - `mdx-components.tsx`: maps markdown links to `Link`.
 
 ## Link
@@ -17,17 +17,21 @@ An `href` that starts with `/` renders through Next.js `Link`, which keeps clien
 Variants:
 
 - `text` (default): the inline link from ui-sdk.dev. Its underline is `foreground` at 25%, with the font's own thickness and a 3px offset, and turns solid on hover and focus. The CV uses it.
-- `nav`: no underline until hover, like the ui-sdk.dev navigation. Use it only inside a `<nav>`, where the position makes clear that it is a link. The links in the [site header](layout.md) use it.
+- `nav`: no underline until hover, like the ui-sdk.dev navigation. Use it only inside a `<nav>`, where the position makes clear that it is a link. CV entries with a link use it.
 - `primary`: the blue `primary` button look, for the main call to action.
 - `button`: the solid button look, for other calls to action.
+- `outline` and `subtle`: the button variants of the same name.
+
+Button variants also take `size`. The social links in the [site header](layout.md) are `subtle` and `sm`.
 
 ## Button
 
-The look follows ui-sdk.dev: square blocks with a minimum height of 2.5rem.
+The look follows ui-sdk.dev: square blocks. `size` is `md` (default, a minimum height of 2.5rem) or `sm` (2rem).
 
 - `primary`: a blue `primary` fill with white text. On hover, it darkens to `primary-hover`.
 - `solid` (default): a `foreground` fill with `background` text. On hover, the fill drops to 85%.
 - `outline`: a 1px `foreground` border on `background`. On hover, it gets a 6% `foreground` tint.
+- `subtle`: a 6% `foreground` tint that deepens to 12% on hover.
 
 Disabled buttons are at 50% opacity, through ui-sdk's `data-disabled`. Nothing uses `Button` yet.
 

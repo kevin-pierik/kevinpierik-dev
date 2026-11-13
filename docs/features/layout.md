@@ -4,11 +4,11 @@ The site aims for an editorial, almost unstyled look, modelled on nunocoelho.me:
 
 ## Column
 
-The header, `<main>`, and the footer share one centred column, at most 50rem wide with 1.5rem of side padding, so their left edges line up. Running text, such as the intro and the footer, stays within 36rem.
+`<main>` and the footer share one centred column, at most 50rem wide with 1.5rem of side padding. The header spans the full width. Running text, such as the intro and the footer, stays within 36rem.
 
 ## Site header
 
-`features/site/site-header/index.tsx` has the name, the page's `<h1>`, with the role below it in `muted`. On the right is a `<nav>` with Email, LinkedIn, GitHub, and Instagram as `nav` links ([Links and buttons](links-and-buttons.md)), each followed by a `↗` that screen readers skip. On narrow screens the links wrap below the name.
+`features/site/site-header/index.tsx` spans the full width. On the left is the name, the page's `<h1>`, with the role below it in `muted`. On the right is a `<nav>` with LinkedIn, GitHub, and Instagram as small `subtle` buttons ([Links and buttons](links-and-buttons.md)). On narrow screens the buttons wrap below the name.
 
 `<main>` is labelled by that `<h1>` through `aria-labelledby="page-title"`.
 
