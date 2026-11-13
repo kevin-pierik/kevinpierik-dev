@@ -38,13 +38,18 @@ export const sharedViewport: Viewport = {
 type SharedWebLayoutProps = {
   children: ReactNode;
   dark?: boolean;
+  lang?: "en" | "nl";
 };
 
-export function SharedWebLayout({ children, dark }: SharedWebLayoutProps) {
+export function SharedWebLayout({
+  children,
+  dark,
+  lang = "en",
+}: SharedWebLayoutProps) {
   return (
     <html
       className={`bg-background ${dark ? "dark" : ""} ${geist.variable}`}
-      lang="en"
+      lang={lang}
     >
       <body className="bg-background antialiased">
         {children}

@@ -1,6 +1,6 @@
 # kevinpierik.dev
 
-`kevinpierik.dev` is a one-page professional profile and curriculum vitae. The canonical public page is `/`; unknown routes show a BIOS-style 404. There is no CMS: `app/(web)/page.tsx` owns the metadata, header, `<h1>`, grid, and structured data, and the CV content is markdown in `app/(web)/home.mdx`.
+`kevinpierik.dev` is a one-page professional profile and curriculum vitae. The canonical public pages are `/` (English) and `/nl` (Dutch); unknown routes show a BIOS-style 404. There is no CMS: `app/[lang]/layout.tsx` renders the header, container, and footer, `app/[lang]/page.tsx` owns `<main>`, the metadata, and the structured data, and the CV content is markdown in `app/[lang]/home.en.mdx` and `home.nl.mdx`.
 
 How each feature works is documented for people in `docs/` ([index](docs/README.md)). Read the feature's page before changing it, and update it in the same pull request.
 
@@ -12,14 +12,14 @@ How each feature works is documented for people in `docs/` ([index](docs/README.
 
 ## Rules
 
-- Every route stays static (`○` in the build output). Route handlers export `dynamic = "force-static"`.
+- Every route stays static: `○`, or `●` for the prerendered `/[lang]` pages, in the build output. Route handlers export `dynamic = "force-static"`.
 - Server Components are the default; add `"use client"` only for real client-side interaction.
 - Keep components few. Hardcode content where it is used; extract only for real behaviour or reuse. Imports use `@/*`.
 - Global styles are imported only through `app/shared-web-layout.tsx`. Use the `background` and `foreground` colours, never hardcoded black or white, and keep text contrast at 4.5:1 or more in both schemes ([color scheme](docs/features/color-scheme.md)).
 - The homepage has one `<h1>`; CV sections use `<h2>` and entries `<h3>`. Never skip heading ranks or add deeper headings without real subsections.
 - Keep landmarks, accessible names, visible focus styles, semantic lists, native links, and the reduced-motion rules in `features/style/animations.css`.
 - Write CV content as plain markdown with the MDX components; no Tailwind classes in the MDX ([MDX content](docs/features/mdx-content.md)).
-- Profile details are repeated in `home.mdx`, the page metadata, the structured data, `llms.txt`, and `app/manifest.ts`. Change them together ([SEO](docs/features/seo-and-structured-data.md)).
+- Profile details are repeated in both `home.*.mdx` files, `app/[lang]/page.tsx` (metadata and structured data), the dictionaries in `features/i18n/`, `llms.txt`, and `app/manifest.ts`. Change them together ([SEO](docs/features/seo-and-structured-data.md)).
 - Next.js merges `openGraph` shallowly, so declare the complete object.
 - `robots.txt`, `sitemap.xml`, and `llms.txt` list only canonical public content; `/api/` stays disallowed.
 - The BIOS 404 stays `noindex`. Only Enter, Escape, and F1 reboot it; never add page-wide character-key or pointer handlers (WCAG 2.1.4 and 2.5.2) ([BIOS 404](docs/features/bios-404.md)).

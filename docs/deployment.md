@@ -8,7 +8,7 @@ The site is deployed on [Vercel](https://vercel.com) as a Next.js project (`verc
 2. Every push to a pull request gets a Vercel preview deployment. Review the change there.
 3. Squash-merge the pull request. Vercel deploys `main` to production at https://www.kevinpierik.dev.
 
-Run `bun run qa` before you push. It checks formatting, lints, type-checks, runs the tests, and builds the site. Every route must build as static (`○`).
+Run `bun run qa` before you push. It checks formatting, lints, type-checks, runs the tests, and builds the site. Every route must build as static: `○`, or `●` for the prerendered `/[lang]` pages.
 
 ## Branch protection
 

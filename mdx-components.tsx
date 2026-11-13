@@ -44,8 +44,8 @@ type EntryProps = {
 
 function Entry({ title, href, start, end, location, children }: EntryProps) {
   return (
-    <div className="grid grid-cols-[7rem_1fr] gap-x-4 max-sm:grid-cols-1 [&+&]:mt-[1lh]">
-      <h3 className="sm:col-start-2">
+    <div className="grid min-[800px]:grid-cols-[15.725%_1fr] min-[800px]:gap-x-[1.75%] [&+&]:mt-[1lh]">
+      <h3 className="min-[800px]:col-start-2">
         {href ? (
           <Link href={href} variant="nav">
             {title}
@@ -57,18 +57,16 @@ function Entry({ title, href, start, end, location, children }: EntryProps) {
           title
         )}
       </h3>
-      <p className="text-muted tabular-nums max-sm:order-first sm:col-start-1 sm:row-start-1">
+      <p className="order-first text-muted tabular-nums min-[800px]:order-none min-[800px]:col-start-1 min-[800px]:row-start-1">
         <time dateTime={start}>{year(start)}</time>
-        {end === "present" ? (
-          " – Present"
-        ) : end ? (
-          <>
-            {" – "}
-            <time dateTime={end}>{year(end)}</time>
-          </>
-        ) : null}
+        {end ? " – " : null}
+        {end && /^\d{4}/.test(end) ? (
+          <time dateTime={end}>{year(end)}</time>
+        ) : (
+          end
+        )}
       </p>
-      <div className="text-muted sm:col-start-2">
+      <div className="max-w-[80ch] text-muted min-[800px]:col-start-2">
         {children ? <div>{children}</div> : null}
         <div>{location}</div>
       </div>
@@ -77,12 +75,12 @@ function Entry({ title, href, start, end, location, children }: EntryProps) {
 }
 
 function Intro({ children }: { children: ReactNode }) {
-  return <div className="max-w-[36rem] text-muted">{children}</div>;
+  return <div className="max-w-[80ch] text-muted">{children}</div>;
 }
 
 function Contact({ children }: { children: ReactNode }) {
   return (
-    <address className="not-italic [&_li]:grid [&_li]:grid-cols-[7rem_1fr] [&_li]:gap-x-4 [&_li+li]:mt-0.5">
+    <address className="not-italic [&_li]:grid [&_li]:grid-cols-[7rem_1fr] [&_li]:gap-x-4 min-[800px]:[&_li]:grid-cols-[15.725%_1fr] min-[800px]:[&_li]:gap-x-[1.75%] [&_li+li]:mt-0.5">
       {children}
     </address>
   );

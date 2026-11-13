@@ -1,0 +1,12 @@
+{
+  "path": "/",
+  "languageName": "English",
+  "ogLocale": "en_US",
+  "title": "Kevin Pierik | Frontend Developer",
+  "description": "Frontend developer focused on clear, useful interfaces in Hardenberg, the Netherlands.",
+  "ogImageAlt": "Kevin Pierik — Frontend Developer in Hardenberg, NL",
+  "role": "Frontend Developer",
+  "profilesLabel": "Social profiles",
+  "languageLabel": "Language",
+  "colophon": "This is a static website built with Next.js and hosted on Vercel."
+}

@@ -16,12 +16,12 @@ The source for [kevinpierik.dev](https://www.kevinpierik.dev): a fast, one-page 
 ```text
 app/          # Routes, metadata routes (robots, sitemap, llms.txt), and the shared HTML shell
 components/   # Small, feature-agnostic building blocks
-features/     # BIOS 404, site header and footer, fonts, Lenis, and styles
+features/     # Site header and footer, i18n dictionaries, BIOS 404, fonts, Lenis, and styles
 docs/         # Deployment notes and per-feature documentation
 public/       # Icons and the Open Graph image
 ```
 
-The homepage is `app/(web)/page.tsx`; its CV content lives in `app/(web)/home.mdx`, styled through `mdx-components.tsx`. The page metadata, the `schema-dts`-typed structured data in the page, `home.mdx`, and `llms.txt` repeat the same profile details, so keep them in sync.
+The homepage is `/` in English and `/nl` in Dutch, both from `app/[lang]/`. `layout.tsx` renders the header and footer, `page.tsx` owns the metadata and the `schema-dts`-typed structured data, and the CV content lives in `home.en.mdx` and `home.nl.mdx`, styled through `mdx-components.tsx`. UI strings are in `features/i18n/`. These files repeat the same profile details, so keep them in sync.
 
 ## Development
 
