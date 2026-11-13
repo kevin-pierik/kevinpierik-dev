@@ -109,7 +109,7 @@ function homeStructuredData(locale: Locale): Graph {
         familyName: "Pierik",
         url: siteUrl,
         mainEntityOfPage: { "@id": `${siteUrl}/#webpage` },
-        email: "kevinpierik@icloud.com",
+        email: "hello@kevinpierik.dev",
         telephone: "+31615545687",
         description,
         jobTitle: "Frontend Developer",
