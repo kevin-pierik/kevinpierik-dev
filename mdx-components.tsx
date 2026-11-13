@@ -57,7 +57,7 @@ function Entry({ title, href, start, end, location, children }: EntryProps) {
           title
         )}
       </h3>
-      <p className="order-first text-muted tabular-nums min-[800px]:order-none min-[800px]:col-start-1 min-[800px]:row-start-1">
+      <p className="order-first text-muted tabular-nums min-[800px]:order-0 min-[800px]:col-start-1 min-[800px]:row-start-1">
         <time dateTime={start}>{year(start)}</time>
         {end ? " – " : null}
         {end && /^\d{4}/.test(end) ? (
