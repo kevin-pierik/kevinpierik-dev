@@ -5,8 +5,8 @@ The source for [kevinpierik.dev](https://www.kevinpierik.dev): a fast, one-page 
 ## Stack
 
 - Next.js 16 App Router, with every route statically prerendered
-- React Server Components; a client component only for the interactive BIOS 404, built on UI SDK
-- Tailwind CSS 4
+- React Server Components; client components only for the interactive BIOS 404, ui-sdk links, and Lenis smooth scrolling
+- Tailwind CSS 4, with Geist
 - MDX for the CV content
 - ESLint, Prettier, and Vitest
 - Bun and Vercel
@@ -16,7 +16,7 @@ The source for [kevinpierik.dev](https://www.kevinpierik.dev): a fast, one-page 
 ```text
 app/          # Routes, metadata routes (robots, sitemap, llms.txt), and the shared HTML shell
 components/   # Small, feature-agnostic building blocks
-features/     # BIOS 404, fonts, and styles
+features/     # BIOS 404, site header and footer, fonts, Lenis, and styles
 docs/         # Deployment notes and per-feature documentation
 public/       # Icons and the Open Graph image
 ```

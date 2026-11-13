@@ -18,7 +18,7 @@ How each feature works is documented for people in `docs/` ([index](docs/README.
 - Global styles are imported only through `app/shared-web-layout.tsx`. Use the `background` and `foreground` colours, never hardcoded black or white, and keep text contrast at 4.5:1 or more in both schemes ([color scheme](docs/features/color-scheme.md)).
 - The homepage has one `<h1>`; CV sections use `<h2>` and entries `<h3>`. Never skip heading ranks or add deeper headings without real subsections.
 - Keep landmarks, accessible names, visible focus styles, semantic lists, native links, and the reduced-motion rules in `features/style/animations.css`.
-- Write CV content as plain markdown with the MDX components; no Tailwind classes in the MDX beyond `Column` and `Section` layout ([MDX content](docs/features/mdx-content.md)).
+- Write CV content as plain markdown with the MDX components; no Tailwind classes in the MDX ([MDX content](docs/features/mdx-content.md)).
 - Profile details are repeated in `home.mdx`, the page metadata, the structured data, `llms.txt`, and `app/manifest.ts`. Change them together ([SEO](docs/features/seo-and-structured-data.md)).
 - Next.js merges `openGraph` shallowly, so declare the complete object.
 - `robots.txt`, `sitemap.xml`, and `llms.txt` list only canonical public content; `/api/` stays disallowed.

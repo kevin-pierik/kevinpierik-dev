@@ -2,7 +2,8 @@ import type { Metadata } from "next";
 import type { Graph } from "schema-dts";
 
 import { JsonLd } from "@/components/json-ld";
-import { Link } from "@/components/link";
+import { SiteFooter } from "@/features/site/site-footer";
+import { SiteHeader } from "@/features/site/site-header";
 
 import HomeContent from "./home.mdx";
 
@@ -135,53 +136,15 @@ export default function Home() {
   return (
     <>
       <JsonLd data={structuredData} />
+      <SiteHeader />
       <main
         aria-labelledby="page-title"
-        className="flex h-svh flex-col overflow-y-auto overscroll-none bg-background px-3 py-3 text-[0.75rem]/[1.45] font-bold text-foreground sm:px-[1.35vw] sm:py-[1.35vw]"
+        className="mx-auto w-full max-w-[50rem] px-6 pt-[6lh]"
         id="main"
       >
-        <header className="grid grid-cols-2 gap-x-[4vw] gap-y-[2lh] sm:grid-cols-[2fr_3fr_3fr_4fr] sm:gap-x-[1vw] sm:gap-y-0">
-          <p>
-            Kevin Pierik
-            <br />
-            Frontend Developer
-          </p>
-          <nav aria-label="Social profiles" className="sm:col-start-4">
-            <ul>
-              <li>
-                <Link
-                  variant="nav"
-                  href="https://nl.linkedin.com/in/kevin-pierik"
-                >
-                  LinkedIn
-                </Link>
-              </li>
-              <li>
-                <Link
-                  variant="nav"
-                  href="https://www.instagram.com/kevinpierikk"
-                >
-                  Instagram
-                </Link>
-              </li>
-              <li>
-                <Link variant="nav" href="https://github.com/kevin-pierik">
-                  GitHub
-                </Link>
-              </li>
-            </ul>
-          </nav>
-        </header>
-        <h1
-          className="mt-auto ml-[-0.088em] text-[14vw]/[0.78] font-bold tracking-[-0.02em]"
-          id="page-title"
-        >
-          Kevin Pierik
-        </h1>
-        <div className="mt-[7.8vh] grid grid-cols-2 gap-x-[4vw] gap-y-[2lh] sm:grid-cols-[2fr_3fr_3fr_4fr] sm:gap-x-[1vw] sm:gap-y-0">
-          <HomeContent />
-        </div>
+        <HomeContent />
       </main>
+      <SiteFooter />
     </>
   );
 }
