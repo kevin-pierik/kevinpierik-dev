@@ -78,12 +78,17 @@ function Intro({ children }: { children: ReactNode }) {
   return <div className="max-w-[80ch] text-muted">{children}</div>;
 }
 
+const rowsClassName =
+  "[&_li]:grid [&_li]:grid-cols-[7rem_1fr] [&_li]:gap-x-4 min-[800px]:[&_li]:grid-cols-[15.725%_1fr] min-[800px]:[&_li]:gap-x-[1.75%] [&_li+li]:mt-0.5";
+
 function Contact({ children }: { children: ReactNode }) {
   return (
-    <address className="not-italic [&_li]:grid [&_li]:grid-cols-[7rem_1fr] [&_li]:gap-x-4 min-[800px]:[&_li]:grid-cols-[15.725%_1fr] min-[800px]:[&_li]:gap-x-[1.75%] [&_li+li]:mt-0.5">
-      {children}
-    </address>
+    <address className={`not-italic ${rowsClassName}`}>{children}</address>
   );
+}
+
+function Rows({ children }: { children: ReactNode }) {
+  return <div className={rowsClassName}>{children}</div>;
 }
 
 function Label({ children }: { children: ReactNode }) {
@@ -101,6 +106,7 @@ const components: MDXComponents = {
   Section,
   Entry,
   Contact,
+  Rows,
   Label,
 };
 

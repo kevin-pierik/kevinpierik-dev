@@ -12,7 +12,7 @@ const variantClassNames: Record<ButtonVariant, string> = {
   solid: "bg-foreground text-background hover:bg-foreground/85",
   outline:
     "border border-foreground bg-background text-foreground hover:bg-foreground/[0.06]",
-  subtle: "bg-foreground/[0.06] text-foreground hover:bg-foreground/[0.12]",
+  subtle: "bg-subtle text-foreground hover:bg-subtle-hover",
 };
 
 const sizeClassNames: Record<ButtonSize, string> = {

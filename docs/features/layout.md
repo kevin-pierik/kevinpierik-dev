@@ -8,7 +8,7 @@ The site aims for an editorial, almost unstyled look, modelled on nunocoelho.me:
 
 ## Site header
 
-`features/site/site-header/index.tsx` spans the full width of the page, with 1.5rem of side padding. On the left is the name, the page's `<h1>`, with the role below it in `muted`. On the right is a `<nav>` with LinkedIn, GitHub, and Instagram as small `subtle` buttons ([Links and buttons](links-and-buttons.md)). On narrow screens the buttons wrap below the name.
+`features/site/site-header/index.tsx` spans the full width of the page, with 1.5rem of side padding. On the left is the name, the page's `<h1>`, with the role below it in `muted`. On the right is the site navigation, a `<nav>` with small `subtle` buttons ([Links and buttons](links-and-buttons.md)): for now only Index, the homepage in the current language, marked `aria-current="page"`. Add Blog there once there are posts. Profile links don't go in the header; they are rows in the Socials section of the CV.
 
 `<main>` is labelled by that `<h1>` through `aria-labelledby="page-title"`. The header and footer read the language themselves through `getLocale()`, so pages don't pass it down.
 

@@ -11,11 +11,17 @@ export type Dictionary = typeof en;
 
 export const locales = Object.keys(dictionaries) as Locale[];
 
+export const defaultLocale: Locale = "en";
+
+export const prefixedLocales = locales.filter(
+  (locale) => locale !== defaultLocale,
+);
+
 export const hasLocale = (locale: string): locale is Locale =>
   locale in dictionaries;
 
 export async function getLocale(): Promise<Locale> {
-  const locale = await lang();
+  const locale = (await lang()) ?? defaultLocale;
   if (!hasLocale(locale)) notFound();
   return locale;
 }
