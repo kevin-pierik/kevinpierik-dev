@@ -30,7 +30,7 @@ Google Search Console reports the result under Enhancements, Profile page.
 
 ## Other files
 
-- `app/sitemap.ts` lists both pages, each with the other as a language alternate.
+- `app/sitemap.ts` lists both pages with `en`, `nl`, and `x-default` alternates. Its URLs match the canonicals exactly, so the English page has no trailing slash.
 - `app/robots.ts` allows everything except `/api/` and points to the sitemap.
 - `app/manifest.ts` serves `/manifest.webmanifest` with the name and icons.
 

@@ -5,8 +5,9 @@ The site is in English at `/` and in Dutch at `/nl`. Both pages are static and s
 ## Routing
 
 - Everything with a language lives in `app/[lang]/`. Its `layout.tsx` is the root layout: it sets `<html lang>`, lists `en` and `nl` in `generateStaticParams`, and sets `dynamicParams = false`, so any other first segment, such as `/fr`, shows the BIOS 404.
-- English stays at `/`, the existing canonical URL. `next.config.ts` rewrites `/` to `/en` and permanently redirects `/en` to `/`, so there is one URL per language and no proxy.
-- The build lists the pages as `●` (prerendered through `generateStaticParams`), which is still static HTML.
+- English stays at `/`, the existing canonical URL. `app/(default-locale)/` is a second root layout whose `layout.tsx`, `page.tsx`, and `opengraph-image.tsx` re-export the `[lang]` files; there `lang()` returns `undefined`, so `getLocale()` falls back to English. `[lang]` only prerenders the other languages, and `next.config.ts` permanently redirects `/en` to `/`.
+- Don't serve `/` through a rewrite to `/en`: on Vercel, Next.js's per-segment prefetch requests for `/` then return 404.
+- The build lists `/` as `○` and `/nl` as `●` (prerendered through `generateStaticParams`); both are static HTML.
 
 ## Dictionaries
 

@@ -22,7 +22,7 @@ Variants:
 - `button`: the solid button look, for other calls to action.
 - `outline` and `subtle`: the button variants of the same name.
 
-Button variants also take `size`. The social links in the [site header](layout.md) are `subtle` and `sm`.
+Button variants also take `size`. The navigation in the [site header](layout.md) uses `subtle` and `sm`.
 
 ## Button
 
@@ -31,7 +31,7 @@ The look follows ui-sdk.dev: square blocks. `size` is `md` (default, a minimum h
 - `primary`: a blue `primary` fill with white text. On hover, it darkens to `primary-hover`.
 - `solid` (default): a `foreground` fill with `background` text. On hover, the fill drops to 85%.
 - `outline`: a 1px `foreground` border on `background`. On hover, it gets a 6% `foreground` tint.
-- `subtle`: a 6% `foreground` tint that deepens to 12% on hover.
+- `subtle`: a `subtle` fill that darkens to `subtle-hover` on hover. These are solid colours, not a `foreground` tint, so the buttons stay visible in dark mode.
 
 Disabled buttons are at 50% opacity, through ui-sdk's `data-disabled`. Nothing uses `Button` yet.
 

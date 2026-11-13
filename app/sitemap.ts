@@ -1,8 +1,9 @@
 import type { MetadataRoute } from "next";
 
 const languages = {
-  en: "https://www.kevinpierik.dev/",
+  en: "https://www.kevinpierik.dev",
   nl: "https://www.kevinpierik.dev/nl",
+  "x-default": "https://www.kevinpierik.dev",
 };
 
 export default function sitemap(): MetadataRoute.Sitemap {

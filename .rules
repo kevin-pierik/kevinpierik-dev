@@ -1,6 +1,6 @@
 # kevinpierik.dev
 
-`kevinpierik.dev` is a one-page professional profile and curriculum vitae. The canonical public pages are `/` (English) and `/nl` (Dutch); unknown routes show a BIOS-style 404. There is no CMS: `app/[lang]/layout.tsx` renders the header, container, and footer, `app/[lang]/page.tsx` owns `<main>`, the metadata, and the structured data, and the CV content is markdown in `app/[lang]/home.en.mdx` and `home.nl.mdx`.
+`kevinpierik.dev` is a one-page professional profile and curriculum vitae. The canonical public pages are `/` (English) and `/nl` (Dutch); unknown routes show a BIOS-style 404. There is no CMS: `app/[lang]/layout.tsx` renders the header, container, and footer, `app/[lang]/page.tsx` owns `<main>`, the metadata, and the structured data, `app/(default-locale)/` re-exports both for English at `/`, and the CV content is markdown in `app/[lang]/home.en.mdx` and `home.nl.mdx`.
 
 How each feature works is documented for people in `docs/` ([index](docs/README.md)). Read the feature's page before changing it, and update it in the same pull request.
 

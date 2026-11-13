@@ -2,14 +2,19 @@ import { readFile } from "node:fs/promises";
 import { join } from "node:path";
 import { ImageResponse } from "next/og";
 
-import { getDictionary, hasLocale, locales } from "@/features/i18n";
+import {
+  defaultLocale,
+  getDictionary,
+  hasLocale,
+  prefixedLocales,
+} from "@/features/i18n";
 
 export const alt = "Kevin Pierik, frontend developer";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
 export function generateStaticParams() {
-  return locales.map((lang) => ({ lang }));
+  return prefixedLocales.map((lang) => ({ lang }));
 }
 
 const fontsDirectory = join(
@@ -20,10 +25,12 @@ const fontsDirectory = join(
 export default async function Image({
   params,
 }: {
-  params: Promise<{ lang: string }>;
+  params?: Promise<{ lang?: string }>;
 }) {
-  const { lang } = await params;
-  const { role } = getDictionary(hasLocale(lang) ? lang : "en");
+  const { lang } = (await params) ?? {};
+  const { role } = getDictionary(
+    lang && hasLocale(lang) ? lang : defaultLocale,
+  );
   const [regular, medium] = await Promise.all([
     readFile(join(fontsDirectory, "Geist-Regular.ttf")),
     readFile(join(fontsDirectory, "Geist-Medium.ttf")),

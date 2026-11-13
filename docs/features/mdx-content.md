@@ -8,6 +8,7 @@ The CV is written as markdown twice: in English in `app/[lang]/home.en.mdx` and 
 - `<Section title="…">` renders a `<section>` labelled by an `<h2>` whose id is slugified from the title. The heading shows the title with a colon, such as "Experience:".
 - `<Entry title="…" start="2024-09" end="2025-01" location="…">` renders one row, as on nunocoelho.me: the years on the left; on the right an `<h3>` with the title, then the optional children as a muted description, then the location. With `href`, the title becomes a `nav` link with `↗`. `end` is either a date or a label for an ongoing entry, such as `end="Present"` or `end="heden"`; leave it out for a single date. Dates are wrapped in `<time>` for you. Write descriptions only from real details; don't pad them.
 - `<Contact>` wraps a list in `<address>`, and each item becomes a two-column row. Start each item with `<Label>`, which renders the muted left column.
+- `<Rows>` gives a list the same rows without `<address>`. The Socials section uses it, with the full profile URL as link text.
 - `<time dateTime="P5M">5 months</time>` marks durations in the text.
 
 The MDX has no Tailwind classes; every style lives in the components.
