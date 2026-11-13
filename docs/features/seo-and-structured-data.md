@@ -9,7 +9,7 @@ The homepage, in English at `/` and in Dutch at `/nl`, aims to be the first resu
 - The title leads with the name, `Kevin Pierik | Frontend Developer`, because that is what people search for.
 - A description, a canonical URL per language, and `hreflang` alternates for `en`, `nl`, and `x-default` (English).
 - `author`, `creator`, `publisher`, `application-name`, `category`, and `copyright`. The copyright year comes from the build date.
-- Open Graph as a `profile` (first name, last name, username) with `og.png`, and a large Twitter card. Next.js merges `openGraph` shallowly, so declare the complete object.
+- Open Graph as a `profile` (first name, last name, username), and a large Twitter card. The image comes from `app/[lang]/opengraph-image.tsx` (see below). Next.js merges `openGraph` shallowly, so declare the complete object.
 - `robots` allows indexing with large image previews.
 
 `og:locale` follows the page's language (`en_US` or `nl_NL`), with the other one as `og:locale:alternate`.
@@ -23,6 +23,10 @@ Each page renders a JSON-LD `@graph`, typed with `schema-dts`, through `componen
 - **Person**: name parts, contact details, address, occupation, nationality, languages, employer (Friday Digital Agency, with its URL), schools, skills, and `sameAs` links to LinkedIn, Instagram, and GitHub.
 
 Google Search Console reports the result under Enhancements, Profile page.
+
+## Open Graph image
+
+`app/[lang]/opengraph-image.tsx` draws a 1200×630 PNG per language in the site's style: the name and role at the top left, `kevinpierik.dev` at the bottom, in Geist on white. It reads the Geist TTF files from the `geist` package, because the image renderer can't read the woff2 that `next/font` serves. `generateStaticParams` prerenders both images at build time, and Next.js adds the `og:image` and `twitter:image` tags itself, so the metadata declares no images.
 
 ## Other files
 

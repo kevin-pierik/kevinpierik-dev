@@ -18,7 +18,7 @@ app/          # Routes, metadata routes (robots, sitemap, llms.txt), and the sha
 components/   # Small, feature-agnostic building blocks
 features/     # Site header and footer, i18n dictionaries, BIOS 404, fonts, Lenis, and styles
 docs/         # Deployment notes and per-feature documentation
-public/       # Icons and the Open Graph image
+public/       # Icons
 ```
 
 The homepage is `/` in English and `/nl` in Dutch, both from `app/[lang]/`. `layout.tsx` renders the header and footer, `page.tsx` owns the metadata and the `schema-dts`-typed structured data, and the CV content lives in `home.en.mdx` and `home.nl.mdx`, styled through `mdx-components.tsx`. UI strings are in `features/i18n/`. These files repeat the same profile details, so keep them in sync.

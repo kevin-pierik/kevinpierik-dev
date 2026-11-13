@@ -18,8 +18,7 @@ const name = "Kevin Pierik";
 const siteUrl = "https://www.kevinpierik.dev";
 
 function homeMetadata(locale: Locale): Metadata {
-  const { path, ogLocale, title, description, ogImageAlt } =
-    getDictionary(locale);
+  const { path, ogLocale, title, description } = getDictionary(locale);
   const copyrightYear = new Date().getFullYear();
 
   return {
@@ -51,13 +50,11 @@ function homeMetadata(locale: Locale): Metadata {
         .map((other) => getDictionary(other).ogLocale),
       title,
       description,
-      images: [{ url: "/og.png", width: 1200, height: 630, alt: ogImageAlt }],
     },
     twitter: {
       card: "summary_large_image",
       title,
       description,
-      images: ["/og.png"],
     },
     robots: {
       index: true,
