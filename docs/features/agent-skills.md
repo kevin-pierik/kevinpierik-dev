@@ -4,17 +4,18 @@ Coding agents such as Claude Code, Codex, and Cursor load skills from `.agents/s
 
 ## Installed skills
 
-| Skill                           | Source                      | Use it for                                         |
-| ------------------------------- | --------------------------- | -------------------------------------------------- |
-| `ui-sdk`                        | `vercel-labs/ui`            | Building interfaces with UI SDK                    |
-| `next-*` (six skills)           | `vercel/next.js`            | Next.js bundle, caching, prefetching, and dev loop |
-| `agent-browser`                 | `vercel-labs/agent-browser` | Driving a real browser                             |
-| `vercel-react-best-practices`   | `vercel-labs/agent-skills`  | React and Next.js performance                      |
-| `vercel-composition-patterns`   | `vercel-labs/agent-skills`  | Component architecture                             |
-| `vercel-react-view-transitions` | `vercel-labs/agent-skills`  | View Transition animations                         |
-| `web-design-guidelines`         | `vercel-labs/agent-skills`  | UI and accessibility reviews                       |
-| `writing-guidelines`            | `vercel-labs/agent-skills`  | Reviewing prose and docs                           |
-| `vercel-optimize`               | `vercel-labs/agent-skills`  | Vercel cost and performance                        |
+| Skill                           | Source                             | Use it for                                         |
+| ------------------------------- | ---------------------------------- | -------------------------------------------------- |
+| `ui-sdk`                        | `vercel-labs/ui`                   | Building interfaces with UI SDK                    |
+| `next-*` (six skills)           | `vercel/next.js`                   | Next.js bundle, caching, prefetching, and dev loop |
+| `agent-browser`                 | `vercel-labs/agent-browser`        | Driving a real browser                             |
+| `vercel-react-best-practices`   | `vercel-labs/agent-skills`         | React and Next.js performance                      |
+| `vercel-composition-patterns`   | `vercel-labs/agent-skills`         | Component architecture                             |
+| `vercel-react-view-transitions` | `vercel-labs/agent-skills`         | View Transition animations                         |
+| `web-design-guidelines`         | `vercel-labs/agent-skills`         | UI and accessibility reviews                       |
+| `writing-guidelines`            | `vercel-labs/agent-skills`         | Reviewing prose and docs                           |
+| `vercel-optimize`               | `vercel-labs/agent-skills`         | Vercel cost and performance                        |
+| `modern-web-guidance`           | `GoogleChrome/modern-web-guidance` | Modern web platform features and Baseline support  |
 
 ## Managing skills
 
@@ -23,5 +24,7 @@ Install or update a skill with the CLI, never by hand:
 ```bash
 npx skills add vercel-labs/agent-skills --skill web-design-guidelines --agent claude-code
 ```
+
+`modern-web-guidance` has its own CLI: `npx modern-web-guidance@latest update` updates it, and `npx modern-web-guidance@latest legacy-scan .` lists outdated patterns. The CLI sends anonymous usage data to Google unless `DISABLE_TELEMETRY=1` is set.
 
 Skills are excluded from Prettier and ESLint, so their files stay identical to the source. `.gitattributes` marks them as vendored, so GitHub leaves them out of the language statistics.
