@@ -49,7 +49,7 @@ function Entry({ title, href, start, end, location, children }: EntryProps) {
         {href ? (
           <Link href={href} variant="nav">
             {title}
-            <span aria-hidden="true" className="ml-0.5 text-muted">
+            <span aria-hidden="true" className="ml-1 text-muted">
               ↗
             </span>
           </Link>
