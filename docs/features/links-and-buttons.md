@@ -16,7 +16,8 @@ An `href` that starts with `/` renders through Next.js `Link`, which keeps clien
 
 Variants:
 
-- `text` (default): an inline link with a 35% underline that becomes solid on hover and focus. The CV and the header use it.
+- `text` (default): the inline link from ui-sdk.dev. Its underline is `foreground` at 25%, with the font's own thickness and a 3px offset, and turns solid on hover and focus. The CV uses it. Inside `<Contact>`, links show their underline only on hover, like `nav`, because the `P:` and `E:` labels already mark them.
+- `nav`: no underline until hover, like the ui-sdk.dev navigation. Use it only inside a `<nav>`, where the position makes clear that it is a link. The social links in the header use it.
 - `primary`: the blue `primary` button look, for the main call to action.
 - `button`: the solid button look, for other calls to action.
 
