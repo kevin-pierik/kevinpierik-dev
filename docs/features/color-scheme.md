@@ -14,7 +14,7 @@ Text needs a contrast ratio of at least 4.5:1 in both schemes. White on each `pr
 
 ## Theme switcher
 
-`features/site/theme-switcher.tsx` is a ui-sdk segmented control with three options: System (monitor), Light (sun), and Dark (moon). It sits at the bottom right of the [site footer](layout.md#site-footer), and its labels come from the `theme` entry in the dictionaries.
+`features/site/theme-switcher.tsx` is a ui-sdk segmented control with three options: System (monitor), Light (sun), and Dark (moon). It sits at the bottom right of the [site footer](layout.md#site-footer), and its labels come from the `theme` entry in the dictionaries. The icons are `muted`, the chosen one `foreground`, on a `subtle` fill that slides between options, like the active button in the site header.
 
 - The choice is stored in `localStorage` under `theme`, never in a cookie, so every page stays static. System removes the key.
 - `themeScript` in `features/site/theme.ts` runs inline in `<head>` before the first paint. It reads the stored theme, adds `.light` or `.dark` to `<html>`, and prepends its own `theme-color` meta, so a stored choice never flashes the system scheme. `<html>` has `suppressHydrationWarning` because the class differs from the server HTML.

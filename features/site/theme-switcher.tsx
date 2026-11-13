@@ -98,7 +98,7 @@ export function ThemeSwitcher({ labels }: { labels: Dictionary["theme"] }) {
       onValueChange={(value) => storeTheme(parseTheme(value))}
       value={theme}
     >
-      <SegmentedControlIndicator className="absolute top-(--segmented-control-indicator-top) left-(--segmented-control-indicator-left) -z-10 h-(--segmented-control-indicator-height) w-(--segmented-control-indicator-width) border border-foreground transition-[left,top,width,height] duration-200" />
+      <SegmentedControlIndicator className="absolute top-(--segmented-control-indicator-top) left-(--segmented-control-indicator-left) -z-10 h-(--segmented-control-indicator-height) w-(--segmented-control-indicator-width) bg-subtle transition-[left,top,width,height] duration-200" />
       {themes.map((value) => (
         <SegmentedControlItem
           aria-label={labels[value]}
