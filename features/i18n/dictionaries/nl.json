@@ -1,0 +1,11 @@
+{
+  "path": "/nl",
+  "languageName": "Nederlands",
+  "ogLocale": "nl_NL",
+  "title": "Kevin Pierik | Frontend developer",
+  "description": "Frontend developer uit Hardenberg, gericht op heldere, bruikbare interfaces.",
+  "role": "Frontend developer",
+  "profilesLabel": "Sociale profielen",
+  "languageLabel": "Taal",
+  "colophon": "Dit is een statische website, gebouwd met Next.js en gehost op Vercel."
+}

@@ -4,9 +4,13 @@ import { Button } from "@ui-sdk/react/button";
 import NextLink from "next/link";
 import type { ComponentProps, ReactNode } from "react";
 
-import { buttonClassName } from "@/components/button";
+import {
+  buttonClassName,
+  type ButtonSize,
+  type ButtonVariant,
+} from "@/components/button";
 
-type LinkVariant = "text" | "nav" | "primary" | "button";
+type LinkVariant = "text" | "nav" | "button" | Exclude<ButtonVariant, "solid">;
 
 const focusClassName =
   "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring";
@@ -23,6 +27,7 @@ type LinkProps = Omit<
   href: string;
   children: ReactNode;
   variant?: LinkVariant;
+  size?: ButtonSize;
   className?: string;
 };
 
@@ -30,13 +35,14 @@ export function Link({
   href,
   children,
   variant = "text",
+  size,
   className,
   ...props
 }: LinkProps) {
   const variantClassName =
     variant === "text" || variant === "nav"
       ? textClassNames[variant]
-      : buttonClassName(variant === "primary" ? "primary" : "solid");
+      : buttonClassName(variant === "button" ? "solid" : variant, size);
 
   return (
     <Button

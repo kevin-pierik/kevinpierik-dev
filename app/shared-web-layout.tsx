@@ -5,7 +5,7 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 
 import "@/features/style/global.css";
 
-import { helvetica } from "@/features/fonts";
+import { geist } from "@/features/fonts";
 
 export const sharedMetadata: Metadata = {
   metadataBase: new URL("https://www.kevinpierik.dev"),
@@ -38,13 +38,18 @@ export const sharedViewport: Viewport = {
 type SharedWebLayoutProps = {
   children: ReactNode;
   dark?: boolean;
+  lang?: "en" | "nl";
 };
 
-export function SharedWebLayout({ children, dark }: SharedWebLayoutProps) {
+export function SharedWebLayout({
+  children,
+  dark,
+  lang = "en",
+}: SharedWebLayoutProps) {
   return (
     <html
-      className={`h-full bg-background ${dark ? "dark" : ""} ${helvetica.variable}`}
-      lang="en"
+      className={`bg-background ${dark ? "dark" : ""} ${geist.variable}`}
+      lang={lang}
     >
       <body className="bg-background antialiased">
         {children}

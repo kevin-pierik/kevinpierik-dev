@@ -1,18 +1,7 @@
-import localFont from "next/font/local";
+import { Geist } from "next/font/google";
 
-export const helvetica = localFont({
-  src: [
-    {
-      path: "./helvetica/helvetica-neue-regular.woff2",
-      weight: "400",
-      style: "normal",
-    },
-    {
-      path: "./helvetica/helvetica-neue-bold.woff2",
-      weight: "700",
-      style: "normal",
-    },
-  ],
-  variable: "--font-helvetica",
+export const geist = Geist({
+  subsets: ["latin"],
+  variable: "--font-geist",
   display: "swap",
 });

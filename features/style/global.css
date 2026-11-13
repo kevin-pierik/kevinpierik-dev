@@ -2,6 +2,7 @@
 @import "./colors.css";
 @import "./typography.css";
 @import "./animations.css";
+@import "lenis/dist/lenis.css";
 
 @layer base {
   * {
@@ -12,8 +13,6 @@
     overscroll-behavior: none;
   }
   body {
-    overflow: hidden;
-    overscroll-behavior: none;
     background-color: var(--background);
     color: var(--foreground);
   }

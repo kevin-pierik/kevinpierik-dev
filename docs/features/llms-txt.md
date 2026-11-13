@@ -4,4 +4,4 @@
 
 It is a static route handler in `app/llms.txt/route.ts` (`dynamic = "force-static"`) that lists the canonical page and the contact links. Like `robots.txt` and `sitemap.xml`, it must only point to canonical public content.
 
-When profile details change, update `llms.txt` together with `home.mdx`, the page metadata, and the structured data.
+When profile details change, update `llms.txt` together with both `home.*.mdx` files, `app/[lang]/page.tsx`, and the dictionaries in `features/i18n/`. It links the Dutch page too.

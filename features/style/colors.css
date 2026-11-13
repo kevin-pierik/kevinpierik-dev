@@ -2,6 +2,7 @@
   color-scheme: light dark;
   --background: light-dark(var(--color-white), var(--color-black));
   --foreground: light-dark(var(--color-black), var(--color-white));
+  --muted: light-dark(#6b6b6b, #9a9a9a);
   --border: color-mix(in oklab, var(--foreground) 16%, transparent);
   --primary: light-dark(#006bff, #2466c3);
   --primary-hover: light-dark(#0059d6, #2158a7);

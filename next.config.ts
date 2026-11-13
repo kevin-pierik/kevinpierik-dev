@@ -22,6 +22,14 @@ const nextConfig: NextConfig = {
     turbopackRustReactCompiler: true,
   },
 
+  async redirects() {
+    return [{ source: "/en", destination: "/", permanent: true }];
+  },
+
+  async rewrites() {
+    return [{ source: "/", destination: "/en" }];
+  },
+
   async headers() {
     return [{ source: "/:path*", headers: securityHeaders }];
   },

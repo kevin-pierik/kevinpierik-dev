@@ -22,4 +22,4 @@ bunx agent-browser a11y http://localhost:3000/ --tags wcag2a,wcag2aa,wcag21aa,wc
 bunx agent-browser close
 ```
 
-The `a11y` command runs an axe-core audit. The one known violation is `target-size` on the header's social links.
+The `a11y` command runs an axe-core audit.
