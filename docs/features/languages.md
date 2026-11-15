@@ -4,7 +4,7 @@ The site is in English at `/` and in Dutch at `/nl`. Both pages are static and s
 
 ## Routing
 
-- Everything with a language lives in `app/[lang]/`. Its `layout.tsx` is the root layout: it sets `<html lang>`, lists `en` and `nl` in `generateStaticParams`, and sets `dynamicParams = false`, so any other first segment, such as `/fr`, shows the BIOS 404.
+- Everything with a language lives in `app/[lang]/`. Its `layout.tsx` is the root layout: it sets `<html lang>`, lists `en` and `nl` in `generateStaticParams`, and sets `dynamicParams = false`, so any other first segment, such as `/fr`, shows the 404 page.
 - English stays at `/`, the existing canonical URL. `app/(default-locale)/` is a second root layout whose `layout.tsx`, `page.tsx`, and `opengraph-image.tsx` re-export the `[lang]` files; there `lang()` returns `undefined`, so `getLocale()` falls back to English. `[lang]` only prerenders the other languages, and `next.config.ts` permanently redirects `/en` to `/`.
 - Don't serve `/` through a rewrite to `/en`: on Vercel, Next.js's per-segment prefetch requests for `/` then return 404.
 - The build lists `/` as `○` and `/nl` as `●` (prerendered through `generateStaticParams`); both are static HTML.
@@ -17,7 +17,7 @@ The CV itself is not in the dictionaries; each language has its own `home.en.mdx
 
 ## Language switcher
 
-The footer lists English and Nederlands. Each link has `hreflang` and `lang`, so screen readers pronounce the name in its own language, and the current language has `aria-current="page"` and full contrast. Switching languages lands on the top of the other page.
+The footer lists English and Nederlands in a ui-sdk `NavigationMenu`. Each link has `hreflang` and `lang`, so screen readers pronounce the name in its own language. The current language is marked `current`, which sets `aria-current="page"` and `data-current`, and `data-current` gives it full contrast. Switching languages lands on the top of the other page.
 
 ## Search engines
 

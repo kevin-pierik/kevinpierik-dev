@@ -1,4 +1,12 @@
-import { Link } from "@/components/link";
+import {
+  NavigationMenu,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  NavigationMenuList,
+} from "@ui-sdk/react/navigation-menu";
+import NextLink from "next/link";
+
+import { linkStyles } from "@/components/link";
 import { getDictionary, getLocale, locales } from "@/features/i18n";
 
 export async function SiteFooter() {
@@ -10,41 +18,27 @@ export async function SiteFooter() {
     <footer className="px-6 pt-[10lh] pb-6 text-muted sm:pb-8">
       <p>© {year} Kevin Pierik.</p>
       <p className="mt-[1lh] max-w-[80ch]">{colophon}</p>
-      <nav
-        aria-label={languageLabel}
-        className="mt-[1lh] flex items-center gap-x-4"
-      >
-        <svg
-          aria-hidden="true"
-          className="size-4 shrink-0"
-          fill="none"
-          stroke="currentColor"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          strokeWidth="1.5"
-          viewBox="0 0 24 24"
-        >
-          <circle cx="12" cy="12" r="10" />
-          <path d="M2 12h20" />
-          <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
-        </svg>
-        <ul className="flex gap-x-6">
+      <NavigationMenu aria-label={languageLabel} className="mt-[1lh]">
+        <NavigationMenuList className="flex gap-x-6">
           {locales.map((other) => (
-            <li key={other}>
-              <Link
-                aria-current={other === locale ? "page" : undefined}
-                className="aria-[current=page]:text-foreground"
-                href={getDictionary(other).path}
-                hrefLang={other}
-                lang={other}
-                variant="nav"
+            <NavigationMenuItem key={other}>
+              <NavigationMenuLink
+                className={`${linkStyles.nav} data-current:text-foreground`}
+                current={other === locale}
+                render={
+                  <NextLink
+                    href={getDictionary(other).path}
+                    hrefLang={other}
+                    lang={other}
+                  />
+                }
               >
                 {getDictionary(other).languageName}
-              </Link>
-            </li>
+              </NavigationMenuLink>
+            </NavigationMenuItem>
           ))}
-        </ul>
-      </nav>
+        </NavigationMenuList>
+      </NavigationMenu>
     </footer>
   );
 }
