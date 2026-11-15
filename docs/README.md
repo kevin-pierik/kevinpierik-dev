@@ -7,7 +7,7 @@ How kevinpierik.dev is built and run. Start with the [project README](../README.
 ## Features
 
 - [404 page](features/not-found.md): the plain not-found page.
-- [Layout and typography](features/layout.md): the container, the site header and footer, Geist Serif, and Lenis smooth scrolling.
+- [Layout and typography](features/layout.md): the container, the site header and footer, Geist Sans, and Lenis smooth scrolling.
 - [MDX content](features/mdx-content.md): how the CV is written and styled.
 - [Languages](features/languages.md): the English and Dutch pages and the language switcher.
 - [Links and buttons](features/links-and-buttons.md): the `Link` and `Button` components built on ui-sdk.
