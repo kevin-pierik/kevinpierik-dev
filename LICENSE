@@ -24,5 +24,6 @@ SOFTWARE.
 
 The MIT License covers the source code only. The personal content is not
 licensed for reuse and remains all rights reserved: the CV text in
-app/(web)/home.mdx, the profile details repeated in metadata, structured data,
-and llms.txt, the name "Kevin Pierik", and the images and icons in public/.
+app/[lang]/home.en.mdx and home.nl.mdx, the profile details repeated in
+metadata, structured data, and llms.txt, the name "Kevin Pierik", and the
+images and icons in public/.

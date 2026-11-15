@@ -2,6 +2,7 @@ import type { MDXComponents } from "mdx/types";
 import type { ReactNode } from "react";
 
 import { Link } from "@/components/link";
+import { getDictionary, getLocale } from "@/features/i18n";
 
 function slugify(value: string) {
   return value
@@ -35,6 +36,7 @@ function year(date: string) {
 
 type EntryProps = {
   title: string;
+  company?: string;
   href?: string;
   start: string;
   end?: string;
@@ -42,22 +44,41 @@ type EntryProps = {
   children?: ReactNode;
 };
 
-function Entry({ title, href, start, end, location, children }: EntryProps) {
+async function Entry({
+  title,
+  company,
+  href,
+  start,
+  end,
+  location,
+  children,
+}: EntryProps) {
+  const { at } = getDictionary(await getLocale());
+  const name = company ?? title;
+  const linked = href ? (
+    <Link href={href} variant="nav">
+      {name}
+      {"\u00a0"}
+      <span aria-hidden="true" className="text-muted">
+        ↗
+      </span>
+    </Link>
+  ) : (
+    name
+  );
+
   return (
     <div className="grid min-[800px]:grid-cols-[15.725%_1fr] min-[800px]:gap-x-[1.75%] [&+&]:mt-[1lh]">
       <h3 className="min-[800px]:col-start-2">
-        {href ? (
-          <Link href={href} variant="nav">
-            {title}
-            <span aria-hidden="true" className="ml-1 text-muted">
-              ↗
-            </span>
-          </Link>
+        {company ? (
+          <>
+            {title} {at} {linked}
+          </>
         ) : (
-          title
+          linked
         )}
       </h3>
-      <p className="order-first text-muted tabular-nums min-[800px]:order-none min-[800px]:col-start-1 min-[800px]:row-start-1">
+      <p className="order-first text-muted tabular-nums min-[800px]:order-0 min-[800px]:col-start-1 min-[800px]:row-start-1">
         <time dateTime={start}>{year(start)}</time>
         {end ? " – " : null}
         {end && /^\d{4}/.test(end) ? (
