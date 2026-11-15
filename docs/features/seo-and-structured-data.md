@@ -26,7 +26,7 @@ Google Search Console reports the result under Enhancements, Profile page.
 
 ## Open Graph image
 
-`app/[lang]/opengraph-image.tsx` draws a 1200×630 PNG per language in the site's style: the name and role at the top left, `kevinpierik.dev` at the bottom, in Geist on white. It reads the Geist TTF files from the `geist` package, because the image renderer can't read the woff2 that `next/font` serves. `generateStaticParams` prerenders both images at build time, and Next.js adds the `og:image` and `twitter:image` tags itself, so the metadata declares no images.
+`app/[lang]/opengraph-image.tsx` draws a 1200×630 PNG per language in the site's style: the name and role at the top left, `kevinpierik.dev` at the bottom, in Geist Sans on white. It reads the Geist TTF files from the `geist` package, because the image renderer can't read woff2. The site itself uses Geist Serif, but the package ships that only as woff2, so the image keeps Geist Sans until the package includes Geist Serif TTFs. `generateStaticParams` prerenders both images at build time, and Next.js adds the `og:image` and `twitter:image` tags itself, so the metadata declares no images.
 
 ## Other files
 
