@@ -5,7 +5,7 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 
 import "@/features/style/global.css";
 
-import { geistSerif } from "@/features/fonts";
+import { geistSans } from "@/features/fonts";
 
 export const sharedMetadata: Metadata = {
   metadataBase: new URL("https://www.kevinpierik.dev"),
@@ -45,7 +45,7 @@ export function SharedWebLayout({
   lang = "en",
 }: SharedWebLayoutProps) {
   return (
-    <html className={`bg-background ${geistSerif.variable}`} lang={lang}>
+    <html className={`bg-background ${geistSans.variable}`} lang={lang}>
       <body className="bg-background antialiased">
         {children}
         {process.env.VERCEL_ENV ? <Analytics /> : null}

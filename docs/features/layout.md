@@ -18,8 +18,8 @@ The site aims for an editorial, almost unstyled look, modelled on nunocoelho.me:
 
 ## Typography
 
-- `features/fonts/index.ts` loads [Geist Serif](https://vercel.com/font?type=serif) Regular from the `geist` package (`geist/font/serif/regular`, not yet on Google Fonts), exposed to Tailwind as `font-serif` and set on `<html>` in `typography.css`. Importing only the Regular variant keeps the Square, Triangle, and Heart files out of the download.
-- Geist Serif has one weight: the variable font's only axis is `ELSH`, the serif shape. More weights are announced; until then everything, headings included, is set at 400; don't add other weights, or the browser fakes a bold.
+- `features/fonts/index.ts` loads the variable [Geist Sans](https://vercel.com/font) from the `geist` package (`geist/font/sans`), exposed to Tailwind as `font-sans` and set on `<html>` in `typography.css`. The OG image uses the same font.
+- Everything, headings included, is set at 400.
 - All text is 0.875rem (14px) with a unitless line height of 1.5715 (22px). Headings keep that size and weight, so hierarchy comes from colour (`foreground` against `muted`) and spacing.
 - Spacing is set in `lh`, so it follows the line height. See [MDX content](mdx-content.md) for the CV.
 

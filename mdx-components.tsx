@@ -59,8 +59,8 @@ async function Entry({
     <Link href={href} variant="nav">
       {name}
       {"\u00a0"}
-      <span aria-hidden="true" className="relative text-transparent">
-        →<span className="absolute inset-0 -rotate-45 text-muted">→</span>
+      <span aria-hidden="true" className="text-muted">
+        ↗
       </span>
     </Link>
   ) : (

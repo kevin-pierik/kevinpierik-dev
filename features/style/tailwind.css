@@ -11,6 +11,6 @@
   --color-muted: var(--muted);
   --color-subtle: var(--subtle);
   --color-subtle-hover: var(--subtle-hover);
-  --font-serif: var(--font-geist-serif-regular), ui-serif, Georgia, serif;
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
   --color-ring: var(--ring);
 }

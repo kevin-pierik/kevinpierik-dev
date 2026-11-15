@@ -1,1 +1,1 @@
-export { GeistSerifRegular as geistSerif } from "geist/font/serif/regular";
+export { GeistSans as geistSans } from "geist/font/sans";

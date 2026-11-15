@@ -6,7 +6,7 @@ The source for [kevinpierik.dev](https://www.kevinpierik.dev): a fast, one-page 
 
 - Next.js 16 App Router, with every route statically prerendered
 - React Server Components; client components only for ui-sdk links and Lenis smooth scrolling
-- Tailwind CSS 4, with Geist Serif
+- Tailwind CSS 4, with Geist Sans
 - MDX for the CV content
 - ESLint, Prettier, and Vitest
 - Bun and Vercel
