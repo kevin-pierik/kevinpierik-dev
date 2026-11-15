@@ -60,7 +60,7 @@ async function Entry({
       {name}
       {"\u00a0"}
       <span aria-hidden="true" className="text-muted">
-        ↗
+        {"\u2197\ufe0e"}
       </span>
     </Link>
   ) : (
