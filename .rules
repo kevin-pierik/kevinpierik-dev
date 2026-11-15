@@ -1,6 +1,6 @@
 # kevinpierik.dev
 
-`kevinpierik.dev` is a one-page professional profile and curriculum vitae. The canonical public pages are `/` (English) and `/nl` (Dutch); unknown routes show a BIOS-style 404. There is no CMS: `app/[lang]/layout.tsx` renders the header, container, and footer, `app/[lang]/page.tsx` owns `<main>`, the metadata, and the structured data, `app/(default-locale)/` re-exports both for English at `/`, and the CV content is markdown in `app/[lang]/home.en.mdx` and `home.nl.mdx`.
+`kevinpierik.dev` is a one-page professional profile and curriculum vitae. The canonical public pages are `/` (English) and `/nl` (Dutch); unknown routes show a plain 404 page. There is no CMS: `app/[lang]/layout.tsx` renders the header, container, and footer, `app/[lang]/page.tsx` owns `<main>`, the metadata, and the structured data, `app/(default-locale)/` re-exports both for English at `/`, and the CV content is markdown in `app/[lang]/home.en.mdx` and `home.nl.mdx`.
 
 How each feature works is documented for people in `docs/` ([index](docs/README.md)). Read the feature's page before changing it, and update it in the same pull request.
 
@@ -22,7 +22,7 @@ How each feature works is documented for people in `docs/` ([index](docs/README.
 - Profile details are repeated in both `home.*.mdx` files, `app/[lang]/page.tsx` (metadata and structured data), the dictionaries in `features/i18n/`, `llms.txt`, and `app/manifest.ts`. Change them together ([SEO](docs/features/seo-and-structured-data.md)).
 - Next.js merges `openGraph` shallowly, so declare the complete object.
 - `robots.txt`, `sitemap.xml`, and `llms.txt` list only canonical public content; `/api/` stays disallowed.
-- The BIOS 404 stays `noindex`. Only Enter, Escape, and F1 reboot it; never add page-wide character-key or pointer handlers (WCAG 2.1.4 and 2.5.2) ([BIOS 404](docs/features/bios-404.md)).
+- The 404 stays `noindex` ([404 page](docs/features/not-found.md)).
 
 ## Quality
 
@@ -48,3 +48,13 @@ Rules are traps to avoid, not maps to follow. The stack and folder layout are in
 - Add a rule only when an agent made, or would plausibly make, the same mistake again. One incident in unusual code is not enough.
 - Do not put here what the code, the docs, or the tooling already enforce: project structure, feature explanations, formatting, or lint rules.
 - When a rule no longer applies, remove it in the same pull request that changes the code.
+
+<!-- BEGIN:nextjs-agent-rules -->
+
+## This is NOT the Next.js you know
+
+This version has breaking changes — APIs, conventions, and file structure may all differ from your training data. Read the relevant guide in `node_modules/next/dist/docs/` (resolved from this file's directory; in monorepos the `next` package may not be visible from the repo root) before writing any code. Heed deprecation notices.
+
+This block is written and re-added by `next dev` — verify at `node_modules/next/dist/server/lib/generate-agent-files.js`. Removing it from a diff only re-creates the uncommitted change; committing it with your work keeps the tree clean.
+
+<!-- END:nextjs-agent-rules -->
