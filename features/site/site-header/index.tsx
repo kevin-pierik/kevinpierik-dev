@@ -1,4 +1,12 @@
-import { Link } from "@/components/link";
+import {
+  NavigationMenu,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  NavigationMenuList,
+} from "@ui-sdk/react/navigation-menu";
+import NextLink from "next/link";
+
+import { linkStyles } from "@/components/link";
 import { getDictionary, getLocale } from "@/features/i18n";
 
 export async function SiteHeader() {
@@ -11,15 +19,19 @@ export async function SiteHeader() {
         <h1 id="page-title">Kevin Pierik</h1>
         <p className="text-muted">{role}</p>
       </div>
-      <nav aria-label={navigationLabel}>
-        <ul className="flex gap-2">
-          <li>
-            <Link aria-current="page" href={path} size="sm" variant="subtle">
+      <NavigationMenu aria-label={navigationLabel}>
+        <NavigationMenuList className="flex gap-2">
+          <NavigationMenuItem>
+            <NavigationMenuLink
+              className={linkStyles.subtle}
+              current
+              render={<NextLink href={path} />}
+            >
               {indexLabel}
-            </Link>
-          </li>
-        </ul>
-      </nav>
+            </NavigationMenuLink>
+          </NavigationMenuItem>
+        </NavigationMenuList>
+      </NavigationMenu>
     </header>
   );
 }
