@@ -1,7 +1,8 @@
 # 404 page
 
-Unknown routes, including unknown first segments such as `/fr`, render a plain not-found page in the site's own style.
+There are two not-found pages.
 
-`app/global-not-found.tsx` holds the whole page. It uses the shared viewport and layout, without the site header, footer, and Lenis. It can't know the visitor's language, so it says the same thing in both site languages, each in `muted` text with a link to that language's homepage: English to `/`, Dutch (`lang="nl"`) to `/nl`. The lines sit at the top left, where the site header starts. The `<h1>` "Page not found" is `sr-only`.
+- `app/(web)/[locale]/not-found.tsx` shows when a page, an article, or another path inside a language doesn't exist, such as `/about` or `/nl/blog/onbekend`. It renders the site header and footer, an `<h1>` "Page not found" in the content column, and a muted line with a link to that language's homepage. The texts are `notFoundTitle`, `notFoundText`, and `notFoundLink` in the dictionaries.
+- `app/global-not-found.tsx` covers what can't be matched to a language, such as a broken route outside `[locale]`. It uses the shared viewport and layout, without the site header, footer, and Lenis, and says the same thing in both languages, each with a link to that language's homepage. Its `<h1>` is `sr-only`.
 
-The page is `noindex` and is not listed in `robots.txt`, `sitemap.xml`, or `llms.txt`.
+Both are `noindex` and are not listed in `robots.txt`, `sitemap.xml`, or `llms.txt`.

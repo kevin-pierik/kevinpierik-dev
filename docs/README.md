@@ -7,8 +7,9 @@ How kevinpierik.dev is built and run. Start with the [project README](../README.
 ## Features
 
 - [404 page](features/not-found.md): the plain not-found page.
-- [Layout and typography](features/layout.md): the container, the site header and footer, Geist Sans, and Lenis smooth scrolling.
-- [MDX content](features/mdx-content.md): how the CV is written and styled.
+- [Layout and typography](features/layout.md): the container and 12-column grid, the site header and footer, Geist, and Lenis smooth scrolling.
+- [Pages and sections](features/pages-and-sections.md): pages in Sanity, the CV sections, and the catch-all route.
+- [Blog](features/blog.md): articles in Sanity, the timeline, article pages, and the RSS feed.
 - [Languages](features/languages.md): the English and Dutch pages and the language switcher.
 - [Links and buttons](features/links-and-buttons.md): the `Link` and `Button` components built on ui-sdk.
 - [Color scheme](features/color-scheme.md): following the system light and dark mode.

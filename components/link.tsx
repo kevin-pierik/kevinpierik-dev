@@ -1,7 +1,7 @@
 import NextLink from "next/link";
 import type { ComponentProps } from "react";
 
-const focus =
+export const focus =
   "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring";
 
 export const linkStyles = {

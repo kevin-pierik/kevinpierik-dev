@@ -7,6 +7,13 @@
       "skillPath": "skills/agent-browser/SKILL.md",
       "computedHash": "e24abc7a631250d49f24036ada4cd4bd8c44c313c92510b3ad7388416a66d405"
     },
+    "content-modeling-best-practices": {
+      "source": "sanity-io/agent-toolkit",
+      "commit": "5cb78d3aed2f8068c012e30180168f3ccdc7bae2",
+      "sourceType": "github",
+      "skillPath": "skills/content-modeling-best-practices/SKILL.md",
+      "computedHash": "327f5f5e44e831a74b9541ed2dccb4df3d687f54c99de752c74e5cee9c406e7b"
+    },
     "modern-web-guidance": {
       "source": "GoogleChrome/modern-web-guidance",
       "sourceType": "github",
@@ -48,6 +55,20 @@
       "sourceType": "github",
       "skillPath": "skills/next-partial-prefetching-optimizer/SKILL.md",
       "computedHash": "6f8bc71150496e962da7bd0615640e8c866e50a913d0c801294dc46e38f5fae1"
+    },
+    "portable-text-serialization": {
+      "source": "sanity-io/agent-toolkit",
+      "commit": "5cb78d3aed2f8068c012e30180168f3ccdc7bae2",
+      "sourceType": "github",
+      "skillPath": "skills/portable-text-serialization/SKILL.md",
+      "computedHash": "53d298581e63c4cf36ef7ac3b51e15fdaa065b17ea38ed5f65147fba24b85bde"
+    },
+    "sanity-best-practices": {
+      "source": "sanity-io/agent-toolkit",
+      "commit": "5cb78d3aed2f8068c012e30180168f3ccdc7bae2",
+      "sourceType": "github",
+      "skillPath": "skills/sanity-best-practices/SKILL.md",
+      "computedHash": "9339fb536e4b569a3f645852d3ac6aea2c4ac878ce7856e23b91e4ccf61d1432"
     },
     "ui-sdk": {
       "source": "vercel-labs/ui",

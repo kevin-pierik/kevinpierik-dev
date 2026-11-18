@@ -4,3 +4,8 @@ public
 node_modules
 .agents
 skills-lock.json
+sanity/schema.json
+features/sanity/sanity.types.ts
+sanity/dist
+sanity/.sanity
+sanity/node_modules

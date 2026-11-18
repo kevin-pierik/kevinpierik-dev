@@ -7,9 +7,18 @@ import {
 import NextLink from "next/link";
 
 import { linkStyles } from "@/components/link";
-import { getDictionary, getLocale, locales } from "@/features/i18n";
+import {
+  getDictionary,
+  getLocale,
+  type Locale,
+  locales,
+} from "@/features/i18n";
 
-export async function SiteFooter() {
+type SiteFooterProps = {
+  alternates?: Partial<Record<Locale, string>>;
+};
+
+export async function SiteFooter({ alternates = {} }: SiteFooterProps) {
   const locale = await getLocale();
   const { colophon, languageLabel } = getDictionary(locale);
   const year = new Date().getFullYear();
@@ -27,7 +36,7 @@ export async function SiteFooter() {
                 current={other === locale}
                 render={
                   <NextLink
-                    href={getDictionary(other).path}
+                    href={alternates[other] ?? getDictionary(other).path}
                     hrefLang={other}
                     lang={other}
                   />
