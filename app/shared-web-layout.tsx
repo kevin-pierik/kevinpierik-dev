@@ -6,9 +6,10 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 import "@/features/style/global.css";
 
 import { geistSans } from "@/features/fonts";
+import { siteUrl } from "@/features/site";
 
 export const sharedMetadata: Metadata = {
-  metadataBase: new URL("https://www.kevinpierik.dev"),
+  metadataBase: new URL(siteUrl),
   formatDetection: { telephone: false },
   icons: {
     icon: [

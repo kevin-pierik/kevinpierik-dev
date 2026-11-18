@@ -11,6 +11,7 @@
   }
   html {
     overscroll-behavior: none;
+    -webkit-tap-highlight-color: transparent;
   }
   body {
     background-color: var(--background);
@@ -19,5 +20,21 @@
   ::selection {
     background-color: color-mix(in srgb, var(--selection) 99%, transparent);
     color: var(--selection-foreground);
+  }
+}
+
+@layer components {
+  [data-code-frame][data-numbered] code {
+    counter-reset: line;
+  }
+
+  [data-code-frame][data-numbered] .line::before {
+    counter-increment: line;
+    content: counter(line);
+    display: inline-block;
+    width: 2ch;
+    margin-right: 2ch;
+    color: var(--muted);
+    text-align: right;
   }
 }

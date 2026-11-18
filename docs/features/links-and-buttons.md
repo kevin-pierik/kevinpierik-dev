@@ -2,7 +2,7 @@
 
 The site has links only. Every one renders through Next.js `Link`, which turns into a native `<a>`, keeps client-side navigation for routes, and works for `https:`, `mailto:`, and `tel:` too. The one exception is the skip link (see [Layout](layout.md)).
 
-The site has no buttons yet. Add one with the ui-sdk `Button` when there is one to render.
+Buttons use the ui-sdk `Button`. The only one so far is `CopyButton` in `components/copy-button.tsx`, the icon button on code blocks. It and the heading links share `useCopyState`: it writes to the clipboard, swaps the icon for a check or a cross for two seconds, and announces "Copied" or "Copy failed" in a `role="status"` region outside the button, following the Modern Web Guidance copy-button guide.
 
 ## Navigation
 
@@ -10,7 +10,7 @@ The header navigation and the footer's language switcher are ui-sdk `NavigationM
 
 ## Other links
 
-`components/link.tsx` is a thin `Link` around Next.js `Link` that adds a `variant` class. `mdx-components.tsx` maps markdown links to it. The classes are exported as `linkStyles`, so the navigation and the skip link use the same looks:
+`components/link.tsx` is a thin `Link` around Next.js `Link` that adds a `variant` class. Links from Sanity render through `SanityLink` (`features/sanity/link/`), which only allows safe URLs. The classes are exported as `linkStyles`, so the navigation and the skip link use the same looks:
 
 - `text` (default): the inline link from ui-sdk.dev. Its underline is `foreground` at 25%, with the font's own thickness and a 3px offset, and turns solid on hover and focus. The 404 page and markdown links use it.
 - `nav`: no underline until hover, like the ui-sdk.dev navigation. Use it only where the position makes clear that it is a link: the language switcher and the company names in CV entries.

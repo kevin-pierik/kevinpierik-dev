@@ -8,7 +8,7 @@ The site is deployed on [Vercel](https://vercel.com) as a Next.js project (`verc
 2. Every push to a pull request gets a Vercel preview deployment. Review the change there.
 3. Squash-merge the pull request. Vercel deploys `main` to production at https://www.kevinpierik.dev.
 
-Run `bun run qa` before you push. It checks formatting, lints, type-checks, runs the tests, and builds the site. Every route must build as static: `○`, or `●` for the prerendered `/[lang]` pages.
+Run `bun run qa` before you push. It checks formatting, lints, type-checks, runs the tests, and builds the site. Every page must build as static: `○`, or `●` for the prerendered `/[locale]` pages; only the proxy is `ƒ`.
 
 ## Branch protection
 
@@ -16,7 +16,7 @@ A GitHub ruleset named "Protect main" blocks direct pushes, force pushes, and de
 
 ## Environment
 
-No environment variables are required. `.env.example` documents any that are added later; local values go in `.env.local`. Vercel Analytics and Speed Insights only load when `VERCEL_ENV` is set, so local builds stay free of tracking.
+The blog reads posts from Sanity, so the build needs `NEXT_PUBLIC_SANITY_PROJECT_ID` and `NEXT_PUBLIC_SANITY_DATASET`, in Vercel and in `.env.local`. Both are public; `.env.example` lists their values. No token is needed, because the site only reads published content ([Blog](features/blog.md)). Vercel Analytics and Speed Insights only load when `VERCEL_ENV` is set, so local builds stay free of tracking.
 
 ## Security headers
 

@@ -17,6 +17,8 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    "sanity/**",
+    "features/sanity/sanity.types.ts",
   ]),
   prettier,
 ]);

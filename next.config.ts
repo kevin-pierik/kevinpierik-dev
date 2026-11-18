@@ -1,4 +1,3 @@
-import createMDX from "@next/mdx";
 import type { NextConfig } from "next";
 
 const securityHeaders = [
@@ -16,6 +15,9 @@ const securityHeaders = [
 
 const nextConfig: NextConfig = {
   reactCompiler: true,
+  images: {
+    remotePatterns: [new URL("https://cdn.sanity.io/images/**")],
+  },
   experimental: {
     inlineCss: true,
     globalNotFound: true,
@@ -23,7 +25,13 @@ const nextConfig: NextConfig = {
   },
 
   async redirects() {
-    return [{ source: "/en", destination: "/", permanent: true }];
+    return [
+      {
+        source: "/studio/:path*",
+        destination: "https://kevinpierik.sanity.studio/:path*",
+        permanent: false,
+      },
+    ];
   },
 
   async headers() {
@@ -31,6 +39,4 @@ const nextConfig: NextConfig = {
   },
 };
 
-const withMDX = createMDX();
-
-export default withMDX(nextConfig);
+export default nextConfig;

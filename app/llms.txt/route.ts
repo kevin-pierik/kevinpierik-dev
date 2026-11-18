@@ -1,13 +1,54 @@
+import { blogPath, getAllArticles } from "@/features/blog/fetch";
+import { getAllPages } from "@/features/pages/fetch";
+import { siteUrl } from "@/features/site";
+
 export const dynamic = "force-static";
 
-const body = `# Kevin Pierik — Frontend Developer
+function list(
+  items: { title: string; path: string; description?: string | null }[],
+) {
+  return items
+    .map(
+      ({ title, path, description }) =>
+        `- [${title}](${siteUrl}${path === "/" ? "" : path})${description ? `: ${description}` : ""}`,
+    )
+    .join("\n");
+}
+
+export async function GET(): Promise<Response> {
+  const [pages, articles] = await Promise.all([
+    getAllPages(),
+    getAllArticles(),
+  ]);
+
+  const body = `# Kevin Pierik — Frontend Developer
 
 > Frontend developer focused on clear, useful interfaces in Hardenberg, the Netherlands.
 
-## Canonical pages
+## Pages
 
-- [Homepage and curriculum vitae](https://www.kevinpierik.dev): Professional profile, education, software skills, work experience, and contact details.
-- [Dutch version](https://www.kevinpierik.dev/nl): The same profile and curriculum vitae in Dutch.
+${list(pages.map((page) => ({ title: page.title, path: page.uri, description: page.seo?.description })))}
+
+## Blog
+
+${list([
+  {
+    title: "Blog",
+    path: blogPath("en"),
+    description:
+      "Notes on frontend development, the web, and the work behind it.",
+  },
+  {
+    title: "Dutch blog",
+    path: blogPath("nl"),
+    description: "Posts written in Dutch.",
+  },
+  ...articles.map((article) => ({
+    title: article.title,
+    path: blogPath(article.language, article.slug),
+    description: article.description,
+  })),
+])}
 
 ## Contact
 
@@ -17,7 +58,6 @@ const body = `# Kevin Pierik — Frontend Developer
 - [GitHub](https://github.com/kevin-pierik)
 `;
 
-export function GET(): Response {
   return new Response(body, {
     headers: { "content-type": "text/plain; charset=utf-8" },
   });
