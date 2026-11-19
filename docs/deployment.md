@@ -8,7 +8,7 @@ The frontend is deployed on [Vercel](https://vercel.com) from the `frontend/` wo
 2. Every push to a pull request gets a Vercel preview deployment. Review the change there.
 3. Squash-merge the pull request. Vercel deploys `main` to production at https://www.kevinpierik.dev.
 
-Run `bun run qa` before you push. GitHub Actions runs formatting, lint, typecheck, and generated Sanity artifact checks in a `check` job, Vitest in a `unit` job, then builds the frontend and Studio and runs Playwright end-to-end tests against the production build in Chromium. A final `CI passed` job succeeds only when all three jobs pass. The checks run on every pull request and push to `main`, using the frozen Bun lockfile. Every frontend page must build as static: `○`, or `●` for prerendered localized pages; only the proxy is `ƒ`.
+Run `bun run qa` before you push. GitHub Actions runs formatting, lint, typecheck, generated Sanity artifact checks, Vitest, and the frontend/Studio builds. The frontend build job runs Playwright end-to-end tests against the production build in Chromium and uploads an HTML report. Independent checks run in parallel, and a final `CI passed` job verifies they all succeeded. Checks run on every pull request and push to `main`, using the frozen Bun lockfile. Every frontend page must build as static: `○`, or `●` for prerendered localized pages; only the proxy is `ƒ`.
 
 ## Branch protection
 

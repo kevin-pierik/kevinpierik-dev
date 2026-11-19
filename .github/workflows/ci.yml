@@ -31,7 +31,6 @@ jobs:
 
   unit:
     name: Unit tests
-    needs: check
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
@@ -40,31 +39,32 @@ jobs:
 
   build:
     name: Build apps and run browser tests
-    needs: unit
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
-      - uses: ./.github/actions/setup
-      - run: bun run build
-        env:
-          NEXT_PUBLIC_SANITY_PROJECT_ID: v3zmx1mq
-          NEXT_PUBLIC_SANITY_DATASET: production
       - uses: actions/cache@v6
         with:
           path: ~/.cache/ms-playwright
           key: ${{ runner.os }}-playwright-${{ hashFiles('bun.lock') }}
-      - run: bunx playwright install --with-deps chromium
+      - uses: ./.github/actions/setup
+        with:
+          browsers: chromium
+      - run: bun run build
+        env:
+          NEXT_PUBLIC_SANITY_PROJECT_ID: v3zmx1mq
+          NEXT_PUBLIC_SANITY_DATASET: production
       - run: bun run test:e2e
         env:
           NEXT_PUBLIC_SANITY_PROJECT_ID: v3zmx1mq
           NEXT_PUBLIC_SANITY_DATASET: production
-      - if: ${{ failure() }}
+      - if: ${{ !cancelled() }}
+        name: Upload Playwright report
         uses: actions/upload-artifact@v7
         with:
-          name: playwright-test-results
-          path: frontend/test-results/
+          name: playwright-report
+          path: frontend/playwright-report/
           if-no-files-found: ignore
-          retention-days: 7
+          retention-days: 14
       - run: bun run build:studio
 
   passed:
