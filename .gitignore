@@ -1,18 +1,19 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
 # dependencies
-/node_modules
+**/node_modules/
 .bun/
 
 # testing
 /coverage
+/frontend/test-results/
 
 # next.js
-/.next/
-/out/
+/frontend/.next/
+/frontend/out/
 
 # production
-/build
+/frontend/build
 
 # misc
 .DS_Store
@@ -25,6 +26,7 @@ bun-debug.log*
 # env files (can opt-in for committing if needed)
 .env*
 !.env.example
+!frontend/.env.example
 
 # vercel
 .vercel

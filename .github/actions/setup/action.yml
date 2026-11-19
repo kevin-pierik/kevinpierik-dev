@@ -1,0 +1,17 @@
+name: Setup Bun workspace
+description: Set up Node and Bun, restore the Bun package cache, and install dependencies
+runs:
+  using: composite
+  steps:
+    - uses: actions/setup-node@v7
+      with:
+        node-version-file: .nvmrc
+    - uses: oven-sh/setup-bun@v2
+    - uses: actions/cache@v6
+      with:
+        path: ~/.bun/install/cache
+        key: ${{ runner.os }}-bun-${{ hashFiles('bun.lock') }}
+        restore-keys: |
+          ${{ runner.os }}-bun-
+    - run: bun install --frozen-lockfile
+      shell: bash

@@ -1,0 +1,86 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  SANITY_STUDIO_PROJECT_ID: v3zmx1mq
+  SANITY_STUDIO_DATASET: production
+
+jobs:
+  check:
+    name: Format, lint, and typecheck
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: ./.github/actions/setup
+      - run: bun run format:check
+      - run: bun run lint
+      - run: bun run typecheck
+      - run: git diff --exit-code -- studio/schema.json frontend/src/features/sanity/sanity.types.ts
+
+  unit:
+    name: Unit tests
+    needs: check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: ./.github/actions/setup
+      - run: bun run test
+
+  build:
+    name: Build apps and run browser tests
+    needs: unit
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: ./.github/actions/setup
+      - run: bun run build
+        env:
+          NEXT_PUBLIC_SANITY_PROJECT_ID: v3zmx1mq
+          NEXT_PUBLIC_SANITY_DATASET: production
+      - uses: actions/cache@v6
+        with:
+          path: ~/.cache/ms-playwright
+          key: ${{ runner.os }}-playwright-${{ hashFiles('bun.lock') }}
+      - run: bunx playwright install --with-deps chromium
+      - run: bun run test:e2e
+        env:
+          NEXT_PUBLIC_SANITY_PROJECT_ID: v3zmx1mq
+          NEXT_PUBLIC_SANITY_DATASET: production
+      - if: ${{ failure() }}
+        uses: actions/upload-artifact@v7
+        with:
+          name: playwright-test-results
+          path: frontend/test-results/
+          if-no-files-found: ignore
+          retention-days: 7
+      - run: bun run build:studio
+
+  passed:
+    name: CI passed
+    if: ${{ always() }}
+    needs: [check, unit, build]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Verify all jobs passed
+        env:
+          CHECK_RESULT: ${{ needs.check.result }}
+          UNIT_RESULT: ${{ needs.unit.result }}
+          BUILD_RESULT: ${{ needs.build.result }}
+        run: |
+          if [ "$CHECK_RESULT" != "success" ] || [ "$UNIT_RESULT" != "success" ] || [ "$BUILD_RESULT" != "success" ]; then
+            echo "CI did not pass: check=$CHECK_RESULT, unit=$UNIT_RESULT, build=$BUILD_RESULT"
+            exit 1
+          fi
+          echo "All CI jobs passed."

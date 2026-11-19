@@ -1,6 +1,6 @@
 # Deployment
 
-The site is deployed on [Vercel](https://vercel.com) as a Next.js project (`vercel.json`). Bun runs locally and on the host; the Node.js version is pinned in `.nvmrc` and `package.json` `engines`.
+The frontend is deployed on [Vercel](https://vercel.com) from the `frontend/` workspace (`frontend/vercel.json`). Set the Vercel project's Root Directory to `frontend`. Bun runs from the monorepo root, and the Node.js version is pinned in `.nvmrc` and the workspace `engines` fields.
 
 ## Flow
 
@@ -8,7 +8,7 @@ The site is deployed on [Vercel](https://vercel.com) as a Next.js project (`verc
 2. Every push to a pull request gets a Vercel preview deployment. Review the change there.
 3. Squash-merge the pull request. Vercel deploys `main` to production at https://www.kevinpierik.dev.
 
-Run `bun run qa` before you push. It checks formatting, lints, type-checks, runs the tests, and builds the site. Every page must build as static: `○`, or `●` for the prerendered `/[locale]` pages; only the proxy is `ƒ`.
+Run `bun run qa` before you push. GitHub Actions runs formatting, lint, typecheck, and generated Sanity artifact checks in a `check` job, Vitest in a `unit` job, then builds the frontend and Studio and runs Playwright end-to-end tests against the production build in Chromium. A final `CI passed` job succeeds only when all three jobs pass. The checks run on every pull request and push to `main`, using the frozen Bun lockfile. Every frontend page must build as static: `○`, or `●` for prerendered localized pages; only the proxy is `ƒ`.
 
 ## Branch protection
 
@@ -16,11 +16,11 @@ A GitHub ruleset named "Protect main" blocks direct pushes, force pushes, and de
 
 ## Environment
 
-The blog reads posts from Sanity, so the build needs `NEXT_PUBLIC_SANITY_PROJECT_ID` and `NEXT_PUBLIC_SANITY_DATASET`, in Vercel and in `.env.local`. Both are public; `.env.example` lists their values. No token is needed, because the site only reads published content ([Blog](features/blog.md)). Vercel Analytics and Speed Insights only load when `VERCEL_ENV` is set, so local builds stay free of tracking.
+The blog reads posts from Sanity, so the build needs `NEXT_PUBLIC_SANITY_PROJECT_ID` and `NEXT_PUBLIC_SANITY_DATASET`, in Vercel and in `frontend/.env.local`. Both are public; `frontend/.env.example` lists their values. No token is needed, because the site only reads published content ([Blog](frontend/blog.md)). Vercel Analytics and Speed Insights only load when `VERCEL_ENV` is set, so local builds stay free of tracking.
 
 ## Security headers
 
-`next.config.ts` sends these headers on every route:
+`frontend/next.config.ts` sends these headers on every route:
 
 | Header                      | Value                                          |
 | --------------------------- | ---------------------------------------------- |
