@@ -9,7 +9,7 @@ bunx playwright install chromium
 NEXT_PUBLIC_SANITY_PROJECT_ID=v3zmx1mq NEXT_PUBLIC_SANITY_DATASET=production bun run qa
 ```
 
-The end-to-end step runs after the production build. Playwright starts the production server and uses published production content; it never writes to Sanity. When an English article is published, the test follows it from the index and checks its date and JSON-LD. With no published English articles, it checks the empty state.
+The end-to-end step runs after the production build. Playwright waits for the production server's `/en` route, then tests the public root route and uses published production content; it never writes to Sanity. When an English article is published, the test follows it from the index and checks its date and JSON-LD. With no published English articles, it checks the empty state.
 
 To target an accessible deployment, set `PLAYWRIGHT_TEST_BASE_URL`. This skips the local server, so the same suite can be used against a public Vercel preview:
 

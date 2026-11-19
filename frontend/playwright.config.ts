@@ -26,8 +26,9 @@ export default defineConfig({
     ? undefined
     : {
         command: "bun run start --hostname 127.0.0.1",
-        url: baseURL,
+        url: `${baseURL}/en`,
         reuseExistingServer: !process.env.CI,
+        stdout: process.env.CI ? "pipe" : "ignore",
         timeout: 120_000,
       },
 });
