@@ -70,6 +70,14 @@
       "skillPath": "skills/sanity-best-practices/SKILL.md",
       "computedHash": "9339fb536e4b569a3f645852d3ac6aea2c4ac878ce7856e23b91e4ccf61d1432"
     },
+    "seo-aeo-best-practices": {
+      "source": "sanity-io/agent-toolkit",
+      "commit": "0a0b214d1066b699cd10ed16d9a398366b6ebd1d",
+      "sourceType": "github",
+      "skillPath": "skills/seo-aeo-best-practices/SKILL.md",
+      "computedHash": "3dd0a23b819eb148b81ebc609dfe0827491018591afc0c35dc0401013300b5a1",
+      "installMode": "copy"
+    },
     "ui-sdk": {
       "source": "vercel-labs/ui",
       "sourceType": "github",

@@ -1,31 +1,40 @@
 # kevinpierik.dev
 
-The source for [kevinpierik.dev](https://www.kevinpierik.dev): a fast professional profile, curriculum vitae, and blog for Kevin Pierik.
+The source for [kevinpierik.dev](https://www.kevinpierik.dev): a professional profile, curriculum vitae, and blog.
 
 ## Stack
 
-- Next.js 16 App Router, with every route statically prerendered
-- React Server Components; client components only for ui-sdk links and Lenis smooth scrolling
-- Tailwind CSS 4, with Geist Sans
-- Sanity for pages and blog articles, with a standalone Studio
+- Next.js 16 App Router in `frontend/`, with statically prerendered routes
+- Sanity Studio in `studio/`, with schemas and content tooling
+- Bun workspaces for the frontend and Studio
+- React Server Components, Tailwind CSS 4, and Geist
+- Sanity for pages and articles
 - ESLint, Prettier, and Vitest
-- Bun and Vercel
+- Vercel for the website and Sanity hosting for the Studio
 
 ## Project structure
 
 ```text
-app/
-  (web)/[locale]/   # Localized pages: [[...uri]] (Sanity pages), blog, not-found, Open Graph image
-  feed.xml/ llms.txt/ robots.ts sitemap.ts manifest.ts global-not-found.tsx shared-web-layout.tsx
-components/         # Small, feature-agnostic building blocks (links, code block, figure, table)
-features/           # blog, pages, sections, sanity (client, fetch, media, link, rich text), i18n, site, styles
-sanity/             # Standalone Sanity Studio: schemas/documents, schemas/fields, schemas/sections, structure
-docs/               # Deployment notes and per-feature documentation
-public/             # Icons
-proxy.ts            # Serves English without a prefix
+frontend/
+  src/
+    app/              # Localized routes and static route handlers
+    components/       # Small, feature-agnostic building blocks
+    features/         # Blog, pages, sections, Sanity integration, i18n, site, styles
+  public/             # Frontend assets
+  package.json
+studio/
+  schemas/            # Documents, fields, and page sections
+  scripts/            # Content utilities
+  package.json
+  sanity.config.ts
+  sanity.cli.ts
+docs/                 # Deployment notes and feature documentation
+.agents/skills/       # Repository skills for coding agents
+package.json          # Bun workspace scripts
+bun.lock
 ```
 
-Every page is a `page` document in Sanity, rendered by `app/(web)/[locale]/[[...uri]]/` from its sections; the CV is the homepage, `/` in English and `/nl` in Dutch. The blog is `/blog` and `/nl/blog`. `proxy.ts` serves English without a prefix. UI strings are in `features/i18n/`. Profile details are repeated in a few places, so keep them in sync ([Pages and sections](docs/features/pages-and-sections.md)).
+Every public page is a `page` document in Sanity. The English homepage is `/`, the Dutch homepage is `/nl`, and blog indexes are `/blog` and `/nl/blog`. The frontend serves English without a locale prefix. Sanity pages and articles have separate schemas and linked translations ([Pages and sections](docs/frontend/pages-and-sections.md), [Blog](docs/frontend/blog.md)). See the [Studio docs](docs/studio/README.md) for the content model and Studio setup.
 
 ## Development
 
@@ -34,16 +43,18 @@ bun install
 bun run dev
 ```
 
-The site is available at [http://localhost:3000](http://localhost:3000). Copy `.env.example` to `.env.local` for the Sanity project the blog reads from. Write content in the Studio with `npm --prefix sanity install` and `npm --prefix sanity run dev`.
+This starts the frontend at [http://localhost:3000](http://localhost:3000) and the Studio at [http://localhost:3333](http://localhost:3333). For one workspace, use `bun run dev:frontend` or `bun run dev:studio`.
 
-Format the code and run the full quality check before committing:
+Copy `frontend/.env.example` to `frontend/.env.local` and `studio/.env.example` to `studio/.env.local` for the public Sanity project settings. The Studio uses the root Bun workspace; its scripts include `bun run typegen`, `bun --filter studio seed`, and `bun --filter studio deploy`.
+
+Run the full quality check from the repository root:
 
 ```bash
 bun run format
 bun run qa
 ```
 
-`bun run qa` checks formatting, lints, type-checks, runs the Vitest suite, and builds the production deployment. Use `bun run test:watch` while working on tests.
+The tests live beside the code they cover. `bun run qa` checks formatting, lint, types, tests, and the frontend production build.
 
 ## License
 
