@@ -109,16 +109,12 @@ export const richTextComponents: PortableTextComponents = {
         lang={value.language}
       />
     ),
-    tableBlock: ({ value }: { value: BodyMember<"tableBlock"> }) => {
-      const [head, ...rows] = value.table?.rows ?? [];
+    table: ({ value }: { value: BodyMember<"table"> }) => {
+      const [head, ...rows] = value.rows ?? [];
       if (!head) return null;
 
       return (
-        <Table
-          caption={value.caption}
-          className="mt-[2lh] first:mt-0"
-          label="Table"
-        >
+        <Table className="mt-[2lh] first:mt-0">
           <thead>
             <tr>
               {head.cells?.map((cell, index) => (

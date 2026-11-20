@@ -71,21 +71,9 @@ export type Article = {
     | ({
         _key: string;
       } & Code)
-    | {
-        table?: Table;
-        caption?: string;
-        _type: "tableBlock";
+    | ({
         _key: string;
-      }
-  >;
-};
-
-export type Table = {
-  _type: "table";
-  rows?: Array<
-    {
-      _key: string;
-    } & TableRow
+      } & Table)
   >;
 };
 
@@ -156,12 +144,9 @@ export type Page = {
     | ({
         _key: string;
       } & Code)
-    | {
-        table?: Table;
-        caption?: string;
-        _type: "tableBlock";
+    | ({
         _key: string;
-      }
+      } & Table)
   >;
 };
 
@@ -185,6 +170,15 @@ export type Settings = {
     } & PageReference
   >;
   colophon?: string;
+};
+
+export type Table = {
+  _type: "table";
+  rows?: Array<
+    {
+      _key: string;
+    } & TableRow
+  >;
 };
 
 export type TableRow = {
@@ -300,13 +294,13 @@ export type Geopoint = {
 export type AllSanitySchemaTypes =
   | SanityImageAssetReference
   | Article
-  | Table
   | SanityImageCrop
   | SanityImageHotspot
   | Slug
   | Page
   | PageReference
   | Settings
+  | Table
   | TableRow
   | Code
   | SanityImagePaletteSwatch
@@ -376,10 +370,13 @@ export type PAGE_QUERY_RESULT = {
         _key: string;
       }
     | {
-        table?: Table;
-        caption?: string;
-        _type: "tableBlock";
         _key: string;
+        _type: "table";
+        rows?: Array<
+          {
+            _key: string;
+          } & TableRow
+        >;
       }
   > | null;
 } | null;
@@ -495,10 +492,13 @@ export type ARTICLE_QUERY_RESULT = {
         _key: string;
       }
     | {
-        table?: Table;
-        caption?: string;
-        _type: "tableBlock";
         _key: string;
+        _type: "table";
+        rows?: Array<
+          {
+            _key: string;
+          } & TableRow
+        >;
       }
   > | null;
   previous: {
