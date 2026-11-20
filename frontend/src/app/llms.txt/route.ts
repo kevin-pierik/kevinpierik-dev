@@ -1,6 +1,7 @@
 import { postsPath, getAllArticles } from "@/features/posts/fetch";
 import { getAllPages } from "@/features/pages/fetch";
 import { siteUrl } from "@/features/site";
+import { socialLinks } from "@/features/site/social-links";
 
 export const dynamic = "force-static";
 
@@ -20,32 +21,32 @@ export async function GET(): Promise<Response> {
     getAllPages(),
     getAllArticles(),
   ]);
-
   const body = `# Kevin Pierik — Frontend Developer
 
 > Frontend developer focused on clear, useful interfaces in Hardenberg, the Netherlands.
 
 ## Pages
 
-${list(pages.map((page) => ({ title: page.title, path: page.uri, description: page.seo?.description })))}
+${list(
+  pages.map((page) => ({
+    title: page.title,
+    path: page.uri,
+    description: page.seo?.description,
+  })),
+)}
 
 ## Posts
 
 ${list([
   {
     title: "Posts",
-    path: postsPath("en"),
+    path: postsPath(),
     description:
       "Notes on frontend development, the web, and the work behind it.",
   },
-  {
-    title: "Dutch posts",
-    path: postsPath("nl"),
-    description: "Posts written in Dutch.",
-  },
   ...articles.map((article) => ({
     title: article.title,
-    path: postsPath(article.language, article.slug),
+    path: postsPath(article.slug),
     description: article.description,
   })),
 ])}
@@ -53,9 +54,7 @@ ${list([
 ## Contact
 
 - [Email](mailto:hello@kevinpierik.dev)
-- [LinkedIn](https://nl.linkedin.com/in/kevin-pierik)
-- [Instagram](https://www.instagram.com/kevinpierikk)
-- [GitHub](https://github.com/kevin-pierik)
+${socialLinks.map(({ label, href }) => `- [${label}](${href})`).join("\n")}
 `;
 
   return new Response(body, {

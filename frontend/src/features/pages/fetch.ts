@@ -1,30 +1,30 @@
 import { notFound } from "next/navigation";
 import { cache } from "react";
 
-import { alternatePaths } from "@/features/i18n/alternates";
-import { hasLocale, type Locale } from "@/features/i18n/config";
 import { sanityFetch } from "@/features/sanity/live";
 
 import { ALL_PAGES_QUERY, PAGE_QUERY, PAGE_URIS_QUERY } from "./query";
 
-export const getPage = cache(async (locale: Locale, uri: string) => {
+export const getPageIfExists = cache(async (uri: string) => {
   const { data: page } = await sanityFetch({
     query: PAGE_QUERY,
-    params: { language: locale, uri },
+    params: { uri },
     stega: false,
   });
-  if (!page) notFound();
+  if (!page) return null;
 
-  return {
-    ...page,
-    alternates: alternatePaths(locale, page.uri, page.translations),
-  };
+  return page;
 });
 
-export async function getPageUris(locale: Locale) {
+export const getPage = cache(async (uri: string) => {
+  const page = await getPageIfExists(uri);
+  if (!page) notFound();
+  return page;
+});
+
+export async function getPageUris() {
   const { data } = await sanityFetch({
     query: PAGE_URIS_QUERY,
-    params: { language: locale },
     perspective: "published",
     stega: false,
   });
@@ -37,8 +37,5 @@ export async function getAllPages() {
     perspective: "published",
     stega: false,
   });
-  return data.filter(
-    (page): page is typeof page & { language: Locale } =>
-      page.language !== null && hasLocale(page.language),
-  );
+  return data;
 }

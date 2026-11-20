@@ -2,7 +2,16 @@
   "lsp": {
     "vscode-css-language-server": {
       "settings": {
-        "css": { "lint": { "unknownAtRules": "ignore" } }
+        "css": {
+          "lint": {
+            "unknownAtRules": "ignore"
+          }
+        }
+      }
+    },
+    "eslint": {
+      "settings": {
+        "options": { "--no-warn-ignored": true }
       }
     }
   }

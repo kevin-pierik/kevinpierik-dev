@@ -4,14 +4,15 @@ The Sanity Studio source lives in `studio/`; the hosted Studio is managed by San
 
 ## Content model
 
-- `page` documents represent standalone pages, including the CV homepages. They contain reusable page sections.
-- `article` documents represent dated, long-form blog posts. They have a Portable Text body and can include rich media, code, and tables.
-- Pages and articles use separate schemas because their content and publishing needs differ. Each language is a separate document linked through `@sanity/document-internationalization`; a translation can have its own slug, draft, and publishing state.
-- SEO fields are defined in `studio/schemas/fields/create-seo-field.ts` and used by both page and article schemas. Fill them in for authored content where appropriate; the frontend has homepage defaults.
+- The `settings` singleton holds site-wide content: role, header navigation, and footer colophon. It has a fixed `settings` ID, is registered with `defineSingleton` in `sanity.config.ts`, and opens directly from the top of the Studio.
+- `page` documents represent standalone pages, including Home (`/`), Contact, and Posts (`/posts`). Their direct Body field contains visible Portable Text content; metadata, title, and URI remain separate fields.
+- `article` documents represent dated, long-form blog posts. They have a Portable Text body and can include rich media, code, and tables. Page bodies can also contain a Post list block.
+- Pages and articles use separate schemas because their content and publishing needs differ.
+- SEO fields are defined in `studio/schemas/fields/create-seo-field.ts` and used by both page and article schemas. Fill them in for authored content where appropriate, especially on the homepage.
 
-Schemas live in `studio/schemas/documents/`, reusable field factories in `studio/schemas/fields/`, and page section types in `studio/schemas/sections/`. The document lists and navigation are configured in `studio/structure.tsx`.
+Schemas live in `studio/schemas/documents/`, and reusable field factories in `studio/schemas/fields/`. The document lists and navigation are configured in `studio/structure.tsx`.
 
-For the frontend behavior driven by this content, see [pages and sections](../frontend/pages-and-sections.md), [Posts](../frontend/posts.md), [languages](../frontend/languages.md), and [SEO](../frontend/seo-and-structured-data.md).
+For the frontend behavior driven by this content, see [pages and Body](../frontend/pages-and-sections.md), [Posts](../frontend/posts.md), and [SEO](../frontend/seo-and-structured-data.md).
 
 ## Development
 

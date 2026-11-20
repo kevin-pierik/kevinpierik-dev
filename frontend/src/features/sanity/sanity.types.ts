@@ -15,115 +15,9 @@
 export declare const internalGroqTypeReferenceTo: unique symbol;
 
 // Source: schema.json
-export type RowsSection = {
-  _type: "rowsSection";
-  title: string;
-  address?: boolean;
-  rows?: Array<{
-    label: string;
-    text: string;
-    link?: string;
-    _type: "row";
-    _key: string;
-  }>;
-};
-
-export type TextSection = {
-  _type: "textSection";
-  title: string;
-  body?: Array<{
-    children?: Array<{
-      marks?: Array<string>;
-      text?: string;
-      _type: "span";
-      _key: string;
-    }>;
-    style?: "normal";
-    listItem?: "bullet" | "number";
-    markDefs?: Array<{
-      href?: string;
-      _type: "link";
-      _key: string;
-    }>;
-    level?: number;
-    _type: "block";
-    _key: string;
-  }>;
-};
-
-export type EntriesSection = {
-  _type: "entriesSection";
-  title: string;
-  entries?: Array<{
-    title: string;
-    company?: string;
-    link?: string;
-    start: string;
-    end?: string;
-    current?: boolean;
-    location: string;
-    description?: string;
-    _type: "entry";
-    _key: string;
-  }>;
-};
-
-export type IntroSection = {
-  _type: "introSection";
-  body?: Array<{
-    children?: Array<{
-      marks?: Array<string>;
-      text?: string;
-      _type: "span";
-      _key: string;
-    }>;
-    style?: "normal";
-    listItem?: "bullet" | "number";
-    markDefs?: Array<{
-      href?: string;
-      _type: "link";
-      _key: string;
-    }>;
-    level?: number;
-    _type: "block";
-    _key: string;
-  }>;
-};
-
-export type TranslationMetadata = {
-  _id: string;
-  _type: "translation.metadata";
-  _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  translations?: InternationalizedArrayReference;
-  schemaTypes?: Array<string>;
-};
-
-export type InternationalizedArrayReference = Array<
-  {
-    _key: string;
-  } & InternationalizedArrayReferenceValue
->;
-
-export type PageReference = {
-  _ref: string;
-  _type: "reference";
-  _weak?: boolean;
-  [internalGroqTypeReferenceTo]?: "page";
-};
-
-export type ArticleReference = {
-  _ref: string;
-  _type: "reference";
-  _weak?: boolean;
-  [internalGroqTypeReferenceTo]?: "article";
-};
-
-export type InternationalizedArrayReferenceValue = {
-  _type: "internationalizedArrayReferenceValue";
-  value?: PageReference | ArticleReference;
-  language: string;
+export type ArticleList = {
+  _type: "articleList";
+  limit?: number;
 };
 
 export type SanityImageAssetReference = {
@@ -139,19 +33,15 @@ export type Article = {
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
-  language?: string;
   title: string;
   slug: Slug;
   description: string;
   publishedAt: string;
   updatedAt?: string;
-  cover?: {
-    asset?: SanityImageAssetReference;
-    media?: unknown;
-    hotspot?: SanityImageHotspot;
-    crop?: SanityImageCrop;
-    alt: string;
-    _type: "image";
+  showInPosts?: boolean;
+  seo?: {
+    title?: string;
+    description?: string;
   };
   body?: Array<
     | {
@@ -232,27 +122,77 @@ export type Page = {
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
-  language?: string;
   title: string;
   uri: Slug;
   seo?: {
     title?: string;
     description?: string;
   };
-  sections?: Array<
+  body?: Array<
+    | {
+        children?: Array<{
+          marks?: Array<string>;
+          text?: string;
+          _type: "span";
+          _key: string;
+        }>;
+        style?: "normal" | "h2" | "h3" | "blockquote";
+        listItem?: "bullet" | "number";
+        markDefs?: Array<{
+          href?: string;
+          _type: "link";
+          _key: string;
+        }>;
+        level?: number;
+        _type: "block";
+        _key: string;
+      }
+    | {
+        asset?: SanityImageAssetReference;
+        media?: unknown;
+        hotspot?: SanityImageHotspot;
+        crop?: SanityImageCrop;
+        alt: string;
+        caption?: string;
+        wide?: boolean;
+        _type: "image";
+        _key: string;
+      }
     | ({
         _key: string;
-      } & IntroSection)
+      } & Code)
+    | {
+        table?: Table;
+        caption?: string;
+        _type: "tableBlock";
+        _key: string;
+      }
     | ({
         _key: string;
-      } & EntriesSection)
-    | ({
-        _key: string;
-      } & TextSection)
-    | ({
-        _key: string;
-      } & RowsSection)
+      } & ArticleList)
   >;
+};
+
+export type PageReference = {
+  _ref: string;
+  _type: "reference";
+  _weak?: boolean;
+  [internalGroqTypeReferenceTo]?: "page";
+};
+
+export type Settings = {
+  _id: string;
+  _type: "settings";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  role: string;
+  navigation?: Array<
+    {
+      _key: string;
+    } & PageReference
+  >;
+  colophon?: string;
 };
 
 export type TableRow = {
@@ -366,15 +306,7 @@ export type Geopoint = {
 };
 
 export type AllSanitySchemaTypes =
-  | RowsSection
-  | TextSection
-  | EntriesSection
-  | IntroSection
-  | TranslationMetadata
-  | InternationalizedArrayReference
-  | PageReference
-  | ArticleReference
-  | InternationalizedArrayReferenceValue
+  | ArticleList
   | SanityImageAssetReference
   | Article
   | Table
@@ -382,6 +314,8 @@ export type AllSanitySchemaTypes =
   | SanityImageHotspot
   | Slug
   | Page
+  | PageReference
+  | Settings
   | TableRow
   | Code
   | SanityImagePaletteSwatch
@@ -395,148 +329,137 @@ export type AllSanitySchemaTypes =
 
 // Source: ../frontend/src/features/pages/query.ts
 // Variable: PAGE_QUERY
-// Query: *[_type == "page" && language == $language && uri.current == $uri][0] {    title,    "uri": uri.current,    language,    seo,    sections,    "translations": *[_type == "translation.metadata" && references(^._id)]      .translations[].value->{ language, "path": uri.current }  }
+// Query: *[_type == "page" && uri.current == $uri][0] {    title,    "uri": uri.current,    seo,    body[]{      ...,      _type == "image" => {   alt,  crop,  hotspot,  asset->{ _id, metadata { lqip, dimensions { width, height } } }, caption, wide }    }  }
 export type PAGE_QUERY_RESULT = {
   title: string;
   uri: string;
-  language: string | null;
   seo: {
     title?: string;
     description?: string;
   } | null;
-  sections: Array<
-    | ({
+  body: Array<
+    | {
         _key: string;
-      } & EntriesSection)
-    | ({
+        _type: "articleList";
+        limit?: number;
+      }
+    | {
+        children?: Array<{
+          marks?: Array<string>;
+          text?: string;
+          _type: "span";
+          _key: string;
+        }>;
+        style?: "blockquote" | "h2" | "h3" | "normal";
+        listItem?: "bullet" | "number";
+        markDefs?: Array<{
+          href?: string;
+          _type: "link";
+          _key: string;
+        }>;
+        level?: number;
+        _type: "block";
         _key: string;
-      } & IntroSection)
-    | ({
+      }
+    | {
         _key: string;
-      } & RowsSection)
-    | ({
+        _type: "code";
+        language?: string;
+        filename?: string;
+        code?: string;
+        highlightedLines?: Array<number>;
+      }
+    | {
+        asset: {
+          _id: string;
+          metadata: {
+            lqip: string | null;
+            dimensions: {
+              width: number;
+              height: number;
+            } | null;
+          } | null;
+        } | null;
+        media?: unknown;
+        hotspot: SanityImageHotspot | null;
+        crop: SanityImageCrop | null;
+        alt: string;
+        caption: string | null;
+        wide: boolean | null;
+        _type: "image";
         _key: string;
-      } & TextSection)
+      }
+    | {
+        table?: Table;
+        caption?: string;
+        _type: "tableBlock";
+        _key: string;
+      }
   > | null;
-  translations: Array<
-    | {
-        language: string | null;
-        path: null;
-      }
-    | {
-        language: string | null;
-        path: string;
-      }
-    | null
-  >;
 } | null;
 
 // Source: ../frontend/src/features/pages/query.ts
 // Variable: PAGE_URIS_QUERY
-// Query: *[_type == "page" && language == $language && defined(uri.current)] {    "uri": uri.current  }
+// Query: *[_type == "page" && defined(uri.current)] {    "uri": uri.current  }
 export type PAGE_URIS_QUERY_RESULT = Array<{
   uri: string;
 }>;
 
 // Source: ../frontend/src/features/pages/query.ts
 // Variable: ALL_PAGES_QUERY
-// Query: *[_type == "page" && defined(language) && defined(uri.current)]    | order(uri.current asc) {      title,      "uri": uri.current,      language,      seo,      _updatedAt,      "translations": *[_type == "translation.metadata" && references(^._id)]        .translations[].value->{ language, "path": uri.current }    }
+// Query: *[_type == "page" && defined(uri.current)]    | order(uri.current asc) {      title,      "uri": uri.current,      seo,      _updatedAt    }
 export type ALL_PAGES_QUERY_RESULT = Array<{
   title: string;
   uri: string;
-  language: string;
   seo: {
     title?: string;
     description?: string;
   } | null;
   _updatedAt: string;
-  translations: Array<
-    | {
-        language: string | null;
-        path: null;
-      }
-    | {
-        language: string | null;
-        path: string;
-      }
-    | null
-  >;
 }>;
 
 // Source: ../frontend/src/features/posts/query.ts
 // Variable: ARTICLES_QUERY
-// Query: *[_type == "article" && language == $language && defined(slug.current)]    | order(publishedAt desc) {        title,  "slug": slug.current,  language,  description,  publishedAt,  updatedAt,  "translations": *[_type == "translation.metadata" && references(^._id)]    .translations[].value->{ language, "slug": slug.current }    }
+// Query: *[_type == "article" && showInPosts != false && defined(slug.current)]    | order(publishedAt desc) {        title,  "slug": slug.current,  description,  publishedAt,  updatedAt    }
 export type ARTICLES_QUERY_RESULT = Array<{
   title: string;
   slug: string;
-  language: string | null;
   description: string;
   publishedAt: string;
   updatedAt: string | null;
-  translations: Array<
-    | {
-        language: string | null;
-        slug: null;
-      }
-    | {
-        language: string | null;
-        slug: string;
-      }
-    | null
-  >;
 }>;
 
 // Source: ../frontend/src/features/posts/query.ts
 // Variable: ALL_ARTICLES_QUERY
-// Query: *[_type == "article" && defined(language) && defined(slug.current)]    | order(publishedAt desc) {        title,  "slug": slug.current,  language,  description,  publishedAt,  updatedAt,  "translations": *[_type == "translation.metadata" && references(^._id)]    .translations[].value->{ language, "slug": slug.current }    }
+// Query: *[_type == "article" && defined(slug.current)]    | order(publishedAt desc) {        title,  "slug": slug.current,  description,  publishedAt,  updatedAt    }
 export type ALL_ARTICLES_QUERY_RESULT = Array<{
   title: string;
   slug: string;
-  language: string;
   description: string;
   publishedAt: string;
   updatedAt: string | null;
-  translations: Array<
-    | {
-        language: string | null;
-        slug: null;
-      }
-    | {
-        language: string | null;
-        slug: string;
-      }
-    | null
-  >;
 }>;
 
 // Source: ../frontend/src/features/posts/query.ts
 // Variable: ARTICLE_SLUGS_QUERY
-// Query: *[_type == "article" && language == $language && defined(slug.current)] {    "slug": slug.current  }
+// Query: *[_type == "article" && defined(slug.current)] {    "slug": slug.current  }
 export type ARTICLE_SLUGS_QUERY_RESULT = Array<{
   slug: string;
 }>;
 
 // Source: ../frontend/src/features/posts/query.ts
 // Variable: ARTICLE_QUERY
-// Query: *[_type == "article" && language == $language && slug.current == $slug][0] {      title,  "slug": slug.current,  language,  description,  publishedAt,  updatedAt,  "translations": *[_type == "translation.metadata" && references(^._id)]    .translations[].value->{ language, "slug": slug.current },    "plainText": pt::text(body),    body[] {      ...,      _type == "image" => {   alt,  crop,  hotspot,  asset->{ _id, metadata { lqip, dimensions { width, height } } }, caption, wide }    },    "previous": *[      _type == "article" && language == ^.language && publishedAt < ^.publishedAt    ] | order(publishedAt desc)[0] { title, "slug": slug.current },    "next": *[      _type == "article" && language == ^.language && publishedAt > ^.publishedAt    ] | order(publishedAt asc)[0] { title, "slug": slug.current }  }
+// Query: *[_type == "article" && slug.current == $slug][0] {      title,  "slug": slug.current,  description,  publishedAt,  updatedAt,    seo { title, description },    "plainText": pt::text(body),    body[]{      ...,      _type == "image" => {   alt,  crop,  hotspot,  asset->{ _id, metadata { lqip, dimensions { width, height } } }, caption, wide }    },    "previous": *[      _type == "article" && publishedAt < ^.publishedAt    ] | order(publishedAt desc)[0] { title, "slug": slug.current },    "next": *[      _type == "article" && publishedAt > ^.publishedAt    ] | order(publishedAt asc)[0] { title, "slug": slug.current }  }
 export type ARTICLE_QUERY_RESULT = {
   title: string;
   slug: string;
-  language: string | null;
   description: string;
   publishedAt: string;
   updatedAt: string | null;
-  translations: Array<
-    | {
-        language: string | null;
-        slug: null;
-      }
-    | {
-        language: string | null;
-        slug: string;
-      }
-    | null
-  >;
+  seo: {
+    title: string | null;
+    description: string | null;
+  } | null;
   plainText: string;
   body: Array<
     | {
@@ -602,16 +525,36 @@ export type ARTICLE_QUERY_RESULT = {
   } | null;
 } | null;
 
+// Source: ../frontend/src/features/site/query.ts
+// Variable: SETTINGS_QUERY
+// Query: *[_id == "settings"][0] {    role,    colophon,    navigation[]->{      title,      "uri": uri.current    }  }
+export type SETTINGS_QUERY_RESULT =
+  | {
+      role: null;
+      colophon: null;
+      navigation: null;
+    }
+  | {
+      role: string;
+      colophon: string | null;
+      navigation: Array<{
+        title: string;
+        uri: string;
+      }> | null;
+    }
+  | null;
+
 // Query TypeMap
 declare global {
   interface SanityQueries {
-    '\n  *[_type == "page" && language == $language && uri.current == $uri][0] {\n    title,\n    "uri": uri.current,\n    language,\n    seo,\n    sections,\n    "translations": *[_type == "translation.metadata" && references(^._id)]\n      .translations[].value->{ language, "path": uri.current }\n  }\n': PAGE_QUERY_RESULT;
-    '\n  *[_type == "page" && language == $language && defined(uri.current)] {\n    "uri": uri.current\n  }\n': PAGE_URIS_QUERY_RESULT;
-    '\n  *[_type == "page" && defined(language) && defined(uri.current)]\n    | order(uri.current asc) {\n      title,\n      "uri": uri.current,\n      language,\n      seo,\n      _updatedAt,\n      "translations": *[_type == "translation.metadata" && references(^._id)]\n        .translations[].value->{ language, "path": uri.current }\n    }\n': ALL_PAGES_QUERY_RESULT;
-    '\n  *[_type == "article" && language == $language && defined(slug.current)]\n    | order(publishedAt desc) {\n      \n  title,\n  "slug": slug.current,\n  language,\n  description,\n  publishedAt,\n  updatedAt,\n  "translations": *[_type == "translation.metadata" && references(^._id)]\n    .translations[].value->{ language, "slug": slug.current }\n\n    }\n': ARTICLES_QUERY_RESULT;
-    '\n  *[_type == "article" && defined(language) && defined(slug.current)]\n    | order(publishedAt desc) {\n      \n  title,\n  "slug": slug.current,\n  language,\n  description,\n  publishedAt,\n  updatedAt,\n  "translations": *[_type == "translation.metadata" && references(^._id)]\n    .translations[].value->{ language, "slug": slug.current }\n\n    }\n': ALL_ARTICLES_QUERY_RESULT;
-    '\n  *[_type == "article" && language == $language && defined(slug.current)] {\n    "slug": slug.current\n  }\n': ARTICLE_SLUGS_QUERY_RESULT;
-    '\n  *[_type == "article" && language == $language && slug.current == $slug][0] {\n    \n  title,\n  "slug": slug.current,\n  language,\n  description,\n  publishedAt,\n  updatedAt,\n  "translations": *[_type == "translation.metadata" && references(^._id)]\n    .translations[].value->{ language, "slug": slug.current }\n,\n    "plainText": pt::text(body),\n    body[] {\n      ...,\n      _type == "image" => { \n  alt,\n  crop,\n  hotspot,\n  asset->{ _id, metadata { lqip, dimensions { width, height } } }\n, caption, wide }\n    },\n    "previous": *[\n      _type == "article" && language == ^.language && publishedAt < ^.publishedAt\n    ] | order(publishedAt desc)[0] { title, "slug": slug.current },\n    "next": *[\n      _type == "article" && language == ^.language && publishedAt > ^.publishedAt\n    ] | order(publishedAt asc)[0] { title, "slug": slug.current }\n  }\n': ARTICLE_QUERY_RESULT;
+    '\n  *[_type == "page" && uri.current == $uri][0] {\n    title,\n    "uri": uri.current,\n    seo,\n    body[]{\n      ...,\n      _type == "image" => { \n  alt,\n  crop,\n  hotspot,\n  asset->{ _id, metadata { lqip, dimensions { width, height } } }\n, caption, wide }\n    }\n  }\n': PAGE_QUERY_RESULT;
+    '\n  *[_type == "page" && defined(uri.current)] {\n    "uri": uri.current\n  }\n': PAGE_URIS_QUERY_RESULT;
+    '\n  *[_type == "page" && defined(uri.current)]\n    | order(uri.current asc) {\n      title,\n      "uri": uri.current,\n      seo,\n      _updatedAt\n    }\n': ALL_PAGES_QUERY_RESULT;
+    '\n  *[_type == "article" && showInPosts != false && defined(slug.current)]\n    | order(publishedAt desc) {\n      \n  title,\n  "slug": slug.current,\n  description,\n  publishedAt,\n  updatedAt\n\n    }\n': ARTICLES_QUERY_RESULT;
+    '\n  *[_type == "article" && defined(slug.current)]\n    | order(publishedAt desc) {\n      \n  title,\n  "slug": slug.current,\n  description,\n  publishedAt,\n  updatedAt\n\n    }\n': ALL_ARTICLES_QUERY_RESULT;
+    '\n  *[_type == "article" && defined(slug.current)] {\n    "slug": slug.current\n  }\n': ARTICLE_SLUGS_QUERY_RESULT;
+    '\n  *[_type == "article" && slug.current == $slug][0] {\n    \n  title,\n  "slug": slug.current,\n  description,\n  publishedAt,\n  updatedAt\n,\n    seo { title, description },\n    "plainText": pt::text(body),\n    body[]{\n      ...,\n      _type == "image" => { \n  alt,\n  crop,\n  hotspot,\n  asset->{ _id, metadata { lqip, dimensions { width, height } } }\n, caption, wide }\n    },\n    "previous": *[\n      _type == "article" && publishedAt < ^.publishedAt\n    ] | order(publishedAt desc)[0] { title, "slug": slug.current },\n    "next": *[\n      _type == "article" && publishedAt > ^.publishedAt\n    ] | order(publishedAt asc)[0] { title, "slug": slug.current }\n  }\n': ARTICLE_QUERY_RESULT;
+    '\n  *[_id == "settings"][0] {\n    role,\n    colophon,\n    navigation[]->{\n      title,\n      "uri": uri.current\n    }\n  }\n': SETTINGS_QUERY_RESULT;
   }
 }
 // Lets @sanity/client releases that predate the global registry read it too

@@ -6,14 +6,14 @@ Buttons use the ui-sdk `Button`. The only one so far is `CopyButton` in `fronten
 
 ## Navigation
 
-The header navigation and the footer's language switcher are ui-sdk `NavigationMenu`s, following [its docs](https://ui-sdk.dev/docs/react/components/navigation-menu): `NavigationMenu` with an `aria-label` renders the `<nav>`, `NavigationMenuList` and `NavigationMenuItem` the list, and `NavigationMenuLink` each link. The link gets Next.js `Link` through `render={<NextLink href="…" />}`, as the docs show for a router's link, and `current` for the page you're on, which sets `aria-current="page"` and `data-current`. Items are plain links, so there is no trigger, content, or viewport.
+The header navigation is a ui-sdk `NavigationMenu`, following [its docs](https://ui-sdk.dev/docs/react/components/navigation-menu): `NavigationMenu` with an `aria-label` renders the `<nav>`, `NavigationMenuList` and `NavigationMenuItem` the list, and `NavigationMenuLink` each link. The link gets Next.js `Link` through `render={<NextLink href="…" />}`, as the docs show for a router's link, and `current` for the page you're on, which sets `aria-current="page"` and `data-current`. Items are plain links, so there is no trigger, content, or viewport.
 
 ## Other links
 
 `frontend/src/components/link.tsx` is a thin `Link` around Next.js `Link` that adds a `variant` class. Links from Sanity render through `SanityLink` (`frontend/src/features/sanity/link/`), which only allows safe URLs. The classes are exported as `linkStyles`, so the navigation and the skip link use the same looks:
 
 - `text` (default): the inline link from ui-sdk.dev. Its underline is `foreground` at 25%, with the font's own thickness and a 3px offset, and turns solid on hover and focus. The 404 page and markdown links use it.
-- `nav`: no underline until hover, like the ui-sdk.dev navigation. Use it only where the position makes clear that it is a link: the header navigation and the language switcher, both `muted` with the current page in `foreground` (`data-current`), and the company names in CV entries.
+- `nav`: no underline until hover, like the ui-sdk.dev navigation. Use it only where the position makes clear that it is a link: the header navigation, `muted` with the current page in `foreground` (`data-current`), and links in compact lists.
 - `subtle`: a small square block, at least 2rem high, with a `subtle` fill that darkens to `subtle-hover` on hover. These are solid colours, not a `foreground` tint, so the block stays visible in dark mode. The skip link uses it.
 
 ## Focus and colour

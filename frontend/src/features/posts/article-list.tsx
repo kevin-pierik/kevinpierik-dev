@@ -1,24 +1,22 @@
-import { getDictionary, type Locale } from "@/features/i18n";
-import type { ARTICLES_QUERY_RESULT } from "@/features/sanity/sanity.types";
-
 import { ArticleCard } from "./article-card";
+import { getArticles } from "./fetch";
 
-type ArticleListProps = {
-  articles: ARTICLES_QUERY_RESULT;
-  locale: Locale;
-};
+export async function ArticleList({ limit }: { limit?: number | null }) {
+  const articles = await getArticles();
+  const shown = limit ? articles.slice(0, limit) : articles;
 
-export function ArticleList({ articles, locale }: ArticleListProps) {
-  const { postsLabel, noPosts } = getDictionary(locale);
-
-  if (articles.length === 0) {
-    return <p className="text-muted site:col-[3/11]">{noPosts}</p>;
+  if (shown.length === 0) {
+    return <p className="mt-[1lh] text-muted first:mt-0">No posts yet.</p>;
   }
 
   return (
-    <ol aria-label={postsLabel} className="site:col-span-full site:grid-site">
-      {articles.map((article) => (
-        <ArticleCard article={article} key={article.slug} locale={locale} />
+    <ol
+      aria-label="Posts"
+      className="mt-[1lh] first:mt-0 site:grid-site"
+      data-full
+    >
+      {shown.map((article) => (
+        <ArticleCard article={article} key={article.slug} />
       ))}
     </ol>
   );

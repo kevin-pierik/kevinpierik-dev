@@ -10,7 +10,7 @@ export function createSeoField() {
       defineField({
         name: 'title',
         type: 'string',
-        description: 'Defaults to the page title.',
+        description: 'Defaults to the page or post title.',
         validation: (rule) => rule.max(60).warning('Keep it under 60 characters.'),
       }),
       defineField({

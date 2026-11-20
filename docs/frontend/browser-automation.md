@@ -1,6 +1,6 @@
 # Browser testing and automation
 
-[Playwright](https://playwright.dev/) runs the automated end-to-end suite against the production build. The suite covers localized navigation, the blog's empty state or an article opened from the index, the localized 404, and public discovery routes. GitHub Actions builds the frontend, starts it with `next start`, and runs these checks in Chromium.
+[Playwright](https://playwright.dev/) runs the automated end-to-end suite against the production build. The suite covers the homepage, the blog's empty state or an article opened from the index, the 404, and public discovery routes. GitHub Actions builds the frontend, starts it with `next start`, and runs these checks in Chromium.
 
 Install Chromium once, then run the full local quality suite with the public Sanity environment values set:
 
@@ -9,7 +9,7 @@ bunx playwright install chromium
 NEXT_PUBLIC_SANITY_PROJECT_ID=v3zmx1mq NEXT_PUBLIC_SANITY_DATASET=production bun run qa
 ```
 
-The end-to-end step runs after the production build. Playwright waits for the production server's `/sitemap.xml` endpoint, which bypasses locale routing, then tests the public root route and uses published production content; it never writes to Sanity. When an English article is published, the test follows it from the index and checks its date and JSON-LD. With no published English articles, it checks the empty state.
+The end-to-end step runs after the production build. Playwright waits for the production server's `/sitemap.xml` endpoint, then tests the public root route and uses published production content; it never writes to Sanity. When an article is published, the test follows it from the index and checks its date and JSON-LD. With no listed articles, it checks the empty state.
 
 To target an accessible deployment, set `PLAYWRIGHT_TEST_BASE_URL`. This skips the local server, so the same suite can be used against a public Vercel preview:
 

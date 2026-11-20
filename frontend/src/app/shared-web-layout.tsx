@@ -5,7 +5,7 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 
 import "@/features/style/global.css";
 
-import { geistSans } from "@/features/fonts";
+import { GeistSans as geistSans } from "geist/font/sans";
 import { siteUrl } from "@/features/site";
 
 export const sharedMetadata: Metadata = {
@@ -38,15 +38,11 @@ export const sharedViewport: Viewport = {
 
 type SharedWebLayoutProps = {
   children: ReactNode;
-  lang?: "en" | "nl";
 };
 
-export function SharedWebLayout({
-  children,
-  lang = "en",
-}: SharedWebLayoutProps) {
+export function SharedWebLayout({ children }: SharedWebLayoutProps) {
   return (
-    <html className={`bg-background ${geistSans.variable}`} lang={lang}>
+    <html className={`bg-background ${geistSans.variable}`} lang="en">
       <body className="bg-background antialiased">
         {children}
         {process.env.VERCEL_ENV ? <Analytics /> : null}

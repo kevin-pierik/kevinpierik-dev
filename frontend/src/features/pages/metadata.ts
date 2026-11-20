@@ -2,36 +2,22 @@ import type { Metadata } from "next";
 import type { Graph } from "schema-dts";
 
 import {
-  getDictionary,
-  languageAlternates,
-  type Locale,
-  locales,
-  otherOgLocales,
-} from "@/features/i18n";
-import {
   personId,
   siteName as name,
   siteUrl,
   websiteId,
 } from "@/features/site";
+import { socialLinks } from "@/features/site/social-links";
 
 type PageSummary = {
   title: string;
   uri: string;
   seo: { title?: string; description?: string } | null;
-  alternates: Partial<Record<Locale, string>>;
 };
 
-export function pageMetadata(
-  locale: Locale,
-  page: PageSummary,
-  isHome: boolean,
-): Metadata {
-  const dictionary = getDictionary(locale);
-  const title =
-    page.seo?.title ?? (isHome ? dictionary.title : `${page.title} | ${name}`);
-  const description =
-    page.seo?.description ?? (isHome ? dictionary.description : undefined);
+export function pageMetadata(page: PageSummary, isHome: boolean): Metadata {
+  const title = page.seo?.title ?? (isHome ? name : `${page.title} | ${name}`);
+  const description = page.seo?.description ?? undefined;
   const copyrightYear = new Date().getFullYear();
 
   return {
@@ -42,10 +28,7 @@ export function pageMetadata(
     creator: name,
     publisher: name,
     category: "technology",
-    alternates: {
-      canonical: page.uri,
-      languages: languageAlternates(page.alternates),
-    },
+    alternates: { canonical: page.uri },
     openGraph: {
       ...(isHome
         ? {
@@ -57,11 +40,7 @@ export function pageMetadata(
         : { type: "website" }),
       url: page.uri,
       siteName: name,
-      locale: dictionary.ogLocale,
-      alternateLocale: otherOgLocales(
-        locale,
-        Object.keys(page.alternates) as Locale[],
-      ),
+      locale: "en_US",
       title,
       description,
     },
@@ -83,9 +62,10 @@ export function pageMetadata(
   };
 }
 
-export function homeStructuredData(locale: Locale): Graph {
-  const { path, title, description } = getDictionary(locale);
-  const pageUrl = locale === "en" ? `${siteUrl}/` : `${siteUrl}${path}`;
+export function homeStructuredData(page: PageSummary): Graph {
+  const pageUrl = siteUrl;
+  const title = page.seo?.title ?? name;
+  const description = page.seo?.description ?? undefined;
   const copyrightYear = new Date().getFullYear();
 
   return {
@@ -97,7 +77,7 @@ export function homeStructuredData(locale: Locale): Graph {
         name,
         url: siteUrl,
         description,
-        inLanguage: locales,
+        inLanguage: "en",
         publisher: { "@id": personId },
         copyrightHolder: { "@id": personId },
         copyrightYear,
@@ -108,7 +88,7 @@ export function homeStructuredData(locale: Locale): Graph {
         url: pageUrl,
         name: title,
         description,
-        inLanguage: locale,
+        inLanguage: "en",
         isPartOf: { "@id": websiteId },
         mainEntity: { "@id": personId },
       },
@@ -147,11 +127,7 @@ export function homeStructuredData(locale: Locale): Graph {
           { "@type": "EducationalOrganization", name: "Vechtdal College" },
         ],
         knowsAbout: ["Next.js", "TypeScript", "Tailwind CSS", "Vercel"],
-        sameAs: [
-          "https://nl.linkedin.com/in/kevin-pierik",
-          "https://www.instagram.com/kevinpierikk",
-          "https://github.com/kevin-pierik",
-        ],
+        sameAs: socialLinks.map(({ href }) => href),
       },
     ],
   };

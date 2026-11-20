@@ -1,7 +1,6 @@
-import {defineField, defineType} from 'sanity'
+import {defineArrayMember, defineField, defineType} from 'sanity'
 
-import {createLanguageField} from '../fields/create-language-field'
-import {createPageBuilder} from '../fields/create-page-builder'
+import {createRichText} from '../fields/create-rich-text'
 import {createSeoField} from '../fields/create-seo-field'
 import {createUriField} from '../fields/create-uri-field'
 
@@ -10,17 +9,16 @@ export const page = defineType({
   title: 'Page',
   type: 'document',
   fields: [
-    createLanguageField(),
     defineField({name: 'title', type: 'string', validation: (rule) => rule.required()}),
     createUriField(),
     createSeoField(),
-    createPageBuilder(),
+    createRichText({of: [defineArrayMember({type: 'articleList'})]}),
   ],
   preview: {
-    select: {title: 'title', uri: 'uri.current', language: 'language'},
-    prepare: ({title, uri, language}) => ({
+    select: {title: 'title', uri: 'uri.current'},
+    prepare: ({title, uri}) => ({
       title,
-      subtitle: [language?.toUpperCase(), uri].filter(Boolean).join(' · '),
+      subtitle: uri,
     }),
   },
 })

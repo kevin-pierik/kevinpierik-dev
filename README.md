@@ -19,11 +19,11 @@ frontend/
   src/
     app/              # Localized routes and static route handlers
     components/       # Small, feature-agnostic building blocks
-    features/         # Blog, pages, sections, Sanity integration, i18n, site, styles
+    features/         # Posts, pages, Portable Text, Sanity integration, site, styles
   public/             # Frontend assets
   package.json
 studio/
-  schemas/            # Documents, fields, and page sections
+  schemas/            # Documents and reusable fields
   scripts/            # Content utilities
   package.json
   sanity.config.ts
@@ -34,7 +34,7 @@ package.json          # Bun workspace scripts
 bun.lock
 ```
 
-Every public page is a `page` document in Sanity. The English homepage is `/`, the Dutch homepage is `/nl`, and post indexes are `/posts` and `/nl/posts`. The frontend serves English without a locale prefix. Sanity pages and articles have separate schemas and linked translations ([Pages and sections](docs/frontend/pages-and-sections.md), [Posts](docs/frontend/posts.md)). See the [Studio docs](docs/studio/README.md) for the content model and Studio setup.
+Every public page is a `page` document in Sanity. The homepage is `/`, the Posts index is `/posts`, and articles live under `/posts/`. Pages and articles have separate schemas and use Portable Text in a direct Body field ([Pages](docs/frontend/pages-and-sections.md), [Posts](docs/frontend/posts.md)). See the [Studio docs](docs/studio/README.md) for the content model and Studio setup.
 
 ## Development
 
@@ -58,4 +58,4 @@ The tests live beside the code they cover. `bun run qa` checks formatting, lint,
 
 ## License
 
-The source code is available under the [MIT License](LICENSE). The CV content, name, and images are not covered by it and remain all rights reserved. See [CONTRIBUTING.md](CONTRIBUTING.md) to contribute.
+The source code is available under the [MIT License](LICENSE). Personal profile content, the name, and images are not covered by it and remain all rights reserved. See [CONTRIBUTING.md](CONTRIBUTING.md) to contribute.

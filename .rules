@@ -10,14 +10,14 @@
 
 ## Rules
 
-- Every frontend route stays static: `○`, or `●` for prerendered localized pages, in the build output. Route handlers export `dynamic = "force-static"`.
+- Every frontend route stays static: `○`, or `●` for prerendered Sanity pages, in the build output. Route handlers export `dynamic = "force-static"`.
 - Server Components are the default; add `"use client"` only for real client-side interaction.
 - Keep components few. Hardcode content where it is used; extract only for real behaviour or reuse. Frontend imports use `@/*`; shared Studio helpers use `@studio/*`.
 - Global styles are imported only through `frontend/src/app/shared-web-layout.tsx`. Use the `background` and `foreground` colours, never hardcoded black or white, and keep text contrast at 4.5:1 or more in both schemes ([color scheme](docs/frontend/color-scheme.md)).
-- The homepage has one `<h1>`; CV sections use `<h2>` and entries `<h3>`. Never skip heading ranks or add deeper headings without real subsections.
+- The homepage has one `<h1>`; page sections use `<h2>` and entries `<h3>`. Never skip heading ranks or add deeper headings without real subsections.
 - Keep landmarks, accessible names, visible focus styles, semantic lists, native links, and the reduced-motion rules in `frontend/src/features/style/animations.css`.
-- Sanity pages and articles are different document types with document-level translations. Keep their routes, translated content, and metadata aligned ([Pages and sections](docs/frontend/pages-and-sections.md), [Posts](docs/frontend/posts.md), [Languages](docs/frontend/languages.md)).
-- Profile details are repeated in Sanity content, `frontend/src/features/pages/metadata.ts`, the dictionaries in `frontend/src/features/i18n/`, `frontend/src/app/llms.txt/route.ts`, and `frontend/src/app/manifest.ts`. Change them together ([SEO](docs/frontend/seo-and-structured-data.md)).
+- Sanity pages and articles are separate document types with direct Portable Text bodies. Keep their routes, body content, and metadata aligned ([Pages and Body](docs/frontend/pages-and-sections.md), [Posts](docs/frontend/posts.md)).
+- Profile details are repeated in Sanity content (pages and the `settings` document), `frontend/src/features/pages/metadata.ts`, `frontend/src/app/llms.txt/route.ts`, and `frontend/src/app/manifest.ts`. Change them together ([SEO](docs/frontend/seo-and-structured-data.md)).
 - Next.js merges `openGraph` shallowly, so declare the complete object.
 - `robots.txt`, `sitemap.xml`, and `llms.txt` list only canonical public content; `/api/` stays disallowed.
 - The 404 stays `noindex` ([404 page](docs/frontend/not-found.md)).

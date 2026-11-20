@@ -1,6 +1,6 @@
 import {defineField, type SlugValidationContext} from 'sanity'
 
-import {uriFromTitle, uriPrefix} from '../../slug'
+import {uriFromTitle} from '../../slug'
 
 async function isUniqueUri(uri: string, {document, getClient}: SlugValidationContext) {
   const id = document?._id.replace(/^drafts\./, '')
@@ -16,21 +16,12 @@ export function createUriField() {
     name: 'uri',
     title: 'URI',
     type: 'slug',
-    description: 'The full public path, with the language prefix, such as /about or /nl/over.',
+    description: 'The full public path, such as /about.',
     options: {
-      source: (document) =>
-        uriFromTitle(String(document.language ?? ''), String(document.title ?? '')),
+      source: (document) => uriFromTitle(String(document.title ?? '')),
       slugify: (uri) => uri,
       isUnique: isUniqueUri,
     },
-    validation: (rule) =>
-      rule.required().custom((value, {document}) => {
-        const uri = value?.current
-        if (!uri) return true
-        const prefix = uriPrefix(String(document?.language ?? ''))
-        return uri === (prefix || '/') || uri.startsWith(`${prefix}/`)
-          ? true
-          : `Start with ${prefix || '/'} for this language.`
-      }),
+    validation: (rule) => rule.required(),
   })
 }
