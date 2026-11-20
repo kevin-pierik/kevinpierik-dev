@@ -7,6 +7,7 @@ export default defineCliConfig({
   },
   studioHost: 'kevinpierik',
   deployment: {
+    appId: 'ojpq9ieprzfpr94c396gr3kb',
     autoUpdates: true,
   },
   typegen: {
