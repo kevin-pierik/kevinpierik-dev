@@ -11,7 +11,7 @@ An article (`article`) has a title, a slug, a description (the excerpt on the in
 - Paragraphs, `h2` and `h3` headings, quotes, bulleted and numbered lists, links, and inline code.
 - Images with alt text, an optional caption, and `wide`, which reaches one column further on each side.
 - Code blocks (`@sanity/code-input`), highlighted with Shiki in GitHub's light and dark themes, with line numbers and a copy button.
-- Tables (`@sanity/table`) with an optional caption. The first row is the header.
+- Tables from the `@sanity/table` plugin, used directly as a Body block. The first row is the header, and the table scrolls sideways in a labelled region when it is too wide.
 
 Articles are written in English. Sanity keeps unpublished changes as drafts; the site only shows published posts.
 

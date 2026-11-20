@@ -30,19 +30,7 @@ export function createRichText({name = 'body'} = {}) {
         ]),
       }),
       defineArrayMember({type: 'code', options: {withFilename: false}}),
-      defineArrayMember({
-        name: 'tableBlock',
-        title: 'Table',
-        type: 'object',
-        fields: [
-          defineField({name: 'table', type: 'table'}),
-          defineField({name: 'caption', type: 'string'}),
-        ],
-        preview: {
-          select: {title: 'caption'},
-          prepare: ({title}) => ({title: title ?? 'Table'}),
-        },
-      }),
+      defineArrayMember({type: 'table'}),
     ],
   })
 }
