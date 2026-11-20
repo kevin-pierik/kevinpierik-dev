@@ -1,0 +1,21 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": ["config:recommended", "schedule:weekly"],
+  "timezone": "Europe/Amsterdam",
+  "dependencyDashboard": false,
+  "semanticCommits": "disabled",
+  "labels": ["dependencies"],
+  "commitMessagePrefix": "deps:",
+  "commitMessageAction": "Update",
+  "commitMessageTopic": "{{depName}}",
+  "packageRules": [
+    {
+      "matchUpdateTypes": ["minor", "patch"],
+      "groupName": "minor and patch dependencies"
+    },
+    {
+      "matchPackageNames": ["typescript"],
+      "allowedVersions": "<7"
+    }
+  ]
+}
