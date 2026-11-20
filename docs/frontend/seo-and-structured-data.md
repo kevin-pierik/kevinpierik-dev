@@ -24,14 +24,14 @@ Each page renders a JSON-LD `@graph`, typed with `schema-dts`, through `frontend
 
 Google Search Console reports the result under Enhancements, Profile page.
 
-## Blog
+## Posts
 
-`frontend/src/features/posts/metadata.ts` builds the blog's metadata and JSON-LD the same way:
+`frontend/src/features/posts/metadata.ts` builds the metadata and JSON-LD for `/posts` and its articles the same way:
 
-- The blog index uses the `/posts` page's metadata, like any other page. It adds a `Blog` JSON-LD node with that page's URL and SEO title, listing its posts as `BlogPosting` items. `/feed.xml` takes its channel title and description from the same page.
+- The posts index uses the `/posts` page's metadata, like any other page. It adds a `Blog` JSON-LD node with that page's URL and SEO title, listing its posts as `BlogPosting` items. `/feed.xml` takes its channel title and description from the same page.
 - A post is an Open Graph `article` with `publishedTime`, `modifiedTime`, and the author, and a `BlogPosting` node with its headline, dates, language, author (`#person`), and the website (`#website`) it is part of. Optional `seo.title` and `seo.description` fields set the page, Open Graph, and Twitter metadata; they fall back to the post title with the site name and the post description.
 - Canonicals use the site's public paths.
-- Blog pages use the English Open Graph image.
+- Posts pages use the English Open Graph image.
 
 The site URL, name, and the `#person` and `#website` ids live in `frontend/src/features/site/index.ts`.
 
@@ -41,7 +41,7 @@ The site URL, name, and the `#person` and `#website` ids live in `frontend/src/f
 
 ## Other files
 
-- `frontend/src/app/sitemap.ts` lists the public pages, blog index, and every published article, with posts carrying `lastModified`. Its URLs match the canonicals exactly, with no trailing slash.
+- `frontend/src/app/sitemap.ts` lists the public pages, the posts index, and every published article, with posts carrying `lastModified`. Its URLs match the canonicals exactly, with no trailing slash.
 - `frontend/src/app/robots.ts` allows everything except `/api/` and points to the sitemap.
 - `frontend/src/app/manifest.ts` serves `/manifest.webmanifest` with the name and icons.
 

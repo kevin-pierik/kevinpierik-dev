@@ -20,7 +20,7 @@ A GitHub ruleset named "Protect main" blocks direct pushes, force pushes, and de
 
 ## Environment
 
-The blog reads posts from Sanity, so the build needs `NEXT_PUBLIC_SANITY_PROJECT_ID` and `NEXT_PUBLIC_SANITY_DATASET`, in Vercel and in `frontend/.env.local`. Both are public; `frontend/.env.example` lists their values. No token is needed, because the site only reads published content ([Posts](frontend/posts.md)). Vercel Analytics and Speed Insights only load when `VERCEL_ENV` is set, so local builds stay free of tracking.
+The site reads pages and posts from Sanity, so the build needs `NEXT_PUBLIC_SANITY_PROJECT_ID` and `NEXT_PUBLIC_SANITY_DATASET`, in Vercel and in `frontend/.env.local`. Both are public; `frontend/.env.example` lists their values. No token is needed, because the site only reads published content ([Posts](frontend/posts.md)). Vercel Analytics and Speed Insights only load when `VERCEL_ENV` is set, so local builds stay free of tracking.
 
 ## Security headers
 
