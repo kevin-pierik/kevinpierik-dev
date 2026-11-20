@@ -5,4 +5,4 @@ How kevinpierik.dev is built and run. Start with the [project README](../README.
 - [Deployment](deployment.md): hosting, previews, branch protection, and security headers.
 - [Frontend](frontend/README.md): Next.js routes, UI, SEO, and Sanity integration.
 - [Studio](studio/README.md): Sanity schemas, content modeling, and Studio setup.
-- [Agent skills](agent-skills.md): the skills installed for coding agents.
+- [Agent skills](agent-skills.md): the skills installed for coding agents, and the repository's own rules and experts.

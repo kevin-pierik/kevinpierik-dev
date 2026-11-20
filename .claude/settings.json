@@ -1,0 +1,52 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-settings.json",
+  "permissions": {
+    "allow": [
+      "Bash(bun run dev)",
+      "Bash(bun run dev:frontend)",
+      "Bash(bun run dev:studio)",
+      "Bash(bun run lint)",
+      "Bash(bun run typecheck)",
+      "Bash(bun run typegen)",
+      "Bash(bun run test)",
+      "Bash(bun run test:e2e)",
+      "Bash(bun run format)",
+      "Bash(bun run format:check)",
+      "Bash(bun run build)",
+      "Bash(bun run build:studio)",
+      "Bash(bun run qa)",
+      "Bash(bunx prettier *)",
+      "Bash(bunx agent-browser *)",
+      "Bash(git status *)",
+      "Bash(git diff *)",
+      "Bash(git log *)",
+      "Bash(git show *)",
+      "Bash(git branch *)"
+    ],
+    "deny": [
+      "Read(./.env)",
+      "Read(./.env.*)",
+      "Read(./frontend/.env.local)",
+      "Read(./studio/.env)",
+      "Read(./studio/.env.*)"
+    ]
+  },
+  "attribution": {
+    "commit": "",
+    "pr": ""
+  },
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "jq -r '.tool_response.filePath // .tool_input.file_path' | { read -r f; bunx prettier --write --ignore-unknown \"$f\"; } >/dev/null 2>&1 || true",
+            "statusMessage": "Formatting with Prettier"
+          }
+        ]
+      }
+    ]
+  }
+}
