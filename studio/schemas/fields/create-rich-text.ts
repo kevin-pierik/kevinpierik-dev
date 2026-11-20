@@ -1,4 +1,4 @@
-import {defineArrayMember, defineField, type ArrayOfType} from 'sanity'
+import {defineArrayMember, defineField} from 'sanity'
 
 import {createMedia} from './create-media'
 
@@ -12,7 +12,7 @@ const block = defineArrayMember({
   ],
 })
 
-export function createRichText({name = 'body', of = []}: {name?: string; of?: ArrayOfType[]} = {}) {
+export function createRichText({name = 'body'} = {}) {
   return defineField({
     name,
     type: 'array',
@@ -43,7 +43,6 @@ export function createRichText({name = 'body', of = []}: {name?: string; of?: Ar
           prepare: ({title}) => ({title: title ?? 'Table'}),
         },
       }),
-      ...of,
     ],
   })
 }

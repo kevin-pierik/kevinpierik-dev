@@ -1,13 +1,10 @@
 import type { Metadata } from "next";
-import { PortableText } from "next-sanity";
 
 import { JsonLd } from "@/components/json-ld";
 import { getPage, getPageUris } from "@/features/pages/fetch";
-import { getArticles } from "@/features/posts/fetch";
-import { postsStructuredData } from "@/features/posts/metadata";
 import { homeStructuredData, pageMetadata } from "@/features/pages/metadata";
+import { PageBody } from "@/features/pages/page-body";
 import { isHomeUri, pageUri, uriSegments } from "@/features/pages/uri";
-import { richTextComponents } from "@/features/sanity/rich-text";
 import { SiteFooter } from "@/features/site/site-footer";
 import { SiteHeader } from "@/features/site/site-header";
 
@@ -37,16 +34,10 @@ export async function generateMetadata({
 export default async function Page({ params }: PageProps) {
   const { uri, isHome } = await resolve(params);
   const page = await getPage(uri);
-  const hasArticleList = page.body?.some(
-    (block) => block._type === "articleList",
-  );
 
   return (
     <>
       {isHome ? <JsonLd data={homeStructuredData(page)} /> : null}
-      {hasArticleList ? (
-        <JsonLd data={postsStructuredData(page, await getArticles())} />
-      ) : null}
       <SiteHeader current={uri} />
       <main
         aria-labelledby={isHome ? "page-title" : "main-title"}
@@ -58,15 +49,7 @@ export default async function Page({ params }: PageProps) {
             {page.title}
           </h1>
         )}
-        <article
-          aria-label={page.title}
-          className="site:col-span-full site:grid-site site:content-start site:*:col-[3/11] site:*:data-full:col-span-full site:*:data-wide:col-[2/12] site:[&>:is(figure,[data-table]):not([data-wide])]:col-[3/11]"
-        >
-          <PortableText
-            components={richTextComponents}
-            value={page.body ?? []}
-          />
-        </article>
+        <PageBody page={page} />
       </main>
       <SiteFooter />
     </>

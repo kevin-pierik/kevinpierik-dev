@@ -28,7 +28,7 @@ Google Search Console reports the result under Enhancements, Profile page.
 
 `frontend/src/features/posts/metadata.ts` builds the blog's metadata and JSON-LD the same way:
 
-- The blog index uses the `/posts` page's metadata, like any other page. Any page whose Body contains a Post list block adds a `Blog` JSON-LD node with that page's URL and SEO title, listing its posts as `BlogPosting` items. `/feed.xml` takes its channel title and description from the same page.
+- The blog index uses the `/posts` page's metadata, like any other page. It adds a `Blog` JSON-LD node with that page's URL and SEO title, listing its posts as `BlogPosting` items. `/feed.xml` takes its channel title and description from the same page.
 - A post is an Open Graph `article` with `publishedTime`, `modifiedTime`, and the author, and a `BlogPosting` node with its headline, dates, language, author (`#person`), and the website (`#website`) it is part of. Optional `seo.title` and `seo.description` fields set the page, Open Graph, and Twitter metadata; they fall back to the post title with the site name and the post description.
 - Canonicals use the site's public paths.
 - Blog pages use the English Open Graph image.

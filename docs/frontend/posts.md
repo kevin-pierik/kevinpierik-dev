@@ -25,7 +25,7 @@ Articles are written in English. Sanity keeps unpublished changes as drafts; the
 
 ## Pages
 
-- **Index**: `/posts` is an ordinary page document rendered by the catch-all route. Its Body contains a Post list block, which renders `ArticleList` and `ArticleCard` from `frontend/src/features/posts/` ([Pages and Body](pages-and-sections.md#post-list)). `/feed.xml` reads its channel title and description from this page, so keep it published. The list is ordered newest first, with one row per listed article: date in a `<time>`, linked title and description. Rows sit one line apart. The index shows no covers. Below 800px the parts stack.
+- **Index** (`frontend/src/app/(web)/posts/page.tsx`, with `ArticleList` and `ArticleCard` in `frontend/src/features/posts/`): the `/posts` page document provides the title, SEO fields, and Body (heading and intro); the list of listed articles follows below it, or "No posts yet." when there are none. `/feed.xml` reads its channel title and description from this page, so keep it published. The list is ordered newest first, with one row per listed article: date in a `<time>`, linked title and description. Rows sit one line apart. The index shows no covers. Below 800px the parts stack.
 - **Article** (`frontend/src/app/(web)/posts/[slug]/page.tsx`): a back link, the title, the date and reading time, the body, and links to the previous and next post. The text is centred in columns 4–9 ([Layout](layout.md#grid)).
 
 Unknown slugs show the [404 page](not-found.md) (`dynamicParams = false`).
