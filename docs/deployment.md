@@ -14,6 +14,10 @@ Run `bun run qa` before you push. GitHub Actions runs formatting, lint, typechec
 
 A GitHub ruleset named "Protect main" blocks direct pushes, force pushes, and deletion of `main`, and only allows squash-merged pull requests. Repository admins can bypass it in an emergency. Merged branches are deleted automatically.
 
+## Dependency updates
+
+[Renovate](https://docs.renovatebot.com) (`renovate.json`) opens dependency pull requests weekly. Minor and patch updates share one pull request, `deps: Update minor and patch dependencies`; each major update gets its own, such as `deps: Update eslint to v10`. Semantic commits are disabled so titles keep the `area: Description` style and become the squash commit unchanged. TypeScript is held below 7 until `typescript-eslint` supports it. Renovate runs through the Mend Renovate GitHub App.
+
 ## Environment
 
 The blog reads posts from Sanity, so the build needs `NEXT_PUBLIC_SANITY_PROJECT_ID` and `NEXT_PUBLIC_SANITY_DATASET`, in Vercel and in `frontend/.env.local`. Both are public; `frontend/.env.example` lists their values. No token is needed, because the site only reads published content ([Blog](frontend/blog.md)). Vercel Analytics and Speed Insights only load when `VERCEL_ENV` is set, so local builds stay free of tracking.
