@@ -1,6 +1,6 @@
 import { expect, test } from "@playwright/test";
 
-test("localized homepages render and switch languages", async ({ page }) => {
+test("the English homepage renders", async ({ page }) => {
   await page.goto("/");
 
   await expect(page.locator("html")).toHaveAttribute("lang", "en");
@@ -10,14 +10,6 @@ test("localized homepages render and switch languages", async ({ page }) => {
   await expect(page.locator('link[rel="canonical"]')).toHaveAttribute(
     "href",
     /^https:\/\/www\.kevinpierik\.dev\/?$/,
-  );
-
-  await page.getByRole("link", { name: "Nederlands" }).click();
-
-  await expect(page).toHaveURL(/\/nl\/?$/);
-  await expect(page.locator("html")).toHaveAttribute("lang", "nl");
-  await expect(page.getByRole("heading", { level: 1 })).toHaveText(
-    "Kevin Pierik",
   );
 });
 
@@ -51,13 +43,13 @@ test("the posts index handles empty content and opens published posts", async ({
   expect(structuredData["@type"]).toBe("BlogPosting");
 });
 
-test("unknown localized content returns a noindex 404", async ({ page }) => {
-  const response = await page.goto("/nl/ci-page-that-does-not-exist");
+test("unknown content returns a noindex 404", async ({ page }) => {
+  const response = await page.goto("/this-page-does-not-exist");
 
   expect(response?.status()).toBe(404);
   await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
   await expect(page.getByRole("heading", { level: 1 })).toHaveText(
-    /^(Pagina niet gevonden|Page not found)$/,
+    /^Page not found$/,
   );
   const robotsDirectives = await page
     .locator('meta[name="robots"]')

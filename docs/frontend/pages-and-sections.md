@@ -1,37 +1,31 @@
-# Pages and sections
+# Pages and Body
 
-Pages, the CV homepage included, are `page` documents in Sanity, one per language, built from sections. The Studio groups Pages and Articles separately, then offers language-filtered lists for each type. Translations stay as linked documents so each language can have its own URI, draft, and publish state; the page and article types remain separate because pages use reusable sections while articles have a dated, long-form body. `frontend/src/app/(web)/[locale]/[[...uri]]/page.tsx` renders every page.
+Every regular page is a `page` document in Sanity, and every article is an `article` document. Both have one direct `body` field containing Portable Text. There is no page builder or section array. The homepage and Contact use Body for all visible page content. The `/posts` index is also a page document; its Body holds the heading, an optional introduction, and a Post list block.
 
-## The page model
+## Page model
 
-`studio/schemas/documents/page.ts` has a hidden `language`, a `title`, a `uri`, an optional `seo` object, and `sections`.
+`studio/schemas/documents/page.ts` defines a title, URI, optional SEO object, and direct Body field. The URI is the full public path, such as `/` or `/contact`; `createUriField()` fills it from the title and checks uniqueness.
 
-- `uri` is the full public path, language prefix included: `/` and `/nl` are the homepages, `/about` and `/nl/over` other pages. `createUriField()` fills it from the title, checks that it starts with the language's prefix, and keeps it unique. `studio/slug.ts` holds the helpers, shared with the site.
-- `frontend/src/features/pages/uri.ts` maps a URI to the route segments of `[[...uri]]` and back, and recognises a homepage.
-- `generateStaticParams` lists every published page in the language, so each page is prerendered and other paths show the [404 page](not-found.md) (`dynamicParams = false`).
-- On a homepage, the name in the [site header](layout.md) is the `<h1>` and the page renders the profile JSON-LD. Other pages show their title as the `<h1>`.
+`frontend/src/app/(web)/[[...uri]]/page.tsx` statically renders every published page document, including `/posts`. There are no per-page routes; the article route `posts/[slug]` is the only other content route.
 
-## Sections
+The site header provides the homepage `<h1>`. Other regular pages use a screenreader-only `<h1>` from the Sanity page title; visible headings are authored in Body. Set Body headings to `h2`, then use `h3` for subsections.
 
-`createPageBuilder()` lists the section types in `studio/schemas/sections/`, and `frontend/src/features/sections/index.tsx` renders each one with its component. The types are general on purpose: one Timeline covers work and education, one Links covers contact details and profiles. In the Studio each type has its own icon, and its preview shows what it contains instead of its type: the opening text, the number of entries and their years (`entriesSummary()`), or the row labels. `studio/schemas/sections/preview.ts` holds these helpers, with tests.
+## Body
 
-- **Intro** (`introSection`): muted opening paragraphs.
-- **Timeline** (`entriesSection`): a titled list of jobs or schools. Each entry has a title, an optional company and website, a start date, an end date or "current", a location, and a description. The heading reads "role at company", with "at" or "bij" from the dictionaries; with a website, only the company is a `nav` link with `↗`. Dates show as years, with "Present" or "heden" for current entries.
-- **Text** (`textSection`): a titled block of paragraphs, such as Skills.
-- **Links** (`rowsSection`): titled label and value rows, such as Contact and Socials. With `address`, the rows sit in an `<address>`.
+The same direct Body field and Portable Text renderer are used for pages and articles. It supports paragraphs, headings, quotes, lists, links, inline code, images, code blocks, and tables. Page bodies also accept a **Post list** block (`articleList`, `studio/schemas/objects/article-list.ts`), passed to `createRichText({of})` by the page schema only. Page bodies render as labelled `<article>` elements. Sanity links pass through `safeHref()`; web links show an external arrow, while internal, email, and phone links show only an underline.
 
-The Studio titles changed from Entries and Rows to Timeline and Links; the type names stay, so stored content needs no migration.
+Body content aligns with columns 3–10 in the site grid ([Layout](layout.md#grid)); wide images and tables can span further, and elements with `data-full` (the post list) span the full grid.
 
-Section titles render as `<h2>` with a colon and an id from the title; entries render as `<h3>`. Links from Sanity go through `SanityLink`, which only renders `http`, `https`, `mailto`, `tel`, and internal links (`safeHref()`, with tests).
+## Post list
 
-## Styling
+The Post list block renders `ArticleList` from `frontend/src/features/posts/`: the newest listed articles, optionally capped by the block's `limit`, or "No posts yet." when there are none. It spaces itself like any other Body block. Put an `h2` above it; article titles in the list are `h3`. A page whose Body contains a Post list also gets the `Blog` JSON-LD ([SEO](seo-and-structured-data.md#blog)).
 
-From 800px, sections, entries, and rows are full-width `grid-site` grids ([Layout](layout.md#grid)): titles and intros span columns 3–10, years and labels sit in columns 3–4, and content in columns 5–10, with no rules. Below 800px the years sit above the title and rows use a 7rem label column. Spacing is set in `lh`: the first section starts 6 lines below the intro, sections are 3 lines apart, and entries and paragraphs one line apart.
+## Settings
 
-## Moving the CV into Sanity
+Site-wide content lives in the `settings` singleton (`studio/schemas/documents/settings.ts`), registered with `defineSingleton` in `studio/sanity.config.ts` and shown at the top of the Studio. It holds the role shown under the name in the header and on the Open Graph image, the header navigation (references to `page` documents, in order), and the footer colophon. `frontend/src/features/site/fetch.ts` reads it with `getSettings()`; the header marks the link whose URI matches the current path, or one of its parents, as current.
 
-`studio/scripts/seed-home.ts` creates the English and Dutch homepages with the CV content, localized SEO titles and descriptions, and links them as translations. Run it once with `bun --filter studio seed`; it skips pages that already exist.
+Interface text that isn't content, such as the skip link, copy-button labels, the 404 text, and the article navigation, is hardcoded in the component that uses it.
 
-## Keeping details in sync
+## Profile metadata
 
-Profile details appear in the homepages in Sanity, `frontend/src/features/pages/metadata.ts` (metadata and JSON-LD), the dictionaries in `frontend/src/features/i18n/`, `frontend/src/app/llms.txt/route.ts`, and `frontend/src/app/manifest.ts`. When you change one, change the others, and keep the two languages saying the same thing.
+Profile details appear on the homepage and Settings in Sanity, `frontend/src/features/pages/metadata.ts` (metadata and JSON-LD), `frontend/src/app/llms.txt/route.ts`, and `frontend/src/app/manifest.ts`. Keep those details aligned when changing them.

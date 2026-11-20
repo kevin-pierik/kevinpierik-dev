@@ -13,15 +13,13 @@
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
-    "typegen": "sanity schema extract --enforce-required-fields --force && sanity typegen generate",
-    "seed": "sanity exec scripts/seed-home.ts --with-user-token"
+    "typegen": "sanity schema extract --enforce-required-fields --force && sanity typegen generate"
   },
   "keywords": [
     "sanity"
   ],
   "dependencies": {
     "@sanity/code-input": "^7.3.16",
-    "@sanity/document-internationalization": "^6.3.0",
     "@sanity/icons": "^5.4.0",
     "@sanity/table": "^3.1.21",
     "@sanity/vision": "^6.24.0",

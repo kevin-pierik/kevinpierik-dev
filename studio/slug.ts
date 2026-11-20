@@ -1,5 +1,3 @@
-import {defaultLanguage} from './i18n'
-
 export function slugify(value: string) {
   return value
     .toLowerCase()
@@ -9,11 +7,7 @@ export function slugify(value: string) {
     .replace(/^-|-$/g, '')
 }
 
-export function uriPrefix(language: string) {
-  return language === defaultLanguage ? '' : `/${language}`
-}
-
-export function uriFromTitle(language: string, title: string) {
+export function uriFromTitle(title: string) {
   const slug = slugify(title)
-  return `${uriPrefix(language)}/${slug}`.replace(/\/$/, '') || '/'
+  return `/${slug}`.replace(/\/$/, '') || '/'
 }

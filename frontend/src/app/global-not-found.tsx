@@ -25,10 +25,6 @@ export default function GlobalNotFound() {
           The page you’re looking for can’t be found.{" "}
           <Link href="/">Return to homepage.</Link>
         </p>
-        <p lang="nl">
-          De pagina die je zoekt bestaat niet.{" "}
-          <Link href="/nl">Terug naar de homepage.</Link>
-        </p>
       </main>
     </SharedWebLayout>
   );

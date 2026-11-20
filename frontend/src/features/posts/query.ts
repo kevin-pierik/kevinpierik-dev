@@ -5,47 +5,45 @@ import { imageFragment } from "../sanity/media/fragment";
 const articleFragment = /* groq */ `
   title,
   "slug": slug.current,
-  language,
   description,
   publishedAt,
-  updatedAt,
-  "translations": *[_type == "translation.metadata" && references(^._id)]
-    .translations[].value->{ language, "slug": slug.current }
+  updatedAt
 `;
 
 export const ARTICLES_QUERY = defineQuery(`
-  *[_type == "article" && language == $language && defined(slug.current)]
+  *[_type == "article" && showInPosts != false && defined(slug.current)]
     | order(publishedAt desc) {
       ${articleFragment}
     }
 `);
 
 export const ALL_ARTICLES_QUERY = defineQuery(`
-  *[_type == "article" && defined(language) && defined(slug.current)]
+  *[_type == "article" && defined(slug.current)]
     | order(publishedAt desc) {
       ${articleFragment}
     }
 `);
 
 export const ARTICLE_SLUGS_QUERY = defineQuery(`
-  *[_type == "article" && language == $language && defined(slug.current)] {
+  *[_type == "article" && defined(slug.current)] {
     "slug": slug.current
   }
 `);
 
 export const ARTICLE_QUERY = defineQuery(`
-  *[_type == "article" && language == $language && slug.current == $slug][0] {
+  *[_type == "article" && slug.current == $slug][0] {
     ${articleFragment},
+    seo { title, description },
     "plainText": pt::text(body),
-    body[] {
+    body[]{
       ...,
       _type == "image" => { ${imageFragment}, caption, wide }
     },
     "previous": *[
-      _type == "article" && language == ^.language && publishedAt < ^.publishedAt
+      _type == "article" && publishedAt < ^.publishedAt
     ] | order(publishedAt desc)[0] { title, "slug": slug.current },
     "next": *[
-      _type == "article" && language == ^.language && publishedAt > ^.publishedAt
+      _type == "article" && publishedAt > ^.publishedAt
     ] | order(publishedAt asc)[0] { title, "slug": slug.current }
   }
 `);

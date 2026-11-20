@@ -2,34 +2,20 @@ import { readFile } from "node:fs/promises";
 import { join } from "node:path";
 import { ImageResponse } from "next/og";
 
-import {
-  defaultLocale,
-  getDictionary,
-  hasLocale,
-  locales,
-} from "@/features/i18n";
+import { getSettings } from "@/features/site/fetch";
 
 export const alt = "Kevin Pierik, frontend developer";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
-
-export function generateStaticParams() {
-  return locales.map((locale) => ({ locale }));
-}
 
 const fontsDirectory = join(
   process.cwd(),
   "node_modules/geist/dist/fonts/geist-sans",
 );
 
-export default async function Image({
-  params,
-}: {
-  params: Promise<{ locale: string }>;
-}) {
-  const { locale } = await params;
-  const { role } = getDictionary(hasLocale(locale) ? locale : defaultLocale);
-  const [regular, medium] = await Promise.all([
+export default async function Image() {
+  const [settings, regular, medium] = await Promise.all([
+    getSettings(),
     readFile(join(fontsDirectory, "Geist-Regular.ttf")),
     readFile(join(fontsDirectory, "Geist-Medium.ttf")),
   ]);
@@ -53,7 +39,7 @@ export default async function Image({
     >
       <div style={{ display: "flex", flexDirection: "column" }}>
         <div style={{ fontWeight: 500 }}>Kevin Pierik</div>
-        <div style={{ color: "#6b6b6b" }}>{role}</div>
+        <div style={{ color: "#6b6b6b" }}>{settings?.role}</div>
       </div>
       <div style={{ color: "#6b6b6b", fontSize: 28 }}>kevinpierik.dev</div>
     </div>,
