@@ -14,7 +14,7 @@ export const article = defineType({
     defineField({
       name: 'slug',
       type: 'slug',
-      description: 'The article lives at /blog/slug, or /nl/blog/slug in Dutch.',
+      description: 'The article lives at /posts/slug, or /nl/posts/slug in Dutch.',
       options: {source: 'title'},
       validation: (rule) => rule.required(),
     }),
@@ -22,7 +22,7 @@ export const article = defineType({
       name: 'description',
       type: 'text',
       rows: 3,
-      description: 'Shown in the timeline and used as the meta description.',
+      description: 'Shown on the posts index and used as the meta description.',
       validation: (rule) => rule.required().max(200),
     }),
     defineField({

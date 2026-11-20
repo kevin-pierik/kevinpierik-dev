@@ -9,7 +9,7 @@ describe("safeHref", () => {
       "mailto:hello@kevinpierik.dev",
     );
     expect(safeHref("tel:+31615545687")).toBe("tel:+31615545687");
-    expect(safeHref("/blog")).toBe("/blog");
+    expect(safeHref("/posts")).toBe("/posts");
   });
 
   test("drops scripts, protocol-relative URLs, and malformed values", () => {

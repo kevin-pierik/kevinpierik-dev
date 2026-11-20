@@ -13,8 +13,8 @@ The header navigation and the footer's language switcher are ui-sdk `NavigationM
 `frontend/src/components/link.tsx` is a thin `Link` around Next.js `Link` that adds a `variant` class. Links from Sanity render through `SanityLink` (`frontend/src/features/sanity/link/`), which only allows safe URLs. The classes are exported as `linkStyles`, so the navigation and the skip link use the same looks:
 
 - `text` (default): the inline link from ui-sdk.dev. Its underline is `foreground` at 25%, with the font's own thickness and a 3px offset, and turns solid on hover and focus. The 404 page and markdown links use it.
-- `nav`: no underline until hover, like the ui-sdk.dev navigation. Use it only where the position makes clear that it is a link: the language switcher and the company names in CV entries.
-- `subtle`: a small square block, at least 2rem high, with a `subtle` fill that darkens to `subtle-hover` on hover. These are solid colours, not a `foreground` tint, so the block stays visible in dark mode. The header navigation and the skip link use it.
+- `nav`: no underline until hover, like the ui-sdk.dev navigation. Use it only where the position makes clear that it is a link: the header navigation and the language switcher, both `muted` with the current page in `foreground` (`data-current`), and the company names in CV entries.
+- `subtle`: a small square block, at least 2rem high, with a `subtle` fill that darkens to `subtle-hover` on hover. These are solid colours, not a `foreground` tint, so the block stays visible in dark mode. The skip link uses it.
 
 ## Focus and colour
 

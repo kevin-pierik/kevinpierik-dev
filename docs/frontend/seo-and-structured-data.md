@@ -26,7 +26,7 @@ Google Search Console reports the result under Enhancements, Profile page.
 
 ## Blog
 
-`frontend/src/features/blog/seo.ts` builds the blog's metadata and JSON-LD the same way:
+`frontend/src/features/posts/seo.ts` builds the blog's metadata and JSON-LD the same way:
 
 - The blog index is an Open Graph `website` with a `Blog` JSON-LD node that lists its posts as `BlogPosting` items.
 - A post is an Open Graph `article` with `publishedTime`, `modifiedTime`, and the author, and a `BlogPosting` node with its headline, dates, language, author (`#person`), and the website (`#website`) it is part of.

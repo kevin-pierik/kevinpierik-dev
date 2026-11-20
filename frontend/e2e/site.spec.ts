@@ -21,13 +21,18 @@ test("localized homepages render and switch languages", async ({ page }) => {
   );
 });
 
-test("the blog index handles empty content and opens published posts", async ({
+test("the posts index handles empty content and opens published posts", async ({
   page,
 }) => {
-  await page.goto("/blog");
+  await page.goto("/posts");
 
-  await expect(page.getByRole("heading", { name: "Blog" })).toBeVisible();
-  const articleLink = page.getByRole("link", { name: "Read post" }).first();
+  await expect(
+    page.getByRole("heading", { level: 1, name: "Posts" }),
+  ).toBeVisible();
+  const articleLink = page
+    .getByRole("list", { name: "Posts" })
+    .getByRole("link")
+    .first();
   if ((await articleLink.count()) === 0) {
     await expect(page.getByText("No posts yet.")).toBeVisible();
     return;
@@ -36,7 +41,7 @@ test("the blog index handles empty content and opens published posts", async ({
   await expect(articleLink).toBeVisible();
   await articleLink.click();
 
-  await expect(page).toHaveURL(/\/blog\/[^/]+$/);
+  await expect(page).toHaveURL(/\/posts\/[^/]+$/);
   await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
   await expect(page.locator("main time")).toHaveAttribute("datetime", /.+/);
   const structuredData = JSON.parse(

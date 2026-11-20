@@ -14,7 +14,7 @@ import {
   websiteId,
 } from "@/features/site";
 
-import { blogPath, blogPaths } from "./fetch";
+import { postsPath, postsPaths } from "./fetch";
 
 type PostSummary = {
   title: string;
@@ -32,13 +32,13 @@ const person = {
 } as const;
 const website = { "@id": websiteId };
 
-export function blogMetadata(locale: Locale): Metadata {
+export function postsMetadata(locale: Locale): Metadata {
   const {
-    blogTitle: title,
-    blogDescription: description,
+    postsTitle: title,
+    postsDescription: description,
     ogLocale,
   } = getDictionary(locale);
-  const path = blogPath(locale);
+  const path = postsPath(locale);
 
   return {
     title,
@@ -46,7 +46,7 @@ export function blogMetadata(locale: Locale): Metadata {
     authors: [{ name, url: siteUrl }],
     alternates: {
       canonical: path,
-      languages: languageAlternates(blogPaths()),
+      languages: languageAlternates(postsPaths()),
     },
     openGraph: {
       type: "website",
@@ -67,7 +67,7 @@ export function postMetadata(
   alternates: Partial<Record<Locale, string>>,
 ): Metadata {
   const { title, description, publishedAt, updatedAt, slug } = post;
-  const path = blogPath(locale, slug);
+  const path = postsPath(locale, slug);
   const fullTitle = `${title} | ${name}`;
 
   return {
@@ -97,30 +97,30 @@ export function postMetadata(
   };
 }
 
-export function blogStructuredData(
+export function postsStructuredData(
   locale: Locale,
   posts: PostSummary[],
 ): Graph {
-  const { blogTitle, blogDescription } = getDictionary(locale);
-  const url = `${siteUrl}${blogPath(locale)}`;
+  const { postsTitle, postsDescription } = getDictionary(locale);
+  const url = `${siteUrl}${postsPath(locale)}`;
 
   return {
     "@context": "https://schema.org",
     "@graph": [
       {
         "@type": "Blog",
-        "@id": `${url}#blog`,
+        "@id": `${url}#posts`,
         url,
-        name: blogTitle,
-        description: blogDescription,
+        name: postsTitle,
+        description: postsDescription,
         inLanguage: locale,
         author: person,
         publisher: person,
         isPartOf: website,
         blogPost: posts.map((post) => ({
           "@type": "BlogPosting",
-          "@id": `${siteUrl}${blogPath(locale, post.slug)}#article`,
-          url: `${siteUrl}${blogPath(locale, post.slug)}`,
+          "@id": `${siteUrl}${postsPath(locale, post.slug)}#article`,
+          url: `${siteUrl}${postsPath(locale, post.slug)}`,
           headline: post.title,
           description: post.description,
           datePublished: post.publishedAt,
@@ -133,7 +133,7 @@ export function blogStructuredData(
 }
 
 export function postStructuredData(locale: Locale, post: PostSummary): Graph {
-  const url = `${siteUrl}${blogPath(locale, post.slug)}`;
+  const url = `${siteUrl}${postsPath(locale, post.slug)}`;
 
   return {
     "@context": "https://schema.org",

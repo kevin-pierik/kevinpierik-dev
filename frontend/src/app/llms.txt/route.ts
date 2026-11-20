@@ -1,4 +1,4 @@
-import { blogPath, getAllArticles } from "@/features/blog/fetch";
+import { postsPath, getAllArticles } from "@/features/posts/fetch";
 import { getAllPages } from "@/features/pages/fetch";
 import { siteUrl } from "@/features/site";
 
@@ -29,23 +29,23 @@ export async function GET(): Promise<Response> {
 
 ${list(pages.map((page) => ({ title: page.title, path: page.uri, description: page.seo?.description })))}
 
-## Blog
+## Posts
 
 ${list([
   {
-    title: "Blog",
-    path: blogPath("en"),
+    title: "Posts",
+    path: postsPath("en"),
     description:
       "Notes on frontend development, the web, and the work behind it.",
   },
   {
-    title: "Dutch blog",
-    path: blogPath("nl"),
+    title: "Dutch posts",
+    path: postsPath("nl"),
     description: "Posts written in Dutch.",
   },
   ...articles.map((article) => ({
     title: article.title,
-    path: blogPath(article.language, article.slug),
+    path: postsPath(article.language, article.slug),
     description: article.description,
   })),
 ])}

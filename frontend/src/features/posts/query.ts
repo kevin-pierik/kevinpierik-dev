@@ -16,8 +16,7 @@ const articleFragment = /* groq */ `
 export const ARTICLES_QUERY = defineQuery(`
   *[_type == "article" && language == $language && defined(slug.current)]
     | order(publishedAt desc) {
-      ${articleFragment},
-      cover { ${imageFragment} }
+      ${articleFragment}
     }
 `);
 

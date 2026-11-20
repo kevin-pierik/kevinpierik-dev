@@ -14,7 +14,7 @@ The site is in English at `/` and in Dutch at `/nl`. Both pages are static and s
 
 `frontend/src/features/i18n/` holds one JSON dictionary per language with every UI string outside Sanity: titles, descriptions, the role, `aria-label`s, and the colophon. `getLocale()` reads the language with `next/root-params`, so any Server Component can call it without props, and `getDictionary(locale)` returns its strings. TypeScript fails if a dictionary misses a key that English has.
 
-Page and blog content is not in the dictionaries; it lives in Sanity, one document per language ([Pages and sections](pages-and-sections.md), [Blog](blog.md)).
+Page and blog content is not in the dictionaries; it lives in Sanity, one document per language ([Pages and sections](pages-and-sections.md), [Posts](posts.md)).
 
 ## Language switcher
 

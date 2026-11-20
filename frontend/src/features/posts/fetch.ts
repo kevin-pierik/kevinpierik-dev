@@ -19,14 +19,14 @@ type Translations = readonly ({
   slug: string | null;
 } | null)[];
 
-export function blogPath(locale: Locale, slug?: string) {
-  const { blogPath } = getDictionary(locale);
-  return slug ? `${blogPath}/${slug}` : blogPath;
+export function postsPath(locale: Locale, slug?: string) {
+  const { postsPath } = getDictionary(locale);
+  return slug ? `${postsPath}/${slug}` : postsPath;
 }
 
-export function blogPaths(): Record<Locale, string> {
+export function postsPaths(): Record<Locale, string> {
   return Object.fromEntries(
-    locales.map((locale) => [locale, blogPath(locale)]),
+    locales.map((locale) => [locale, postsPath(locale)]),
   ) as Record<Locale, string>;
 }
 
@@ -37,14 +37,14 @@ export function articleAlternates(
 ) {
   return alternatePaths(
     locale,
-    blogPath(locale, slug),
+    postsPath(locale, slug),
     translations.map((translation) =>
       translation?.slug &&
       translation.language &&
       hasLocale(translation.language)
         ? {
             language: translation.language,
-            path: blogPath(translation.language, translation.slug),
+            path: postsPath(translation.language, translation.slug),
           }
         : null,
     ),

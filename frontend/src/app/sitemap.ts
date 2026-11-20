@@ -2,10 +2,10 @@ import type { MetadataRoute } from "next";
 
 import {
   articleAlternates,
-  blogPath,
-  blogPaths,
+  postsPath,
+  postsPaths,
   getAllArticles,
-} from "@/features/blog/fetch";
+} from "@/features/posts/fetch";
 import { languageAlternates, type Locale, locales } from "@/features/i18n";
 import { alternatePaths } from "@/features/i18n/alternates";
 import { getAllPages } from "@/features/pages/fetch";
@@ -42,13 +42,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       ),
     })),
     ...locales.map((locale) => ({
-      url: absolute(blogPath(locale)),
+      url: absolute(postsPath(locale)),
       changeFrequency: "weekly" as const,
       priority: 0.7,
-      alternates: languages(blogPaths()),
+      alternates: languages(postsPaths()),
     })),
     ...articles.map((article) => ({
-      url: absolute(blogPath(article.language, article.slug)),
+      url: absolute(postsPath(article.language, article.slug)),
       lastModified: article.updatedAt ?? article.publishedAt,
       alternates: languages(
         articleAlternates(article.language, article.slug, article.translations),

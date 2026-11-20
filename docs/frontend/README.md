@@ -5,7 +5,7 @@ The Next.js app lives in `frontend/`. These guides cover its routes, UI, metadat
 - [404 page](not-found.md): not-found behavior and indexing.
 - [Layout and typography](layout.md): the grid, header, footer, fonts, and smooth scrolling.
 - [Pages and sections](pages-and-sections.md): rendering Sanity pages and CV sections.
-- [Blog](blog.md): article pages, the timeline, and RSS feed.
+- [Posts](posts.md): the index, article pages, and RSS feed.
 - [Languages](languages.md): localized routes, dictionaries, and language switching.
 - [Links and buttons](links-and-buttons.md): the `Link` and `Button` components.
 - [Color scheme](color-scheme.md): system light and dark mode.

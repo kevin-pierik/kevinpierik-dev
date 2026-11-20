@@ -1,4 +1,4 @@
-import { blogPath, getAllArticles } from "@/features/blog/fetch";
+import { postsPath, getAllArticles } from "@/features/posts/fetch";
 import { getDictionary } from "@/features/i18n";
 import { siteName, siteUrl } from "@/features/site";
 
@@ -15,11 +15,11 @@ function escapeXml(value: string) {
 
 export async function GET(): Promise<Response> {
   const articles = await getAllArticles();
-  const { blogTitle, blogDescription } = getDictionary("en");
+  const { postsTitle, postsDescription } = getDictionary("en");
 
   const items = articles
     .map((article) => {
-      const url = `${siteUrl}${blogPath(article.language, article.slug)}`;
+      const url = `${siteUrl}${postsPath(article.language, article.slug)}`;
       return `    <item>
       <title>${escapeXml(article.title)}</title>
       <link>${url}</link>
@@ -34,9 +34,9 @@ export async function GET(): Promise<Response> {
   const body = `<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:dc="http://purl.org/dc/elements/1.1/">
   <channel>
-    <title>${escapeXml(blogTitle)}</title>
-    <link>${siteUrl}${blogPath("en")}</link>
-    <description>${escapeXml(blogDescription)}</description>
+    <title>${escapeXml(postsTitle)}</title>
+    <link>${siteUrl}${postsPath("en")}</link>
+    <description>${escapeXml(postsDescription)}</description>
     <language>en</language>
     <managingEditor>hello@kevinpierik.dev (${siteName})</managingEditor>
     <atom:link href="${siteUrl}/feed.xml" rel="self" type="application/rss+xml" />
