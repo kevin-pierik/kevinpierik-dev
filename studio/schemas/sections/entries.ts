@@ -1,6 +1,8 @@
+import {CalendarIcon} from '@sanity/icons/Calendar'
 import {defineArrayMember, defineField, defineType} from 'sanity'
 
 import {createLink} from '../fields/create-link'
+import {entriesSummary} from './preview'
 
 const entry = defineArrayMember({
   name: 'entry',
@@ -39,15 +41,20 @@ const entry = defineArrayMember({
 
 export const entriesSection = defineType({
   name: 'entriesSection',
-  title: 'Entries',
+  title: 'Timeline',
   type: 'object',
+  icon: CalendarIcon,
   description: 'Work experience or education, with years on the left.',
   fields: [
     defineField({name: 'title', type: 'string', validation: (rule) => rule.required()}),
     defineField({name: 'entries', type: 'array', of: [entry]}),
   ],
   preview: {
-    select: {title: 'title'},
-    prepare: ({title}) => ({title, subtitle: 'Entries'}),
+    select: {title: 'title', entries: 'entries'},
+    prepare: ({title, entries}) => ({
+      title,
+      subtitle: entriesSummary(entries),
+      media: CalendarIcon,
+    }),
   },
 })

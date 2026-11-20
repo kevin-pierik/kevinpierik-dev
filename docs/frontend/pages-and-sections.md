@@ -13,12 +13,14 @@ Pages, the CV homepage included, are `page` documents in Sanity, one per languag
 
 ## Sections
 
-`createPageBuilder()` lists the section types in `studio/schemas/sections/`, and `frontend/src/features/sections/index.tsx` renders each one with its component:
+`createPageBuilder()` lists the section types in `studio/schemas/sections/`, and `frontend/src/features/sections/index.tsx` renders each one with its component. The types are general on purpose: one Timeline covers work and education, one Links covers contact details and profiles. In the Studio each type has its own icon, and its preview shows what it contains instead of its type: the opening text, the number of entries and their years (`entriesSummary()`), or the row labels. `studio/schemas/sections/preview.ts` holds these helpers, with tests.
 
 - **Intro** (`introSection`): muted opening paragraphs.
-- **Entries** (`entriesSection`): a titled list of jobs or schools. Each entry has a title, an optional company and website, a start date, an end date or "current", a location, and a description. The heading reads "role at company", with "at" or "bij" from the dictionaries; with a website, only the company is a `nav` link with `↗`. Dates show as years, with "Present" or "heden" for current entries.
+- **Timeline** (`entriesSection`): a titled list of jobs or schools. Each entry has a title, an optional company and website, a start date, an end date or "current", a location, and a description. The heading reads "role at company", with "at" or "bij" from the dictionaries; with a website, only the company is a `nav` link with `↗`. Dates show as years, with "Present" or "heden" for current entries.
 - **Text** (`textSection`): a titled block of paragraphs, such as Skills.
-- **Rows** (`rowsSection`): titled label and value rows, such as Contact and Socials. With `address`, the rows sit in an `<address>`.
+- **Links** (`rowsSection`): titled label and value rows, such as Contact and Socials. With `address`, the rows sit in an `<address>`.
+
+The Studio titles changed from Entries and Rows to Timeline and Links; the type names stay, so stored content needs no migration.
 
 Section titles render as `<h2>` with a colon and an id from the title; entries render as `<h3>`. Links from Sanity go through `SanityLink`, which only renders `http`, `https`, `mailto`, `tel`, and internal links (`safeHref()`, with tests).
 

@@ -1,3 +1,4 @@
+import {LinkIcon} from '@sanity/icons/Link'
 import {defineArrayMember, defineField, defineType} from 'sanity'
 
 import {createLink} from '../fields/create-link'
@@ -15,8 +16,9 @@ const row = defineArrayMember({
 
 export const rowsSection = defineType({
   name: 'rowsSection',
-  title: 'Rows',
+  title: 'Links',
   type: 'object',
+  icon: LinkIcon,
   description: 'Label and value rows, such as contact details or profiles.',
   fields: [
     defineField({name: 'title', type: 'string', validation: (rule) => rule.required()}),
@@ -29,7 +31,14 @@ export const rowsSection = defineType({
     defineField({name: 'rows', type: 'array', of: [row]}),
   ],
   preview: {
-    select: {title: 'title'},
-    prepare: ({title}) => ({title, subtitle: 'Rows'}),
+    select: {title: 'title', rows: 'rows'},
+    prepare: ({title, rows}) => ({
+      title,
+      subtitle: (rows ?? [])
+        .map((row: {label?: string}) => row.label)
+        .filter(Boolean)
+        .join(', '),
+      media: LinkIcon,
+    }),
   },
 })
