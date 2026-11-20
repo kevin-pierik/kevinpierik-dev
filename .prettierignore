@@ -2,7 +2,7 @@ frontend/.next
 bun.lock
 public
 node_modules
-.agents
+.agents/skills
 skills-lock.json
 studio/schema.json
 frontend/src/features/sanity/sanity.types.ts

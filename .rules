@@ -10,30 +10,31 @@
 
 ## Rules
 
-- Every frontend route stays static: `○`, or `●` for prerendered Sanity pages, in the build output. Route handlers export `dynamic = "force-static"`.
+Each rule links to its detail in `.agents/rules/`: what to look for, what not to flag, and an example. Read the detail when a change touches that area, and run the `reviewer` agent (`.agents/experts/reviewer.md`) before opening a pull request.
+
+- Every frontend route stays static: `○`, or `●` for prerendered Sanity pages, in the build output. Route handlers export `dynamic = "force-static"` ([rule](.agents/rules/frontend/static-routes.md)).
 - Server Components are the default; add `"use client"` only for real client-side interaction.
-- Keep components few. Hardcode content where it is used; extract only for real behaviour or reuse. Frontend imports use `@/*`; shared Studio helpers use `@studio/*`.
-- Global styles are imported only through `frontend/src/app/shared-web-layout.tsx`. Use the `background` and `foreground` colours, never hardcoded black or white, and keep text contrast at 4.5:1 or more in both schemes ([color scheme](docs/frontend/color-scheme.md)).
-- The homepage has one `<h1>`; page sections use `<h2>` and entries `<h3>`. Never skip heading ranks or add deeper headings without real subsections.
-- Keep landmarks, accessible names, visible focus styles, semantic lists, native links, and the reduced-motion rules in `frontend/src/features/style/animations.css`.
-- Sanity pages and articles are separate document types with direct Portable Text bodies. Keep their routes, body content, and metadata aligned ([Pages and Body](docs/frontend/pages-and-sections.md), [Posts](docs/frontend/posts.md)).
-- Profile details are repeated in Sanity content (pages and the `settings` document), `frontend/src/features/pages/metadata.ts`, `frontend/src/app/llms.txt/route.ts`, and `frontend/src/app/manifest.ts`. Change them together ([SEO](docs/frontend/seo-and-structured-data.md)).
-- Next.js merges `openGraph` shallowly, so declare the complete object.
-- `robots.txt`, `sitemap.xml`, and `llms.txt` list only canonical public content; `/api/` stays disallowed.
-- The 404 stays `noindex` ([404 page](docs/frontend/not-found.md)).
+- Keep components few. Hardcode content where it is used; extract only for real behaviour or reuse. Frontend imports use `@/*`; shared Studio helpers use `@studio/*` ([rule](.agents/rules/frontend/server-components-default.md)).
+- Global styles are imported only through `frontend/src/app/shared-web-layout.tsx`. Use the `background` and `foreground` colours, never hardcoded black or white, and keep text contrast at 4.5:1 or more in both schemes ([rule](.agents/rules/frontend/color-scheme-contrast.md)).
+- The homepage has one `<h1>`; page sections use `<h2>` and entries `<h3>`. Never skip heading ranks or add deeper headings without real subsections ([rule](.agents/rules/frontend/heading-ranks.md)).
+- Keep landmarks, accessible names, visible focus styles, semantic lists, native links, and the reduced-motion rules in `frontend/src/features/style/animations.css` ([rule](.agents/rules/frontend/landmarks-and-focus.md)).
+- Sanity pages and articles are separate document types with direct Portable Text bodies. Keep their routes, body content, and metadata aligned ([rule](.agents/rules/content/pages-vs-posts.md)).
+- Profile details are repeated in Sanity content (pages and the `settings` document), `frontend/src/features/pages/metadata.ts`, `frontend/src/app/llms.txt/route.ts`, and `frontend/src/app/manifest.ts`. Change them together ([rule](.agents/rules/content/profile-details-sync.md)).
+- Next.js merges `openGraph` shallowly, so declare the complete object ([rule](.agents/rules/frontend/opengraph-complete.md)).
+- `robots.txt`, `sitemap.xml`, `llms.txt`, and `feed.xml` list only canonical public content; `/api/` stays disallowed, and the 404 stays `noindex` ([rule](.agents/rules/content/canonical-discovery.md)).
 
 ## Quality
 
 Run `bun run qa` from the repository root before considering work complete. Run `bun run format` before committing. Verify UI changes in a real browser with `bunx agent-browser` ([browser automation](docs/frontend/browser-automation.md)).
 
-Tests use Vitest, live next to the frontend code as `*.test.ts(x)`, and import their APIs from `vitest`. Test only real logic that is easy to break, not hardcoded content or framework behaviour. Do not add a separate test workspace.
+Tests use Vitest, live next to the frontend code as `*.test.ts(x)`, and import their APIs from `vitest`. Test only real logic that is easy to break, not hardcoded content or framework behaviour. Do not add a separate test workspace ([rule](.agents/rules/repo/tests-real-logic.md)).
 
 ## Conventions
 
 - Write everything in English: commits, PRs, file names, code, UI copy, and documentation. Use kebab-case file names.
 - Commits follow Zed's style: `area: Description`, imperative and sentence case, such as `bios: Use ui-sdk shortcuts for reboot`. Omit the area only for project-wide changes. No trailing period and no Co-authored-by trailers.
-- `main` is the only long-lived branch. Work on a short kebab-case branch named after its area and squash-merge it through a pull request that follows `.github/pull_request_template.md` ([deployment](docs/deployment.md)).
-- No explanatory comments in code; put lasting decisions in `docs/`.
+- `main` is the only long-lived branch. Work on a short kebab-case branch named after its area and squash-merge it through a pull request that follows `.github/pull_request_template.md` ([rule](.agents/rules/repo/commits-and-prs.md)).
+- No explanatory comments in code; put lasting decisions in `docs/` ([rule](.agents/rules/repo/docs-follow-code.md)).
 - Frontend environment values go in `frontend/.env.local`; document them in `frontend/.env.example`.
 - The MIT License covers code only; keep its personal-content exclusion.
 
@@ -41,7 +42,8 @@ Tests use Vitest, live next to the frontend code as `*.test.ts(x)`, and import t
 
 Rules are traps to avoid, not maps to follow. The stack and folder layout are in the [README](README.md); how features work is in `docs/`.
 
-- Do not edit `.rules` during normal feature or fix work. If you hit a trap a rule would have prevented, propose the rule in the pull request description instead.
+- Do not edit `.rules` or `.agents/rules/` during normal feature or fix work. If you hit a trap a rule would have prevented, propose the rule in the pull request description instead.
+- A rule is one bullet here and one file in `.agents/rules/` in the [rule format](.agents/README.md#rule-format). Add, change, or remove both together.
 - Add a rule only when an agent made, or would plausibly make, the same mistake again. One incident in unusual code is not enough.
 - Do not put here what the code, the docs, or the tooling already enforce: project structure, feature explanations, formatting, or lint rules.
 - When a rule no longer applies, remove it in the same pull request that changes the code.
