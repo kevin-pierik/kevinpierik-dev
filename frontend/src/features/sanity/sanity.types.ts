@@ -15,11 +15,6 @@
 export declare const internalGroqTypeReferenceTo: unique symbol;
 
 // Source: schema.json
-export type ArticleList = {
-  _type: "articleList";
-  limit?: number;
-};
-
 export type SanityImageAssetReference = {
   _ref: string;
   _type: "reference";
@@ -167,9 +162,6 @@ export type Page = {
         _type: "tableBlock";
         _key: string;
       }
-    | ({
-        _key: string;
-      } & ArticleList)
   >;
 };
 
@@ -306,7 +298,6 @@ export type Geopoint = {
 };
 
 export type AllSanitySchemaTypes =
-  | ArticleList
   | SanityImageAssetReference
   | Article
   | Table
@@ -338,11 +329,6 @@ export type PAGE_QUERY_RESULT = {
     description?: string;
   } | null;
   body: Array<
-    | {
-        _key: string;
-        _type: "articleList";
-        limit?: number;
-      }
     | {
         children?: Array<{
           marks?: Array<string>;

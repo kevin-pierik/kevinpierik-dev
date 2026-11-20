@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import { cache } from "react";
 
+import { postsPath } from "@/features/posts/fetch";
 import { sanityFetch } from "@/features/sanity/live";
 
 import { ALL_PAGES_QUERY, PAGE_QUERY, PAGE_URIS_QUERY } from "./query";
@@ -28,7 +29,7 @@ export async function getPageUris() {
     perspective: "published",
     stega: false,
   });
-  return data.map(({ uri }) => uri);
+  return data.map(({ uri }) => uri).filter((uri) => uri !== postsPath());
 }
 
 export async function getAllPages() {

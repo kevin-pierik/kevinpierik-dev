@@ -7,7 +7,6 @@ import type { ReactNode } from "react";
 import { CodeBlock } from "@/components/code-block";
 import { Figure } from "@/components/figure";
 import { Table } from "@/components/table";
-import { ArticleList } from "@/features/posts/article-list";
 import { SanityLink } from "@/features/sanity/link";
 import { imageProps } from "@/features/sanity/media/image";
 import type { ARTICLE_QUERY_RESULT } from "@/features/sanity/sanity.types";
@@ -93,9 +92,6 @@ export const richTextComponents: PortableTextComponents = {
     ),
   },
   types: {
-    articleList: ({ value }: { value: { limit?: number | null } }) => (
-      <ArticleList limit={value.limit} />
-    ),
     image: ({ value }: { value: BodyMember<"image"> }) => (
       <Figure
         alt={value.alt ?? ""}

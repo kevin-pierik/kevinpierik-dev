@@ -1,4 +1,4 @@
-import {defineArrayMember, defineField, defineType} from 'sanity'
+import {defineField, defineType} from 'sanity'
 
 import {createRichText} from '../fields/create-rich-text'
 import {createSeoField} from '../fields/create-seo-field'
@@ -12,7 +12,7 @@ export const page = defineType({
     defineField({name: 'title', type: 'string', validation: (rule) => rule.required()}),
     createUriField(),
     createSeoField(),
-    createRichText({of: [defineArrayMember({type: 'articleList'})]}),
+    createRichText(),
   ],
   preview: {
     select: {title: 'title', uri: 'uri.current'},
