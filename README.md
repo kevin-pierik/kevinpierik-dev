@@ -34,7 +34,7 @@ package.json          # Bun workspace scripts
 bun.lock
 ```
 
-Every public page is a `page` document in Sanity. The English homepage is `/`, the Dutch homepage is `/nl`, and blog indexes are `/blog` and `/nl/blog`. The frontend serves English without a locale prefix. Sanity pages and articles have separate schemas and linked translations ([Pages and sections](docs/frontend/pages-and-sections.md), [Blog](docs/frontend/blog.md)). See the [Studio docs](docs/studio/README.md) for the content model and Studio setup.
+Every public page is a `page` document in Sanity. The English homepage is `/`, the Dutch homepage is `/nl`, and post indexes are `/posts` and `/nl/posts`. The frontend serves English without a locale prefix. Sanity pages and articles have separate schemas and linked translations ([Pages and sections](docs/frontend/pages-and-sections.md), [Posts](docs/frontend/posts.md)). See the [Studio docs](docs/studio/README.md) for the content model and Studio setup.
 
 ## Development
 

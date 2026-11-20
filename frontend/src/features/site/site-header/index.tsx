@@ -10,16 +10,16 @@ import { Link, linkStyles } from "@/components/link";
 import { getDictionary, getLocale } from "@/features/i18n";
 
 type SiteHeaderProps = {
-  current?: "index" | "blog";
+  current?: "index" | "posts";
 };
 
 export async function SiteHeader({ current }: SiteHeaderProps) {
   const locale = await getLocale();
-  const { role, navigationLabel, indexLabel, path, blogLabel, blogPath } =
+  const { role, navigationLabel, indexLabel, path, postsLabel, postsPath } =
     getDictionary(locale);
   const sections = [
     { key: "index", label: indexLabel, href: path },
-    { key: "blog", label: blogLabel, href: blogPath },
+    { key: "posts", label: postsLabel, href: postsPath },
   ] as const;
 
   return (
@@ -37,11 +37,11 @@ export async function SiteHeader({ current }: SiteHeaderProps) {
         <p className="text-muted">{role}</p>
       </div>
       <NavigationMenu aria-label={navigationLabel}>
-        <NavigationMenuList className="flex gap-2">
+        <NavigationMenuList className="flex gap-3">
           {sections.map((section) => (
             <NavigationMenuItem key={section.key}>
               <NavigationMenuLink
-                className={linkStyles.subtle}
+                className={`${linkStyles.nav} text-muted data-current:text-foreground`}
                 current={section.key === current}
                 render={<NextLink href={section.href} />}
               >

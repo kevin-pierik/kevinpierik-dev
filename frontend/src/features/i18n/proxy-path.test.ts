@@ -5,23 +5,23 @@ import { proxyPath } from "./proxy-path";
 describe("proxyPath", () => {
   test("rewrites unprefixed paths to the default locale", () => {
     expect(proxyPath("/")).toEqual({ type: "rewrite", pathname: "/en" });
-    expect(proxyPath("/blog/hello")).toEqual({
+    expect(proxyPath("/posts/hello")).toEqual({
       type: "rewrite",
-      pathname: "/en/blog/hello",
+      pathname: "/en/posts/hello",
     });
   });
 
   test("redirects the default locale prefix to the unprefixed path", () => {
     expect(proxyPath("/en")).toEqual({ type: "redirect", pathname: "/" });
-    expect(proxyPath("/en/blog")).toEqual({
+    expect(proxyPath("/en/posts")).toEqual({
       type: "redirect",
-      pathname: "/blog",
+      pathname: "/posts",
     });
   });
 
   test("passes other locales and the default locale's Open Graph images through", () => {
     expect(proxyPath("/nl")).toEqual({ type: "next" });
-    expect(proxyPath("/nl/blog/hallo")).toEqual({ type: "next" });
+    expect(proxyPath("/nl/posts/hallo")).toEqual({ type: "next" });
     expect(proxyPath("/en/opengraph-image-1a6tik")).toEqual({ type: "next" });
   });
 

@@ -393,9 +393,79 @@ export type AllSanitySchemaTypes =
   | SanityImageAsset
   | Geopoint;
 
-// Source: ../frontend/src/features/blog/query.ts
+// Source: ../frontend/src/features/pages/query.ts
+// Variable: PAGE_QUERY
+// Query: *[_type == "page" && language == $language && uri.current == $uri][0] {    title,    "uri": uri.current,    language,    seo,    sections,    "translations": *[_type == "translation.metadata" && references(^._id)]      .translations[].value->{ language, "path": uri.current }  }
+export type PAGE_QUERY_RESULT = {
+  title: string;
+  uri: string;
+  language: string | null;
+  seo: {
+    title?: string;
+    description?: string;
+  } | null;
+  sections: Array<
+    | ({
+        _key: string;
+      } & EntriesSection)
+    | ({
+        _key: string;
+      } & IntroSection)
+    | ({
+        _key: string;
+      } & RowsSection)
+    | ({
+        _key: string;
+      } & TextSection)
+  > | null;
+  translations: Array<
+    | {
+        language: string | null;
+        path: null;
+      }
+    | {
+        language: string | null;
+        path: string;
+      }
+    | null
+  >;
+} | null;
+
+// Source: ../frontend/src/features/pages/query.ts
+// Variable: PAGE_URIS_QUERY
+// Query: *[_type == "page" && language == $language && defined(uri.current)] {    "uri": uri.current  }
+export type PAGE_URIS_QUERY_RESULT = Array<{
+  uri: string;
+}>;
+
+// Source: ../frontend/src/features/pages/query.ts
+// Variable: ALL_PAGES_QUERY
+// Query: *[_type == "page" && defined(language) && defined(uri.current)]    | order(uri.current asc) {      title,      "uri": uri.current,      language,      seo,      _updatedAt,      "translations": *[_type == "translation.metadata" && references(^._id)]        .translations[].value->{ language, "path": uri.current }    }
+export type ALL_PAGES_QUERY_RESULT = Array<{
+  title: string;
+  uri: string;
+  language: string;
+  seo: {
+    title?: string;
+    description?: string;
+  } | null;
+  _updatedAt: string;
+  translations: Array<
+    | {
+        language: string | null;
+        path: null;
+      }
+    | {
+        language: string | null;
+        path: string;
+      }
+    | null
+  >;
+}>;
+
+// Source: ../frontend/src/features/posts/query.ts
 // Variable: ARTICLES_QUERY
-// Query: *[_type == "article" && language == $language && defined(slug.current)]    | order(publishedAt desc) {        title,  "slug": slug.current,  language,  description,  publishedAt,  updatedAt,  "translations": *[_type == "translation.metadata" && references(^._id)]    .translations[].value->{ language, "slug": slug.current },      cover {   alt,  crop,  hotspot,  asset->{ _id, metadata { lqip, dimensions { width, height } } } }    }
+// Query: *[_type == "article" && language == $language && defined(slug.current)]    | order(publishedAt desc) {        title,  "slug": slug.current,  language,  description,  publishedAt,  updatedAt,  "translations": *[_type == "translation.metadata" && references(^._id)]    .translations[].value->{ language, "slug": slug.current }    }
 export type ARTICLES_QUERY_RESULT = Array<{
   title: string;
   slug: string;
@@ -414,24 +484,9 @@ export type ARTICLES_QUERY_RESULT = Array<{
       }
     | null
   >;
-  cover: {
-    alt: string;
-    crop: SanityImageCrop | null;
-    hotspot: SanityImageHotspot | null;
-    asset: {
-      _id: string;
-      metadata: {
-        lqip: string | null;
-        dimensions: {
-          width: number;
-          height: number;
-        } | null;
-      } | null;
-    } | null;
-  } | null;
 }>;
 
-// Source: ../frontend/src/features/blog/query.ts
+// Source: ../frontend/src/features/posts/query.ts
 // Variable: ALL_ARTICLES_QUERY
 // Query: *[_type == "article" && defined(language) && defined(slug.current)]    | order(publishedAt desc) {        title,  "slug": slug.current,  language,  description,  publishedAt,  updatedAt,  "translations": *[_type == "translation.metadata" && references(^._id)]    .translations[].value->{ language, "slug": slug.current }    }
 export type ALL_ARTICLES_QUERY_RESULT = Array<{
@@ -454,14 +509,14 @@ export type ALL_ARTICLES_QUERY_RESULT = Array<{
   >;
 }>;
 
-// Source: ../frontend/src/features/blog/query.ts
+// Source: ../frontend/src/features/posts/query.ts
 // Variable: ARTICLE_SLUGS_QUERY
 // Query: *[_type == "article" && language == $language && defined(slug.current)] {    "slug": slug.current  }
 export type ARTICLE_SLUGS_QUERY_RESULT = Array<{
   slug: string;
 }>;
 
-// Source: ../frontend/src/features/blog/query.ts
+// Source: ../frontend/src/features/posts/query.ts
 // Variable: ARTICLE_QUERY
 // Query: *[_type == "article" && language == $language && slug.current == $slug][0] {      title,  "slug": slug.current,  language,  description,  publishedAt,  updatedAt,  "translations": *[_type == "translation.metadata" && references(^._id)]    .translations[].value->{ language, "slug": slug.current },    "plainText": pt::text(body),    body[] {      ...,      _type == "image" => {   alt,  crop,  hotspot,  asset->{ _id, metadata { lqip, dimensions { width, height } } }, caption, wide }    },    "previous": *[      _type == "article" && language == ^.language && publishedAt < ^.publishedAt    ] | order(publishedAt desc)[0] { title, "slug": slug.current },    "next": *[      _type == "article" && language == ^.language && publishedAt > ^.publishedAt    ] | order(publishedAt asc)[0] { title, "slug": slug.current }  }
 export type ARTICLE_QUERY_RESULT = {
@@ -547,86 +602,16 @@ export type ARTICLE_QUERY_RESULT = {
   } | null;
 } | null;
 
-// Source: ../frontend/src/features/pages/query.ts
-// Variable: PAGE_QUERY
-// Query: *[_type == "page" && language == $language && uri.current == $uri][0] {    title,    "uri": uri.current,    language,    seo,    sections,    "translations": *[_type == "translation.metadata" && references(^._id)]      .translations[].value->{ language, "path": uri.current }  }
-export type PAGE_QUERY_RESULT = {
-  title: string;
-  uri: string;
-  language: string | null;
-  seo: {
-    title?: string;
-    description?: string;
-  } | null;
-  sections: Array<
-    | ({
-        _key: string;
-      } & EntriesSection)
-    | ({
-        _key: string;
-      } & IntroSection)
-    | ({
-        _key: string;
-      } & RowsSection)
-    | ({
-        _key: string;
-      } & TextSection)
-  > | null;
-  translations: Array<
-    | {
-        language: string | null;
-        path: null;
-      }
-    | {
-        language: string | null;
-        path: string;
-      }
-    | null
-  >;
-} | null;
-
-// Source: ../frontend/src/features/pages/query.ts
-// Variable: PAGE_URIS_QUERY
-// Query: *[_type == "page" && language == $language && defined(uri.current)] {    "uri": uri.current  }
-export type PAGE_URIS_QUERY_RESULT = Array<{
-  uri: string;
-}>;
-
-// Source: ../frontend/src/features/pages/query.ts
-// Variable: ALL_PAGES_QUERY
-// Query: *[_type == "page" && defined(language) && defined(uri.current)]    | order(uri.current asc) {      title,      "uri": uri.current,      language,      seo,      _updatedAt,      "translations": *[_type == "translation.metadata" && references(^._id)]        .translations[].value->{ language, "path": uri.current }    }
-export type ALL_PAGES_QUERY_RESULT = Array<{
-  title: string;
-  uri: string;
-  language: string;
-  seo: {
-    title?: string;
-    description?: string;
-  } | null;
-  _updatedAt: string;
-  translations: Array<
-    | {
-        language: string | null;
-        path: null;
-      }
-    | {
-        language: string | null;
-        path: string;
-      }
-    | null
-  >;
-}>;
-
 // Query TypeMap
 declare global {
   interface SanityQueries {
-    '\n  *[_type == "article" && language == $language && defined(slug.current)]\n    | order(publishedAt desc) {\n      \n  title,\n  "slug": slug.current,\n  language,\n  description,\n  publishedAt,\n  updatedAt,\n  "translations": *[_type == "translation.metadata" && references(^._id)]\n    .translations[].value->{ language, "slug": slug.current }\n,\n      cover { \n  alt,\n  crop,\n  hotspot,\n  asset->{ _id, metadata { lqip, dimensions { width, height } } }\n }\n    }\n': ARTICLES_QUERY_RESULT;
-    '\n  *[_type == "article" && defined(language) && defined(slug.current)]\n    | order(publishedAt desc) {\n      \n  title,\n  "slug": slug.current,\n  language,\n  description,\n  publishedAt,\n  updatedAt,\n  "translations": *[_type == "translation.metadata" && references(^._id)]\n    .translations[].value->{ language, "slug": slug.current }\n\n    }\n': ALL_ARTICLES_QUERY_RESULT;
-    '\n  *[_type == "article" && language == $language && defined(slug.current)] {\n    "slug": slug.current\n  }\n': ARTICLE_SLUGS_QUERY_RESULT;
-    '\n  *[_type == "article" && language == $language && slug.current == $slug][0] {\n    \n  title,\n  "slug": slug.current,\n  language,\n  description,\n  publishedAt,\n  updatedAt,\n  "translations": *[_type == "translation.metadata" && references(^._id)]\n    .translations[].value->{ language, "slug": slug.current }\n,\n    "plainText": pt::text(body),\n    body[] {\n      ...,\n      _type == "image" => { \n  alt,\n  crop,\n  hotspot,\n  asset->{ _id, metadata { lqip, dimensions { width, height } } }\n, caption, wide }\n    },\n    "previous": *[\n      _type == "article" && language == ^.language && publishedAt < ^.publishedAt\n    ] | order(publishedAt desc)[0] { title, "slug": slug.current },\n    "next": *[\n      _type == "article" && language == ^.language && publishedAt > ^.publishedAt\n    ] | order(publishedAt asc)[0] { title, "slug": slug.current }\n  }\n': ARTICLE_QUERY_RESULT;
     '\n  *[_type == "page" && language == $language && uri.current == $uri][0] {\n    title,\n    "uri": uri.current,\n    language,\n    seo,\n    sections,\n    "translations": *[_type == "translation.metadata" && references(^._id)]\n      .translations[].value->{ language, "path": uri.current }\n  }\n': PAGE_QUERY_RESULT;
     '\n  *[_type == "page" && language == $language && defined(uri.current)] {\n    "uri": uri.current\n  }\n': PAGE_URIS_QUERY_RESULT;
     '\n  *[_type == "page" && defined(language) && defined(uri.current)]\n    | order(uri.current asc) {\n      title,\n      "uri": uri.current,\n      language,\n      seo,\n      _updatedAt,\n      "translations": *[_type == "translation.metadata" && references(^._id)]\n        .translations[].value->{ language, "path": uri.current }\n    }\n': ALL_PAGES_QUERY_RESULT;
+    '\n  *[_type == "article" && language == $language && defined(slug.current)]\n    | order(publishedAt desc) {\n      \n  title,\n  "slug": slug.current,\n  language,\n  description,\n  publishedAt,\n  updatedAt,\n  "translations": *[_type == "translation.metadata" && references(^._id)]\n    .translations[].value->{ language, "slug": slug.current }\n\n    }\n': ARTICLES_QUERY_RESULT;
+    '\n  *[_type == "article" && defined(language) && defined(slug.current)]\n    | order(publishedAt desc) {\n      \n  title,\n  "slug": slug.current,\n  language,\n  description,\n  publishedAt,\n  updatedAt,\n  "translations": *[_type == "translation.metadata" && references(^._id)]\n    .translations[].value->{ language, "slug": slug.current }\n\n    }\n': ALL_ARTICLES_QUERY_RESULT;
+    '\n  *[_type == "article" && language == $language && defined(slug.current)] {\n    "slug": slug.current\n  }\n': ARTICLE_SLUGS_QUERY_RESULT;
+    '\n  *[_type == "article" && language == $language && slug.current == $slug][0] {\n    \n  title,\n  "slug": slug.current,\n  language,\n  description,\n  publishedAt,\n  updatedAt,\n  "translations": *[_type == "translation.metadata" && references(^._id)]\n    .translations[].value->{ language, "slug": slug.current }\n,\n    "plainText": pt::text(body),\n    body[] {\n      ...,\n      _type == "image" => { \n  alt,\n  crop,\n  hotspot,\n  asset->{ _id, metadata { lqip, dimensions { width, height } } }\n, caption, wide }\n    },\n    "previous": *[\n      _type == "article" && language == ^.language && publishedAt < ^.publishedAt\n    ] | order(publishedAt desc)[0] { title, "slug": slug.current },\n    "next": *[\n      _type == "article" && language == ^.language && publishedAt > ^.publishedAt\n    ] | order(publishedAt asc)[0] { title, "slug": slug.current }\n  }\n': ARTICLE_QUERY_RESULT;
   }
 }
 // Lets @sanity/client releases that predate the global registry read it too

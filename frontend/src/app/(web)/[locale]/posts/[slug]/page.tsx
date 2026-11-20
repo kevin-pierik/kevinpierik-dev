@@ -4,13 +4,13 @@ import { PortableText } from "next-sanity";
 import { JsonLd } from "@/components/json-ld";
 import { Link } from "@/components/link";
 import {
-  blogPath,
-  blogPaths,
+  postsPath,
+  postsPaths,
   getArticle,
   getArticleSlugs,
-} from "@/features/blog/fetch";
-import { formatDate } from "@/features/blog/format-date";
-import { postMetadata, postStructuredData } from "@/features/blog/metadata";
+} from "@/features/posts/fetch";
+import { formatDate } from "@/features/posts/format-date";
+import { postMetadata, postStructuredData } from "@/features/posts/metadata";
 import { getDictionary, getLocale } from "@/features/i18n";
 import { richTextComponents } from "@/features/sanity/rich-text";
 import { SiteFooter } from "@/features/site/site-footer";
@@ -43,7 +43,7 @@ export default async function PostPage({ params }: PostPageProps) {
   const { previous, next } = post;
   const dictionary = getDictionary(locale);
   const {
-    blogLabel,
+    postsLabel,
     minutesRead,
     updated,
     postNavigationLabel,
@@ -61,10 +61,10 @@ export default async function PostPage({ params }: PostPageProps) {
           id="main"
         >
           <p className="text-muted site:col-[3/10]">
-            <Link href={blogPath(locale)} variant="nav">
+            <Link href={postsPath(locale)} variant="nav">
               <span aria-hidden="true">←</span>
               {" "}
-              {blogLabel}
+              {postsLabel}
             </Link>
           </p>
           <h1
@@ -107,7 +107,7 @@ export default async function PostPage({ params }: PostPageProps) {
                 {previous ? (
                   <li>
                     <p className="text-muted">{previousPost}</p>
-                    <Link href={blogPath(locale, previous.slug)} rel="prev">
+                    <Link href={postsPath(locale, previous.slug)} rel="prev">
                       {previous.title}
                     </Link>
                   </li>
@@ -115,7 +115,7 @@ export default async function PostPage({ params }: PostPageProps) {
                 {next ? (
                   <li className="sm:col-start-2 sm:text-right">
                     <p className="text-muted">{nextPost}</p>
-                    <Link href={blogPath(locale, next.slug)} rel="next">
+                    <Link href={postsPath(locale, next.slug)} rel="next">
                       {next.title}
                     </Link>
                   </li>
@@ -125,7 +125,7 @@ export default async function PostPage({ params }: PostPageProps) {
           ) : null}
         </main>
       </div>
-      <SiteFooter alternates={{ ...blogPaths(), ...post.alternates }} />
+      <SiteFooter alternates={{ ...postsPaths(), ...post.alternates }} />
     </>
   );
 }

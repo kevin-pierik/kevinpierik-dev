@@ -11,7 +11,7 @@ The Sanity Studio source lives in `studio/`; the hosted Studio is managed by San
 
 Schemas live in `studio/schemas/documents/`, reusable field factories in `studio/schemas/fields/`, and page section types in `studio/schemas/sections/`. The document lists and navigation are configured in `studio/structure.tsx`.
 
-For the frontend behavior driven by this content, see [pages and sections](../frontend/pages-and-sections.md), [blog](../frontend/blog.md), [languages](../frontend/languages.md), and [SEO](../frontend/seo-and-structured-data.md).
+For the frontend behavior driven by this content, see [pages and sections](../frontend/pages-and-sections.md), [Posts](../frontend/posts.md), [languages](../frontend/languages.md), and [SEO](../frontend/seo-and-structured-data.md).
 
 ## Development
 
