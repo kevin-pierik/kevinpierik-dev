@@ -17,7 +17,7 @@ Articles are written in English. Sanity keeps unpublished changes as drafts; the
 
 ## How it works
 
-- `frontend/src/features/sanity/` holds the client, `defineLive` (`sanityFetch` and `<SanityLive />`), and the image URL helper, as in Sanity's guide. `<SanityLive />` sits in the blog layout, so only blog pages connect to Sanity, and published changes appear without a new deploy.
+- `frontend/src/features/sanity/` holds the client, `defineLive` (`sanityFetch` and `<SanityLive />`), and the image URL helper, as in Sanity's guide. `<SanityLive />` sits in `frontend/src/app/(web)/layout.tsx`, so published changes appear on every page without a new deploy.
 - `frontend/src/features/posts/query.ts` and `frontend/src/features/pages/query.ts` hold the GROQ queries, written with `defineQuery`, with shared fragments such as `frontend/src/features/sanity/media/fragment.ts` (imported relatively, because TypeGen runs from `studio/` and doesn't know the `@/` alias). `bun run typegen` extracts the schema to `studio/schema.json` and writes `frontend/src/features/sanity/sanity.types.ts`. Run it after changing the schema or a query, and commit both files.
 - `generateStaticParams` and the sitemap fetch with `perspective: "published"` and `stega: false`, as the guide recommends for URLs and metadata.
 - `frontend/src/features/sanity/rich-text/` renders the Body with Portable Text, using `CodeBlock`, `Figure`, `Table`, and `HeadingLink`. Headings get an id from their text and copy a link to themselves when clicked.
@@ -28,7 +28,7 @@ Articles are written in English. Sanity keeps unpublished changes as drafts; the
 - **Index** (`frontend/src/app/(web)/posts/page.tsx`, with `ArticleList` and `ArticleCard` in `frontend/src/features/posts/`): the `/posts` page document provides the title, SEO fields, and Body (heading and intro); the list of listed articles follows below it, or "No posts yet." when there are none. `/feed.xml` reads its channel title and description from this page, so keep it published. The list is ordered newest first, with one row per listed article: date in a `<time>`, linked title and description. Rows sit one line apart. The index shows no covers. Below 800px the parts stack.
 - **Article** (`frontend/src/app/(web)/posts/[slug]/page.tsx`): a back link, the title, the date and reading time, the body, and links to the previous and next post. The text is centred in columns 4–9 ([Layout](layout.md#grid)).
 
-Unknown slugs show the [404 page](not-found.md) (`dynamicParams = false`).
+`getArticle()` calls `notFound()` for an unknown slug, which shows the [404 page](not-found.md). The route sets `dynamicParams = true`, so an article published after the build renders on its first request instead of returning a 404.
 
 ## Feed
 
@@ -36,7 +36,7 @@ Unknown slugs show the [404 page](not-found.md) (`dynamicParams = false`).
 
 ## SEO
 
-See [SEO and structured data](seo-and-structured-data.md#blog). The sitemap and [`llms.txt`](llms-txt.md) list every published post.
+See [SEO and structured data](seo-and-structured-data.md#posts). The sitemap and [`llms.txt`](llms-txt.md) list every published post.
 
 ## Setting up
 
