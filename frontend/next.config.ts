@@ -22,7 +22,6 @@ const nextConfig: NextConfig = {
   },
   experimental: {
     inlineCss: true,
-    globalNotFound: true,
     turbopackRustReactCompiler: true,
   },
 
