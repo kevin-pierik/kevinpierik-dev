@@ -22,7 +22,6 @@ paths:
 ## Do not flag
 
 - Visual size that differs from the rank; style with classes and keep the rank correct.
-- `global-not-found.tsx`, whose only `<h1>` is `sr-only`.
 
 ## Why
 
