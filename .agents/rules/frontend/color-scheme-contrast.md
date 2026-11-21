@@ -9,7 +9,7 @@ paths:
 
 # Theme colours and contrast
 
-**Rule.** Use the theme colours (`background`, `foreground`, `muted`, `subtle`, `ring`), never hardcoded black or white, and keep text contrast at 4.5:1 or more in both the light and dark scheme. Global styles are imported only through `frontend/src/app/shared-web-layout.tsx`.
+**Rule.** Use the theme colours (`background`, `foreground`, `muted`, `subtle`, `ring`), never hardcoded black or white, and keep text contrast at 4.5:1 or more in both the light and dark scheme. Global styles are imported only through `frontend/src/app/layout.tsx`.
 
 ## Look for
 
@@ -17,7 +17,7 @@ paths:
 - Hex, `rgb()`, or named colours in CSS outside `frontend/src/features/style/colors.css`.
 - A new colour token defined for only one scheme, or without a contrast check against the page in both schemes.
 - Opacity on text (`text-foreground/50`) that drops below 4.5:1.
-- A CSS import in a page, layout, or component other than `shared-web-layout.tsx`.
+- A CSS import in a page, layout, or component other than `app/layout.tsx`.
 
 ## Do not flag
 
