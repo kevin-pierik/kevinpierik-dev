@@ -19,7 +19,7 @@ paths:
 - A sitemap, `llms.txt`, or feed entry whose URL differs from the page's canonical, such as a trailing slash, `http`, or a missing `www`.
 - Drafts, unpublished documents, or the 404 page in any of these files.
 - A change to `robots.ts` that removes the `/api/` disallow or the sitemap link.
-- `robots: { index: true }`, or a removed `noindex`, in `not-found.tsx` or `global-not-found.tsx`.
+- `robots: { index: true }`, or a removed `noindex`, in `not-found.tsx`.
 - A new public route that is missing from the sitemap and `llms.txt`.
 
 ## Do not flag
