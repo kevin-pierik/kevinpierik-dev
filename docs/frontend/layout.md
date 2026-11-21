@@ -4,7 +4,7 @@ The site aims for an editorial, almost unstyled look, modelled on nunocoelho.me:
 
 ## Container
 
-`frontend/src/app/(web)/layout.tsx` is the root shell: `<html>`, the skip link, and Lenis. Pages render the header, `<main class="site-container">`, and footer as siblings. The public site uses English copy.
+`frontend/src/app/layout.tsx` is the only root layout: `<html>`, the site metadata and viewport, the global stylesheet, the font, the skip link, and Lenis. Pages render the header, `<main class="site-container">`, and footer as siblings. The public site uses English copy.
 
 The container is the `site-container` utility in `frontend/src/features/style/tailwind.css`: at most 1440px wide, with 3.5% side padding (at least 1.5rem, so narrow screens line up with the header and footer).
 
@@ -22,7 +22,7 @@ Don't use `subgrid` or absolutely positioned grid items for this: Safari placed 
 
 `frontend/src/features/site/site-header/index.tsx` spans the full width of the page, with 1.5rem of side padding. It takes an optional `current` page. On the left is the name, with the role below it in `muted`. On a homepage the name is the page's `<h1>`; everywhere else it is a link to the homepage. On the right is the site navigation, a ui-sdk `NavigationMenu` with `nav` links in `muted`, the current one in `foreground` ([Links and buttons](links-and-buttons.md)): the pages listed in the `settings` document's navigation, with the current one marked `current`.
 
-On the homepage, `<main>` is labelled by that `<h1>` through `aria-labelledby="page-title"`; other pages use a screenreader-only page `<h1>`. Before the header, `frontend/src/app/(web)/layout.tsx` renders a "Skip to content" link to `#main` that only appears at the top left while it has keyboard focus. It is a plain `<a>`, not Next.js `Link`: Next.js handles hash links itself and doesn't move focus, so the next Tab would land back in the header. Lenis's anchor handling doesn't call `preventDefault`, so the browser moves focus to `<main>`.
+On the homepage, `<main>` is labelled by that `<h1>` through `aria-labelledby="page-title"`; other pages use a screenreader-only page `<h1>`. Before the header, `frontend/src/app/layout.tsx` renders a "Skip to content" link to `#main` that only appears at the top left while it has keyboard focus. It is a plain `<a>`, not Next.js `Link`: Next.js handles hash links itself and doesn't move focus, so the next Tab would land back in the header. Lenis's anchor handling doesn't call `preventDefault`, so the browser moves focus to `<main>`.
 
 ## Site footer
 
@@ -30,7 +30,7 @@ On the homepage, `<main>` is labelled by that `<h1>` through `aria-labelledby="p
 
 ## Typography
 
-- `frontend/src/app/shared-web-layout.tsx` loads the variable [Geist Sans](https://vercel.com/font) from the `geist` package (`geist/font/sans`), exposed to Tailwind as `font-sans` and set on `<html>` in `typography.css`. The OG image uses the same font.
+- `frontend/src/app/layout.tsx` loads the variable [Geist Sans](https://vercel.com/font) from the `geist` package (`geist/font/sans`), exposed to Tailwind as `font-sans` and set on `<html>` in `typography.css`. The OG image uses the same font.
 - Pages and the posts index set everything, headings included, at 400 and 0.875rem (14px) with a unitless line height of 1.5715 (22px), so hierarchy comes from colour (`foreground` against `muted`) and spacing.
 - Articles follow ui-sdk.dev's article headings: the `<h1>` at 1.75rem and weight 500, `<h2>` at 1.125rem and 500, `<h3>` at 0.9375rem and 500. Body text stays 14px. See [Posts](posts.md).
 - `typography.css` turns on antialiasing, `optimizeLegibility`, and `text-size-adjust: 100%`.
@@ -38,7 +38,7 @@ On the homepage, `<main>` is labelled by that `<h1>` through `aria-labelledby="p
 
 ## Smooth scrolling
 
-`frontend/src/features/lenis.tsx` mounts [Lenis](https://github.com/darkroomengineering/lenis) for the whole page from `frontend/src/app/(web)/layout.tsx`, so the 404 page doesn't get it. Its stylesheet is imported in `frontend/src/features/style/global.css`.
+`frontend/src/features/lenis.tsx` mounts [Lenis](https://github.com/darkroomengineering/lenis) for the whole page from `frontend/src/app/layout.tsx`, the 404 page included. Its stylesheet is imported in `frontend/src/features/style/global.css`.
 
 - `respectReducedMotion` turns smoothing off when the system asks for reduced motion.
 - `anchors` makes in-page `#` links scroll smoothly too.
