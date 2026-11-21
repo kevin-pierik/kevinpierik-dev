@@ -24,7 +24,7 @@ A change to any of these without the matching change in the others:
 - `frontend/src/app/llms.txt/route.ts`.
 - `frontend/src/app/manifest.ts`.
 - `frontend/src/features/site/social-links.ts` and `frontend/src/features/site/index.ts`.
-- `frontend/src/app/(web)/opengraph-image.tsx`, which shows the name and role.
+- `frontend/src/app/opengraph-image.tsx`, which shows the name and role.
 
 ## Do not flag
 
