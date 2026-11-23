@@ -5,6 +5,7 @@ severity: blocking
 paths:
   - "frontend/src/**/*.tsx"
   - "studio/schemas/fields/create-rich-text.ts"
+  - "studio/schemas/fields/create-sections.ts"
 ---
 
 # Heading ranks
@@ -16,7 +17,7 @@ paths:
 - A second `<h1>` on a page. The site header provides the homepage `<h1>`; other pages use a screen-reader-only `<h1>` from the Sanity page title.
 - A heading chosen for its size, such as an `<h4>` directly under an `<h2>`.
 - Text styled as a heading (`<p className="text-2xl font-bold">`) that structures the page but isn't a heading element.
-- A Portable Text style that allows `h1` in a Body, or a renderer that maps Body headings to a different rank.
+- A Portable Text style that allows `h1` in a text section, or a renderer that maps section headings to a different rank.
 - Article cards in a list that use a heading rank that doesn't follow the list's section heading.
 
 ## Do not flag
@@ -25,7 +26,7 @@ paths:
 
 ## Why
 
-Screen-reader users navigate by headings, and search engines read the outline. See [Pages and Body](../../../docs/frontend/pages-and-sections.md).
+Screen-reader users navigate by headings, and search engines read the outline. See [Pages and sections](../../../docs/frontend/pages-and-sections.md).
 
 ## Example
 

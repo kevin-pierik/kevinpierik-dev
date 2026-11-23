@@ -34,7 +34,7 @@ package.json          # Bun workspace scripts
 bun.lock
 ```
 
-Every public page is a `page` document in Sanity. The homepage is `/`, the Posts index is `/posts`, and articles live under `/posts/`. Pages and articles have separate schemas and use Portable Text in a direct Body field ([Pages](docs/frontend/pages-and-sections.md), [Posts](docs/frontend/posts.md)). See the [Studio docs](docs/studio/README.md) for the content model and Studio setup.
+Every public page is a `page` document in Sanity. The homepage is `/`, the Posts index is `/posts`, and articles live under `/posts/`. Pages and articles have separate schemas and build their content from sections (text, image, carousel, and for articles also code and tables) ([Pages](docs/frontend/pages-and-sections.md), [Posts](docs/frontend/posts.md)). See the [Studio docs](docs/studio/README.md) for the content model and Studio setup.
 
 ## Development
 

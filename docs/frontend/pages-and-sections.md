@@ -1,20 +1,38 @@
-# Pages and Body
+# Pages and sections
 
-Every regular page is a `page` document in Sanity, and every article is an `article` document. Both have one direct `body` field containing Portable Text. There is no page builder or section array. The homepage and Contact use Body for all visible page content. The `/posts` index is also a page document; its Body holds the heading and an optional introduction, and the route adds the article list below it.
+Every regular page is a `page` document in Sanity, and every article is an `article` document. Both build their visible content from a `sections` array, a page builder following Sanity's page builder pattern. The `/posts` index is also a page document; its sections hold the heading and an optional introduction, and the route adds the article list below them.
 
-## Page model
+## Document model
 
-`studio/schemas/documents/page.ts` defines a title, URI, optional SEO object, and direct Body field. The URI is the full public path, such as `/` or `/posts`; `createUriField()` fills it from the title and checks uniqueness.
+`studio/schemas/documents/page.ts` defines a title, URI, sections, and an SEO object, split into the field groups (tabs) **Page**, **Content**, and **SEO**. Articles use **Post**, **Content**, and **SEO** ([Posts](posts.md)). The groups have no icons. The URI is the full public path, such as `/` or `/posts`; `createUriField()` fills it from the title and checks uniqueness.
 
 `frontend/src/app/[[...uri]]/page.tsx` statically renders every published page document except `/posts`. `frontend/src/app/posts/page.tsx` renders the `/posts` page document followed by the article list, following Sanity's Next.js pattern: editors manage the text, code renders the generated list. Both use `PageBody` from `frontend/src/features/pages/page-body.tsx`.
 
-The site header provides the homepage `<h1>`. Other regular pages use a screenreader-only `<h1>` from the Sanity page title; visible headings are authored in Body. Set Body headings to `h2`, then use `h3` for subsections.
+The site header provides the homepage `<h1>`. Other regular pages use a screenreader-only `<h1>` from the Sanity page title; visible headings are authored in sections. Set headings to `h2`, then use `h3` for subsections.
 
-## Body
+## Sections
 
-The same direct Body field and Portable Text renderer are used for pages and articles. It supports paragraphs, headings, quotes, lists, links, inline code, images, code blocks, and tables. Page bodies render as labelled `<article>` elements. Sanity links pass through `safeHref()`; web links show an external arrow, while internal, email, and phone links show only an underline.
+`studio/schemas/fields/create-sections.ts` defines the section types, and `createSections()` picks the ones a document type allows. Every section has an icon and a preview with its content and type name, such as "About me · Text" or "Projects · Carousel · 4 items".
 
-Body content aligns with columns 3–10 in the site grid ([Layout](layout.md#grid)); wide images and tables can span further.
+| Section  | `_type`           | Pages | Articles | Content                                                                                    |
+| -------- | ----------------- | ----- | -------- | ------------------------------------------------------------------------------------------ |
+| Text     | `textSection`     | yes   | yes      | Portable Text: paragraphs, `h2` and `h3`, quotes, lists, links, inline code                |
+| Image    | `imageSection`    | yes   | yes      | Image with alt text, optional caption, and `wide`                                          |
+| Carousel | `carouselSection` | yes   | yes      | Optional title and items, each with an image, a title, an optional link, and a description |
+| Code     | `code`            | no    | yes      | A `@sanity/code-input` block                                                               |
+| Table    | `table`           | no    | yes      | A `@sanity/table` table                                                                    |
+
+Code and table use the plugins' own type names, `code` and `table`, as `_type`.
+
+`frontend/src/features/sections/fragment.ts` holds the shared GROQ projection, and `frontend/src/features/sections/index.tsx` renders sections with a `switch` on `_type`. Each section renders flat elements, not a wrapper, so the page or article grid places them like before: text in columns 3–10 (4–9 in articles), figures and tables in 3–10, `wide` figures in 2–11 ([Layout](layout.md#grid)). Text sections use the Portable Text renderer in `frontend/src/features/sanity/rich-text/`. Sanity links pass through `safeHref()`; web links show an external arrow, while internal, email, and phone links show only an underline.
+
+### Carousel
+
+`frontend/src/features/sections/carousel.tsx` renders the title as an `h2`, then a [Blossom Carousel](https://www.blossom-carousel.com) list (`@blossom-carousel/react`), labelled by that heading. Each slide title is an `h3`. Blossom uses native scrolling with scroll snap and only loads its drag engine (`@blossom-carousel/core`) on devices with a fine pointer, so touch and trackpads scroll natively. The list has `tabIndex={0}` and the shared focus outline, because Blossom doesn't make the scroller focusable, so keyboard users can reach and scroll it even when no slide has a link. It also has `role="list"`, because `list-style: none` makes Safari drop the list semantics. Slide links pass through `SanityLink`. `blossom.ts` re-exports the component from a `"use client"` module, because the package has no directive; the small wrapper ships with every page that renders sections, and Blossom's stylesheet is global.
+
+- The carousel starts in column 3 and runs to the right edge of the screen, using the `bleed-end` utility in `tailwind.css` and `data-bleed` on its wrapper. `html` has `overflow-x: clip`, so the bleed never causes a horizontal scrollbar.
+- Slides are at most 28rem wide (80vw on small screens), snap to the start, and sit 1.5rem apart. Each shows a 16:10 image (or a `subtle` box without one), the title (a `nav` link with ↗ when it has a link), and the description in `muted`.
+- The stylesheet is imported in `global.css` into the `components` layer. Its own `blossom-carousel` layer would otherwise come after Tailwind's `utilities` and override the slide layout.
 
 ## Settings
 

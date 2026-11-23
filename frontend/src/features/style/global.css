@@ -3,6 +3,7 @@
 @import "./typography.css";
 @import "./animations.css";
 @import "lenis/dist/lenis.css";
+@import "@blossom-carousel/react/style.css" layer(components);
 
 @layer base {
   * {
@@ -10,6 +11,7 @@
     outline-color: var(--ring);
   }
   html {
+    overflow-x: clip;
     scroll-padding-top: 7rem;
     overscroll-behavior: none;
     -webkit-tap-highlight-color: transparent;

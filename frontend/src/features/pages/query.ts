@@ -1,16 +1,13 @@
 import { defineQuery } from "next-sanity";
 
-import { imageFragment } from "../sanity/media/fragment";
+import { sectionsFragment } from "../sections/fragment";
 
 export const PAGE_QUERY = defineQuery(`
   *[_type == "page" && uri.current == $uri][0] {
     title,
     "uri": uri.current,
     seo,
-    body[]{
-      ...,
-      _type == "image" => { ${imageFragment}, caption, wide }
-    }
+    ${sectionsFragment}
   }
 `);
 

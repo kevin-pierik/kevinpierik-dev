@@ -10,7 +10,7 @@ The container is the `site-container` utility in `frontend/src/features/style/ta
 
 ## Grid
 
-From the `site` breakpoint (800px, `--breakpoint-site` in `tailwind.css`), every page lays out on one 12-column grid, the `grid-site` utility: 12 equal columns with a 1.75% gap. `<main>` is a `grid-site`, and every nested element that places content, such as a Body, an article row, or the article body, is a full-width `grid-site` of its own. All grids are equally wide, so their columns line up, and a column number always means the same line on every page:
+From the `site` breakpoint (800px, `--breakpoint-site` in `tailwind.css`), every page lays out on one 12-column grid, the `grid-site` utility: 12 equal columns with a 1.75% gap. `<main>` is a `grid-site`, and every nested element that places content, such as a page's sections, an article row, or an article's sections, is a full-width `grid-site` of its own. All grids are equally wide, so their columns line up, and a column number always means the same line on every page:
 
 - Pages: headings and text in columns 3–10.
 - Posts index: dates in columns 3–4, title and description in columns 5–10.
@@ -42,7 +42,7 @@ The footer replaces the old Contact page, so contact details live in code, not i
 - Pages and the posts index set everything, headings included, at 400 and 0.875rem (14px) with a unitless line height of 1.5715 (22px), so hierarchy comes from colour (`foreground` against `muted`) and spacing.
 - Articles follow ui-sdk.dev's article headings: the `<h1>` at 1.75rem and weight 500, `<h2>` at 1.125rem and 500, `<h3>` at 0.9375rem and 500. Body text stays 14px. See [Posts](posts.md).
 - `typography.css` turns on antialiasing, `optimizeLegibility`, and `text-size-adjust: 100%`.
-- Spacing is set in `lh`, so it follows the line height. See [Pages and Body](pages-and-sections.md) for the page content model.
+- Spacing is set in `lh`, so it follows the line height. See [Pages and sections](pages-and-sections.md) for the page content model.
 
 ## Smooth scrolling
 

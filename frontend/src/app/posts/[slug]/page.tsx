@@ -1,12 +1,11 @@
 import type { Metadata } from "next";
-import { PortableText } from "next-sanity";
 
 import { JsonLd } from "@/components/json-ld";
 import { Link } from "@/components/link";
 import { postsPath, getArticle, getArticleSlugs } from "@/features/posts/fetch";
 import { formatDate } from "@/features/posts/format-date";
 import { postMetadata, postStructuredData } from "@/features/posts/metadata";
-import { richTextComponents } from "@/features/sanity/rich-text";
+import { Sections } from "@/features/sections";
 import { SiteFooter } from "@/features/site/site-footer";
 import { SiteHeader } from "@/features/site/site-header";
 
@@ -75,12 +74,9 @@ export default async function PostPage({ params }: PostPageProps) {
         </p>
         <article
           aria-labelledby="post-title"
-          className="mt-[3lh] site:col-span-full site:grid-site site:content-start site:*:col-[4/10] site:*:data-wide:col-[2/12] site:[&>:is(figure,[data-table]):not([data-wide])]:col-[3/11]"
+          className="mt-[3lh] site:col-span-full site:grid-site site:content-start site:*:col-[4/10] site:*:data-bleed:col-[3/-1] site:*:data-wide:col-[2/12] site:[&>:is(figure,[data-table]):not([data-wide])]:col-[3/11]"
         >
-          <PortableText
-            components={richTextComponents}
-            value={post.body ?? []}
-          />
+          <Sections sections={post.sections} />
         </article>
         {previous || next ? (
           <nav aria-label="More posts" className={`mt-[6lh] ${prose}`}>

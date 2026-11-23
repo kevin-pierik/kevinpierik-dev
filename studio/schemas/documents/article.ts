@@ -1,16 +1,27 @@
 import {defineField, defineType} from 'sanity'
 
-import {createRichText} from '../fields/create-rich-text'
+import {createSections} from '../fields/create-sections'
 import {createSeoField} from '../fields/create-seo-field'
 
 export const article = defineType({
   name: 'article',
   title: 'Article',
   type: 'document',
+  groups: [
+    {name: 'post', title: 'Post', default: true},
+    {name: 'content', title: 'Content'},
+    {name: 'seo', title: 'SEO'},
+  ],
   fields: [
-    defineField({name: 'title', type: 'string', validation: (rule) => rule.required()}),
+    defineField({
+      name: 'title',
+      type: 'string',
+      group: 'post',
+      validation: (rule) => rule.required(),
+    }),
     defineField({
       name: 'slug',
+      group: 'post',
       type: 'slug',
       description: 'The article lives at /posts/slug.',
       options: {source: 'title'},
@@ -18,6 +29,7 @@ export const article = defineType({
     }),
     defineField({
       name: 'description',
+      group: 'post',
       type: 'text',
       rows: 3,
       description: 'Shown on the posts index and used as the meta description.',
@@ -25,20 +37,22 @@ export const article = defineType({
     }),
     defineField({
       name: 'publishedAt',
+      group: 'post',
       type: 'datetime',
       initialValue: () => new Date().toISOString(),
       validation: (rule) => rule.required(),
     }),
-    defineField({name: 'updatedAt', type: 'datetime'}),
+    defineField({name: 'updatedAt', type: 'datetime', group: 'post'}),
     defineField({
       name: 'showInPosts',
+      group: 'post',
       type: 'boolean',
       title: 'Show in posts overview',
       description: 'Published articles remain accessible by URL when this is turned off.',
       initialValue: true,
     }),
-    createSeoField(),
-    createRichText(),
+    createSections(['textSection', 'imageSection', 'code', 'table', 'carouselSection']),
+    {...createSeoField(), group: 'seo'},
   ],
   orderings: [
     {

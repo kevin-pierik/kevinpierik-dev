@@ -27,6 +27,10 @@
   padding-inline: max(1.5rem, 3.5%);
 }
 
+@utility bleed-end {
+  margin-inline-end: calc((min(100vw, 90rem) - 100vw) / 2 - max(1.5rem, 3.5vw));
+}
+
 @utility grid-site {
   display: grid;
   grid-template-columns: repeat(12, minmax(0, 1fr));
