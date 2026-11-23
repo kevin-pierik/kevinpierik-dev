@@ -4,22 +4,10 @@ import type {
 } from "@portabletext/react";
 import type { ReactNode } from "react";
 
-import { CodeBlock } from "@/components/code-block";
-import { Figure } from "@/components/figure";
-import { Table } from "@/components/table";
 import { SanityLink } from "@/features/sanity/link";
-import { imageProps } from "@/features/sanity/media/image";
-import type { ARTICLE_QUERY_RESULT } from "@/features/sanity/sanity.types";
 import { slugify } from "@studio/slug";
 
 import { HeadingLink } from "./heading-link";
-
-type ArticleBody = NonNullable<NonNullable<ARTICLE_QUERY_RESULT>["body"]>;
-
-type BodyMember<Type extends ArticleBody[number]["_type"]> = Extract<
-  ArticleBody[number],
-  { _type: Type }
->;
 
 function blockText(block: PortableTextBlock) {
   return block.children
@@ -27,7 +15,11 @@ function blockText(block: PortableTextBlock) {
     .join("");
 }
 
-const labels = { copy: "Copy code", copied: "Copied", failed: "Copy failed" };
+export const labels = {
+  copy: "Copy code",
+  copied: "Copied",
+  failed: "Copy failed",
+};
 
 function heading(Tag: "h2" | "h3", className: string) {
   return function Heading({
@@ -52,14 +44,16 @@ function heading(Tag: "h2" | "h3", className: string) {
   };
 }
 
+export const headingStyles = {
+  h2: "mt-14 text-lg leading-snug tracking-[-0.01em]",
+  h3: "mt-10 text-[1.0625rem] leading-snug sm:text-[0.9375rem]",
+};
+
 export const richTextComponents: PortableTextComponents = {
   block: {
     normal: ({ children }) => <p className="mt-[1lh] first:mt-0">{children}</p>,
-    h2: heading("h2", "mt-14 text-lg leading-snug tracking-[-0.01em]"),
-    h3: heading(
-      "h3",
-      "mt-10 text-[1.0625rem] leading-snug sm:text-[0.9375rem]",
-    ),
+    h2: heading("h2", headingStyles.h2),
+    h3: heading("h3", headingStyles.h3),
     blockquote: ({ children }) => (
       <blockquote className="mt-[1lh] border-l pl-[2ch] text-muted first:mt-0">
         {children}
@@ -90,51 +84,5 @@ export const richTextComponents: PortableTextComponents = {
         {children}
       </code>
     ),
-  },
-  types: {
-    image: ({ value }: { value: BodyMember<"image"> }) => (
-      <Figure
-        alt={value.alt ?? ""}
-        caption={value.caption}
-        className="mt-[2lh] first:mt-0"
-        image={imageProps(value)}
-        wide={value.wide ?? false}
-      />
-    ),
-    code: ({ value }: { value: BodyMember<"code"> }) => (
-      <CodeBlock
-        className="mt-[1.5lh] first:mt-0"
-        code={value.code ?? ""}
-        labels={labels}
-        lang={value.language}
-      />
-    ),
-    table: ({ value }: { value: BodyMember<"table"> }) => {
-      const [head, ...rows] = value.rows ?? [];
-      if (!head) return null;
-
-      return (
-        <Table className="mt-[2lh] first:mt-0">
-          <thead>
-            <tr>
-              {head.cells?.map((cell, index) => (
-                <th key={index} scope="col">
-                  {cell}
-                </th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {rows.map((row) => (
-              <tr key={row._key}>
-                {row.cells?.map((cell, index) => (
-                  <td key={index}>{cell}</td>
-                ))}
-              </tr>
-            ))}
-          </tbody>
-        </Table>
-      );
-    },
   },
 };

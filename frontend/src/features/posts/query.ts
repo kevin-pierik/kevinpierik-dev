@@ -1,6 +1,6 @@
 import { defineQuery } from "next-sanity";
 
-import { imageFragment } from "../sanity/media/fragment";
+import { sectionsFragment } from "../sections/fragment";
 
 const articleFragment = /* groq */ `
   title,
@@ -34,11 +34,8 @@ export const ARTICLE_QUERY = defineQuery(`
   *[_type == "article" && slug.current == $slug][0] {
     ${articleFragment},
     seo { title, description },
-    "plainText": pt::text(body),
-    body[]{
-      ...,
-      _type == "image" => { ${imageFragment}, caption, wide }
-    },
+    "plainText": pt::text(sections[_type == "textSection"].body[]),
+    ${sectionsFragment},
     "previous": *[
       _type == "article" && publishedAt < ^.publishedAt
     ] | order(publishedAt desc)[0] { title, "slug": slug.current },

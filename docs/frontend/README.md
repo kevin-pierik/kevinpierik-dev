@@ -4,7 +4,7 @@ The Next.js app lives in `frontend/`. These guides cover its routes, UI, metadat
 
 - [404 page](not-found.md) (`app/not-found.tsx`): not-found behavior and indexing.
 - [Layout and typography](layout.md) (`app/layout.tsx`, `features/site/`, `features/style/`, `features/lenis.tsx`): the grid, header, footer, fonts, and smooth scrolling.
-- [Pages and Body](pages-and-sections.md) (`app/[[...uri]]/`, `features/pages/`, `features/sanity/`): rendering Sanity pages from Portable Text.
+- [Pages and sections](pages-and-sections.md) (`app/[[...uri]]/`, `features/pages/`, `features/sections/`, `features/sanity/`): rendering Sanity pages and articles from sections.
 - [Posts](posts.md) (`app/posts/`, `app/feed.xml/`, `features/posts/`): the index, article pages, and RSS feed.
 - [Links and buttons](links-and-buttons.md) (`components/`, `features/sanity/link/`): the `Link` and `Button` components.
 - [Color scheme](color-scheme.md) (`features/style/colors.css`): system light and dark mode.
