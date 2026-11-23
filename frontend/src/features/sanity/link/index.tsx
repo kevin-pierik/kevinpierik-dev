@@ -17,14 +17,6 @@ export function SanityLink({ href, variant, children }: SanityLinkProps) {
   return (
     <Link href={safe} variant={variant}>
       {children}
-      {safe.startsWith("http://") || safe.startsWith("https://") ? (
-        <>
-          {" "}
-          <span aria-hidden="true" className="text-muted">
-            ↗
-          </span>
-        </>
-      ) : null}
     </Link>
   );
 }

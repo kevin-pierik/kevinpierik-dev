@@ -10,7 +10,7 @@ The header navigation is a ui-sdk `NavigationMenu`, following [its docs](https:/
 
 ## Other links
 
-`frontend/src/components/link.tsx` is a thin `Link` around Next.js `Link` that adds a `variant` class. Links from Sanity render through `SanityLink` (`frontend/src/features/sanity/link/`), which only allows safe URLs. The classes are exported as `linkStyles`, so the navigation and the skip link use the same looks:
+`frontend/src/components/link.tsx` is a thin `Link` around Next.js `Link` that adds a `variant` class, and a `muted` ↗ (hidden from screen readers) after links to `http:` or `https:` URLs. Links from Sanity render through `SanityLink` (`frontend/src/features/sanity/link/`), which only allows safe URLs. The classes are exported as `linkStyles`, so the navigation and the skip link use the same looks:
 
 - `text` (default): the inline link from ui-sdk.dev. Its underline is `foreground` at 25%, with the font's own thickness and a 3px offset, and turns solid on hover and focus. The 404 page and markdown links use it.
 - `nav`: no underline until hover, like the ui-sdk.dev navigation. Use it only where the position makes clear that it is a link: the header navigation, `muted` with the current page in `foreground` (`data-current`), and links in compact lists.

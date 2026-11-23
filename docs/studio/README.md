@@ -4,7 +4,7 @@ The Sanity Studio source lives in `studio/`; the hosted Studio is managed by San
 
 ## Content model
 
-- The `settings` singleton holds site-wide content: role, header navigation, and footer colophon. It has a fixed `settings` ID, is registered with `defineSingleton` in `sanity.config.ts`, and opens directly from the top of the Studio.
+- The `settings` singleton holds site-wide content: role and header navigation. It has a fixed `settings` ID, is registered with `defineSingleton` in `sanity.config.ts`, and opens directly from the top of the Studio.
 - `page` documents represent standalone pages, including Home (`/`), Contact, and Posts (`/posts`). Their direct Body field contains visible Portable Text content; metadata, title, and URI remain separate fields.
 - `article` documents represent dated, long-form posts. They have a Portable Text body and can include rich media, code, and tables.
 - Pages and articles use separate schemas because their content and publishing needs differ.

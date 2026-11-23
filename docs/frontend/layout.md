@@ -6,7 +6,7 @@ The site aims for an editorial, almost unstyled look, modelled on nunocoelho.me:
 
 `frontend/src/app/layout.tsx` is the only root layout: `<html>`, the site metadata and viewport, the global stylesheet, the font, the skip link, and Lenis. Pages render the header, `<main class="site-container">`, and footer as siblings. The public site uses English copy.
 
-The container is the `site-container` utility in `frontend/src/features/style/tailwind.css`: at most 1440px wide, with 3.5% side padding (at least 1.5rem, so narrow screens line up with the header and footer).
+The container is the `site-container` utility in `frontend/src/features/style/tailwind.css`: at most 1440px wide, with 3.5% side padding (at least 1.5rem). The header, `<main>`, and footer all use it, so their edges line up.
 
 ## Grid
 
@@ -20,13 +20,21 @@ Don't use `subgrid` or absolutely positioned grid items for this: Safari placed 
 
 ## Site header
 
-`frontend/src/features/site/site-header/index.tsx` spans the full width of the page, with 1.5rem of side padding. It takes an optional `current` page. On the left is the name, with the role below it in `muted`. On a homepage the name is the page's `<h1>`; everywhere else it is a link to the homepage. On the right is the site navigation, a ui-sdk `NavigationMenu` with `nav` links in `muted`, the current one in `foreground` ([Links and buttons](links-and-buttons.md)): the pages listed in the `settings` document's navigation, with the current one marked `current`.
+`frontend/src/features/site/site-header/index.tsx` sits in the same `site-container` as `<main>` and the footer, so the name lines up with the footer's "Connect" and the navigation with the copyright.
+
+The header is `sticky` at the top of the page and spans the full width. Behind it, `.header-blur` in `frontend/src/features/style/global.css` draws a progressive blur: a `background` tint that fades out, and three stacked `backdrop-filter` layers (1px, 4px, and 12px) whose gradient masks end higher the stronger the blur is. The layers are sibling `<div>`s, not pseudo-elements, because a `mask` or `backdrop-filter` on a parent would make the children blur only that parent instead of the page. The blur reaches 2rem below the header, so content fades out instead of being cut off. `html` has `scroll-padding-top: 7rem`, a bit more than the header's height, so focused elements and anchor targets aren't hidden under it; Lenis reads the same value for its anchor scrolling. It takes an optional `current` page. On the left is the name, with the role below it in `muted`. On a homepage the name is the page's `<h1>`; everywhere else it is a link to the homepage. On the right is the site navigation, a ui-sdk `NavigationMenu` with `nav` links in `muted`, the current one in `foreground` ([Links and buttons](links-and-buttons.md)): the pages listed in the `settings` document's navigation, with the current one marked `current`.
 
 On the homepage, `<main>` is labelled by that `<h1>` through `aria-labelledby="page-title"`; other pages use a screenreader-only page `<h1>`. Before the header, `frontend/src/app/layout.tsx` renders a "Skip to content" link to `#main` that only appears at the top left while it has keyboard focus. It is a plain `<a>`, not Next.js `Link`: Next.js handles hash links itself and doesn't move focus, so the next Tab would land back in the header. Lenis's anchor handling doesn't call `preventDefault`, so the browser moves focus to `<main>`.
 
 ## Site footer
 
-`frontend/src/features/site/site-footer/index.tsx` spans the full width and sits 10 lines below the content, in `muted`: the copyright line (the year is taken at build time) and a one-line colophon.
+`frontend/src/features/site/site-footer/index.tsx` sits 10 lines below the content, in the same `site-container` and `grid-site` as `<main>`, so its columns line up with the page. It is labelled by its `<h2>` "Connect"; below 800px everything stacks.
+
+- Columns 1–2: the "Connect" heading.
+- Columns 3–6, aligned with the page text: a description list of contact links, each a `muted` label above a `nav` link with the handle: email, then the profiles from `frontend/src/features/site/social-links.ts`.
+- Columns 11–12, aligned right: the copyright line in `muted` (the year is taken at build time).
+
+The footer replaces the old Contact page, so contact details live in code, not in a Sanity page.
 
 ## Typography
 
