@@ -8,7 +8,6 @@ import "@/features/style/global.css";
 
 import { linkStyles } from "@/components/link";
 import { Lenis } from "@/features/lenis";
-import { SanityLive } from "@/features/sanity/live";
 import { siteUrl } from "@/features/site";
 
 export const metadata: Metadata = {
@@ -51,7 +50,6 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           Skip to content
         </a>
         {children}
-        <SanityLive />
         {process.env.VERCEL_ENV ? <Analytics /> : null}
         {process.env.VERCEL_ENV ? <SpeedInsights /> : null}
       </body>

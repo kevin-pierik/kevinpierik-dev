@@ -24,7 +24,7 @@ paths:
 ## Do not flag
 
 - Client-side interaction in a `"use client"` component; it runs after the static HTML loads.
-- `sanityFetch` from `frontend/src/features/sanity/live.ts`; it is configured without tokens and prerenders.
+- `client.fetch` from `frontend/src/features/sanity/client.ts`; it is configured without a token and prerenders.
 - `generateStaticParams` returning an empty list while there is no content yet, as long as the build output stays `●`.
 
 ## Why

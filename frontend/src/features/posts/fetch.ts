@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
 import { cache } from "react";
 
-import { sanityFetch } from "@/features/sanity/live";
+import { client } from "@/features/sanity/client";
 
 import {
   ALL_ARTICLES_QUERY,
@@ -15,38 +15,18 @@ export function postsPath(slug?: string) {
   return slug ? `/posts/${slug}` : "/posts";
 }
 
-export const getArticles = cache(async () => {
-  const { data } = await sanityFetch({
-    query: ARTICLES_QUERY,
-    stega: false,
-  });
-  return data;
-});
+export const getArticles = cache(() => client.fetch(ARTICLES_QUERY));
 
 export async function getAllArticles() {
-  const { data } = await sanityFetch({
-    query: ALL_ARTICLES_QUERY,
-    perspective: "published",
-    stega: false,
-  });
-  return data;
+  return client.fetch(ALL_ARTICLES_QUERY);
 }
 
 export async function getArticleSlugs() {
-  const { data } = await sanityFetch({
-    query: ARTICLE_SLUGS_QUERY,
-    perspective: "published",
-    stega: false,
-  });
-  return data;
+  return client.fetch(ARTICLE_SLUGS_QUERY);
 }
 
 export const getArticle = cache(async (slug: string) => {
-  const { data: article } = await sanityFetch({
-    query: ARTICLE_QUERY,
-    params: { slug },
-    stega: false,
-  });
+  const article = await client.fetch(ARTICLE_QUERY, { slug });
   if (!article) notFound();
 
   return {

@@ -2,16 +2,12 @@ import { notFound } from "next/navigation";
 import { cache } from "react";
 
 import { postsPath } from "@/features/posts/fetch";
-import { sanityFetch } from "@/features/sanity/live";
+import { client } from "@/features/sanity/client";
 
 import { ALL_PAGES_QUERY, PAGE_QUERY, PAGE_URIS_QUERY } from "./query";
 
 export const getPageIfExists = cache(async (uri: string) => {
-  const { data: page } = await sanityFetch({
-    query: PAGE_QUERY,
-    params: { uri },
-    stega: false,
-  });
+  const page = await client.fetch(PAGE_QUERY, { uri });
   if (!page) return null;
 
   return page;
@@ -24,19 +20,10 @@ export const getPage = cache(async (uri: string) => {
 });
 
 export async function getPageUris() {
-  const { data } = await sanityFetch({
-    query: PAGE_URIS_QUERY,
-    perspective: "published",
-    stega: false,
-  });
+  const data = await client.fetch(PAGE_URIS_QUERY);
   return data.map(({ uri }) => uri).filter((uri) => uri !== postsPath());
 }
 
 export async function getAllPages() {
-  const { data } = await sanityFetch({
-    query: ALL_PAGES_QUERY,
-    perspective: "published",
-    stega: false,
-  });
-  return data;
+  return client.fetch(ALL_PAGES_QUERY);
 }

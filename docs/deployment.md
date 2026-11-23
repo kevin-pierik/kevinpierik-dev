@@ -10,6 +10,21 @@ The frontend is deployed on [Vercel](https://vercel.com) from the `frontend/` wo
 
 Run `bun run qa` before you push. GitHub Actions runs formatting, lint, typecheck, generated Sanity artifact checks, Vitest, and the frontend/Studio builds. The frontend build job runs Playwright end-to-end tests against the production build in Chromium and uploads an HTML report. Independent checks run in parallel, and a final `CI passed` job verifies they all succeeded. Checks run on every pull request and push to `main`, using the frozen Bun lockfile. Every frontend page must build as static: `○`, or `●` for prerendered Sanity pages; nothing is `ƒ`.
 
+## Publishing content
+
+Pages are built from Sanity content at deploy time. A Sanity webhook calls a Vercel Deploy Hook whenever a `page`, `article`, or `settings` document is published, changed, or deleted, so production rebuilds about a minute after you publish. A new article is also served on its first request before then, because its route sets `dynamicParams = true` ([Posts](frontend/posts.md#pages)).
+
+To set it up:
+
+1. In Vercel, open the project's **Settings → Git → Deploy Hooks** and create a hook named `sanity` for the `main` branch. Copy its URL; it is a secret, so keep it out of the repository.
+2. In [sanity.io/manage](https://www.sanity.io/manage), open the project, then **API → Webhooks**, and create a webhook:
+   - URL: the Deploy Hook URL
+   - Dataset: `production`
+   - Trigger on: create, update, and delete
+   - Filter: `_type in ["page", "article", "settings"]`
+   - Drafts and versions: off
+   - HTTP method: `POST`, with no projection
+
 ## Branch protection
 
 A GitHub ruleset named "Protect main" blocks direct pushes, force pushes, and deletion of `main`, and only allows squash-merged pull requests. Repository admins can bypass it in an emergency. Merged branches are deleted automatically.
