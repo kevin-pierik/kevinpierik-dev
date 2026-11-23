@@ -20,12 +20,6 @@ export const settings = defineType({
       of: [defineArrayMember({type: 'reference', to: [{type: 'page'}]})],
       validation: (rule) => rule.unique(),
     }),
-    defineField({
-      name: 'colophon',
-      type: 'text',
-      rows: 2,
-      description: 'Shown in the site footer.',
-    }),
   ],
   preview: {
     prepare: () => ({title: 'Settings'}),

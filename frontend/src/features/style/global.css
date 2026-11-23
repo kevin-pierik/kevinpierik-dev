@@ -10,6 +10,7 @@
     outline-color: var(--ring);
   }
   html {
+    scroll-padding-top: 7rem;
     overscroll-behavior: none;
     -webkit-tap-highlight-color: transparent;
   }
@@ -24,6 +25,37 @@
 }
 
 @layer components {
+  .header-blur {
+    position: absolute;
+    inset: 0 0 -2rem;
+    pointer-events: none;
+    background: linear-gradient(
+      to bottom,
+      color-mix(in oklab, var(--background) 80%, transparent) 40%,
+      transparent
+    );
+  }
+
+  .header-blur > div {
+    position: absolute;
+    inset: 0;
+  }
+
+  .header-blur > div:nth-child(1) {
+    backdrop-filter: blur(1px);
+    mask-image: linear-gradient(to bottom, #000 60%, transparent);
+  }
+
+  .header-blur > div:nth-child(2) {
+    backdrop-filter: blur(4px);
+    mask-image: linear-gradient(to bottom, #000 40%, transparent 80%);
+  }
+
+  .header-blur > div:nth-child(3) {
+    backdrop-filter: blur(12px);
+    mask-image: linear-gradient(to bottom, #000 20%, transparent 60%);
+  }
+
   [data-code-frame][data-numbered] code {
     counter-reset: line;
   }

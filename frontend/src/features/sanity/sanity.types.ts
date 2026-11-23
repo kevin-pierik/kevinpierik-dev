@@ -169,7 +169,6 @@ export type Settings = {
       _key: string;
     } & PageReference
   >;
-  colophon?: string;
 };
 
 export type Table = {
@@ -513,16 +512,14 @@ export type ARTICLE_QUERY_RESULT = {
 
 // Source: ../frontend/src/features/site/query.ts
 // Variable: SETTINGS_QUERY
-// Query: *[_id == "settings"][0] {    role,    colophon,    navigation[]->{      title,      "uri": uri.current    }  }
+// Query: *[_id == "settings"][0] {    role,    navigation[]->{      title,      "uri": uri.current    }  }
 export type SETTINGS_QUERY_RESULT =
   | {
       role: null;
-      colophon: null;
       navigation: null;
     }
   | {
       role: string;
-      colophon: string | null;
       navigation: Array<{
         title: string;
         uri: string;
@@ -540,7 +537,7 @@ declare global {
     '\n  *[_type == "article" && defined(slug.current)]\n    | order(publishedAt desc) {\n      \n  title,\n  "slug": slug.current,\n  description,\n  publishedAt,\n  updatedAt\n\n    }\n': ALL_ARTICLES_QUERY_RESULT;
     '\n  *[_type == "article" && defined(slug.current)] {\n    "slug": slug.current\n  }\n': ARTICLE_SLUGS_QUERY_RESULT;
     '\n  *[_type == "article" && slug.current == $slug][0] {\n    \n  title,\n  "slug": slug.current,\n  description,\n  publishedAt,\n  updatedAt\n,\n    seo { title, description },\n    "plainText": pt::text(body),\n    body[]{\n      ...,\n      _type == "image" => { \n  alt,\n  crop,\n  hotspot,\n  asset->{ _id, metadata { lqip, dimensions { width, height } } }\n, caption, wide }\n    },\n    "previous": *[\n      _type == "article" && publishedAt < ^.publishedAt\n    ] | order(publishedAt desc)[0] { title, "slug": slug.current },\n    "next": *[\n      _type == "article" && publishedAt > ^.publishedAt\n    ] | order(publishedAt asc)[0] { title, "slug": slug.current }\n  }\n': ARTICLE_QUERY_RESULT;
-    '\n  *[_id == "settings"][0] {\n    role,\n    colophon,\n    navigation[]->{\n      title,\n      "uri": uri.current\n    }\n  }\n': SETTINGS_QUERY_RESULT;
+    '\n  *[_id == "settings"][0] {\n    role,\n    navigation[]->{\n      title,\n      "uri": uri.current\n    }\n  }\n': SETTINGS_QUERY_RESULT;
   }
 }
 // Lets @sanity/client releases that predate the global registry read it too

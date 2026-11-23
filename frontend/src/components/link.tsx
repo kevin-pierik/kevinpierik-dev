@@ -14,11 +14,33 @@ type LinkProps = ComponentProps<typeof NextLink> & {
   variant?: keyof typeof linkStyles;
 };
 
-export function Link({ variant = "text", className, ...props }: LinkProps) {
+function isExternal(href: LinkProps["href"]) {
+  return (
+    typeof href === "string" &&
+    (href.startsWith("http://") || href.startsWith("https://"))
+  );
+}
+
+export function Link({
+  variant = "text",
+  className,
+  children,
+  ...props
+}: LinkProps) {
   return (
     <NextLink
       className={[linkStyles[variant], className].filter(Boolean).join(" ")}
       {...props}
-    />
+    >
+      {children}
+      {isExternal(props.href) ? (
+        <>
+          {" "}
+          <span aria-hidden="true" className="text-muted">
+            ↗
+          </span>
+        </>
+      ) : null}
+    </NextLink>
   );
 }

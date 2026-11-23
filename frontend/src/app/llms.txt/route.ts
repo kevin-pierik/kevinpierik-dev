@@ -1,7 +1,7 @@
 import { postsPath, getAllArticles } from "@/features/posts/fetch";
 import { getAllPages } from "@/features/pages/fetch";
 import { siteUrl } from "@/features/site";
-import { socialLinks } from "@/features/site/social-links";
+import { email, socialLinks } from "@/features/site/social-links";
 
 export const dynamic = "force-static";
 
@@ -53,7 +53,7 @@ ${list([
 
 ## Contact
 
-- [Email](mailto:hello@kevinpierik.dev)
+- [Email](mailto:${email})
 ${socialLinks.map(({ label, href }) => `- [${label}](${href})`).join("\n")}
 `;
 

@@ -7,7 +7,7 @@ import {
   siteUrl,
   websiteId,
 } from "@/features/site";
-import { socialLinks } from "@/features/site/social-links";
+import { email, socialLinks } from "@/features/site/social-links";
 
 type PageSummary = {
   title: string;
@@ -100,7 +100,7 @@ export function homeStructuredData(page: PageSummary): Graph {
         familyName: "Pierik",
         url: siteUrl,
         mainEntityOfPage: { "@id": `${siteUrl}/#webpage` },
-        email: "hello@kevinpierik.dev",
+        email,
         telephone: "+31615545687",
         description,
         jobTitle: "Frontend Developer",

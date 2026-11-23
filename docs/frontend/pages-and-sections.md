@@ -4,7 +4,7 @@ Every regular page is a `page` document in Sanity, and every article is an `arti
 
 ## Page model
 
-`studio/schemas/documents/page.ts` defines a title, URI, optional SEO object, and direct Body field. The URI is the full public path, such as `/` or `/contact`; `createUriField()` fills it from the title and checks uniqueness.
+`studio/schemas/documents/page.ts` defines a title, URI, optional SEO object, and direct Body field. The URI is the full public path, such as `/` or `/posts`; `createUriField()` fills it from the title and checks uniqueness.
 
 `frontend/src/app/[[...uri]]/page.tsx` statically renders every published page document except `/posts`. `frontend/src/app/posts/page.tsx` renders the `/posts` page document followed by the article list, following Sanity's Next.js pattern: editors manage the text, code renders the generated list. Both use `PageBody` from `frontend/src/features/pages/page-body.tsx`.
 
@@ -18,7 +18,7 @@ Body content aligns with columns 3–10 in the site grid ([Layout](layout.md#gri
 
 ## Settings
 
-Site-wide content lives in the `settings` singleton (`studio/schemas/documents/settings.ts`), registered with `defineSingleton` in `studio/sanity.config.ts` and shown at the top of the Studio. It holds the role shown under the name in the header and on the Open Graph image, the header navigation (references to `page` documents, in order), and the footer colophon. `frontend/src/features/site/fetch.ts` reads it with `getSettings()`; the header marks the link whose URI matches the current path, or one of its parents, as current.
+Site-wide content lives in the `settings` singleton (`studio/schemas/documents/settings.ts`), registered with `defineSingleton` in `studio/sanity.config.ts` and shown at the top of the Studio. It holds the role shown under the name in the header and on the Open Graph image, and the header navigation (references to `page` documents, in order). `frontend/src/features/site/fetch.ts` reads it with `getSettings()`; the header marks the link whose URI matches the current path, or one of its parents, as current.
 
 Interface text that isn't content, such as the skip link, copy-button labels, the 404 text, and the article navigation, is hardcoded in the component that uses it.
 

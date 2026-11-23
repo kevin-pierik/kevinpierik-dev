@@ -1,15 +1,37 @@
-import { getSettings } from "@/features/site/fetch";
+import { Link } from "@/components/link";
+import { email, socialLinks } from "@/features/site/social-links";
 
-export async function SiteFooter() {
-  const settings = await getSettings();
+const connectLinks = [
+  { label: "Email", handle: email, href: `mailto:${email}` },
+  ...socialLinks,
+];
+
+export function SiteFooter() {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="px-6 pt-[10lh] pb-6 text-muted sm:pb-8">
-      <p>© {year} Kevin Pierik.</p>
-      {settings?.colophon ? (
-        <p className="mt-[1lh] max-w-[80ch]">{settings.colophon}</p>
-      ) : null}
+    <footer
+      aria-labelledby="footer-title"
+      className="site-container grid gap-y-[2lh] pt-[10lh] pb-[4lh] site:grid-site"
+    >
+      <h2 className="site:col-span-2" id="footer-title">
+        Connect
+      </h2>
+      <dl className="grid content-start gap-y-[1lh] site:col-span-4 site:col-start-3">
+        {connectLinks.map(({ label, handle, href }) => (
+          <div key={label}>
+            <dt className="text-muted">{label}</dt>
+            <dd>
+              <Link href={href} variant="nav">
+                {handle}
+              </Link>
+            </dd>
+          </div>
+        ))}
+      </dl>
+      <p className="text-muted site:col-span-2 site:col-start-11 site:text-right">
+        © {year} Kevin Pierik
+      </p>
     </footer>
   );
 }
