@@ -16,9 +16,8 @@ const securityHeaders = [
 const nextConfig: NextConfig = {
   reactCompiler: true,
   images: {
-    remotePatterns: [
-      { protocol: "https", hostname: "cdn.sanity.io", pathname: "/images/**" },
-    ],
+    loader: "custom",
+    loaderFile: "./src/features/sanity/media/image-loader.ts",
   },
   experimental: {
     inlineCss: true,

@@ -21,6 +21,7 @@ Articles are written in English. Sanity keeps unpublished changes as drafts; the
 - `frontend/src/features/posts/query.ts` and `frontend/src/features/pages/query.ts` hold the GROQ queries, written with `defineQuery`, with shared fragments such as `frontend/src/features/sanity/media/fragment.ts` (imported relatively, because TypeGen runs from `studio/` and doesn't know the `@/` alias). `bun run typegen` extracts the schema to `studio/schema.json` and writes `frontend/src/features/sanity/sanity.types.ts`. Run it after changing the schema or a query, and commit both files.
 - `generateStaticParams` and the sitemap fetch with `perspective: "published"` and `stega: false`, as the guide recommends for URLs and metadata.
 - `frontend/src/features/sanity/rich-text/` renders the Body with Portable Text, using `CodeBlock`, `Figure`, `Table`, and `HeadingLink`. Headings get an id from their text and copy a link to themselves when clicked.
+- `next/image` uses a custom loader (`frontend/src/features/sanity/media/image-loader.ts`, set as `images.loaderFile` in `frontend/next.config.ts`). It adds `w`, `q`, `fit=max`, and `auto=format` to the Sanity CDN URL, which keeps the crop that `imageProps()` puts in the URL. The Sanity CDN resizes the images, so Vercel Image Optimization is never used. Only Sanity images go through `next/image`.
 - Reading time counts the words of `pt::text(body)` at 200 words a minute.
 
 ## Pages
