@@ -9,7 +9,7 @@ The English homepage at `/` aims to be the first result for "Kevin Pierik" and t
 - The title leads with the name, `Kevin Pierik | Frontend Developer`, because that is what people search for.
 - A description and a canonical URL.
 - `author`, `creator`, `publisher`, `application-name`, `category`, and `copyright`. The copyright year comes from the build date.
-- Open Graph as a `profile` (first name, last name, username), and a large Twitter card. Other pages are an Open Graph `website`. The image comes from `frontend/src/app/(web)/opengraph-image.tsx` (see below). Next.js merges `openGraph` shallowly, so declare the complete object.
+- Open Graph as a `profile` (first name, last name, username), and a large Twitter card. Other pages are an Open Graph `website`. The image comes from `frontend/src/app/opengraph-image.tsx` (see below). Next.js merges `openGraph` shallowly, so declare the complete object.
 - `robots` allows indexing with large image previews.
 
 `og:locale` is `en_US`.
@@ -37,7 +37,7 @@ The site URL, name, and the `#person` and `#website` ids live in `frontend/src/f
 
 ## Open Graph image
 
-`frontend/src/app/(web)/opengraph-image.tsx` draws a 1200×630 PNG in the site's style: the name and role at the top left, `kevinpierik.dev` at the bottom, in Geist Sans on white. It reads the Geist TTF files from the `geist` package, because the image renderer can't read woff2. Next.js adds the `og:image` and `twitter:image` tags itself, so the metadata declares no images.
+`frontend/src/app/opengraph-image.tsx` draws a 1200×630 PNG in the site's style: the name and role at the top left, `kevinpierik.dev` at the bottom, in Geist Sans on white. It reads the Geist TTF files from the `geist` package, because the image renderer can't read woff2. Next.js adds the `og:image` and `twitter:image` tags itself, so the metadata declares no images.
 
 ## Other files
 

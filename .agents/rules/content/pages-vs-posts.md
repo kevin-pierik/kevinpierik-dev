@@ -19,8 +19,8 @@ paths:
 
 - A page builder, section array, or block-type union added to `page` or `article` instead of the direct `body` field.
 - A field added to one type's body (a new block, mark, or style) without the matching change in the shared renderer in `frontend/src/features/sanity/rich-text/`, or in `create-rich-text.ts` for the other type.
-- A new route under `frontend/src/app/(web)/` that duplicates what `[[...uri]]` already renders from a `page` document.
-- `[[...uri]]` rendering `/posts`, which `frontend/src/app/(web)/posts/page.tsx` renders with the article list.
+- A new route under `frontend/src/app/` that duplicates what `[[...uri]]` already renders from a `page` document.
+- `[[...uri]]` rendering `/posts`, which `frontend/src/app/posts/page.tsx` renders with the article list.
 - A GROQ query that fetches drafts, or misses the projection fields the route uses, without running `bun run typegen`.
 - Generated content, such as the article list, moved into Body, or editor content hardcoded in a route.
 
