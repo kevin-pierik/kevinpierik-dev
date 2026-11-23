@@ -17,7 +17,7 @@ Articles are written in English. Sanity keeps unpublished changes as drafts; the
 
 ## How it works
 
-- `frontend/src/features/sanity/` holds the client, `defineLive` (`sanityFetch` and `<SanityLive />`), and the image URL helper, as in Sanity's guide. `<SanityLive />` sits in `frontend/src/app/(web)/layout.tsx`, so published changes appear on every page without a new deploy.
+- `frontend/src/features/sanity/` holds the client and the image URL helper. The client reads only published content from the Sanity CDN, without a token, and the fetch helpers call `client.fetch` directly. There is no `<SanityLive />`, so visitors load no Sanity JavaScript and keep no connection open. Instead, publishing in Sanity triggers a new deploy ([Deployment](../deployment.md#publishing-content)).
 - `frontend/src/features/posts/query.ts` and `frontend/src/features/pages/query.ts` hold the GROQ queries, written with `defineQuery`, with shared fragments such as `frontend/src/features/sanity/media/fragment.ts` (imported relatively, because TypeGen runs from `studio/` and doesn't know the `@/` alias). `bun run typegen` extracts the schema to `studio/schema.json` and writes `frontend/src/features/sanity/sanity.types.ts`. Run it after changing the schema or a query, and commit both files.
 - `generateStaticParams` and the sitemap fetch with `perspective: "published"` and `stega: false`, as the guide recommends for URLs and metadata.
 - `frontend/src/features/sanity/rich-text/` renders the Body with Portable Text, using `CodeBlock`, `Figure`, `Table`, and `HeadingLink`. Headings get an id from their text and copy a link to themselves when clicked.

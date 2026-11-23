@@ -8,7 +8,6 @@ import {
 } from "@/app/shared-web-layout";
 import { linkStyles } from "@/components/link";
 import { Lenis } from "@/features/lenis";
-import { SanityLive } from "@/features/sanity/live";
 
 export const metadata: Metadata = sharedMetadata;
 
@@ -25,7 +24,6 @@ export default function WebLayout({ children }: { children: ReactNode }) {
         Skip to content
       </a>
       {children}
-      <SanityLive />
     </SharedWebLayout>
   );
 }
