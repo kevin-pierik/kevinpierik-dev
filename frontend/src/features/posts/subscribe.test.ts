@@ -23,6 +23,7 @@ function mockFetch(turnstile: boolean, klaviyoStatus = 202) {
 
 describe("subscribe", () => {
   beforeEach(() => {
+    vi.spyOn(console, "error").mockImplementation(() => {});
     vi.stubEnv("TURNSTILE_SECRET_KEY", "secret");
     vi.stubEnv("KLAVIYO_PRIVATE_KEY", "pk_test");
     vi.stubEnv("KLAVIYO_LIST_ID", "LIST1");
@@ -31,6 +32,7 @@ describe("subscribe", () => {
   afterEach(() => {
     vi.unstubAllGlobals();
     vi.unstubAllEnvs();
+    vi.restoreAllMocks();
   });
 
   test("rejects an invalid email without calling anything", async () => {

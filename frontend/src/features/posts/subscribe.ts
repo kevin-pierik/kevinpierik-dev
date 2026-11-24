@@ -16,7 +16,16 @@ async function verifyTurnstile(token: string) {
       }),
     },
   );
-  const result = (await response.json()) as { success?: boolean };
+  const result = (await response.json()) as {
+    success?: boolean;
+    "error-codes"?: string[];
+  };
+  if (result.success !== true) {
+    console.error(
+      "newsletter: Turnstile rejected the token",
+      result["error-codes"],
+    );
+  }
   return result.success === true;
 }
 
@@ -57,6 +66,12 @@ async function subscribeToList(email: string) {
       }),
     },
   );
+  if (response.status !== 202) {
+    console.error(
+      `newsletter: Klaviyo answered ${response.status}`,
+      (await response.text()).slice(0, 500),
+    );
+  }
   return response.status === 202;
 }
 
@@ -67,12 +82,18 @@ export async function subscribe(
   const email = String(formData.get("email") ?? "").trim();
   const token = String(formData.get("cf-turnstile-response") ?? "");
 
-  if (!emailPattern.test(email) || !token) return { status: "error" };
+  if (!emailPattern.test(email) || !token) {
+    console.error(
+      `newsletter: ${token ? "invalid email address" : "missing Turnstile token"}`,
+    );
+    return { status: "error" };
+  }
 
   try {
     if (!(await verifyTurnstile(token))) return { status: "error" };
     return { status: (await subscribeToList(email)) ? "done" : "error" };
-  } catch {
+  } catch (error) {
+    console.error("newsletter: request failed", error);
     return { status: "error" };
   }
 }
