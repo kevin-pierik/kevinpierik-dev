@@ -14,13 +14,14 @@ The site header provides the homepage `<h1>`. Other regular pages use a screenre
 
 `studio/schemas/fields/create-sections.ts` defines the section types, and `createSections()` picks the ones a document type allows. Every section has an icon and a preview with its content and type name, such as "About me · Text", "Demo · Media · Video", or "Projects · Carousel · 4 items".
 
-| Section  | `_type`           | Pages | Articles | Content                                                                                    |
-| -------- | ----------------- | ----- | -------- | ------------------------------------------------------------------------------------------ |
-| Text     | `textSection`     | yes   | yes      | Portable Text: paragraphs, `h2` and `h3`, quotes, lists, links, inline code                |
-| Media    | `mediaSection`    | yes   | yes      | An image or a Mux video, with an optional caption and `wide`                               |
-| Carousel | `carouselSection` | yes   | yes      | Optional title and items, each with an image, a title, an optional link, and a description |
-| Code     | `code`            | no    | yes      | A `@sanity/code-input` block                                                               |
-| Table    | `table`           | no    | yes      | A `@sanity/table` table                                                                    |
+| Section  | `_type`           | Pages | Articles | Content                                                                                                   |
+| -------- | ----------------- | ----- | -------- | --------------------------------------------------------------------------------------------------------- |
+| Text     | `textSection`     | yes   | yes      | Portable Text: paragraphs, `h2` and `h3`, quotes, lists, links, inline code                               |
+| Media    | `mediaSection`    | yes   | yes      | An image or a Mux video, with an optional caption and `wide`                                              |
+| Carousel | `carouselSection` | yes   | yes      | Optional title and items, each with an image, a title, an optional link, and a description                |
+| List     | `listSection`     | yes   | yes      | A title and items, each with an optional period, a title, an optional link, a description, and a location |
+| Code     | `code`            | no    | yes      | A `@sanity/code-input` block                                                                              |
+| Table    | `table`           | no    | yes      | A `@sanity/table` table                                                                                   |
 
 Code and table use the plugins' own type names, `code` and `table`, as `_type`.
 
@@ -52,6 +53,10 @@ Uploading in the Studio needs a Mux account. In the Mux dashboard, open **Settin
 - The carousel starts in column 3 and runs to the right edge of the screen, using the `bleed-end` utility in `tailwind.css` and `data-bleed` on its wrapper. `html` has `overflow-x: clip`, so the bleed never causes a horizontal scrollbar.
 - Slides are at most 28rem wide (80vw on small screens), snap to the start, and sit 1.5rem apart. Each shows its media in a 16:10 frame with a `subtle` background, the title (a `nav` link with ↗ when it has a link), and the description in `muted`.
 - The stylesheet is imported in `global.css` into the `components` layer. Its own `blossom-carousel` layer would otherwise come after Tailwind's `utilities` and override the slide layout.
+
+### List
+
+`frontend/src/features/sections/list.tsx` renders the title as an `h2`, then an `<ol>` labelled by it, with the same rows as the posts index: the period in `muted` in columns 3–4, and the title (an `h3`, a `nav` link when it has a link) with the description and location in `muted` in columns 5–10. The list is a full-width `grid-site` marked `data-full`, which the page and article grids place across all columns, so its columns line up with the posts index. Use it for a CV, such as work and education on the homepage. In Markdown each item is a bullet that starts with its period.
 
 ## Settings
 

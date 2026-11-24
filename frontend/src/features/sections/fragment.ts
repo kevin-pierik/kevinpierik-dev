@@ -22,6 +22,10 @@ export const sectionsFragment = /* groq */ `
     _type == "mediaSection" => { ${mediaFragment}, caption, wide },
     _type == "code" => { code, language },
     _type == "table" => { rows },
+    _type == "listSection" => {
+      title,
+      items[]{ _key, period, title, link, description, location }
+    },
     _type == "carouselSection" => {
       title,
       items[]{ _key, title, link, description, media{ ${mediaFragment} } }

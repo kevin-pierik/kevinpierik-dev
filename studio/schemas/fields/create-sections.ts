@@ -4,6 +4,7 @@ import {ImagesIcon} from '@sanity/icons/Images'
 import {PlayIcon} from '@sanity/icons/Play'
 import {TextIcon} from '@sanity/icons/Text'
 import {ThListIcon} from '@sanity/icons/ThList'
+import {TimelineIcon} from '@sanity/icons/Timeline'
 import {defineArrayMember, defineField, type PortableTextBlock} from 'sanity'
 
 import {createLink} from './create-link'
@@ -111,6 +112,55 @@ const carouselSection = defineArrayMember({
   },
 })
 
+const listSection = defineArrayMember({
+  name: 'listSection',
+  title: 'List',
+  type: 'object',
+  icon: TimelineIcon,
+  fields: [
+    defineField({
+      name: 'title',
+      type: 'string',
+      description: 'Shown as a heading above the list.',
+      validation: (rule) => rule.required(),
+    }),
+    defineField({
+      name: 'items',
+      type: 'array',
+      validation: (rule) => rule.required().min(1),
+      of: [
+        defineArrayMember({
+          name: 'listItem',
+          title: 'Item',
+          type: 'object',
+          fields: [
+            defineField({
+              name: 'period',
+              type: 'string',
+              description: 'Shown on the left, such as 2025–now.',
+            }),
+            defineField({name: 'title', type: 'string', validation: (rule) => rule.required()}),
+            createLink(),
+            defineField({name: 'description', type: 'text', rows: 2}),
+            defineField({name: 'location', type: 'string'}),
+          ],
+          preview: {select: {title: 'title', subtitle: 'period'}},
+        }),
+      ],
+    }),
+  ],
+  preview: {
+    select: {title: 'title', items: 'items'},
+    prepare: ({title, items}) => {
+      const count = Array.isArray(items) ? items.length : 0
+      return {
+        title: title || 'List',
+        subtitle: `List · ${count} ${count === 1 ? 'item' : 'items'}`,
+      }
+    },
+  },
+})
+
 const codeSection = defineArrayMember({
   name: 'code',
   title: 'Code',
@@ -144,6 +194,7 @@ const sections = {
   textSection,
   mediaSection,
   carouselSection,
+  listSection,
   code: codeSection,
   table: tableSection,
 }

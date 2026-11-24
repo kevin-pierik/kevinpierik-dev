@@ -62,12 +62,12 @@ export const richTextComponents: PortableTextComponents = {
   },
   list: {
     bullet: ({ children }) => (
-      <ul className="mt-[1lh] list-disc pl-[2ch] marker:text-muted first:mt-0 site:pl-0">
+      <ul className="mt-[1lh] list-disc pl-[2ch] marker:text-muted first:mt-0">
         {children}
       </ul>
     ),
     number: ({ children }) => (
-      <ol className="mt-[1lh] list-decimal pl-[3ch] tabular-nums marker:text-muted first:mt-0 site:pl-0">
+      <ol className="mt-[1lh] list-decimal pl-[3ch] tabular-nums marker:text-muted first:mt-0">
         {children}
       </ol>
     ),

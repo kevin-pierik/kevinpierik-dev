@@ -71,12 +71,13 @@ function section(value: Section) {
       ].join("\n");
     }
     case "carouselSection":
+    case "listSection":
       return [
         value.title && `## ${value.title}`,
         value.items
           ?.map(
             (item) =>
-              `- ${item.link ? `[${text(item.title ?? "")}](${url(absoluteUrl(item.link))})` : item.title}${item.description ? `: ${item.description}` : ""}`,
+              `- ${"period" in item && item.period ? `${item.period}: ` : ""}${item.link ? `[${text(item.title ?? "")}](${url(absoluteUrl(item.link))})` : item.title}${item.description ? `: ${item.description}` : ""}${"location" in item && item.location ? ` (${item.location})` : ""}`,
           )
           .join("\n"),
       ]

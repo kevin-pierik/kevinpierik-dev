@@ -40,7 +40,9 @@ test("the posts index handles empty content and opens published posts", async ({
     (await page.locator('script[type="application/ld+json"]').textContent()) ??
       "{}",
   );
-  expect(structuredData["@type"]).toBe("BlogPosting");
+  expect(
+    structuredData["@graph"].map((node: { "@type": string }) => node["@type"]),
+  ).toContain("BlogPosting");
 });
 
 test("unknown content returns a noindex 404", async ({ page }) => {

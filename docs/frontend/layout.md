@@ -13,7 +13,7 @@ The container is the `site-container` utility in `frontend/src/features/style/ta
 From the `site` breakpoint (800px, `--breakpoint-site` in `tailwind.css`), every page lays out on one 12-column grid, the `grid-site` utility: 12 equal columns with a 1.75% gap. `<main>` is a `grid-site`, and every nested element that places content, such as a page's sections, an article row, or an article's sections, is a full-width `grid-site` of its own. All grids are equally wide, so their columns line up, and a column number always means the same line on every page:
 
 - Pages: headings and text in columns 3–10.
-- Posts index: dates in columns 3–4, title and description in columns 5–10.
+- Posts index and List sections: dates or periods in columns 3–4, title and description in columns 5–10.
 - Article: text in columns 4–9, centred; figures and tables in 3–10; `wide` figures in 2–11; the back link starts on line 3.
 
 Don't use `subgrid` or absolutely positioned grid items for this: Safari placed them differently from Chromium. Below 800px everything stacks in one column. Running text stops at 80ch, following the Modern Web Guidance typography guide.

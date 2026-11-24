@@ -105,6 +105,28 @@ describe("sectionsToMarkdown", () => {
     ).toBe("![Desk](https://cdn.sanity.io/image.png)");
   });
 
+  test("renders list items with their period", () => {
+    expect(
+      sectionsToMarkdown(
+        sections({
+          _key: "a",
+          _type: "listSection",
+          title: "Work",
+          items: [
+            { _key: "b", period: "2025–now", title: "Friday", link: null },
+            {
+              _key: "c",
+              period: null,
+              title: "Intern",
+              description: "Web",
+              location: "Zwolle",
+            },
+          ],
+        }),
+      ),
+    ).toBe("## Work\n\n- 2025–now: Friday\n- Intern: Web (Zwolle)");
+  });
+
   test("skips empty sections", () => {
     expect(
       sectionsToMarkdown(
