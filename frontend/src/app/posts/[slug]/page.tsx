@@ -5,6 +5,7 @@ import { Link } from "@/components/link";
 import { postsPath, getArticle, getArticleSlugs } from "@/features/posts/fetch";
 import { formatDate } from "@/features/posts/format-date";
 import { postMetadata, postStructuredData } from "@/features/posts/metadata";
+import { NewsletterForm } from "@/features/posts/newsletter-form";
 import { Sections } from "@/features/sections";
 import { SiteFooter } from "@/features/site/site-footer";
 import { SiteHeader } from "@/features/site/site-header";
@@ -78,6 +79,9 @@ export default async function PostPage({ params }: PostPageProps) {
         >
           <Sections sections={post.sections} />
         </article>
+        <div className={`mt-[6lh] ${prose}`}>
+          <NewsletterForm />
+        </div>
         {previous || next ? (
           <nav aria-label="More posts" className={`mt-[6lh] ${prose}`}>
             <ul className="grid gap-[1lh] sm:grid-cols-2">

@@ -6,6 +6,7 @@ The Next.js app lives in `frontend/`. These guides cover its routes, UI, metadat
 - [Layout and typography](layout.md) (`app/layout.tsx`, `features/site/`, `features/style/`, `features/lenis.tsx`): the grid, header, footer, fonts, and smooth scrolling.
 - [Pages and sections](pages-and-sections.md) (`app/[[...uri]]/`, `features/pages/`, `features/sections/`, `features/sanity/`): rendering Sanity pages and articles from sections.
 - [Posts](posts.md) (`app/posts/`, `app/feed.xml/`, `features/posts/`): the index, article pages, and RSS feed.
+- [Newsletter](newsletter.md) (`features/posts/newsletter-form.tsx`, `features/posts/subscribe.ts`): the signup form under posts, with Turnstile and Klaviyo.
 - [Links and buttons](links-and-buttons.md) (`components/`, `features/sanity/link/`): the `Link` and `Button` components.
 - [Color scheme](color-scheme.md) (`features/style/colors.css`): system light and dark mode.
 - [SEO and structured data](seo-and-structured-data.md) (`features/*/metadata.ts`, `components/json-ld.tsx`, `app/sitemap.ts`, `app/robots.ts`, `app/manifest.ts`): metadata, JSON-LD, sitemap, and manifest.

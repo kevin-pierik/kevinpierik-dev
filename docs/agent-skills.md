@@ -39,7 +39,7 @@ npx skills add vercel-labs/agent-skills --skill web-design-guidelines --agent cl
 
 Keep the installed skill folders in `.agents/skills/`. If an installer targets an agent-specific directory, use its option for the repository-wide `.agents/skills/` location or move the newly installed skill folder there; do not keep a second copy under `.claude/`. The `.claude/skills`, `.claude/agents`, and `.claude/rules` symlinks already expose them to Claude Code.
 
-`modern-web-guidance` has its own CLI: `npx modern-web-guidance@latest update` updates it, and `npx modern-web-guidance@latest legacy-scan .` lists outdated patterns. The CLI sends anonymous usage data to Google unless `DISABLE_TELEMETRY=1` is set.
+`modern-web-guidance` has its own CLI: `npx modern-web-guidance@latest update` updates it, and `npx modern-web-guidance@latest legacy-scan .` lists outdated patterns. `.mwgrc` holds its project setting `allowOriginTrials: true`, which unlocks guides for origin trial features such as declarative WebMCP ([Newsletter](frontend/newsletter.md#ai-agents)). The CLI sends anonymous usage data to Google unless `DISABLE_TELEMETRY=1` is set.
 
 Skills are excluded from Prettier and ESLint, so their files stay identical to the source. `.gitattributes` marks them as vendored, so GitHub leaves them out of the language statistics.
 

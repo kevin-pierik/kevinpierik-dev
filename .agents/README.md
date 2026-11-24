@@ -10,11 +10,11 @@ Repository-level guidance for coding agents such as Claude Code, Codex, and Curs
 
 ```markdown
 ---
-name: frontend/static-routes
-rubric: correctness
+name: frontend/heading-ranks
+rubric: accessibility
 severity: blocking
 paths:
-  - "frontend/src/app/**"
+  - "frontend/src/**/*.tsx"
 ---
 
 # Title

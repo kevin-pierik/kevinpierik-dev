@@ -19,7 +19,6 @@ export default defineConfig({
     baseURL,
     trace: "retain-on-failure",
     screenshot: "only-on-failure",
-    ...devices["Desktop Chrome"],
   },
   projects: [{ name: "chromium", use: { ...devices["Desktop Chrome"] } }],
   webServer: process.env.PLAYWRIGHT_TEST_BASE_URL

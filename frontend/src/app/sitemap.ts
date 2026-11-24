@@ -16,11 +16,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       lastModified: page._updatedAt,
       priority: isHomeUri(page.uri) ? 1 : 0.8,
     })),
-    {
-      url: absoluteUrl(postsPath()),
-      changeFrequency: "weekly" as const,
-      priority: 0.7,
-    },
     ...articles.map((article) => ({
       url: absoluteUrl(postsPath(article.slug)),
       lastModified: article.updatedAt ?? article.publishedAt,

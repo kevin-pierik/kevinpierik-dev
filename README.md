@@ -45,7 +45,7 @@ bun run dev
 
 This starts the frontend at [http://localhost:3000](http://localhost:3000) and the Studio at [http://localhost:3333](http://localhost:3333). For one workspace, use `bun run dev:frontend` or `bun run dev:studio`.
 
-Copy `frontend/.env.example` to `frontend/.env.local` and `studio/.env.example` to `studio/.env.local` for the public Sanity project settings. The Studio uses the root Bun workspace; its scripts include `bun run typegen`, `bun --filter studio seed`, and `bun --filter studio deploy`.
+Copy `frontend/.env.example` to `frontend/.env.local` and `studio/.env.example` to `studio/.env.local`. The public Sanity project is `v3zmx1mq` with the `production` dataset. The Studio uses the root Bun workspace; its scripts include `bun run typegen`, `bun --filter studio seed`, and `bun --filter studio deploy`.
 
 Run the full quality check from the repository root:
 
