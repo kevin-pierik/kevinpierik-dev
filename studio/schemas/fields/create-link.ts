@@ -1,9 +1,8 @@
 import {defineField} from 'sanity'
 
-export function createLink(name = 'link', title = 'Link') {
+export function createLink() {
   return defineField({
-    name,
-    title,
+    name: 'link',
     type: 'url',
     validation: (rule) => rule.uri({scheme: ['https', 'http', 'mailto', 'tel']}),
   })

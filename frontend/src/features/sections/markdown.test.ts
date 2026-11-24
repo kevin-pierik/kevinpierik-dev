@@ -4,7 +4,9 @@ vi.mock("@/features/sanity/media/image", () => ({
   imageProps: () => ({ src: "https://cdn.sanity.io/image.png" }),
 }));
 
-import { absoluteUrl, sectionsToMarkdown } from "./markdown";
+import { absoluteUrl } from "@/features/site";
+
+import { sectionsToMarkdown } from "./markdown";
 import type { Section } from "./types";
 
 const sections = (...items: unknown[]) => items as Section[];

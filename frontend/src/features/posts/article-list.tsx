@@ -1,6 +1,8 @@
+import { Link } from "@/components/link";
 import type { ARTICLES_QUERY_RESULT } from "@/features/sanity/sanity.types";
 
-import { ArticleCard } from "./article-card";
+import { postsPath } from "./fetch";
+import { formatDate } from "./format-date";
 
 export function ArticleList({ articles }: { articles: ARTICLES_QUERY_RESULT }) {
   if (articles.length === 0) {
@@ -13,7 +15,24 @@ export function ArticleList({ articles }: { articles: ARTICLES_QUERY_RESULT }) {
       className="mt-[1lh] site:col-span-full site:grid-site"
     >
       {articles.map((article) => (
-        <ArticleCard article={article} key={article.slug} />
+        <li
+          className="grid site:col-span-full site:grid-site [&+&]:mt-[1lh]"
+          key={article.slug}
+        >
+          <p className="text-muted tabular-nums site:col-[3/5]">
+            <time dateTime={article.publishedAt}>
+              {formatDate(article.publishedAt)}
+            </time>
+          </p>
+          <div className="site:col-[5/11]">
+            <h3>
+              <Link href={postsPath(article.slug)} variant="nav">
+                {article.title}
+              </Link>
+            </h3>
+            <p className="max-w-[65ch] text-muted">{article.description}</p>
+          </div>
+        </li>
       ))}
     </ol>
   );

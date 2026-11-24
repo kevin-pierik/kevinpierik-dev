@@ -7,6 +7,7 @@ import {
 import NextLink from "next/link";
 
 import { Link, linkStyles } from "@/components/link";
+import { siteName } from "@/features/site";
 import { getSettings } from "@/features/site/fetch";
 
 type SiteHeaderProps = {
@@ -19,7 +20,7 @@ export async function SiteHeader({ current }: SiteHeaderProps) {
   const navigation = settings?.navigation ?? [];
   const name = (
     <Link href="/" variant="nav">
-      Kevin Pierik
+      {siteName}
     </Link>
   );
 

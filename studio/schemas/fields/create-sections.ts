@@ -88,7 +88,7 @@ const carouselSection = defineArrayMember({
               fields: createMediaFields(),
             }),
             defineField({name: 'title', type: 'string', validation: (rule) => rule.required()}),
-            createLink('link'),
+            createLink(),
             defineField({name: 'description', type: 'text', rows: 2}),
           ],
           preview: {

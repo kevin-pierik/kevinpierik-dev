@@ -1,4 +1,5 @@
-import { absoluteUrl, sectionsToMarkdown } from "@/features/sections/markdown";
+import { sectionsToMarkdown } from "@/features/sections/markdown";
+import { absoluteUrl } from "@/features/site";
 import type { Section } from "@/features/sections/types";
 
 import { postsPath } from "./fetch";
