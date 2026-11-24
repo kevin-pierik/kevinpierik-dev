@@ -1,0 +1,27 @@
+name: Deploy Studio
+
+on:
+  push:
+    branches: [main]
+    paths: [studio/**, bun.lock]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: deploy-studio
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    name: Deploy Studio to Sanity hosting
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: ./.github/actions/setup
+      - run: bun --filter studio deploy
+        env:
+          SANITY_AUTH_TOKEN: ${{ secrets.SANITY_AUTH_TOKEN }}
+          SANITY_STUDIO_PROJECT_ID: v3zmx1mq
+          SANITY_STUDIO_DATASET: production
