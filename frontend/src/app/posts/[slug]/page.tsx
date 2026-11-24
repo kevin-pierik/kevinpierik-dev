@@ -74,7 +74,7 @@ export default async function PostPage({ params }: PostPageProps) {
         </p>
         <article
           aria-labelledby="post-title"
-          className="mt-[3lh] site:col-span-full site:grid-site site:content-start site:*:col-[4/10] site:*:data-bleed:col-[3/-1] site:*:data-wide:col-[2/12] site:[&>:is(figure,[data-table]):not([data-wide])]:col-[3/11]"
+          className="mt-[3lh] site:col-span-full site:grid-site site:content-start site:*:col-[4/10] site:*:data-bleed:col-[3/-1] site:*:data-full:col-span-full site:*:data-wide:col-[2/12] site:[&>:is(figure,[data-table]):not([data-wide])]:col-[3/11]"
         >
           <Sections sections={post.sections} />
         </article>
