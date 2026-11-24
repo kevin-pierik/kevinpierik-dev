@@ -9,7 +9,7 @@ import "@/features/style/global.css";
 import { linkStyles } from "@/components/link";
 import { Lenis } from "@/features/lenis";
 import { getArticles } from "@/features/posts/fetch";
-import { siteUrl } from "@/features/site";
+import { siteName, siteUrl } from "@/features/site";
 import { email, socialLinks } from "@/features/site/social-links";
 import { WebMcp } from "@/features/site/webmcp";
 
@@ -52,11 +52,17 @@ export default async function RootLayout({
 
   return (
     <html className={`bg-background ${geistSans.variable}`} lang="en">
-      {webMcpTrialToken ? (
-        <head>
+      <head>
+        <link
+          href="/feed.xml"
+          rel="alternate"
+          title={`${siteName} — Posts`}
+          type="application/rss+xml"
+        />
+        {webMcpTrialToken ? (
           <meta content={webMcpTrialToken} httpEquiv="origin-trial" />
-        </head>
-      ) : null}
+        ) : null}
+      </head>
       <body className="bg-background antialiased">
         <Lenis />
         <WebMcp

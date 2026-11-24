@@ -33,7 +33,7 @@ Articles are written in English. Sanity keeps unpublished changes as drafts; the
 
 ## Feed
 
-`frontend/src/app/feed.xml/route.ts` serves an RSS 2.0 feed of every published article.
+`frontend/src/app/feed.xml/route.ts` serves an RSS 2.0 feed of every published article. Every page links to it with `<link rel="alternate" type="application/rss+xml">` in the `<head>` of `frontend/src/app/layout.tsx`, so feed readers find it from any URL. It is a plain `<link>` instead of `alternates.types` in the metadata, because Next.js merges metadata shallowly and every page sets its own `alternates` for the canonical URL.
 
 ## SEO
 
