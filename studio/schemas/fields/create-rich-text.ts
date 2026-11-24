@@ -1,8 +1,8 @@
 import {defineArrayMember, defineField} from 'sanity'
 
-export function createRichText({name = 'body'} = {}) {
+export function createRichText() {
   return defineField({
-    name,
+    name: 'body',
     type: 'array',
     of: [
       defineArrayMember({

@@ -1,6 +1,6 @@
 import { postsPath, getAllArticles } from "@/features/posts/fetch";
 import { getAllPages } from "@/features/pages/fetch";
-import { llmsHeader, siteUrl } from "@/features/site";
+import { absoluteUrl, llmsHeader, siteUrl } from "@/features/site";
 import { email, socialLinks } from "@/features/site/social-links";
 
 export const dynamic = "force-static";
@@ -11,7 +11,7 @@ function list(
   return items
     .map(
       ({ title, path, description }) =>
-        `- [${title}](${siteUrl}${path === "/" ? "" : path})${description ? `: ${description}` : ""}`,
+        `- [${title}](${absoluteUrl(path)})${description ? `: ${description}` : ""}`,
     )
     .join("\n");
 }

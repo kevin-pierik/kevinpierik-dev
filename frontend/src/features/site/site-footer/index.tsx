@@ -1,4 +1,5 @@
 import { Link } from "@/components/link";
+import { siteName } from "@/features/site";
 import { email, socialLinks } from "@/features/site/social-links";
 
 const connectLinks = [
@@ -30,7 +31,7 @@ export function SiteFooter() {
         ))}
       </dl>
       <p className="text-muted site:col-span-2 site:col-start-11 site:text-right">
-        © {year} Kevin Pierik
+        © {year} {siteName}
       </p>
     </footer>
   );

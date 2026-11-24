@@ -4,17 +4,11 @@ import {
 } from "@portabletext/markdown";
 
 import { imageProps } from "@/features/sanity/media/image";
-import { siteUrl } from "@/features/site";
+import { absoluteUrl } from "@/features/site";
 
 import type { Section, SectionOf } from "./types";
 
 type Media = Pick<SectionOf<"mediaSection">, "kind" | "image" | "videoTitle">;
-
-export function absoluteUrl(href: string) {
-  return href.startsWith("/") && !href.startsWith("//")
-    ? `${siteUrl}${href === "/" ? "" : href}`
-    : href;
-}
 
 const text = (value: string) => value.replace(/[[\]]/g, "\\$&");
 const url = (value: string) =>

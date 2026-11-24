@@ -1,8 +1,8 @@
 import { getPage, getPageUris } from "@/features/pages/fetch";
 import { getAllArticles, getArticle } from "@/features/posts/fetch";
 import { articleMarkdown } from "@/features/posts/markdown";
-import { absoluteUrl, sectionsToMarkdown } from "@/features/sections/markdown";
-import { llmsHeader } from "@/features/site";
+import { sectionsToMarkdown } from "@/features/sections/markdown";
+import { absoluteUrl, llmsHeader } from "@/features/site";
 
 export const dynamic = "force-static";
 

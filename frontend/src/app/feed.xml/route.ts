@@ -1,6 +1,7 @@
 import { postsPath, getAllArticles } from "@/features/posts/fetch";
 import { getPage } from "@/features/pages/fetch";
 import { siteName, siteUrl } from "@/features/site";
+import { email } from "@/features/site/social-links";
 
 export const dynamic = "force-static";
 
@@ -42,7 +43,7 @@ export async function GET(): Promise<Response> {
     <link>${siteUrl}${postsPath()}</link>
     <description>${escapeXml(description)}</description>
     <language>en</language>
-    <managingEditor>hello@kevinpierik.dev (${siteName})</managingEditor>
+    <managingEditor>${email} (${siteName})</managingEditor>
     <atom:link href="${siteUrl}/feed.xml" rel="self" type="application/rss+xml" />
 ${items}
   </channel>
