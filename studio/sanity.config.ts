@@ -2,6 +2,7 @@ import {codeInput} from '@sanity/code-input'
 import {table} from '@sanity/table'
 import {visionTool} from '@sanity/vision'
 import {defineConfig, defineSingleton} from 'sanity'
+import {muxInput} from 'sanity-plugin-mux-input'
 import {structureTool} from 'sanity/structure'
 
 import {schemaTypes} from './schemas'
@@ -14,7 +15,13 @@ export default defineConfig({
   projectId: process.env.SANITY_STUDIO_PROJECT_ID!,
   dataset: process.env.SANITY_STUDIO_DATASET!,
 
-  plugins: [structureTool({structure}), visionTool(), codeInput(), table()],
+  plugins: [
+    structureTool({structure}),
+    visionTool(),
+    codeInput(),
+    table(),
+    muxInput({static_renditions: ['highest']}),
+  ],
 
   schema: {
     types: schemaTypes,

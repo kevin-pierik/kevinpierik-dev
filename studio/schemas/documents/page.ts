@@ -21,7 +21,7 @@ export const page = defineType({
       validation: (rule) => rule.required(),
     }),
     {...createUriField(), group: 'page'},
-    createSections(['textSection', 'imageSection', 'carouselSection']),
+    createSections(['textSection', 'mediaSection', 'carouselSection']),
     {...createSeoField(), group: 'seo'},
   ],
   preview: {

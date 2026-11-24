@@ -51,7 +51,7 @@ export const article = defineType({
       description: 'Published articles remain accessible by URL when this is turned off.',
       initialValue: true,
     }),
-    createSections(['textSection', 'imageSection', 'code', 'table', 'carouselSection']),
+    createSections(['textSection', 'mediaSection', 'code', 'table', 'carouselSection']),
     {...createSeoField(), group: 'seo'},
   ],
   orderings: [

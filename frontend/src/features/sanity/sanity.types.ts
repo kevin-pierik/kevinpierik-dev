@@ -15,6 +15,26 @@
 export declare const internalGroqTypeReferenceTo: unique symbol;
 
 // Source: schema.json
+export type Summarize = {
+  jobId?: string;
+  completedAt?: number;
+  title?: string;
+  description?: string;
+  tags?: Array<string>;
+};
+
+export type Moderate = {
+  jobId?: string;
+  completedAt?: number;
+  exceedsThreshold?: boolean;
+  maxScores?: MaxScores;
+};
+
+export type MaxScores = {
+  sexual?: number;
+  violence?: number;
+};
+
 export type SanityImageAssetReference = {
   _ref: string;
   _type: "reference";
@@ -22,7 +42,24 @@ export type SanityImageAssetReference = {
   [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
 };
 
-export type CarouselItemImage = {
+export type MediaSectionImage = {
+  asset?: SanityImageAssetReference;
+  media?: unknown; // Unable to locate the referenced type "media" in schema
+  hotspot?: SanityImageHotspot;
+  crop?: SanityImageCrop;
+  alt: string;
+  _type: "image";
+};
+
+export type CarouselItemMedia = {
+  kind: "image" | "video";
+  image?: MediaImage;
+  video?: MuxVideo;
+  videoTitle?: string;
+  autoplay?: boolean;
+};
+
+export type MediaImage = {
   asset?: SanityImageAssetReference;
   media?: unknown; // Unable to locate the referenced type "image.media" in schema
   hotspot?: SanityImageHotspot;
@@ -67,14 +104,14 @@ export type Article = {
         _key: string;
       }
     | {
-        asset?: SanityImageAssetReference;
-        media?: unknown;
-        hotspot?: SanityImageHotspot;
-        crop?: SanityImageCrop;
-        alt: string;
+        kind: "image" | "video";
+        image?: MediaSectionImage;
+        video?: MuxVideo;
+        videoTitle?: string;
+        autoplay?: boolean;
         caption?: string;
         wide?: boolean;
-        _type: "imageSection";
+        _type: "mediaSection";
         _key: string;
       }
     | ({
@@ -86,7 +123,7 @@ export type Article = {
     | {
         title: string;
         items: Array<{
-          image?: CarouselItemImage;
+          media?: CarouselItemMedia;
           title: string;
           link?: string;
           description?: string;
@@ -141,20 +178,20 @@ export type Page = {
         _key: string;
       }
     | {
-        asset?: SanityImageAssetReference;
-        media?: unknown;
-        hotspot?: SanityImageHotspot;
-        crop?: SanityImageCrop;
-        alt: string;
+        kind: "image" | "video";
+        image?: MediaSectionImage;
+        video?: MuxVideo;
+        videoTitle?: string;
+        autoplay?: boolean;
         caption?: string;
         wide?: boolean;
-        _type: "imageSection";
+        _type: "mediaSection";
         _key: string;
       }
     | {
         title: string;
         items: Array<{
-          image?: CarouselItemImage;
+          media?: CarouselItemMedia;
           title: string;
           link?: string;
           description?: string;
@@ -169,6 +206,18 @@ export type Page = {
     title?: string;
     description?: string;
   };
+};
+
+export type MuxVideoAssetReference = {
+  _ref: string;
+  _type: "reference";
+  _weak?: boolean;
+  [internalGroqTypeReferenceTo]?: "mux.videoAsset";
+};
+
+export type MuxVideo = {
+  _type: "mux.video";
+  asset?: MuxVideoAssetReference;
 };
 
 export type SanityImageCrop = {
@@ -206,6 +255,158 @@ export type Settings = {
       _key: string;
     } & PageReference
   >;
+};
+
+export type MuxVideoAsset = {
+  _id: string;
+  _type: "mux.videoAsset";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  status?: string;
+  assetId?: string;
+  playbackId?: string;
+  filename?: string;
+  thumbTime?: number;
+  data?: MuxAssetData;
+  robotsJobs?: Array<
+    {
+      _key: string;
+    } & MuxRobotsJob
+  >;
+  robotsOutputs?: MuxRobotsOutputs;
+  robotsDirectiveRuns?: Array<
+    {
+      _key: string;
+    } & MuxRobotsDirectiveRun
+  >;
+  robotsPendingCreates?: Array<
+    {
+      _key: string;
+    } & MuxRobotsPendingCreate
+  >;
+};
+
+export type MuxRobotsOutputs = {
+  _type: "mux.robotsOutputs";
+  summarize?: Summarize;
+  moderate?: Moderate;
+};
+
+export type MuxAssetData = {
+  _type: "mux.assetData";
+  resolution_tier?: string;
+  upload_id?: string;
+  created_at?: string;
+  id?: string;
+  status?: string;
+  max_stored_resolution?: string;
+  passthrough?: string;
+  encoding_tier?: string;
+  video_quality?: string;
+  master_access?: string;
+  aspect_ratio?: string;
+  duration?: number;
+  max_stored_frame_rate?: number;
+  mp4_support?: string;
+  max_resolution_tier?: string;
+  thumbnail_time?: number;
+  tracks?: Array<
+    {
+      _key: string;
+    } & MuxTrack
+  >;
+  playback_ids?: Array<
+    {
+      _key: string;
+    } & MuxPlaybackId
+  >;
+  static_renditions?: MuxStaticRenditions;
+  master?: MuxMasterFile;
+};
+
+export type MuxRobotsPendingCreate = {
+  _type: "mux.robotsPendingCreate";
+  requestId?: string;
+  kind?: string;
+  workflow?: string;
+  directiveId?: string;
+  requestedAt?: number;
+};
+
+export type MuxRobotsDirectiveRun = {
+  _type: "mux.robotsDirectiveRun";
+  runId?: string;
+  directiveId?: string;
+  status?: string;
+  startedAt?: number;
+  completedAt?: number;
+  jobIds?: Array<string>;
+};
+
+export type MuxRobotsJob = {
+  _type: "mux.robotsJob";
+  id?: string;
+  workflow?: string;
+  status?: string;
+  created_at?: number;
+  updated_at?: number;
+  units_consumed?: number;
+  error?: string;
+  thumbnailApplied?: boolean;
+};
+
+export type MuxMasterFile = {
+  _type: "mux.masterFile";
+  status?: string;
+  url?: string;
+};
+
+export type MuxStaticRenditions = {
+  _type: "mux.staticRenditions";
+  status?: string;
+  files?: Array<
+    {
+      _key: string;
+    } & MuxStaticRenditionFile
+  >;
+};
+
+export type MuxStaticRenditionFile = {
+  _type: "mux.staticRenditionFile";
+  name?: string;
+  ext?: string;
+  height?: number;
+  width?: number;
+  bitrate?: number;
+  filesize?: string;
+  type?: string;
+  status?: string;
+  resolution_tier?: string;
+  resolution?: string;
+  id?: string;
+  passthrough?: string;
+};
+
+export type MuxPlaybackId = {
+  _type: "mux.playbackId";
+  id?: string;
+  policy?: string;
+};
+
+export type MuxTrack = {
+  _type: "mux.track";
+  id?: string;
+  type?: string;
+  max_width?: number;
+  max_frame_rate?: number;
+  duration?: number;
+  max_height?: number;
+  language_code?: string;
+  name?: string;
+  status?: string;
+  text_source?: string;
+  text_type?: string;
 };
 
 export type Table = {
@@ -328,15 +529,33 @@ export type Geopoint = {
 };
 
 export type AllSanitySchemaTypes =
+  | Summarize
+  | Moderate
+  | MaxScores
   | SanityImageAssetReference
-  | CarouselItemImage
+  | MediaSectionImage
+  | CarouselItemMedia
+  | MediaImage
   | Article
   | Slug
   | Page
+  | MuxVideoAssetReference
+  | MuxVideo
   | SanityImageCrop
   | SanityImageHotspot
   | PageReference
   | Settings
+  | MuxVideoAsset
+  | MuxRobotsOutputs
+  | MuxAssetData
+  | MuxRobotsPendingCreate
+  | MuxRobotsDirectiveRun
+  | MuxRobotsJob
+  | MuxMasterFile
+  | MuxStaticRenditions
+  | MuxStaticRenditionFile
+  | MuxPlaybackId
+  | MuxTrack
   | Table
   | TableRow
   | Code
@@ -351,7 +570,7 @@ export type AllSanitySchemaTypes =
 
 // Source: ../frontend/src/features/pages/query.ts
 // Variable: PAGE_QUERY
-// Query: *[_type == "page" && uri.current == $uri][0] {    title,    "uri": uri.current,    seo,      sections[]{    _key,    _type,    _type == "textSection" => { body },    _type == "imageSection" => {   alt,  crop,  hotspot,  asset->{ _id, metadata { lqip, dimensions { width, height } } }, caption, wide },    _type == "code" => { code, language },    _type == "table" => { rows },    _type == "carouselSection" => {      title,      items[]{ _key, title, link, description, image{   alt,  crop,  hotspot,  asset->{ _id, metadata { lqip, dimensions { width, height } } } } }    }  }  }
+// Query: *[_type == "page" && uri.current == $uri][0] {    title,    "uri": uri.current,    seo,      sections[]{    _key,    _type,    _type == "textSection" => { body },    _type == "mediaSection" => {   kind,  image{   alt,  crop,  hotspot,  asset->{ _id, metadata { lqip, dimensions { width, height } } } },  video{    asset->{      playbackId,      "aspectRatio": data.aspect_ratio,      "captions": data.tracks[type == "text" && status == "ready"]{ id, language_code, name }    }  },  videoTitle,  autoplay, caption, wide },    _type == "code" => { code, language },    _type == "table" => { rows },    _type == "carouselSection" => {      title,      items[]{ _key, title, link, description, media{   kind,  image{   alt,  crop,  hotspot,  asset->{ _id, metadata { lqip, dimensions { width, height } } } },  video{    asset->{      playbackId,      "aspectRatio": data.aspect_ratio,      "captions": data.tracks[type == "text" && status == "ready"]{ id, language_code, name }    }  },  videoTitle,  autoplay } }    }  }  }
 export type PAGE_QUERY_RESULT = {
   title: string;
   uri: string;
@@ -369,39 +588,71 @@ export type PAGE_QUERY_RESULT = {
           title: string;
           link: string | null;
           description: string | null;
-          image: {
-            alt: string;
-            crop: SanityImageCrop | null;
-            hotspot: SanityImageHotspot | null;
-            asset: {
-              _id: string;
-              metadata: {
-                lqip: string | null;
-                dimensions: {
-                  width: number;
-                  height: number;
+          media: {
+            kind: "image" | "video";
+            image: {
+              alt: string;
+              crop: SanityImageCrop | null;
+              hotspot: SanityImageHotspot | null;
+              asset: {
+                _id: string;
+                metadata: {
+                  lqip: string | null;
+                  dimensions: {
+                    width: number;
+                    height: number;
+                  } | null;
                 } | null;
               } | null;
             } | null;
+            video: {
+              asset: {
+                playbackId: string | null;
+                aspectRatio: string | null;
+                captions: Array<{
+                  id: string | null;
+                  language_code: string | null;
+                  name: string | null;
+                }> | null;
+              } | null;
+            } | null;
+            videoTitle: string | null;
+            autoplay: boolean | null;
           } | null;
         }>;
       }
     | {
         _key: string;
-        _type: "imageSection";
-        alt: string;
-        crop: SanityImageCrop | null;
-        hotspot: SanityImageHotspot | null;
-        asset: {
-          _id: string;
-          metadata: {
-            lqip: string | null;
-            dimensions: {
-              width: number;
-              height: number;
+        _type: "mediaSection";
+        kind: "image" | "video";
+        image: {
+          alt: string;
+          crop: SanityImageCrop | null;
+          hotspot: SanityImageHotspot | null;
+          asset: {
+            _id: string;
+            metadata: {
+              lqip: string | null;
+              dimensions: {
+                width: number;
+                height: number;
+              } | null;
             } | null;
           } | null;
         } | null;
+        video: {
+          asset: {
+            playbackId: string | null;
+            aspectRatio: string | null;
+            captions: Array<{
+              id: string | null;
+              language_code: string | null;
+              name: string | null;
+            }> | null;
+          } | null;
+        } | null;
+        videoTitle: string | null;
+        autoplay: boolean | null;
         caption: string | null;
         wide: boolean | null;
       }
@@ -481,7 +732,7 @@ export type ARTICLE_SLUGS_QUERY_RESULT = Array<{
 
 // Source: ../frontend/src/features/posts/query.ts
 // Variable: ARTICLE_QUERY
-// Query: *[_type == "article" && slug.current == $slug][0] {      title,  "slug": slug.current,  description,  publishedAt,  updatedAt,    seo { title, description },    "plainText": pt::text(sections[_type == "textSection"].body[]),      sections[]{    _key,    _type,    _type == "textSection" => { body },    _type == "imageSection" => {   alt,  crop,  hotspot,  asset->{ _id, metadata { lqip, dimensions { width, height } } }, caption, wide },    _type == "code" => { code, language },    _type == "table" => { rows },    _type == "carouselSection" => {      title,      items[]{ _key, title, link, description, image{   alt,  crop,  hotspot,  asset->{ _id, metadata { lqip, dimensions { width, height } } } } }    }  },    "previous": *[      _type == "article" && publishedAt < ^.publishedAt    ] | order(publishedAt desc)[0] { title, "slug": slug.current },    "next": *[      _type == "article" && publishedAt > ^.publishedAt    ] | order(publishedAt asc)[0] { title, "slug": slug.current }  }
+// Query: *[_type == "article" && slug.current == $slug][0] {      title,  "slug": slug.current,  description,  publishedAt,  updatedAt,    seo { title, description },    "plainText": pt::text(sections[_type == "textSection"].body[]),      sections[]{    _key,    _type,    _type == "textSection" => { body },    _type == "mediaSection" => {   kind,  image{   alt,  crop,  hotspot,  asset->{ _id, metadata { lqip, dimensions { width, height } } } },  video{    asset->{      playbackId,      "aspectRatio": data.aspect_ratio,      "captions": data.tracks[type == "text" && status == "ready"]{ id, language_code, name }    }  },  videoTitle,  autoplay, caption, wide },    _type == "code" => { code, language },    _type == "table" => { rows },    _type == "carouselSection" => {      title,      items[]{ _key, title, link, description, media{   kind,  image{   alt,  crop,  hotspot,  asset->{ _id, metadata { lqip, dimensions { width, height } } } },  video{    asset->{      playbackId,      "aspectRatio": data.aspect_ratio,      "captions": data.tracks[type == "text" && status == "ready"]{ id, language_code, name }    }  },  videoTitle,  autoplay } }    }  },    "previous": *[      _type == "article" && publishedAt < ^.publishedAt    ] | order(publishedAt desc)[0] { title, "slug": slug.current },    "next": *[      _type == "article" && publishedAt > ^.publishedAt    ] | order(publishedAt asc)[0] { title, "slug": slug.current }  }
 export type ARTICLE_QUERY_RESULT = {
   title: string;
   slug: string;
@@ -503,20 +754,36 @@ export type ARTICLE_QUERY_RESULT = {
           title: string;
           link: string | null;
           description: string | null;
-          image: {
-            alt: string;
-            crop: SanityImageCrop | null;
-            hotspot: SanityImageHotspot | null;
-            asset: {
-              _id: string;
-              metadata: {
-                lqip: string | null;
-                dimensions: {
-                  width: number;
-                  height: number;
+          media: {
+            kind: "image" | "video";
+            image: {
+              alt: string;
+              crop: SanityImageCrop | null;
+              hotspot: SanityImageHotspot | null;
+              asset: {
+                _id: string;
+                metadata: {
+                  lqip: string | null;
+                  dimensions: {
+                    width: number;
+                    height: number;
+                  } | null;
                 } | null;
               } | null;
             } | null;
+            video: {
+              asset: {
+                playbackId: string | null;
+                aspectRatio: string | null;
+                captions: Array<{
+                  id: string | null;
+                  language_code: string | null;
+                  name: string | null;
+                }> | null;
+              } | null;
+            } | null;
+            videoTitle: string | null;
+            autoplay: boolean | null;
           } | null;
         }>;
       }
@@ -528,20 +795,36 @@ export type ARTICLE_QUERY_RESULT = {
       }
     | {
         _key: string;
-        _type: "imageSection";
-        alt: string;
-        crop: SanityImageCrop | null;
-        hotspot: SanityImageHotspot | null;
-        asset: {
-          _id: string;
-          metadata: {
-            lqip: string | null;
-            dimensions: {
-              width: number;
-              height: number;
+        _type: "mediaSection";
+        kind: "image" | "video";
+        image: {
+          alt: string;
+          crop: SanityImageCrop | null;
+          hotspot: SanityImageHotspot | null;
+          asset: {
+            _id: string;
+            metadata: {
+              lqip: string | null;
+              dimensions: {
+                width: number;
+                height: number;
+              } | null;
             } | null;
           } | null;
         } | null;
+        video: {
+          asset: {
+            playbackId: string | null;
+            aspectRatio: string | null;
+            captions: Array<{
+              id: string | null;
+              language_code: string | null;
+              name: string | null;
+            }> | null;
+          } | null;
+        } | null;
+        videoTitle: string | null;
+        autoplay: boolean | null;
         caption: string | null;
         wide: boolean | null;
       }
@@ -607,13 +890,13 @@ export type SETTINGS_QUERY_RESULT =
 // Query TypeMap
 declare global {
   interface SanityQueries {
-    '\n  *[_type == "page" && uri.current == $uri][0] {\n    title,\n    "uri": uri.current,\n    seo,\n    \n  sections[]{\n    _key,\n    _type,\n    _type == "textSection" => { body },\n    _type == "imageSection" => { \n  alt,\n  crop,\n  hotspot,\n  asset->{ _id, metadata { lqip, dimensions { width, height } } }\n, caption, wide },\n    _type == "code" => { code, language },\n    _type == "table" => { rows },\n    _type == "carouselSection" => {\n      title,\n      items[]{ _key, title, link, description, image{ \n  alt,\n  crop,\n  hotspot,\n  asset->{ _id, metadata { lqip, dimensions { width, height } } }\n } }\n    }\n  }\n\n  }\n': PAGE_QUERY_RESULT;
+    '\n  *[_type == "page" && uri.current == $uri][0] {\n    title,\n    "uri": uri.current,\n    seo,\n    \n  sections[]{\n    _key,\n    _type,\n    _type == "textSection" => { body },\n    _type == "mediaSection" => { \n  kind,\n  image{ \n  alt,\n  crop,\n  hotspot,\n  asset->{ _id, metadata { lqip, dimensions { width, height } } }\n },\n  video{\n    asset->{\n      playbackId,\n      "aspectRatio": data.aspect_ratio,\n      "captions": data.tracks[type == "text" && status == "ready"]{ id, language_code, name }\n    }\n  },\n  videoTitle,\n  autoplay\n, caption, wide },\n    _type == "code" => { code, language },\n    _type == "table" => { rows },\n    _type == "carouselSection" => {\n      title,\n      items[]{ _key, title, link, description, media{ \n  kind,\n  image{ \n  alt,\n  crop,\n  hotspot,\n  asset->{ _id, metadata { lqip, dimensions { width, height } } }\n },\n  video{\n    asset->{\n      playbackId,\n      "aspectRatio": data.aspect_ratio,\n      "captions": data.tracks[type == "text" && status == "ready"]{ id, language_code, name }\n    }\n  },\n  videoTitle,\n  autoplay\n } }\n    }\n  }\n\n  }\n': PAGE_QUERY_RESULT;
     '\n  *[_type == "page" && defined(uri.current)] {\n    "uri": uri.current\n  }\n': PAGE_URIS_QUERY_RESULT;
     '\n  *[_type == "page" && defined(uri.current)]\n    | order(uri.current asc) {\n      title,\n      "uri": uri.current,\n      seo,\n      _updatedAt\n    }\n': ALL_PAGES_QUERY_RESULT;
     '\n  *[_type == "article" && showInPosts != false && defined(slug.current)]\n    | order(publishedAt desc) {\n      \n  title,\n  "slug": slug.current,\n  description,\n  publishedAt,\n  updatedAt\n\n    }\n': ARTICLES_QUERY_RESULT;
     '\n  *[_type == "article" && defined(slug.current)]\n    | order(publishedAt desc) {\n      \n  title,\n  "slug": slug.current,\n  description,\n  publishedAt,\n  updatedAt\n\n    }\n': ALL_ARTICLES_QUERY_RESULT;
     '\n  *[_type == "article" && defined(slug.current)] {\n    "slug": slug.current\n  }\n': ARTICLE_SLUGS_QUERY_RESULT;
-    '\n  *[_type == "article" && slug.current == $slug][0] {\n    \n  title,\n  "slug": slug.current,\n  description,\n  publishedAt,\n  updatedAt\n,\n    seo { title, description },\n    "plainText": pt::text(sections[_type == "textSection"].body[]),\n    \n  sections[]{\n    _key,\n    _type,\n    _type == "textSection" => { body },\n    _type == "imageSection" => { \n  alt,\n  crop,\n  hotspot,\n  asset->{ _id, metadata { lqip, dimensions { width, height } } }\n, caption, wide },\n    _type == "code" => { code, language },\n    _type == "table" => { rows },\n    _type == "carouselSection" => {\n      title,\n      items[]{ _key, title, link, description, image{ \n  alt,\n  crop,\n  hotspot,\n  asset->{ _id, metadata { lqip, dimensions { width, height } } }\n } }\n    }\n  }\n,\n    "previous": *[\n      _type == "article" && publishedAt < ^.publishedAt\n    ] | order(publishedAt desc)[0] { title, "slug": slug.current },\n    "next": *[\n      _type == "article" && publishedAt > ^.publishedAt\n    ] | order(publishedAt asc)[0] { title, "slug": slug.current }\n  }\n': ARTICLE_QUERY_RESULT;
+    '\n  *[_type == "article" && slug.current == $slug][0] {\n    \n  title,\n  "slug": slug.current,\n  description,\n  publishedAt,\n  updatedAt\n,\n    seo { title, description },\n    "plainText": pt::text(sections[_type == "textSection"].body[]),\n    \n  sections[]{\n    _key,\n    _type,\n    _type == "textSection" => { body },\n    _type == "mediaSection" => { \n  kind,\n  image{ \n  alt,\n  crop,\n  hotspot,\n  asset->{ _id, metadata { lqip, dimensions { width, height } } }\n },\n  video{\n    asset->{\n      playbackId,\n      "aspectRatio": data.aspect_ratio,\n      "captions": data.tracks[type == "text" && status == "ready"]{ id, language_code, name }\n    }\n  },\n  videoTitle,\n  autoplay\n, caption, wide },\n    _type == "code" => { code, language },\n    _type == "table" => { rows },\n    _type == "carouselSection" => {\n      title,\n      items[]{ _key, title, link, description, media{ \n  kind,\n  image{ \n  alt,\n  crop,\n  hotspot,\n  asset->{ _id, metadata { lqip, dimensions { width, height } } }\n },\n  video{\n    asset->{\n      playbackId,\n      "aspectRatio": data.aspect_ratio,\n      "captions": data.tracks[type == "text" && status == "ready"]{ id, language_code, name }\n    }\n  },\n  videoTitle,\n  autoplay\n } }\n    }\n  }\n,\n    "previous": *[\n      _type == "article" && publishedAt < ^.publishedAt\n    ] | order(publishedAt desc)[0] { title, "slug": slug.current },\n    "next": *[\n      _type == "article" && publishedAt > ^.publishedAt\n    ] | order(publishedAt asc)[0] { title, "slug": slug.current }\n  }\n': ARTICLE_QUERY_RESULT;
     '\n  *[_id == "settings"][0] {\n    role,\n    navigation[]->{\n      title,\n      "uri": uri.current\n    }\n  }\n': SETTINGS_QUERY_RESULT;
   }
 }
