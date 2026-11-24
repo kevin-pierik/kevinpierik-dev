@@ -1,11 +1,9 @@
-import Image from "next/image";
-
 import { focus } from "@/components/link";
 import { SanityLink } from "@/features/sanity/link";
-import { imageProps } from "@/features/sanity/media/image";
 import { headingStyles } from "@/features/sanity/rich-text";
 
 import { BlossomCarousel } from "./blossom";
+import { Media } from "./media";
 import type { SectionOf } from "./types";
 
 export function Carousel({ _key, title, items }: SectionOf<"carouselSection">) {
@@ -32,17 +30,13 @@ export function Carousel({ _key, title, items }: SectionOf<"carouselSection">) {
               data-blossom-slide
               key={item._key}
             >
-              {item.image?.asset ? (
-                <Image
-                  {...imageProps(item.image)}
-                  alt={item.image.alt ?? ""}
-                  className="aspect-[16/10] w-full bg-subtle object-cover"
-                  draggable={false}
+              <div className="aspect-[16/10] w-full overflow-hidden bg-subtle">
+                <Media
+                  className="size-full object-cover"
+                  media={item.media}
                   sizes="(min-width: 800px) 28rem, 80vw"
                 />
-              ) : (
-                <div className="aspect-[16/10] w-full bg-subtle" />
-              )}
+              </div>
               <h3 className="mt-[1lh]">
                 <SanityLink href={item.link} variant="nav">
                   {item.title}

@@ -1,12 +1,13 @@
 import {CodeBlockIcon} from '@sanity/icons/CodeBlock'
 import {ImageIcon} from '@sanity/icons/Image'
 import {ImagesIcon} from '@sanity/icons/Images'
+import {PlayIcon} from '@sanity/icons/Play'
 import {TextIcon} from '@sanity/icons/Text'
 import {ThListIcon} from '@sanity/icons/ThList'
 import {defineArrayMember, defineField, type PortableTextBlock} from 'sanity'
 
 import {createLink} from './create-link'
-import {createMedia} from './create-media'
+import {createMediaFields} from './create-media'
 import {createRichText} from './create-rich-text'
 
 function firstLine(blocks: PortableTextBlock[] | undefined) {
@@ -27,8 +28,13 @@ const textSection = defineArrayMember({
   },
 })
 
-const imageSection = defineArrayMember({
-  ...createMedia('imageSection', [
+const mediaSection = defineArrayMember({
+  name: 'mediaSection',
+  title: 'Media',
+  type: 'object',
+  icon: ImageIcon,
+  fields: [
+    ...createMediaFields(),
     defineField({name: 'caption', type: 'string'}),
     defineField({
       name: 'wide',
@@ -36,15 +42,19 @@ const imageSection = defineArrayMember({
       description: 'Reach one column further on each side.',
       initialValue: false,
     }),
-  ]),
-  title: 'Image',
-  icon: ImageIcon,
+  ],
   preview: {
-    select: {caption: 'caption', alt: 'alt', media: 'asset'},
-    prepare: ({caption, alt, media}) => ({
-      title: caption || alt || 'Image',
-      subtitle: 'Image',
-      media,
+    select: {
+      kind: 'kind',
+      caption: 'caption',
+      alt: 'image.alt',
+      videoTitle: 'videoTitle',
+      image: 'image',
+    },
+    prepare: ({kind, caption, alt, videoTitle, image}) => ({
+      title: caption || (kind === 'video' ? videoTitle : alt) || 'Media',
+      subtitle: kind === 'video' ? 'Media · Video' : 'Media · Image',
+      media: kind === 'video' ? PlayIcon : image,
     }),
   },
 })
@@ -71,20 +81,25 @@ const carouselSection = defineArrayMember({
           title: 'Item',
           type: 'object',
           fields: [
-            createMedia('image'),
+            defineField({
+              name: 'media',
+              type: 'object',
+              options: {collapsible: false},
+              fields: createMediaFields(),
+            }),
             defineField({name: 'title', type: 'string', validation: (rule) => rule.required()}),
             createLink('link'),
             defineField({name: 'description', type: 'text', rows: 2}),
           ],
           preview: {
-            select: {title: 'title', subtitle: 'description', media: 'image'},
+            select: {title: 'title', subtitle: 'description', media: 'media.image'},
           },
         }),
       ],
     }),
   ],
   preview: {
-    select: {title: 'title', items: 'items', media: 'items.0.image'},
+    select: {title: 'title', items: 'items', media: 'items.0.media.image'},
     prepare: ({title, items, media}) => {
       const count = Array.isArray(items) ? items.length : 0
       return {
@@ -127,7 +142,7 @@ const tableSection = defineArrayMember({
 
 const sections = {
   textSection,
-  imageSection,
+  mediaSection,
   carouselSection,
   code: codeSection,
   table: tableSection,

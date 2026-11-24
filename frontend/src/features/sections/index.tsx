@@ -2,12 +2,12 @@ import { PortableText } from "next-sanity";
 import { Fragment } from "react";
 
 import { CodeBlock } from "@/components/code-block";
-import { Figure } from "@/components/figure";
+import { Figure, figureSizes } from "@/components/figure";
 import { Table } from "@/components/table";
-import { imageProps } from "@/features/sanity/media/image";
 import { labels, richTextComponents } from "@/features/sanity/rich-text";
 
 import { Carousel } from "./carousel";
+import { Media } from "./media";
 import type { Section } from "./types";
 
 function SectionContent({ section }: { section: Section }) {
@@ -19,15 +19,19 @@ function SectionContent({ section }: { section: Section }) {
           value={section.body ?? []}
         />
       );
-    case "imageSection":
+    case "mediaSection":
       return (
         <Figure
-          alt={section.alt ?? ""}
           caption={section.caption}
           className="mt-[2lh] first:mt-0"
-          image={imageProps(section)}
           wide={section.wide ?? false}
-        />
+        >
+          <Media
+            className="h-auto w-full bg-subtle"
+            media={section}
+            sizes={section.wide ? figureSizes.wide : figureSizes.normal}
+          />
+        </Figure>
       );
     case "code":
       return (
