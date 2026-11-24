@@ -1,6 +1,8 @@
 import { focus } from "@/components/link";
 import { SanityLink } from "@/features/sanity/link";
-import { headingStyles } from "@/features/sanity/rich-text";
+import { headingStyles, labels } from "@/features/sanity/rich-text";
+import { HeadingLink } from "@/features/sanity/rich-text/heading-link";
+import { slugify } from "@studio/slug";
 
 import { BlossomCarousel } from "./blossom";
 import { Media } from "./media";
@@ -9,16 +11,21 @@ import type { SectionOf } from "./types";
 export function Carousel({ _key, title, items }: SectionOf<"carouselSection">) {
   if (!items?.length) return null;
 
-  const titleId = `carousel-${_key}`;
+  const titleId = slugify(title ?? "") || `carousel-${_key}`;
 
   return (
     <>
-      <h2 className={`font-medium first:mt-0 ${headingStyles.h2}`} id={titleId}>
-        {title}
+      <h2
+        className={`scroll-mt-[2lh] font-medium first:mt-0 ${headingStyles.h2}`}
+        id={titleId}
+      >
+        <HeadingLink id={titleId} label="Copy link to heading" labels={labels}>
+          {title}
+        </HeadingLink>
       </h2>
       <div className="bleed-end mt-[2lh] first:mt-0" data-bleed>
         <BlossomCarousel
-          aria-labelledby={titleId}
+          aria-label={title ?? undefined}
           as="ul"
           className={`flex snap-x snap-mandatory gap-x-6 ${focus}`}
           role="list"
