@@ -6,7 +6,7 @@ Every regular page is a `page` document in Sanity, and every article is an `arti
 
 `studio/schemas/documents/page.ts` defines a title, URI, sections, and an SEO object, split into the field groups (tabs) **Page**, **Content**, and **SEO**. Articles use **Post**, **Content**, and **SEO** ([Posts](posts.md)). The groups have no icons. The URI is the full public path, such as `/` or `/posts`; `createUriField()` fills it from the title and checks uniqueness.
 
-`frontend/src/app/[[...uri]]/page.tsx` statically renders every published page document except `/posts`. `frontend/src/app/posts/page.tsx` renders the `/posts` page document followed by the article list, following Sanity's Next.js pattern: editors manage the text, code renders the generated list. Both use `PageBody` from `frontend/src/features/pages/page-body.tsx`.
+`frontend/src/app/[[...uri]]/page.tsx` statically renders every published page document except `/posts` and `/newsletter`. `frontend/src/app/posts/page.tsx` renders the `/posts` page document followed by the article list, and `frontend/src/app/newsletter/page.tsx` renders the `/newsletter` page document followed by the [newsletter form](newsletter.md), following Sanity's Next.js pattern: editors manage the text, code renders what follows. All three use `PageBody` from `frontend/src/features/pages/page-body.tsx`.
 
 The site header provides the homepage `<h1>`. Other regular pages use a screenreader-only `<h1>` from the Sanity page title; visible headings are authored in sections. Set headings to `h2`, then use `h3` for subsections.
 

@@ -10,10 +10,18 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     getAllPages(),
     getAllArticles(),
   ]);
+  const latestPost = Math.max(
+    ...articles.map((article) =>
+      Date.parse(article.updatedAt ?? article.publishedAt),
+    ),
+  );
   return [
     ...pages.map((page) => ({
       url: absoluteUrl(page.uri),
-      lastModified: page._updatedAt,
+      lastModified:
+        page.uri === postsPath()
+          ? new Date(Math.max(Date.parse(page._updatedAt), latestPost))
+          : page._updatedAt,
       priority: isHomeUri(page.uri) ? 1 : 0.8,
     })),
     ...articles.map((article) => ({

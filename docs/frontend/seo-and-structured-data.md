@@ -41,7 +41,7 @@ The site URL, name, and the `#person` and `#website` ids live in `frontend/src/f
 
 ## Other files
 
-- `frontend/src/app/sitemap.ts` lists the public pages, the posts index, and every published article, with posts carrying `lastModified`. Its URLs match the canonicals exactly, with no trailing slash.
+- `frontend/src/app/sitemap.ts` lists the public pages, including the posts index, and every published article, each with `lastModified`. The posts index takes the later of its own page document and its newest article, so a new post updates it too. Its URLs match the canonicals exactly, with no trailing slash.
 - `frontend/src/app/robots.ts` allows everything except `/api/` and points to the sitemap.
 - `frontend/src/app/manifest.ts` serves `/manifest.webmanifest` with the name and icons.
 
