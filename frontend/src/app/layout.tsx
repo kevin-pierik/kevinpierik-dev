@@ -2,7 +2,7 @@ import type { Metadata, Viewport } from "next";
 import type { ReactNode } from "react";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
-import { GeistSans as geistSans } from "geist/font/sans";
+import localFont from "next/font/local";
 
 import "@/features/style/global.css";
 
@@ -12,6 +12,12 @@ import { getArticles } from "@/features/posts/fetch";
 import { siteName, siteUrl } from "@/features/site";
 import { email, socialLinks } from "@/features/site/social-links";
 import { WebMcp } from "@/features/site/webmcp";
+
+const geistSans = localFont({
+  src: "../features/style/fonts/geist-latin.woff2",
+  variable: "--font-geist-sans",
+  weight: "400 700",
+});
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
