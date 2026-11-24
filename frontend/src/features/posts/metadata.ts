@@ -37,7 +37,10 @@ export function postMetadata(post: PostSummary): Metadata {
     title: seoTitle,
     description: seoDescription,
     authors: [{ name, url: siteUrl }],
-    alternates: { canonical: path },
+    alternates: {
+      canonical: path,
+      types: { "text/markdown": `${path}/md` },
+    },
     openGraph: {
       type: "article",
       url: path,

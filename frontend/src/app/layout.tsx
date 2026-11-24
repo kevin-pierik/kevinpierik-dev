@@ -8,7 +8,10 @@ import "@/features/style/global.css";
 
 import { linkStyles } from "@/components/link";
 import { Lenis } from "@/features/lenis";
+import { getArticles } from "@/features/posts/fetch";
 import { siteUrl } from "@/features/site";
+import { email, socialLinks } from "@/features/site/social-links";
+import { WebMcp } from "@/features/site/webmcp";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
@@ -38,11 +41,31 @@ export const viewport: Viewport = {
   ],
 };
 
-export default function RootLayout({ children }: { children: ReactNode }) {
+const webMcpTrialToken = process.env.NEXT_PUBLIC_WEBMCP_TRIAL_TOKEN;
+
+export default async function RootLayout({
+  children,
+}: {
+  children: ReactNode;
+}) {
+  const posts = await getArticles();
+
   return (
     <html className={`bg-background ${geistSans.variable}`} lang="en">
+      {webMcpTrialToken ? (
+        <head>
+          <meta content={webMcpTrialToken} httpEquiv="origin-trial" />
+        </head>
+      ) : null}
       <body className="bg-background antialiased">
         <Lenis />
+        <WebMcp
+          contact={{
+            email,
+            links: socialLinks.map(({ label, href }) => ({ label, href })),
+          }}
+          posts={posts}
+        />
         <a
           className={`${linkStyles.subtle} fixed top-4 left-4 z-10 not-focus-visible:sr-only`}
           href="#main"
