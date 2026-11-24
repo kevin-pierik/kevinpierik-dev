@@ -12,7 +12,6 @@
 
 Each rule links to its detail in `.agents/rules/`: what to look for, what not to flag, and an example. Read the detail when a change touches that area, and run the `reviewer` agent (`.agents/experts/reviewer.md`) before opening a pull request.
 
-- Every frontend route stays static: `○`, or `●` for prerendered Sanity pages, in the build output. Route handlers export `dynamic = "force-static"` ([rule](.agents/rules/frontend/static-routes.md)).
 - Server Components are the default; add `"use client"` only for real client-side interaction.
 - Keep components few. Hardcode content where it is used; extract only for real behaviour or reuse. Frontend imports use `@/*`; shared Studio helpers use `@studio/*` ([rule](.agents/rules/frontend/server-components-default.md)).
 - Global styles are imported only through `frontend/src/app/layout.tsx`. Use the `background` and `foreground` colours, never hardcoded black or white, and keep text contrast at 4.5:1 or more in both schemes ([rule](.agents/rules/frontend/color-scheme-contrast.md)).

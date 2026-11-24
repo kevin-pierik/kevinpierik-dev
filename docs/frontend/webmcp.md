@@ -8,6 +8,8 @@
 - `get_post`: the Markdown of one post, fetched from `/posts/<slug>/md` (see [llms.txt and Markdown](llms-txt.md)). The slug must be one of the listed posts.
 - `get_contact`: the email address and profile links from `frontend/src/features/site/social-links.ts`, so profile changes there reach the tool too.
 
+The [newsletter form](newsletter.md#ai-agents) under each post is a fourth tool, declared on the `<form>` itself instead of registered here.
+
 ## Origin trial
 
 Outside the flag, WebMCP needs an origin trial token for `www.kevinpierik.dev` from [Chrome Origin Trials](https://developer.chrome.com/origintrials). Set it as `NEXT_PUBLIC_WEBMCP_TRIAL_TOKEN`; the layout then renders `<meta http-equiv="origin-trial">`. Without it the tools only register with `chrome://flags/#enable-webmcp-testing` turned on.

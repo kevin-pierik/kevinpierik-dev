@@ -22,7 +22,6 @@ For Sanity changes, also follow `.agents/skills/sanity-best-practices`. For UI c
 
 - Apply each rule's **Look for** list to the diff. Check each candidate against **Do not flag** before reporting it.
 - Report only problems the change introduces or makes worse. Mention pre-existing problems separately, at most three.
-- When a rule needs the build (static routes), run `bun run build` and read the route table. Skip it if the change touches no route, layout, or data fetching.
 - Don't run `bun run qa` unless asked; say whether it is still needed.
 
 ## 4. Report

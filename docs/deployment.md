@@ -8,7 +8,7 @@ The frontend is deployed on [Vercel](https://vercel.com) from the `frontend/` wo
 2. Every push to a pull request gets a Vercel preview deployment. Review the change there.
 3. Squash-merge the pull request. Vercel deploys `main` to production at https://www.kevinpierik.dev. When the change touches `studio/`, the `Deploy Studio` workflow also deploys the Studio to https://kevinpierik.sanity.studio ([Studio](studio/README.md)).
 
-Run `bun run qa` before you push. GitHub Actions runs formatting, lint, typecheck, generated Sanity artifact checks, Vitest, and the frontend/Studio builds. The frontend build job runs Playwright end-to-end tests against the production build in Chromium and uploads an HTML report. Independent checks run in parallel, and a final `CI passed` job verifies they all succeeded. Checks run on every pull request and push to `main`, using the frozen Bun lockfile. Every frontend page must build as static: `○`, or `●` for prerendered Sanity pages; nothing is `ƒ`.
+Run `bun run qa` before you push. GitHub Actions runs formatting, lint, typecheck, generated Sanity artifact checks, Vitest, and the frontend/Studio builds. The frontend build job runs Playwright end-to-end tests against the production build in Chromium and uploads an HTML report. Independent checks run in parallel, and a final `CI passed` job verifies they all succeeded. Checks run on every pull request and push to `main`, using the frozen Bun lockfile.
 
 ## Publishing content
 
@@ -35,7 +35,7 @@ A GitHub ruleset named "Protect main" blocks direct pushes, force pushes, and de
 
 ## Environment
 
-The site reads pages and posts from Sanity, so the build needs `NEXT_PUBLIC_SANITY_PROJECT_ID` and `NEXT_PUBLIC_SANITY_DATASET`, in Vercel and in `frontend/.env.local`. Both are public; `frontend/.env.example` lists their values. No token is needed, because the site only reads published content ([Posts](frontend/posts.md)). Vercel Analytics and Speed Insights only load when `VERCEL_ENV` is set, so local builds stay free of tracking.
+The site reads pages and posts from Sanity, so the build needs `NEXT_PUBLIC_SANITY_PROJECT_ID` and `NEXT_PUBLIC_SANITY_DATASET`, in Vercel and in `frontend/.env.local`. Both are public: `v3zmx1mq` and `production`. No token is needed, because the site only reads published content ([Posts](frontend/posts.md)). The [newsletter form](frontend/newsletter.md#setting-up) needs four more values, two of them secret. Vercel Analytics and Speed Insights only load when `VERCEL_ENV` is set, so local builds stay free of tracking.
 
 ## Security headers
 

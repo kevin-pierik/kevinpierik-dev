@@ -37,6 +37,7 @@
   "devDependencies": {
     "@playwright/test": "^1.65.1",
     "@tailwindcss/postcss": "^4.3.5",
+    "@testing-library/react": "^16.3.3",
     "@types/node": "26.6.6",
     "@types/react": "19.3.0",
     "@types/react-dom": "19.3.0",
@@ -45,6 +46,7 @@
     "eslint-config-next": "~16.4.6",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-jsx-a11y": "^6.10.2",
+    "jsdom": "^31.0.1",
     "prettier": "^3.10.1",
     "prettier-plugin-tailwindcss": "^0.8.1",
     "schema-dts": "^2.1.0",

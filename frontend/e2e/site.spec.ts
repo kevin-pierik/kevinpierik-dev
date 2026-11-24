@@ -71,7 +71,9 @@ test("public discovery endpoints return canonical content", async ({
   const robots = await request.get("/robots.txt");
 
   expect(sitemap.ok()).toBeTruthy();
-  expect(await sitemap.text()).toContain("https://www.kevinpierik.dev/");
+  const urls = (await sitemap.text()).match(/(?<=<loc>)[^<]+/g) ?? [];
+  expect(urls).toContain("https://www.kevinpierik.dev");
+  expect(urls).toEqual([...new Set(urls)]);
   expect(feed.ok()).toBeTruthy();
   expect(await feed.text()).toContain("<rss");
   expect(robots.ok()).toBeTruthy();
