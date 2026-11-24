@@ -9,7 +9,6 @@
 ## Self-review
 
 - [ ] I reviewed the diff for quality, accessibility, and performance
-- [ ] Every route is still static (`○` or `●` in the build output)
 - [ ] Tests cover new or changed logic
 
 Release Notes:
