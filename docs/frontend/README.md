@@ -9,7 +9,8 @@ The Next.js app lives in `frontend/`. These guides cover its routes, UI, metadat
 - [Links and buttons](links-and-buttons.md) (`components/`, `features/sanity/link/`): the `Link` and `Button` components.
 - [Color scheme](color-scheme.md) (`features/style/colors.css`): system light and dark mode.
 - [SEO and structured data](seo-and-structured-data.md) (`features/*/metadata.ts`, `components/json-ld.tsx`, `app/sitemap.ts`, `app/robots.ts`, `app/manifest.ts`): metadata, JSON-LD, sitemap, and manifest.
-- [llms.txt](llms-txt.md) (`app/llms.txt/`): the site's plain-text summary.
+- [llms.txt and Markdown](llms-txt.md) (`app/llms.txt/`, `app/llms-full.txt/`, `app/posts/[slug]/md/`, `features/sections/markdown.ts`): plain-text and Markdown versions of the site.
+- [WebMCP](webmcp.md) (`features/site/webmcp.tsx`): tools for AI agents in the browser.
 - [Browser automation](browser-automation.md): verifying the site in a browser.
 
 For document schemas and Studio setup, see the [Studio guide](../studio/README.md). The [agent skills guide](../agent-skills.md) covers skills used in both workspaces.

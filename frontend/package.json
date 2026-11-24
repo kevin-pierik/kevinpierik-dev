@@ -17,6 +17,7 @@
   },
   "dependencies": {
     "@blossom-carousel/react": "^1.8.0",
+    "@portabletext/markdown": "^2.9.6",
     "@portabletext/react": "^8.0.1",
     "@sanity/client": "^7.28.0",
     "@sanity/image-url": "^2.2.0",

@@ -1,6 +1,6 @@
 import { postsPath, getAllArticles } from "@/features/posts/fetch";
 import { getAllPages } from "@/features/pages/fetch";
-import { siteUrl } from "@/features/site";
+import { llmsHeader, siteUrl } from "@/features/site";
 import { email, socialLinks } from "@/features/site/social-links";
 
 export const dynamic = "force-static";
@@ -21,9 +21,9 @@ export async function GET(): Promise<Response> {
     getAllPages(),
     getAllArticles(),
   ]);
-  const body = `# Kevin Pierik — Frontend Developer
+  const body = `${llmsHeader}
 
-> Frontend developer focused on clear, useful interfaces in Hardenberg, the Netherlands.
+The full text of every page and post is in [llms-full.txt](${siteUrl}/llms-full.txt). Each post also has a Markdown version at its URL followed by \`/md\`.
 
 ## Pages
 
