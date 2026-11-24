@@ -15,6 +15,7 @@
   --color-muted: var(--muted);
   --color-subtle: var(--subtle);
   --color-subtle-hover: var(--subtle-hover);
+  --color-control: var(--control);
   --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
   --font-mono: ui-monospace, SFMono-Regular, Menlo, monospace;
   --color-ring: var(--ring);

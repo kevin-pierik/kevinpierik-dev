@@ -101,7 +101,7 @@ export function NewsletterForm() {
             <FieldLabel>Get new posts by email</FieldLabel>
           </h2>
           <div className="flex gap-2">
-            <InputGroup className="flex min-h-9 min-w-0 flex-1 items-center border border-muted bg-background has-[input:focus-visible]:outline-2 has-[input:focus-visible]:outline-offset-2 has-[input:focus-visible]:outline-ring pointer-coarse:min-h-11">
+            <InputGroup className="flex min-h-9 min-w-0 flex-1 items-center border border-control bg-background has-[input:focus-visible]:outline-2 has-[input:focus-visible]:outline-offset-2 has-[input:focus-visible]:outline-ring pointer-coarse:min-h-11">
               <Input
                 autoComplete="email"
                 className="h-full min-w-0 flex-1 bg-transparent px-3 outline-none placeholder:text-muted pointer-coarse:text-base"
