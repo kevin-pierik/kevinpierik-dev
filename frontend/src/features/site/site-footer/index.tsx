@@ -30,9 +30,16 @@ export function SiteFooter() {
           </div>
         ))}
       </dl>
-      <p className="text-muted site:col-span-2 site:col-start-11 site:text-right">
-        © {year} {siteName}
-      </p>
+      <div className="grid content-start gap-y-[0.5lh] text-muted site:col-span-2 site:col-start-11 site:text-right">
+        <p>
+          © {year} {siteName}
+        </p>
+        <p>
+          <Link href="/privacy" variant="nav">
+            Privacy
+          </Link>
+        </p>
+      </div>
     </footer>
   );
 }

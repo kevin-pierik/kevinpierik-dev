@@ -35,7 +35,7 @@ async function subscribeToList(email: string) {
         data: {
           type: "profile-subscription-bulk-create-job",
           attributes: {
-            custom_source: "kevinpierik.dev post",
+            custom_source: "kevinpierik.dev",
             profiles: {
               data: [
                 {

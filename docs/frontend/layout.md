@@ -32,7 +32,7 @@ On the homepage, `<main>` is labelled by that `<h1>` through `aria-labelledby="p
 
 - Columns 1–2: the "Connect" heading.
 - Columns 3–6, aligned with the page text: a description list of contact links, each a `muted` label above a `nav` link with the handle: email, then the profiles from `frontend/src/features/site/social-links.ts`.
-- Columns 11–12, aligned right: the copyright line in `muted` (the year is taken at build time).
+- Columns 11–12, aligned right: the copyright line in `muted` (the year is taken at build time), with a `Privacy` link to `/privacy` on the line below. The privacy page is a Sanity page document; keep it published, or the link returns the 404.
 
 The footer replaces the old Contact page, so contact details live in code, not in a Sanity page.
 

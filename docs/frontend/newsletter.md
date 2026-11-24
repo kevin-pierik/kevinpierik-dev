@@ -1,12 +1,12 @@
 # Newsletter
 
-Every article ends with a signup form for new posts (`frontend/src/features/posts/newsletter-form.tsx`). It shows only under posts, and only when `NEXT_PUBLIC_TURNSTILE_SITE_KEY` is set.
+The signup form for new posts (`frontend/src/features/posts/newsletter-form.tsx`) ends every article. `/newsletter` gives it a page to share: `frontend/src/app/newsletter/page.tsx` renders that Sanity page document with the form below its intro. The form shows only when `NEXT_PUBLIC_TURNSTILE_SITE_KEY` is set.
 
 ## How it works
 
 1. The form is a small client component built from ui-sdk's `Field`, `InputGroup` with `Input` and a clear button, `FieldError`, and `Button`. The heading "Get new posts by email" is the field's label. The browser validates the address with `required` and `type="email"`.
 2. [Cloudflare Turnstile](https://developers.cloudflare.com/turnstile/) checks the visitor for bots. The form loads Cloudflare's script with `render=explicit` and renders the widget with `appearance: "interaction-only"`, so most visitors never see it. Explicit rendering keeps the widget working after a client-side navigation to another post. The widget adds a `cf-turnstile-response` field to the form and is reset after every submit, because a token works only once.
-3. The form submits to the Server Function `subscribe()` in `frontend/src/features/posts/subscribe.ts`. It rejects an invalid address or a missing token, verifies the token with Turnstile's `siteverify`, and only then calls Klaviyo's [Bulk Subscribe Profiles](https://developers.klaviyo.com/en/reference/bulk_subscribe_profiles) endpoint for the list in `KLAVIYO_LIST_ID`, with `custom_source: "kevinpierik.dev post"`. Klaviyo answers `202`. The browser only sees `done` or `error`, never the reason.
+3. The form submits to the Server Function `subscribe()` in `frontend/src/features/posts/subscribe.ts`. It rejects an invalid address or a missing token, verifies the token with Turnstile's `siteverify`, and only then calls Klaviyo's [Bulk Subscribe Profiles](https://developers.klaviyo.com/en/reference/bulk_subscribe_profiles) endpoint for the list in `KLAVIYO_LIST_ID`, with `custom_source: "kevinpierik.dev"`. Klaviyo answers `202`. The browser only sees `done` or `error`, never the reason.
 4. The list has double opt-in, so Klaviyo first sends a confirmation email. A bot that gets past Turnstile never receives the newsletter.
 
 ## AI agents
