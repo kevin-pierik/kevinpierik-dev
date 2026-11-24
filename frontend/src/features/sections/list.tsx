@@ -1,20 +1,27 @@
 import { SanityLink } from "@/features/sanity/link";
-import { headingStyles } from "@/features/sanity/rich-text";
+import { headingStyles, labels } from "@/features/sanity/rich-text";
+import { HeadingLink } from "@/features/sanity/rich-text/heading-link";
+import { slugify } from "@studio/slug";
 
 import type { SectionOf } from "./types";
 
 export function List({ _key, title, items }: SectionOf<"listSection">) {
   if (!items?.length) return null;
 
-  const titleId = `list-${_key}`;
+  const titleId = slugify(title ?? "") || `list-${_key}`;
 
   return (
     <>
-      <h2 className={`font-medium first:mt-0 ${headingStyles.h2}`} id={titleId}>
-        {title}
+      <h2
+        className={`scroll-mt-[2lh] font-medium first:mt-0 ${headingStyles.h2}`}
+        id={titleId}
+      >
+        <HeadingLink id={titleId} label="Copy link to heading" labels={labels}>
+          {title}
+        </HeadingLink>
       </h2>
       <ol
-        aria-labelledby={titleId}
+        aria-label={title ?? undefined}
         className="mt-[1lh] site:grid-site"
         data-full
       >
