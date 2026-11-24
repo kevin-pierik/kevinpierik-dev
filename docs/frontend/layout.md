@@ -38,7 +38,8 @@ The footer replaces the old Contact page, so contact details live in code, not i
 
 ## Typography
 
-- `frontend/src/app/layout.tsx` loads the variable [Geist Sans](https://vercel.com/font) from the `geist` package (`geist/font/sans`), exposed to Tailwind as `font-sans` and set on `<html>` in `typography.css`. The OG image uses the same font.
+- `frontend/src/app/layout.tsx` loads [Geist Sans](https://vercel.com/font) with `next/font/local` from `frontend/src/features/style/fonts/geist-latin.woff2` (26 KB, against 69 KB for the full variable font), exposed to Tailwind as `font-sans` and set on `<html>` in `typography.css`. The OG image reads the TTF files from the `geist` package, so that dependency stays.
+- The file is a subset of `Geist-Variable.woff2` from the `geist` package: Basic Latin, Latin-1, Latin Extended-A, common punctuation, `€`, and the arrows `← → ↗`, with the `wght` axis limited to 400–700 (editors can use bold). Characters outside it fall back to the system font. Regenerate it with `fontTools` (`pip install fonttools brotli`): subset with `fontTools.subset` (`flavor="woff2"`, all layout features, `lazy=False` when loading), then `fontTools.varLib.instancer.instantiateVariableFont(font, {"wght": (400, 700)})`. It is the upright font only, so italic is synthesised, as before.
 - Pages and the posts index set everything, headings included, at 400 and 0.875rem (14px) with a unitless line height of 1.5715 (22px), so hierarchy comes from colour (`foreground` against `muted`) and spacing.
 - Articles follow ui-sdk.dev's article headings: the `<h1>` at 1.75rem and weight 500, `<h2>` at 1.125rem and 500, `<h3>` at 0.9375rem and 500. Body text stays 14px. See [Posts](posts.md).
 - `typography.css` turns on antialiasing, `optimizeLegibility`, and `text-size-adjust: 100%`.
