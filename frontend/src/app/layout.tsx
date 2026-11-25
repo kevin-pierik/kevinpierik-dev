@@ -8,6 +8,7 @@ import "@/features/style/global.css";
 
 import { linkStyles } from "@/components/link";
 import { Lenis } from "@/features/lenis";
+import { getPageUris } from "@/features/pages/fetch";
 import { getArticles } from "@/features/posts/fetch";
 import { siteName, siteUrl } from "@/features/site";
 import { email, socialLinks } from "@/features/site/social-links";
@@ -54,7 +55,7 @@ export default async function RootLayout({
 }: {
   children: ReactNode;
 }) {
-  const posts = await getArticles();
+  const [posts, pages] = await Promise.all([getArticles(), getPageUris()]);
 
   return (
     <html className={`bg-background ${geistSans.variable}`} lang="en">
@@ -76,6 +77,7 @@ export default async function RootLayout({
             email,
             links: socialLinks.map(({ label, href }) => ({ label, href })),
           }}
+          pages={pages}
           posts={posts}
         />
         <a
