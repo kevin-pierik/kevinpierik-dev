@@ -33,7 +33,7 @@ On the homepage, `<main>` is labelled by the hero's `<h1>` through `aria-labelle
 
 ## Homepage
 
-The homepage starts with a Hero section from Sanity ([Pages and sections](pages-and-sections.md#hero)): "Fast, accessible websites." with "Clear, useful interfaces." in `muted`, a lead, and "Get in touch". The last section is a Posts section titled Writing: the two newest posts as cards with a `subtle` "See all posts" link ([Pages and sections](pages-and-sections.md#posts)), or a "Coming soon" pill when there are none. The hero has no animation yet.
+The homepage starts with a Hero section from Sanity ([Pages and sections](pages-and-sections.md#hero)): "Fast, accessible websites." with "Clear, useful interfaces." in `muted`, a lead, and "Get in touch". Then the About me text section, and last a Posts section titled Writing: the two newest posts as cards with a `subtle` "See all posts" link ([Pages and sections](pages-and-sections.md#posts)), or a "Coming soon" pill when there are none. The hero has no animation yet.
 
 ## Site footer
 
@@ -51,7 +51,7 @@ Contact details live in code, not in Sanity: the footer and the contact page (`f
 - `frontend/src/app/layout.tsx` loads [Geist Sans](https://vercel.com/font) with `next/font/local` from `frontend/src/features/style/fonts/geist-latin.woff2` (26 KB, against 69 KB for the full variable font), exposed to Tailwind as `font-sans` and set on `<html>` in `typography.css`. The OG image reads the TTF files from the `geist` package, so that dependency stays.
 - The file is a subset of `Geist-Variable.woff2` from the `geist` package: Basic Latin, Latin-1, Latin Extended-A, common punctuation, `€`, and the arrows `← → ↗`, with the `wght` axis limited to 400–700 (editors can use bold). Characters outside it fall back to the system font. Regenerate it with `fontTools` (`pip install fonttools brotli`): subset with `fontTools.subset` (`flavor="woff2"`, all layout features, `lazy=False` when loading), then `fontTools.varLib.instancer.instantiateVariableFont(font, {"wght": (400, 700)})`. It is the upright font only, so italic is synthesised, as before.
 - Body text is 400 at 0.875rem (14px) with a unitless line height of 1.5715 (22px), so most hierarchy comes from colour (`foreground` against `muted`) and spacing.
-- The homepage `<h1>` is 4rem (2.25rem below the `site` breakpoint) at weight 500. Page sections such as About me, Projects, and Writing use `headingStyles.section`: 1.875rem at 400.
+- The homepage `<h1>` is 4rem (2.25rem below the `site` breakpoint) at weight 500. Page sections such as About me and Writing use `headingStyles.section`: 1.875rem at 400.
 - Articles, the contact page, and the 404 have a visible `<h1>` at 2.5rem (2rem on small screens) and weight 500. Article `<h2>` is 1.125rem and 500, `<h3>` 0.9375rem and 500. See [Posts](posts.md).
 - `typography.css` turns on antialiasing, `optimizeLegibility`, and `text-size-adjust: 100%`.
 - Spacing is set in `lh`, so it follows the line height. See [Pages and sections](pages-and-sections.md) for the page content model.

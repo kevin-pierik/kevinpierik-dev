@@ -49,13 +49,7 @@ export function Carousel({ _key, title, items }: SectionOf<"carouselSection">) {
                     sizes="(min-width: 800px) 28rem, 80vw"
                   />
                 </div>
-              ) : (
-                <div className="grid aspect-16/10 w-full place-items-center rounded-xl bg-[repeating-conic-gradient(var(--subtle)_0_25%,transparent_0_50%)] bg-size-[1.5rem_1.5rem]">
-                  <p className="text-[1.875rem] leading-8 font-semibold tracking-tighter">
-                    Coming soon
-                  </p>
-                </div>
-              )}
+              ) : null}
               <h3 className="mt-[1lh]">
                 <SanityLink href={item.link} variant="nav">
                   {item.title}
