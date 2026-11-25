@@ -6,7 +6,8 @@ The English homepage at `/` aims to be the first result for "Kevin Pierik" and t
 
 `pageMetadata()` in `frontend/src/features/pages/metadata.ts` builds the metadata for every page. A page's `seo` fields in Sanity win; without them the title is the page title with the site name (the homepage uses the site name alone) and there is no description. Fill in the homepage SEO fields:
 
-- The title leads with the name, `Kevin Pierik | Frontend Developer`, because that is what people search for.
+- The title leads with the name and adds the role and town, `Kevin Pierik | Frontend Developer in Hardenberg`, so it matches both a name search and a role-plus-region search.
+- The description names Hardenberg and Overijssel. The About text on the page says the same, because search engines trust visible text more than metadata alone.
 - A description and a canonical URL.
 - `author`, `creator`, `publisher`, `application-name`, `category`, and `copyright`. The copyright year comes from the build date.
 - Open Graph as a `profile` (first name, last name, username), and a large Twitter card. Other pages are an Open Graph `website`. The image comes from `frontend/src/app/opengraph-image.tsx` (see below). Next.js merges `openGraph` shallowly, so declare the complete object.
@@ -14,11 +15,15 @@ The English homepage at `/` aims to be the first result for "Kevin Pierik" and t
 
 `og:locale` is `en_US`.
 
+## Headline
+
+On the homepage the site header's `<h1>` holds the name and the role from the `settings` document, so the page's main heading says who and what. Other pages show both as paragraphs and keep their own `<h1>`. The town stays out of the heading; it belongs in the title, description, and About text.
+
 ## Structured data
 
 Each page renders a JSON-LD `@graph`, typed with `schema-dts`, through `frontend/src/components/json-ld.tsx`:
 
-- **WebSite**: its name and description in English, with the person as publisher and copyright holder.
+- **WebSite**: its name, `kevinpierik.dev` as `alternateName` so Google has a site name to show, and the description in English, with the person as publisher and copyright holder.
 - **ProfilePage**: the English homepage, with the person as its main entity.
 - **Person**: name parts, contact details, address, occupation, nationality, languages, employer (Friday Digital Agency, with its URL), schools, skills, and `sameAs` links to LinkedIn, Instagram, and GitHub.
 
