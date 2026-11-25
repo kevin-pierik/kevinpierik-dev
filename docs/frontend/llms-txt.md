@@ -12,7 +12,7 @@ Its title and summary line are `llmsHeader` in `frontend/src/features/site/index
 
 ## llms-full.txt
 
-`/llms-full.txt` (`frontend/src/app/llms-full.txt/route.ts`, static) holds the full text of every page and every article as Markdown, one document per `# Title`, separated by `---`. Each document starts with its canonical URL.
+`/llms-full.txt` (`frontend/src/app/llms-full.txt/route.ts`, static) holds the full text of every page and every article as Markdown, one document per `# Title`, separated by `---`. Each document starts with its canonical URL. The `get_page` [WebMCP](webmcp.md) tool reads this format through `pageMarkdown()`, so update that function and its test when the separator or the `URL:` line changes.
 
 ## Markdown per post
 
