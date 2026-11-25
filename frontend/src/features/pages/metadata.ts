@@ -75,6 +75,7 @@ export function homeStructuredData(page: PageSummary): Graph {
         "@type": "WebSite",
         "@id": websiteId,
         name,
+        alternateName: "kevinpierik.dev",
         url: siteUrl,
         description,
         inLanguage: "en",

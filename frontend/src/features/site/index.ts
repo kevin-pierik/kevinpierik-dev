@@ -11,4 +11,4 @@ export function absoluteUrl(href: string) {
 
 export const llmsHeader = `# Kevin Pierik — Frontend Developer
 
-> Frontend developer focused on clear, useful interfaces in Hardenberg, the Netherlands.`;
+> Frontend developer in Hardenberg, Overijssel. I build fast, accessible websites with Next.js, TypeScript, and Tailwind CSS.`;

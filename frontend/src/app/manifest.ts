@@ -5,7 +5,7 @@ export default function manifest(): MetadataRoute.Manifest {
     name: "Kevin Pierik | Frontend Developer",
     short_name: "Kevin Pierik",
     description:
-      "Frontend developer focused on clear, useful interfaces in Hardenberg, the Netherlands.",
+      "Frontend developer in Hardenberg, Overijssel. I build fast, accessible websites with Next.js, TypeScript, and Tailwind CSS.",
     lang: "en",
     start_url: "/",
     display: "browser",
