@@ -20,12 +20,23 @@ export async function Posts({
   const list = (
     <ArticleList
       articles={limit ? articles.slice(0, limit) : articles}
-      className={grid ? "gap-6 sm:grid-cols-2" : "gap-3"}
+      className={
+        layout === "grid-3"
+          ? "gap-6 sm:grid-cols-2 site:grid-cols-3"
+          : grid
+            ? "gap-6 sm:grid-cols-2"
+            : "gap-3"
+      }
+      headingLevel={title ? "h3" : "h2"}
     />
   );
 
   if (!title && !showAllLink) {
-    return <div className="mt-[1lh] first:mt-0">{list}</div>;
+    return (
+      <div className="mt-[1lh] first:mt-0" data-full={grid || undefined}>
+        {list}
+      </div>
+    );
   }
 
   return (

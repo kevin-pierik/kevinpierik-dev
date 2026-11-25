@@ -133,8 +133,9 @@ const postsSection = defineArrayMember({
       initialValue: 'grid',
       options: {
         list: [
-          {title: 'Grid (two columns)', value: 'grid'},
-          {title: 'List (one column)', value: 'list'},
+          {title: 'Two columns', value: 'grid'},
+          {title: 'Three columns', value: 'grid-3'},
+          {title: 'One column (list)', value: 'list'},
         ],
         layout: 'radio',
       },
