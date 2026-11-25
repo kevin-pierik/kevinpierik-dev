@@ -2,7 +2,6 @@ import { Link } from "@/components/link";
 import type { ARTICLES_QUERY_RESULT } from "@/features/sanity/sanity.types";
 
 import { postsPath } from "./fetch";
-import { formatDate } from "./format-date";
 
 export function ArticleList({ articles }: { articles: ARTICLES_QUERY_RESULT }) {
   if (articles.length === 0) {
@@ -10,28 +9,32 @@ export function ArticleList({ articles }: { articles: ARTICLES_QUERY_RESULT }) {
   }
 
   return (
-    <ol
-      aria-label="Posts"
-      className="mt-[1lh] site:col-span-full site:grid-site"
-    >
+    <ol aria-label="Posts" className="mt-[1lh] grid gap-3 site:col-[3/11]">
       {articles.map((article) => (
-        <li
-          className="grid site:col-span-full site:grid-site [&+&]:mt-[1lh]"
-          key={article.slug}
-        >
-          <p className="text-muted tabular-nums site:col-[3/5]">
-            <time dateTime={article.publishedAt}>
-              {formatDate(article.publishedAt)}
-            </time>
+        <li className="rounded-2xl bg-subtle p-6" key={article.slug}>
+          <h3 className="font-medium">{article.title}</h3>
+          <p className="mt-[0.5lh] max-w-[65ch] text-muted">
+            {article.description}
           </p>
-          <div className="site:col-[5/11]">
-            <h3>
-              <Link href={postsPath(article.slug)} variant="nav">
-                {article.title}
-              </Link>
-            </h3>
-            <p className="max-w-[65ch] text-muted">{article.description}</p>
-          </div>
+          <Link
+            className="group mt-[1lh] inline-flex items-center gap-1.5"
+            href={postsPath(article.slug)}
+            variant="plain"
+          >
+            <svg
+              aria-hidden="true"
+              className="size-4 transition-transform group-hover:translate-x-0.5"
+              fill="none"
+              stroke="currentColor"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="1.5"
+              viewBox="0 0 16 16"
+            >
+              <path d="M3 8h10M9 4l4 4-4 4" />
+            </svg>
+            Read more<span className="sr-only">: {article.title}</span>
+          </Link>
         </li>
       ))}
     </ol>
