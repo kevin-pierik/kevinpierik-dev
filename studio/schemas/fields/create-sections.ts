@@ -162,10 +162,21 @@ const textSection = defineArrayMember({
   title: 'Text',
   type: 'object',
   icon: TextIcon,
-  fields: [createRichText()],
+  fields: [
+    defineField({
+      name: 'title',
+      type: 'string',
+      description:
+        'Optional. Shows the heading on the left and the text on the right, as About me on the homepage.',
+    }),
+    createRichText(),
+  ],
   preview: {
-    select: {body: 'body'},
-    prepare: ({body}) => ({title: firstLine(body) || 'Empty text', subtitle: 'Text'}),
+    select: {title: 'title', body: 'body'},
+    prepare: ({title, body}) => ({
+      title: title || firstLine(body) || 'Empty text',
+      subtitle: 'Text',
+    }),
   },
 })
 
