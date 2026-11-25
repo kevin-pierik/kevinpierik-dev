@@ -13,7 +13,9 @@ The header navigation is a ui-sdk `NavigationMenu`, following [its docs](https:/
 `frontend/src/components/link.tsx` is a thin `Link` around Next.js `Link` that adds a `variant` class, and a `muted` ↗ (hidden from screen readers) after links to `http:` or `https:` URLs. Links from Sanity render through `SanityLink` (`frontend/src/features/sanity/link/`), which only allows safe URLs. The classes are exported as `linkStyles`, so the navigation and the skip link use the same looks:
 
 - `text` (default): the inline link from ui-sdk.dev. Its underline is `foreground` at 25%, with the font's own thickness and a 3px offset, and turns solid on hover and focus. The 404 page and markdown links use it.
-- `nav`: no underline until hover, like the ui-sdk.dev navigation. Use it only where the position makes clear that it is a link: the header navigation, `muted` with the current page in `foreground` (`data-current`), and links in compact lists.
+- `nav`: no underline until hover, like the ui-sdk.dev navigation. Use it only where the position makes clear that it is a link, such as links in compact lists.
+- `pill`: no underline; on hover a fully rounded `subtle` fill appears and the text turns `foreground`. The header navigation uses it, `muted` with the current page in `foreground` (`data-current`). The list has a negative right margin equal to the pill's padding, so the last item's text lines up with the page edge.
+- `plain`: no hover style at all, only the focus outline. The name in the header and the footer links use it, because their position already says they are links.
 - `subtle`: a small square block, at least 2rem high, with a `subtle` fill that darkens to `subtle-hover` on hover. These are solid colours, not a `foreground` tint, so the block stays visible in dark mode. The skip link uses it.
 
 ## Focus and colour

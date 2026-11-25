@@ -7,6 +7,8 @@ export const focus =
 export const linkStyles = {
   text: `underline decoration-foreground/25 underline-offset-[3px] transition-colors hover:decoration-foreground focus-visible:decoration-foreground ${focus}`,
   nav: `underline-offset-[3px] hover:underline ${focus}`,
+  pill: `inline-flex items-center rounded-full px-3 py-1.5 transition-colors hover:bg-subtle hover:text-foreground ${focus}`,
+  plain: focus,
   subtle: `inline-flex min-h-8 items-center bg-subtle px-3 text-foreground transition-colors hover:bg-subtle-hover ${focus}`,
 };
 

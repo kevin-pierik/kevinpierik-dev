@@ -23,7 +23,7 @@ export function SiteFooter() {
           <div key={label}>
             <dt className="text-muted">{label}</dt>
             <dd>
-              <Link href={href} variant="nav">
+              <Link href={href} variant="plain">
                 {handle}
               </Link>
             </dd>
@@ -35,7 +35,7 @@ export function SiteFooter() {
           © {year} {siteName}
         </p>
         <p>
-          <Link href="/privacy" variant="nav">
+          <Link href="/privacy" variant="plain">
             Privacy
           </Link>
         </p>
