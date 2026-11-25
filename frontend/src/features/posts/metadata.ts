@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import type { Graph } from "schema-dts";
 
 import {
+  ogImage,
   personId,
   siteName as name,
   siteUrl,
@@ -51,11 +52,13 @@ export function postMetadata(post: PostSummary): Metadata {
       publishedTime: publishedAt,
       modifiedTime: updatedAt ?? publishedAt,
       authors: [siteUrl],
+      images: [ogImage],
     },
     twitter: {
       card: "summary_large_image",
       title: seoTitle,
       description: seoDescription,
+      images: [ogImage],
     },
   };
 }

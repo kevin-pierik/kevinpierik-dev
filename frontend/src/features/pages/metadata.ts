@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import type { Graph } from "schema-dts";
 
 import {
+  ogImage,
   personId,
   siteName as name,
   siteUrl,
@@ -43,11 +44,13 @@ export function pageMetadata(page: PageSummary, isHome: boolean): Metadata {
       locale: "en_US",
       title,
       description,
+      images: [ogImage],
     },
     twitter: {
       card: "summary_large_image",
       title,
       description,
+      images: [ogImage],
     },
     robots: {
       index: true,
