@@ -34,7 +34,7 @@ export function SiteFooter() {
         </p>
         <p>
           <Link href="/privacy-policy" variant="plain">
-            Privacy
+            Privacy policy
           </Link>
         </p>
       </div>

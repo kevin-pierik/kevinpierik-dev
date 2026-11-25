@@ -38,7 +38,7 @@ export function HeadingLink({
       </Heading>
       <a
         aria-label={label}
-        className={`ml-[0.5em] inline-flex shrink-0 self-center text-muted opacity-0 transition-opacity group-hover/heading:opacity-100 group-data-state/heading:opacity-100 focus-visible:opacity-100 ${focusText}`}
+        className={`ml-[0.5em] inline-flex shrink-0 text-muted opacity-0 transition-opacity group-hover/heading:opacity-100 group-data-state/heading:opacity-100 focus-visible:opacity-100 ${focusText}`}
         data-state={state}
         href={`#${id}`}
         onClick={() => copy(new URL(`#${id}`, window.location.href).href)}
