@@ -135,12 +135,21 @@ export type Article = {
       }
     | {
         title: string;
+        titleMuted?: string;
+        buttons?: Array<{
+          label: string;
+          link: string;
+          _type: "button";
+          _key: string;
+        }>;
         items: Array<{
           period?: string;
           title: string;
+          organization?: string;
           link?: string;
           description?: string;
           location?: string;
+          tags?: Array<string>;
           _type: "listItem";
           _key: string;
         }>;
@@ -170,6 +179,30 @@ export type Page = {
   uri: Slug;
   sections?: Array<
     | {
+        eyebrow?: string;
+        title: string;
+        titleMuted?: string;
+        lead?: string;
+        buttons?: Array<{
+          label: string;
+          link: string;
+          _type: "button";
+          _key: string;
+        }>;
+        size?: "large" | "small";
+        align?: "center" | "left";
+        image?: {
+          asset?: SanityImageAssetReference;
+          media?: unknown;
+          hotspot?: SanityImageHotspot;
+          crop?: SanityImageCrop;
+          alt: string;
+          _type: "image";
+        };
+        _type: "heroSection";
+        _key: string;
+      }
+    | {
         body?: Array<{
           children?: Array<{
             marks?: Array<string>;
@@ -193,12 +226,21 @@ export type Page = {
       }
     | {
         title: string;
+        titleMuted?: string;
+        buttons?: Array<{
+          label: string;
+          link: string;
+          _type: "button";
+          _key: string;
+        }>;
         items: Array<{
           period?: string;
           title: string;
+          organization?: string;
           link?: string;
           description?: string;
           location?: string;
+          tags?: Array<string>;
           _type: "listItem";
           _key: string;
         }>;
@@ -227,6 +269,14 @@ export type Page = {
           _key: string;
         }>;
         _type: "carouselSection";
+        _key: string;
+      }
+    | {
+        title?: string;
+        limit?: number;
+        layout?: "grid" | "list";
+        showAllLink?: boolean;
+        _type: "postsSection";
         _key: string;
       }
   >;
@@ -638,7 +688,7 @@ export type AllSanitySchemaTypes =
 
 // Source: ../frontend/src/features/pages/query.ts
 // Variable: PAGE_QUERY
-// Query: *[_type == "page" && uri.current == $uri][0] {    title,    "uri": uri.current,    seo,      sections[]{    _key,    _type,    _type == "textSection" => { body },    _type == "mediaSection" => {   kind,  image{   alt,  crop,  hotspot,  asset->{ _id, metadata { lqip, dimensions { width, height } } } },  video{    asset->{      playbackId,      "aspectRatio": data.aspect_ratio,      "captions": data.tracks[type == "text" && status == "ready"]{ id, language_code, name }    }  },  videoTitle,  autoplay, caption, wide },    _type == "code" => { code, language },    _type == "table" => { rows },    _type == "listSection" => {      title,      items[]{ _key, period, title, link, description, location }    },    _type == "carouselSection" => {      title,      items[]{ _key, title, link, description, media{   kind,  image{   alt,  crop,  hotspot,  asset->{ _id, metadata { lqip, dimensions { width, height } } } },  video{    asset->{      playbackId,      "aspectRatio": data.aspect_ratio,      "captions": data.tracks[type == "text" && status == "ready"]{ id, language_code, name }    }  },  videoTitle,  autoplay } }    }  }  }
+// Query: *[_type == "page" && uri.current == $uri][0] {    title,    "uri": uri.current,    seo,      sections[]{    _key,    _type,    _type == "heroSection" => {      eyebrow, title, titleMuted, lead, size, align,      buttons[]{ _key, label, link },      image{   alt,  crop,  hotspot,  asset->{ _id, metadata { lqip, dimensions { width, height } } } }    },    _type == "textSection" => { body },    _type == "mediaSection" => {   kind,  image{   alt,  crop,  hotspot,  asset->{ _id, metadata { lqip, dimensions { width, height } } } },  video{    asset->{      playbackId,      "aspectRatio": data.aspect_ratio,      "captions": data.tracks[type == "text" && status == "ready"]{ id, language_code, name }    }  },  videoTitle,  autoplay, caption, wide },    _type == "code" => { code, language },    _type == "table" => { rows },    _type == "listSection" => {      title,      titleMuted,      buttons[]{ _key, label, link },      items[]{ _key, period, title, organization, link, description, location, tags }    },    _type == "postsSection" => { title, limit, layout, showAllLink },    _type == "carouselSection" => {      title,      items[]{ _key, title, link, description, media{   kind,  image{   alt,  crop,  hotspot,  asset->{ _id, metadata { lqip, dimensions { width, height } } } },  video{    asset->{      playbackId,      "aspectRatio": data.aspect_ratio,      "captions": data.tracks[type == "text" && status == "ready"]{ id, language_code, name }    }  },  videoTitle,  autoplay } }    }  }  }
 export type PAGE_QUERY_RESULT = {
   title: string;
   uri: string;
@@ -691,15 +741,53 @@ export type PAGE_QUERY_RESULT = {
       }
     | {
         _key: string;
+        _type: "heroSection";
+        eyebrow: string | null;
+        title: string;
+        titleMuted: string | null;
+        lead: string | null;
+        size: "large" | "small" | null;
+        align: "center" | "left" | null;
+        buttons: Array<{
+          _key: string;
+          label: string;
+          link: string;
+        }> | null;
+        image: {
+          alt: string;
+          crop: SanityImageCrop | null;
+          hotspot: SanityImageHotspot | null;
+          asset: {
+            _id: string;
+            metadata: {
+              lqip: string | null;
+              dimensions: {
+                width: number;
+                height: number;
+              } | null;
+            } | null;
+          } | null;
+        } | null;
+      }
+    | {
+        _key: string;
         _type: "listSection";
         title: string;
+        titleMuted: string | null;
+        buttons: Array<{
+          _key: string;
+          label: string;
+          link: string;
+        }> | null;
         items: Array<{
           _key: string;
           period: string | null;
           title: string;
+          organization: string | null;
           link: string | null;
           description: string | null;
           location: string | null;
+          tags: Array<string> | null;
         }>;
       }
     | {
@@ -736,6 +824,14 @@ export type PAGE_QUERY_RESULT = {
         autoplay: boolean | null;
         caption: string | null;
         wide: boolean | null;
+      }
+    | {
+        _key: string;
+        _type: "postsSection";
+        title: string | null;
+        limit: number | null;
+        layout: "grid" | "list" | null;
+        showAllLink: boolean | null;
       }
     | {
         _key: string;
@@ -784,13 +880,14 @@ export type ALL_PAGES_QUERY_RESULT = Array<{
 
 // Source: ../frontend/src/features/posts/query.ts
 // Variable: ARTICLES_QUERY
-// Query: *[_type == "article" && showInPosts != false && defined(slug.current)]    | order(publishedAt desc) {        title,  "slug": slug.current,  description,  publishedAt,  updatedAt    }
+// Query: *[_type == "article" && showInPosts != false && defined(slug.current)]    | order(publishedAt desc) {        title,  "slug": slug.current,  description,  publishedAt,  updatedAt,      "plainText": pt::text(sections[_type == "textSection"].body[])    }
 export type ARTICLES_QUERY_RESULT = Array<{
   title: string;
   slug: string;
   description: string;
   publishedAt: string;
   updatedAt: string | null;
+  plainText: string;
 }>;
 
 // Source: ../frontend/src/features/posts/query.ts
@@ -813,7 +910,7 @@ export type ARTICLE_SLUGS_QUERY_RESULT = Array<{
 
 // Source: ../frontend/src/features/posts/query.ts
 // Variable: ARTICLE_QUERY
-// Query: *[_type == "article" && slug.current == $slug][0] {      title,  "slug": slug.current,  description,  publishedAt,  updatedAt,    seo { title, description },    "plainText": pt::text(sections[_type == "textSection"].body[]),      sections[]{    _key,    _type,    _type == "textSection" => { body },    _type == "mediaSection" => {   kind,  image{   alt,  crop,  hotspot,  asset->{ _id, metadata { lqip, dimensions { width, height } } } },  video{    asset->{      playbackId,      "aspectRatio": data.aspect_ratio,      "captions": data.tracks[type == "text" && status == "ready"]{ id, language_code, name }    }  },  videoTitle,  autoplay, caption, wide },    _type == "code" => { code, language },    _type == "table" => { rows },    _type == "listSection" => {      title,      items[]{ _key, period, title, link, description, location }    },    _type == "carouselSection" => {      title,      items[]{ _key, title, link, description, media{   kind,  image{   alt,  crop,  hotspot,  asset->{ _id, metadata { lqip, dimensions { width, height } } } },  video{    asset->{      playbackId,      "aspectRatio": data.aspect_ratio,      "captions": data.tracks[type == "text" && status == "ready"]{ id, language_code, name }    }  },  videoTitle,  autoplay } }    }  },    "previous": *[      _type == "article" && publishedAt < ^.publishedAt    ] | order(publishedAt desc)[0] { title, "slug": slug.current },    "next": *[      _type == "article" && publishedAt > ^.publishedAt    ] | order(publishedAt asc)[0] { title, "slug": slug.current }  }
+// Query: *[_type == "article" && slug.current == $slug][0] {      title,  "slug": slug.current,  description,  publishedAt,  updatedAt,    seo { title, description },    "plainText": pt::text(sections[_type == "textSection"].body[]),      sections[]{    _key,    _type,    _type == "heroSection" => {      eyebrow, title, titleMuted, lead, size, align,      buttons[]{ _key, label, link },      image{   alt,  crop,  hotspot,  asset->{ _id, metadata { lqip, dimensions { width, height } } } }    },    _type == "textSection" => { body },    _type == "mediaSection" => {   kind,  image{   alt,  crop,  hotspot,  asset->{ _id, metadata { lqip, dimensions { width, height } } } },  video{    asset->{      playbackId,      "aspectRatio": data.aspect_ratio,      "captions": data.tracks[type == "text" && status == "ready"]{ id, language_code, name }    }  },  videoTitle,  autoplay, caption, wide },    _type == "code" => { code, language },    _type == "table" => { rows },    _type == "listSection" => {      title,      titleMuted,      buttons[]{ _key, label, link },      items[]{ _key, period, title, organization, link, description, location, tags }    },    _type == "postsSection" => { title, limit, layout, showAllLink },    _type == "carouselSection" => {      title,      items[]{ _key, title, link, description, media{   kind,  image{   alt,  crop,  hotspot,  asset->{ _id, metadata { lqip, dimensions { width, height } } } },  video{    asset->{      playbackId,      "aspectRatio": data.aspect_ratio,      "captions": data.tracks[type == "text" && status == "ready"]{ id, language_code, name }    }  },  videoTitle,  autoplay } }    }  }  }
 export type ARTICLE_QUERY_RESULT = {
   title: string;
   slug: string;
@@ -878,13 +975,21 @@ export type ARTICLE_QUERY_RESULT = {
         _key: string;
         _type: "listSection";
         title: string;
+        titleMuted: string | null;
+        buttons: Array<{
+          _key: string;
+          label: string;
+          link: string;
+        }> | null;
         items: Array<{
           _key: string;
           period: string | null;
           title: string;
+          organization: string | null;
           link: string | null;
           description: string | null;
           location: string | null;
+          tags: Array<string> | null;
         }>;
       }
     | {
@@ -954,14 +1059,6 @@ export type ARTICLE_QUERY_RESULT = {
         }> | null;
       }
   > | null;
-  previous: {
-    title: string;
-    slug: string;
-  } | null;
-  next: {
-    title: string;
-    slug: string;
-  } | null;
 } | null;
 
 // Source: ../frontend/src/features/site/query.ts
@@ -984,13 +1081,13 @@ export type SETTINGS_QUERY_RESULT =
 // Query TypeMap
 declare global {
   interface SanityQueries {
-    '\n  *[_type == "page" && uri.current == $uri][0] {\n    title,\n    "uri": uri.current,\n    seo,\n    \n  sections[]{\n    _key,\n    _type,\n    _type == "textSection" => { body },\n    _type == "mediaSection" => { \n  kind,\n  image{ \n  alt,\n  crop,\n  hotspot,\n  asset->{ _id, metadata { lqip, dimensions { width, height } } }\n },\n  video{\n    asset->{\n      playbackId,\n      "aspectRatio": data.aspect_ratio,\n      "captions": data.tracks[type == "text" && status == "ready"]{ id, language_code, name }\n    }\n  },\n  videoTitle,\n  autoplay\n, caption, wide },\n    _type == "code" => { code, language },\n    _type == "table" => { rows },\n    _type == "listSection" => {\n      title,\n      items[]{ _key, period, title, link, description, location }\n    },\n    _type == "carouselSection" => {\n      title,\n      items[]{ _key, title, link, description, media{ \n  kind,\n  image{ \n  alt,\n  crop,\n  hotspot,\n  asset->{ _id, metadata { lqip, dimensions { width, height } } }\n },\n  video{\n    asset->{\n      playbackId,\n      "aspectRatio": data.aspect_ratio,\n      "captions": data.tracks[type == "text" && status == "ready"]{ id, language_code, name }\n    }\n  },\n  videoTitle,\n  autoplay\n } }\n    }\n  }\n\n  }\n': PAGE_QUERY_RESULT;
+    '\n  *[_type == "page" && uri.current == $uri][0] {\n    title,\n    "uri": uri.current,\n    seo,\n    \n  sections[]{\n    _key,\n    _type,\n    _type == "heroSection" => {\n      eyebrow, title, titleMuted, lead, size, align,\n      buttons[]{ _key, label, link },\n      image{ \n  alt,\n  crop,\n  hotspot,\n  asset->{ _id, metadata { lqip, dimensions { width, height } } }\n }\n    },\n    _type == "textSection" => { body },\n    _type == "mediaSection" => { \n  kind,\n  image{ \n  alt,\n  crop,\n  hotspot,\n  asset->{ _id, metadata { lqip, dimensions { width, height } } }\n },\n  video{\n    asset->{\n      playbackId,\n      "aspectRatio": data.aspect_ratio,\n      "captions": data.tracks[type == "text" && status == "ready"]{ id, language_code, name }\n    }\n  },\n  videoTitle,\n  autoplay\n, caption, wide },\n    _type == "code" => { code, language },\n    _type == "table" => { rows },\n    _type == "listSection" => {\n      title,\n      titleMuted,\n      buttons[]{ _key, label, link },\n      items[]{ _key, period, title, organization, link, description, location, tags }\n    },\n    _type == "postsSection" => { title, limit, layout, showAllLink },\n    _type == "carouselSection" => {\n      title,\n      items[]{ _key, title, link, description, media{ \n  kind,\n  image{ \n  alt,\n  crop,\n  hotspot,\n  asset->{ _id, metadata { lqip, dimensions { width, height } } }\n },\n  video{\n    asset->{\n      playbackId,\n      "aspectRatio": data.aspect_ratio,\n      "captions": data.tracks[type == "text" && status == "ready"]{ id, language_code, name }\n    }\n  },\n  videoTitle,\n  autoplay\n } }\n    }\n  }\n\n  }\n': PAGE_QUERY_RESULT;
     '\n  *[_type == "page" && defined(uri.current)] {\n    "uri": uri.current\n  }\n': PAGE_URIS_QUERY_RESULT;
     '\n  *[_type == "page" && defined(uri.current)]\n    | order(uri.current asc) {\n      title,\n      "uri": uri.current,\n      seo,\n      _updatedAt\n    }\n': ALL_PAGES_QUERY_RESULT;
-    '\n  *[_type == "article" && showInPosts != false && defined(slug.current)]\n    | order(publishedAt desc) {\n      \n  title,\n  "slug": slug.current,\n  description,\n  publishedAt,\n  updatedAt\n\n    }\n': ARTICLES_QUERY_RESULT;
+    '\n  *[_type == "article" && showInPosts != false && defined(slug.current)]\n    | order(publishedAt desc) {\n      \n  title,\n  "slug": slug.current,\n  description,\n  publishedAt,\n  updatedAt\n,\n      "plainText": pt::text(sections[_type == "textSection"].body[])\n    }\n': ARTICLES_QUERY_RESULT;
     '\n  *[_type == "article" && defined(slug.current)]\n    | order(publishedAt desc) {\n      \n  title,\n  "slug": slug.current,\n  description,\n  publishedAt,\n  updatedAt\n\n    }\n': ALL_ARTICLES_QUERY_RESULT;
     '\n  *[_type == "article" && defined(slug.current)] {\n    "slug": slug.current\n  }\n': ARTICLE_SLUGS_QUERY_RESULT;
-    '\n  *[_type == "article" && slug.current == $slug][0] {\n    \n  title,\n  "slug": slug.current,\n  description,\n  publishedAt,\n  updatedAt\n,\n    seo { title, description },\n    "plainText": pt::text(sections[_type == "textSection"].body[]),\n    \n  sections[]{\n    _key,\n    _type,\n    _type == "textSection" => { body },\n    _type == "mediaSection" => { \n  kind,\n  image{ \n  alt,\n  crop,\n  hotspot,\n  asset->{ _id, metadata { lqip, dimensions { width, height } } }\n },\n  video{\n    asset->{\n      playbackId,\n      "aspectRatio": data.aspect_ratio,\n      "captions": data.tracks[type == "text" && status == "ready"]{ id, language_code, name }\n    }\n  },\n  videoTitle,\n  autoplay\n, caption, wide },\n    _type == "code" => { code, language },\n    _type == "table" => { rows },\n    _type == "listSection" => {\n      title,\n      items[]{ _key, period, title, link, description, location }\n    },\n    _type == "carouselSection" => {\n      title,\n      items[]{ _key, title, link, description, media{ \n  kind,\n  image{ \n  alt,\n  crop,\n  hotspot,\n  asset->{ _id, metadata { lqip, dimensions { width, height } } }\n },\n  video{\n    asset->{\n      playbackId,\n      "aspectRatio": data.aspect_ratio,\n      "captions": data.tracks[type == "text" && status == "ready"]{ id, language_code, name }\n    }\n  },\n  videoTitle,\n  autoplay\n } }\n    }\n  }\n,\n    "previous": *[\n      _type == "article" && publishedAt < ^.publishedAt\n    ] | order(publishedAt desc)[0] { title, "slug": slug.current },\n    "next": *[\n      _type == "article" && publishedAt > ^.publishedAt\n    ] | order(publishedAt asc)[0] { title, "slug": slug.current }\n  }\n': ARTICLE_QUERY_RESULT;
+    '\n  *[_type == "article" && slug.current == $slug][0] {\n    \n  title,\n  "slug": slug.current,\n  description,\n  publishedAt,\n  updatedAt\n,\n    seo { title, description },\n    "plainText": pt::text(sections[_type == "textSection"].body[]),\n    \n  sections[]{\n    _key,\n    _type,\n    _type == "heroSection" => {\n      eyebrow, title, titleMuted, lead, size, align,\n      buttons[]{ _key, label, link },\n      image{ \n  alt,\n  crop,\n  hotspot,\n  asset->{ _id, metadata { lqip, dimensions { width, height } } }\n }\n    },\n    _type == "textSection" => { body },\n    _type == "mediaSection" => { \n  kind,\n  image{ \n  alt,\n  crop,\n  hotspot,\n  asset->{ _id, metadata { lqip, dimensions { width, height } } }\n },\n  video{\n    asset->{\n      playbackId,\n      "aspectRatio": data.aspect_ratio,\n      "captions": data.tracks[type == "text" && status == "ready"]{ id, language_code, name }\n    }\n  },\n  videoTitle,\n  autoplay\n, caption, wide },\n    _type == "code" => { code, language },\n    _type == "table" => { rows },\n    _type == "listSection" => {\n      title,\n      titleMuted,\n      buttons[]{ _key, label, link },\n      items[]{ _key, period, title, organization, link, description, location, tags }\n    },\n    _type == "postsSection" => { title, limit, layout, showAllLink },\n    _type == "carouselSection" => {\n      title,\n      items[]{ _key, title, link, description, media{ \n  kind,\n  image{ \n  alt,\n  crop,\n  hotspot,\n  asset->{ _id, metadata { lqip, dimensions { width, height } } }\n },\n  video{\n    asset->{\n      playbackId,\n      "aspectRatio": data.aspect_ratio,\n      "captions": data.tracks[type == "text" && status == "ready"]{ id, language_code, name }\n    }\n  },\n  videoTitle,\n  autoplay\n } }\n    }\n  }\n\n  }\n': ARTICLE_QUERY_RESULT;
     '\n  *[_id == "settings"][0] {\n    role,\n    navigation[]->{\n      title,\n      "uri": uri.current\n    }\n  }\n': SETTINGS_QUERY_RESULT;
   }
 }

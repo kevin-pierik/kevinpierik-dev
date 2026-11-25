@@ -3,8 +3,9 @@ import type { Metadata } from "next";
 import { JsonLd } from "@/components/json-ld";
 import { getPage, getPageUris } from "@/features/pages/fetch";
 import { homeStructuredData, pageMetadata } from "@/features/pages/metadata";
-import { PageBody } from "@/features/pages/page-body";
+import { PageBody, pageHero } from "@/features/pages/page-body";
 import { isHomeUri, pageUri, uriSegments } from "@/features/pages/uri";
+import { heroTitleId } from "@/features/sections/hero";
 import { SiteFooter } from "@/features/site/site-footer";
 import { SiteHeader } from "@/features/site/site-header";
 
@@ -34,17 +35,18 @@ export async function generateMetadata({
 export default async function Page({ params }: PageProps) {
   const { uri, isHome } = await resolve(params);
   const page = await getPage(uri);
+  const hero = pageHero(page);
 
   return (
     <>
       {isHome ? <JsonLd data={homeStructuredData(page)} /> : null}
       <SiteHeader current={uri} />
       <main
-        aria-labelledby={isHome ? "page-title" : "main-title"}
-        className="site-container pt-[6lh] site:grid-site site:content-start"
+        aria-labelledby={hero ? heroTitleId : "main-title"}
+        className={`site-container ${hero ? "" : "pt-[6lh]"}`}
         id="main"
       >
-        {isHome ? null : (
+        {hero ? null : (
           <h1 className="sr-only" id="main-title">
             {page.title}
           </h1>

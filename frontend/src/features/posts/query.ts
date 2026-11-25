@@ -13,7 +13,8 @@ const articleFragment = /* groq */ `
 export const ARTICLES_QUERY = defineQuery(`
   *[_type == "article" && showInPosts != false && defined(slug.current)]
     | order(publishedAt desc) {
-      ${articleFragment}
+      ${articleFragment},
+      "plainText": pt::text(sections[_type == "textSection"].body[])
     }
 `);
 
@@ -35,12 +36,6 @@ export const ARTICLE_QUERY = defineQuery(`
     ${articleFragment},
     seo { title, description },
     "plainText": pt::text(sections[_type == "textSection"].body[]),
-    ${sectionsFragment},
-    "previous": *[
-      _type == "article" && publishedAt < ^.publishedAt
-    ] | order(publishedAt desc)[0] { title, "slug": slug.current },
-    "next": *[
-      _type == "article" && publishedAt > ^.publishedAt
-    ] | order(publishedAt asc)[0] { title, "slug": slug.current }
+    ${sectionsFragment}
   }
 `);

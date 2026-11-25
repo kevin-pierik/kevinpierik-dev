@@ -8,7 +8,7 @@
 @layer base {
   * {
     border-color: var(--border);
-    outline-color: var(--ring);
+    outline-color: var(--focus);
   }
   html {
     overflow-x: clip;
@@ -56,6 +56,99 @@
   .header-blur > div:nth-child(3) {
     backdrop-filter: blur(12px);
     mask-image: linear-gradient(to bottom, #000 20%, transparent 60%);
+  }
+
+  :root:has(.site-menu:popover-open) {
+    overflow: hidden;
+  }
+
+  .site-menu {
+    opacity: 0;
+    transition-property: opacity, display, overlay;
+    transition-duration: 0.2s;
+    transition-behavior: allow-discrete;
+  }
+
+  .site-menu:popover-open {
+    opacity: 1;
+  }
+
+  @starting-style {
+    .site-menu:popover-open {
+      opacity: 0;
+    }
+  }
+
+  .menu-icon {
+    position: relative;
+    width: 1.125rem;
+    height: 1rem;
+  }
+
+  .menu-icon > span {
+    position: absolute;
+    inset-inline: 0;
+    top: calc(50% - 0.75px);
+    height: 1.5px;
+    border-radius: 1px;
+    background: currentColor;
+  }
+
+  .menu-icon > span:first-child {
+    translate: 0 -3.5px;
+  }
+
+  .menu-icon > span:last-child {
+    translate: 0 3.5px;
+  }
+
+  .site-menu:popover-open .menu-icon > span:first-child {
+    translate: 0;
+    rotate: 45deg;
+  }
+
+  .site-menu:popover-open .menu-icon > span:last-child {
+    translate: 0;
+    rotate: -45deg;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .menu-icon > span {
+      transition:
+        translate 0.3s cubic-bezier(0.2, 0.8, 0.2, 1),
+        rotate 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+    }
+
+    @starting-style {
+      .site-menu:popover-open .menu-icon > span:first-child {
+        translate: 0 -3.5px;
+        rotate: 0deg;
+      }
+
+      .site-menu:popover-open .menu-icon > span:last-child {
+        translate: 0 3.5px;
+        rotate: 0deg;
+      }
+    }
+
+    .site-menu li {
+      transition:
+        opacity 0.4s,
+        translate 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+      transition-delay: calc(var(--index, 0) * 40ms + 60ms);
+    }
+
+    .site-menu:not(:popover-open) li {
+      opacity: 0;
+      transition-delay: 0s;
+    }
+
+    @starting-style {
+      .site-menu:popover-open li {
+        opacity: 0;
+        translate: 0 0.75rem;
+      }
+    }
   }
 
   [data-code-frame][data-numbered] code {

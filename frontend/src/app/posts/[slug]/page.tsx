@@ -5,8 +5,8 @@ import { Link } from "@/components/link";
 import { postsPath, getArticle, getArticleSlugs } from "@/features/posts/fetch";
 import { formatDate } from "@/features/posts/format-date";
 import { postMetadata, postStructuredData } from "@/features/posts/metadata";
-import { NewsletterForm } from "@/features/posts/newsletter-form";
 import { Sections } from "@/features/sections";
+import { contactPath, siteName } from "@/features/site";
 import { SiteFooter } from "@/features/site/site-footer";
 import { SiteHeader } from "@/features/site/site-header";
 
@@ -14,7 +14,7 @@ type PostPageProps = {
   params: Promise<{ slug: string }>;
 };
 
-const prose = "site:col-[4/10]";
+const prose = "mx-auto max-w-[41.125rem]";
 
 export const dynamicParams = true;
 
@@ -33,7 +33,6 @@ export async function generateMetadata({
 export default async function PostPage({ params }: PostPageProps) {
   const { slug } = await params;
   const post = await getArticle(slug);
-  const { previous, next } = post;
 
   return (
     <>
@@ -41,23 +40,18 @@ export default async function PostPage({ params }: PostPageProps) {
       <SiteHeader current={postsPath()} />
       <main
         aria-labelledby="post-title"
-        className="site-container pt-[6lh] site:grid-site site:content-start"
+        className="site-container pt-30"
         id="main"
       >
-        <p className="text-muted site:col-[3/10]">
-          <Link href={postsPath()} variant="nav">
-            <span aria-hidden="true">←</span>
-            {" "}
-            Posts
-          </Link>
-        </p>
         <h1
-          className={`mt-[2lh] text-[1.75rem] leading-tight font-medium tracking-[-0.02em] ${prose}`}
+          className="mx-auto max-w-[47.5rem] text-center text-[1.75rem] leading-[2.125rem] font-medium tracking-[-0.03em] text-balance site:text-[2.5rem] site:leading-[2.875rem]"
           id="post-title"
         >
           {post.title}
         </h1>
-        <p className={`mt-[0.5lh] text-muted tabular-nums ${prose}`}>
+        <p className="mt-6 text-center text-muted tabular-nums">
+          {siteName}
+          {" · "}
           <time dateTime={post.publishedAt}>
             {formatDate(post.publishedAt)}
           </time>
@@ -72,38 +66,26 @@ export default async function PostPage({ params }: PostPageProps) {
               </time>
             </>
           ) : null}
+          {" · "}
+          <Link href="/feed.xml">RSS</Link>
         </p>
         <article
           aria-labelledby="post-title"
-          className="mt-[3lh] site:col-span-full site:grid-site site:content-start site:*:col-[4/10] site:*:data-bleed:col-[3/-1] site:*:data-full:col-span-full site:*:data-wide:col-[2/12] site:[&>:is(figure,[data-table]):not([data-wide])]:col-[3/11]"
+          className="mt-20 *:mx-auto *:max-w-[41.125rem] [&>:is(figure,[data-table])]:max-w-[55.3125rem] [&>[data-full]]:max-w-none [&>figure[data-wide]]:max-w-none"
         >
           <Sections sections={post.sections} />
         </article>
-        <div className={`mt-[6lh] ${prose}`}>
-          <NewsletterForm />
-        </div>
-        {previous || next ? (
-          <nav aria-label="More posts" className={`mt-[6lh] ${prose}`}>
-            <ul className="grid gap-[1lh] sm:grid-cols-2">
-              {previous ? (
-                <li>
-                  <p className="text-muted">Previous</p>
-                  <Link href={postsPath(previous.slug)} rel="prev">
-                    {previous.title}
-                  </Link>
-                </li>
-              ) : null}
-              {next ? (
-                <li className="sm:col-start-2 sm:text-right">
-                  <p className="text-muted">Next</p>
-                  <Link href={postsPath(next.slug)} rel="next">
-                    {next.title}
-                  </Link>
-                </li>
-              ) : null}
-            </ul>
-          </nav>
-        ) : null}
+        <aside
+          aria-label="Get in touch"
+          className={`mt-[1lh] flex flex-col items-start gap-5 rounded-2xl bg-subtle p-7 ${prose}`}
+        >
+          <p className="text-[1.0625rem] leading-[1.625rem]">
+            Working on something similar? I’d love to hear about it.
+          </p>
+          <Link className="min-h-11 px-5" href={contactPath} variant="primary">
+            Get in touch
+          </Link>
+        </aside>
       </main>
       <SiteFooter />
     </>

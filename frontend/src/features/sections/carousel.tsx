@@ -14,20 +14,21 @@ export function Carousel({ _key, title, items }: SectionOf<"carouselSection">) {
   const titleId = slugify(title ?? "") || `carousel-${_key}`;
 
   return (
-    <>
-      <h2
-        className={`scroll-mt-[2lh] font-medium first:mt-0 ${headingStyles.h2}`}
-        id={titleId}
-      >
+    <section
+      aria-labelledby={titleId}
+      className="mt-24 first:mt-0 site:mt-40"
+      data-full
+    >
+      <h2 className={headingStyles.section} id={titleId}>
         <HeadingLink id={titleId} label="Copy link to heading" labels={labels}>
           {title}
         </HeadingLink>
       </h2>
-      <div className="bleed-end mt-[2lh] first:mt-0" data-bleed>
+      <div className="bleed mt-8">
         <BlossomCarousel
           aria-label={title ?? undefined}
           as="ul"
-          className={`flex snap-x snap-mandatory gap-x-6 ${focus}`}
+          className={`flex snap-x snap-mandatory scroll-px-(--gutter) gap-x-6 px-(--gutter) ${focus}`}
           role="list"
           tabIndex={0}
         >
@@ -37,13 +38,21 @@ export function Carousel({ _key, title, items }: SectionOf<"carouselSection">) {
               data-blossom-slide
               key={item._key}
             >
-              <div className="aspect-[16/10] w-full overflow-hidden rounded-2xl bg-subtle">
-                <Media
-                  className="size-full object-cover"
-                  media={item.media}
-                  sizes="(min-width: 800px) 28rem, 80vw"
-                />
-              </div>
+              {item.media?.image?.asset || item.media?.video?.asset ? (
+                <div className="aspect-[16/10] w-full overflow-hidden rounded-xl bg-subtle">
+                  <Media
+                    className="size-full object-cover"
+                    media={item.media}
+                    sizes="(min-width: 800px) 28rem, 80vw"
+                  />
+                </div>
+              ) : (
+                <div className="grid aspect-[16/10] w-full place-items-center rounded-xl bg-[repeating-conic-gradient(var(--subtle)_0_25%,transparent_0_50%)] bg-size-[1.5rem_1.5rem]">
+                  <p className="text-[1.875rem] leading-8 font-semibold tracking-[-0.05em]">
+                    Coming soon
+                  </p>
+                </div>
+              )}
               <h3 className="mt-[1lh]">
                 <SanityLink href={item.link} variant="nav">
                   {item.title}
@@ -56,6 +65,6 @@ export function Carousel({ _key, title, items }: SectionOf<"carouselSection">) {
           ))}
         </BlossomCarousel>
       </div>
-    </>
+    </section>
   );
 }

@@ -17,6 +17,8 @@ const url = (value: string) =>
     (char) =>
       `%${char.charCodeAt(0).toString(16).toUpperCase().padStart(2, "0")}`,
   );
+const linked = (label: string, href?: string | null) =>
+  href ? `[${text(label)}](${url(absoluteUrl(href))})` : label;
 
 function media(value: Media | null, caption?: string | null) {
   const line =
@@ -42,6 +44,13 @@ function row(cells: string[] | null | undefined) {
 
 function section(value: Section) {
   switch (value._type) {
+    case "heroSection":
+      return [
+        [value.title, value.titleMuted].filter(Boolean).join(" "),
+        value.lead,
+      ]
+        .filter(Boolean)
+        .join("\n\n");
     case "textSection":
       return portableTextToMarkdown(value.body ?? [], {
         marks: {
@@ -77,7 +86,7 @@ function section(value: Section) {
         value.items
           ?.map(
             (item) =>
-              `- ${"period" in item && item.period ? `${item.period}: ` : ""}${item.link ? `[${text(item.title ?? "")}](${url(absoluteUrl(item.link))})` : item.title}${item.description ? `: ${item.description}` : ""}${"location" in item && item.location ? ` (${item.location})` : ""}`,
+              `- ${"period" in item && item.period ? `${item.period}: ` : ""}${"organization" in item && item.organization ? `${item.title} at ${linked(item.organization, item.link)}` : linked(item.title ?? "", item.link)}${item.description ? `: ${item.description}` : ""}${"location" in item && item.location ? ` (${item.location})` : ""}`,
           )
           .join("\n"),
       ]

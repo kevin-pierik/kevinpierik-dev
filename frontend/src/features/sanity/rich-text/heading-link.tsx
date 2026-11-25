@@ -7,7 +7,7 @@ import {
   CopyIcon,
   useCopyState,
 } from "@/components/copy-button";
-import { focus } from "@/components/link";
+import { focusText } from "@/components/link";
 
 type HeadingLinkProps = {
   id: string;
@@ -25,7 +25,7 @@ export function HeadingLink({ id, label, labels, children }: HeadingLinkProps) {
         {children}
         <a
           aria-label={label}
-          className={`ml-[0.5em] inline-flex align-middle text-muted opacity-0 transition-opacity group-hover/heading:opacity-100 group-data-state/heading:opacity-100 focus-visible:opacity-100 ${focus}`}
+          className={`ml-[0.5em] inline-flex align-middle text-muted opacity-0 transition-opacity group-hover/heading:opacity-100 group-data-state/heading:opacity-100 focus-visible:opacity-100 ${focusText}`}
           data-state={state}
           href={`#${id}`}
           onClick={() => copy(new URL(`#${id}`, window.location.href).href)}

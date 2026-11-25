@@ -6,7 +6,7 @@ test("the English homepage renders", async ({ page }) => {
 
   await expect(page.locator("html")).toHaveAttribute("lang", "en");
   await expect(page.getByRole("heading", { level: 1 })).toHaveText(
-    "Kevin Pierik Frontend Developer",
+    "Fast, accessible websites. Clear, useful interfaces.",
   );
   await expect(page.locator('link[rel="canonical"]')).toHaveAttribute(
     "href",

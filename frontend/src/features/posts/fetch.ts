@@ -15,7 +15,13 @@ export function postsPath(slug?: string) {
   return slug ? `/posts/${slug}` : "/posts";
 }
 
-export const getArticles = cache(() => client.fetch(ARTICLES_QUERY));
+export const getArticles = cache(async () => {
+  const articles = await client.fetch(ARTICLES_QUERY);
+  return articles.map(({ plainText, ...article }) => ({
+    ...article,
+    readingMinutes: readingMinutes(plainText),
+  }));
+});
 
 export async function getAllArticles() {
   return client.fetch(ALL_ARTICLES_QUERY);

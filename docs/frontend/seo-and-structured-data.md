@@ -17,7 +17,7 @@ The English homepage at `/` aims to be the first result for "Kevin Pierik" and t
 
 ## Headline
 
-On the homepage the site header's `<h1>` holds the name and the role from the `settings` document, so the page's main heading says who and what. Other pages show both as paragraphs and keep their own `<h1>`. The town stays out of the heading; it belongs in the title, description, and About text.
+On the homepage the `<h1>` is the hero headline, "Fast, accessible websites. Clear, useful interfaces." The name and role stay close to it: in the line just above it ("Kevin Pierik, frontend developer") and in the header, where the role comes from the `settings` document. Every page shows the name and role in the header as paragraphs. The town stays out of the heading; it belongs in the title, description, and the hero's lead.
 
 ## Structured data
 
@@ -46,7 +46,7 @@ The site URL, name, and the `#person` and `#website` ids live in `frontend/src/f
 
 ## Other files
 
-- `frontend/src/app/sitemap.ts` lists the public pages, including the posts index, and every published article, each with `lastModified`. The posts index takes the later of its own page document and its newest article, so a new post updates it too. Its URLs match the canonicals exactly, with no trailing slash.
+- `frontend/src/app/sitemap.ts` lists the public pages, including the posts index and the hardcoded contact page, and every published article. Sanity pages and articles have a `lastModified`; the contact page has none, because it has no edit date. The posts index takes the later of its own page document and its newest article, so a new post updates it too. Its URLs match the canonicals exactly, with no trailing slash.
 - `frontend/src/app/robots.ts` allows everything except `/api/` and points to the sitemap.
 - `frontend/src/app/manifest.ts` serves `/manifest.webmanifest` with the name and icons.
 

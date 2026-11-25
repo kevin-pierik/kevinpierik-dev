@@ -14,8 +14,9 @@ The header navigation is a ui-sdk `NavigationMenu`, following [its docs](https:/
 
 - `text` (default): the inline link from ui-sdk.dev. Its underline is `foreground` at 25%, with the font's own thickness and a 3px offset, and turns solid on hover and focus. The 404 page and markdown links use it.
 - `nav`: no underline until hover, like the ui-sdk.dev navigation. Use it only where the position makes clear that it is a link, such as links in compact lists.
-- `pill`: no underline; on hover a fully rounded `subtle` fill appears and the text turns `foreground`. The header navigation uses it, `muted` with the current page in `foreground` (`data-current`). The list has a negative right margin equal to the pill's padding, so the last item's text lines up with the page edge.
-- `plain`: no hover style at all, only the focus outline. The name in the header and the footer links use it, because their position already says they are links.
+- `pill`: no underline; on hover a fully rounded `subtle` fill appears and the text turns `foreground`. The header navigation uses it, `muted` with the current page in `foreground` (`data-current`).- `plain`: no hover style at all, only the focus outline. The name in the header and the footer links use it, because their position already says they are links.
+- `primary`: a small fully rounded block in `foreground` with `background` text, at weight 500, that fades to 80% on hover. The "Get in touch" links in the header, the hero, the menu, and the article call to action, and "Send an email" on the contact page use it.
+- `outline`: the same shape as `primary`, in the page colour with a `border` and a `subtle` fill on hover. The second button of a hero uses it.
 - `subtle`: a small fully rounded block, at least 2rem high, with a `subtle` fill that darkens to `subtle-hover` on hover. These are solid colours, not a `foreground` tint, so the block stays visible in dark mode. The skip link uses it; it sits above the sticky header (`z-20`), so its blur doesn't cover it.
 
 ## Shape and touch targets
@@ -24,11 +25,16 @@ The site follows Apple's Human Interface Guidelines for shape and touch:
 
 - Controls and pills are fully rounded (`rounded-full`). Blocks, such as post cards, images, videos, the carousel frame, code blocks, and tables, use `rounded-2xl`; inline code uses `rounded-md`.
 - Corners inside a rounded block are concentric: the copy button sits 6px inside a 16px corner, so it uses a 10px radius.
-- On touch screens (`pointer-coarse`) every control is at least 44px high: header pills, the copy button, "Read more", and the newsletter field, clear button, and Subscribe button.
+- On touch screens (`pointer-coarse`) every control is at least 44px high: header pills, the menu buttons, the `primary` links, the copy button, and "Read more". The accordion rows are at least 54px high everywhere.
 - Icon buttons have no hover fill. The copy button only turns its icon from `muted` to `foreground`.
 
 ## Focus and colour
 
-Links show a 2px blue `ring` outline, offset by 2px, on `:focus-visible`. Don't add `outline-none`: in Tailwind 4 it sets `--tw-outline-style: none`, which `outline-2` reads, so the outline disappears.
+On `:focus-visible` everything shows a soft 3px `focus` outline, in the style of the macOS focus ring. `frontend/src/components/link.tsx` exports two variants:
+
+- `focus`: the outline sits right against the element and follows its rounding. Pills, buttons, the menu buttons, the accordion rows, the copy button, tables, and the carousel use it. The `primary` link keeps the outline 2px away instead, so it shows against the page rather than its own dark fill.
+- `focusText`: for links in running text and other inline links, the outline sits 2px away and gets small rounded corners, so it doesn't touch the letters. The `text`, `nav`, and `plain` link styles and the heading links use it.
+
+Code blocks draw the outline 3px inside the `<pre>`, so it isn't clipped by the frame. Don't add `outline-none`: in Tailwind 4 it sets `--tw-outline-style: none`, which `outline-3` reads, so the outline disappears.
 
 The colours come from the tokens in [Color scheme](color-scheme.md), which lists their contrast ratios. Text stays at 4.5:1 or more in both schemes, on the hover fill too.

@@ -127,6 +127,26 @@ describe("sectionsToMarkdown", () => {
     ).toBe("## Work\n\n- 2025–now: Friday\n- Intern: Web (Zwolle)");
   });
 
+  test("links only the organization when a list item has one", () => {
+    expect(
+      sectionsToMarkdown(
+        sections({
+          _key: "a",
+          _type: "listSection",
+          title: "Experience",
+          items: [
+            {
+              _key: "b",
+              title: "Intern",
+              organization: "Friday",
+              link: "https://www.friday.nl",
+            },
+          ],
+        }),
+      ),
+    ).toBe("## Experience\n\n- Intern at [Friday](https://www.friday.nl)");
+  });
+
   test("skips empty sections", () => {
     expect(
       sectionsToMarkdown(

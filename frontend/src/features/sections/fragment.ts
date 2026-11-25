@@ -18,14 +18,22 @@ export const sectionsFragment = /* groq */ `
   sections[]{
     _key,
     _type,
+    _type == "heroSection" => {
+      eyebrow, title, titleMuted, lead, size, align,
+      buttons[]{ _key, label, link },
+      image{ ${imageFragment} }
+    },
     _type == "textSection" => { body },
     _type == "mediaSection" => { ${mediaFragment}, caption, wide },
     _type == "code" => { code, language },
     _type == "table" => { rows },
     _type == "listSection" => {
       title,
-      items[]{ _key, period, title, link, description, location }
+      titleMuted,
+      buttons[]{ _key, label, link },
+      items[]{ _key, period, title, organization, link, description, location, tags }
     },
+    _type == "postsSection" => { title, limit, layout, showAllLink },
     _type == "carouselSection" => {
       title,
       items[]{ _key, title, link, description, media{ ${mediaFragment} } }
