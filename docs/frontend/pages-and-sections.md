@@ -84,7 +84,7 @@ The first item is open in the server HTML; the others are hidden until the page 
 
 ## Settings
 
-Site-wide content lives in the `settings` singleton (`studio/schemas/documents/settings.ts`), registered with `defineSingleton` in `studio/sanity.config.ts` and shown at the top of the Studio. It holds the role shown under the name in the header and on the Open Graph image, and the header navigation (references to `page` documents, in order). `frontend/src/features/site/fetch.ts` reads it with `getSettings()`; the header marks the link whose URI matches the current path, or one of its parents, as current.
+Site-wide content lives in the `settings` singleton (`studio/schemas/documents/settings.ts`), registered with `defineSingleton` in `studio/sanity.config.ts` and shown at the top of the Studio. It holds the role shown under the name in the header, and the header navigation (references to `page` documents, in order). `frontend/src/features/site/fetch.ts` reads it with `getSettings()`; the header marks the link whose URI matches the current path, or one of its parents, as current.
 
 Interface text that isn't content, such as the skip link, copy-button labels, the article call to action, the contact page, and the 404 text, is hardcoded in the component that uses it.
 

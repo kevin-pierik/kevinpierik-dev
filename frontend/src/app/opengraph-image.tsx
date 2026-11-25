@@ -2,52 +2,49 @@ import { readFile } from "node:fs/promises";
 import { join } from "node:path";
 import { ImageResponse } from "next/og";
 
-import { getSettings } from "@/features/site/fetch";
+import { ogImage } from "@/features/site";
 
-export const alt = "Kevin Pierik, frontend developer";
-export const size = { width: 1200, height: 630 };
+export const alt = ogImage.alt;
+export const size = { width: ogImage.width, height: ogImage.height };
 export const contentType = "image/png";
 
-const fontsDirectory = join(
-  process.cwd(),
-  "node_modules/geist/dist/fonts/geist-sans",
-);
-
 export default async function Image() {
-  const [settings, regular, medium] = await Promise.all([
-    getSettings(),
-    readFile(join(fontsDirectory, "Geist-Regular.ttf")),
-    readFile(join(fontsDirectory, "Geist-Medium.ttf")),
+  const [geist, mark] = await Promise.all([
+    readFile(
+      join(
+        process.cwd(),
+        "node_modules/geist/dist/fonts/geist-sans/Geist-Medium.ttf",
+      ),
+    ),
+    readFile(
+      join(process.cwd(), "src/features/style/fonts/noto-sans-kr-mark.ttf"),
+    ),
   ]);
 
   return new ImageResponse(
     <div
       style={{
         display: "flex",
-        flexDirection: "column",
-        justifyContent: "space-between",
+        alignItems: "center",
+        justifyContent: "center",
+        gap: 44,
         width: "100%",
         height: "100%",
-        padding: 72,
         backgroundColor: "#ffffff",
         color: "#000000",
-        fontFamily: "Geist",
-        fontSize: 44,
-        lineHeight: 1.4,
-        letterSpacing: "-0.02em",
+        fontSize: 112,
       }}
     >
-      <div style={{ display: "flex", flexDirection: "column" }}>
-        <div style={{ fontWeight: 500 }}>Kevin Pierik</div>
-        <div style={{ color: "#6b6b6b" }}>{settings?.role}</div>
+      <div style={{ fontFamily: "Noto Sans KR" }}>케빈</div>
+      <div style={{ fontFamily: "Geist", letterSpacing: "-0.04em" }}>
+        Kevin Pierik
       </div>
-      <div style={{ color: "#6b6b6b", fontSize: 28 }}>kevinpierik.dev</div>
     </div>,
     {
       ...size,
       fonts: [
-        { name: "Geist", data: regular, weight: 400, style: "normal" },
-        { name: "Geist", data: medium, weight: 500, style: "normal" },
+        { name: "Geist", data: geist, weight: 500, style: "normal" },
+        { name: "Noto Sans KR", data: mark, weight: 500, style: "normal" },
       ],
     },
   );

@@ -42,7 +42,7 @@ The site URL, name, and the `#person` and `#website` ids live in `frontend/src/f
 
 ## Open Graph image
 
-`frontend/src/app/opengraph-image.tsx` draws a 1200×630 PNG in the site's style: the name and role at the top left, `kevinpierik.dev` at the bottom, in Geist Sans on white. It reads the Geist TTF files from the `geist` package, because the image renderer can't read woff2. Next.js adds the `og:image` and `twitter:image` tags itself, so the metadata declares no images.
+`frontend/src/app/opengraph-image.tsx` draws a 1200×630 PNG with a wordmark, designed on the OG image page in Figma and modelled on beside.com's: the mark 케빈 (Kevin in Korean, as in the favicon) and "Kevin Pierik", side by side and centred, black on white at 112px. The name is Geist Medium, read as a TTF from the `geist` package, because the image renderer can't read woff2. The mark is Noto Sans KR Medium from `frontend/src/features/style/fonts/noto-sans-kr-mark.ttf`, a 5 KB subset with only those two syllables, downloaded from Google Fonts with `text=케빈` (SIL Open Font License, next to it). Add characters to the subset before using them in the image. Next.js only adds the tags for that file to segments that don't set `openGraph` themselves, and every page and post does, so `pageMetadata()` and the posts metadata declare it in `openGraph.images` and `twitter.images` through `ogImage` in `frontend/src/features/site/index.ts`, which also holds its size and alt text.
 
 ## Other files
 

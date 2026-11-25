@@ -12,6 +12,10 @@ test("the English homepage renders", async ({ page }) => {
     "href",
     /^https:\/\/www\.kevinpierik\.dev\/?$/,
   );
+  await expect(page.locator('meta[property="og:image"]')).toHaveAttribute(
+    "content",
+    "https://www.kevinpierik.dev/opengraph-image",
+  );
 });
 
 test("the posts index handles empty content and opens published posts", async ({

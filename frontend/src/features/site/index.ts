@@ -3,6 +3,12 @@ export const siteUrl = "https://www.kevinpierik.dev";
 export const contactPath = "/contact";
 export const personId = `${siteUrl}/#person`;
 export const websiteId = `${siteUrl}/#website`;
+export const ogImage = {
+  url: "/opengraph-image",
+  width: 1200,
+  height: 630,
+  alt: "Kevin Pierik, frontend developer",
+};
 
 export function isCurrentPath(current: string | undefined, uri: string) {
   if (!current) return false;
