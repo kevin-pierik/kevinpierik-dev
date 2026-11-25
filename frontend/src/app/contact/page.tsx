@@ -42,18 +42,18 @@ export default function Contact() {
         className="site-container pt-18 site:pt-32"
         id="main"
       >
-        <div className="text-center">
+        <div>
           <h1
             className="text-[2.25rem] leading-[2.5rem] font-medium tracking-[-0.025em] site:text-[4rem] site:leading-[4.25rem] site:tracking-[-0.035em]"
             id="main-title"
           >
             Get in touch
           </h1>
-          <p className="mx-auto mt-7 max-w-[35rem] text-[1.125rem] leading-[1.875rem] text-muted">
+          <p className="mt-7 max-w-[35rem] text-[1.125rem] leading-[1.875rem] text-muted">
             Have a question, an idea, or a project in mind? Email is the
             quickest way to reach me.
           </p>
-          <p className="mt-8 flex flex-wrap justify-center gap-2.5 site:mt-10">
+          <p className="mt-8 flex flex-wrap gap-2.5 site:mt-10">
             <Link
               className={`${buttons} font-medium`}
               href={`mailto:${email}`}
@@ -70,7 +70,7 @@ export default function Contact() {
             </Link>
           </p>
         </div>
-        <div className="mx-auto grid max-w-[40rem] gap-12 pt-24 text-[1.0625rem] leading-[1.625rem] text-muted site:pt-30">
+        <div className="grid gap-12 pt-24 text-[1.0625rem] leading-[1.625rem] text-muted site:grid-cols-2 site:gap-16 site:pt-30">
           <section aria-labelledby="email-and-social">
             <h2
               className="text-lg leading-snug font-medium tracking-[-0.01em] text-foreground"

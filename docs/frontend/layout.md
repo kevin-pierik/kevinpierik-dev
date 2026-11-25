@@ -16,7 +16,7 @@ Pages follow the Figma design, which uses centred columns inside the 70rem conta
 - Posts index: a small left-aligned hero, then the posts in three columns across the full container.
 - Homepage: the centred hero, then the sections 10rem (6rem on small screens) apart. List sections put the heading on the left, sticky while the list scrolls by, and the accordion on the right ([Pages and sections](pages-and-sections.md#list)).
 - Article: the centred title (at most 47.5rem wide) and meta; text and the call to action at most 41.125rem (658px); figures and tables 55.3125rem; `wide` figures the full container.
-- Contact page: a centred intro like the homepage hero, then two short sections in a centred 40rem column.
+- Contact page: everything starts at the container's left edge, in line with the name in the header: the intro (a 4rem `<h1>`, the lead, and two buttons), then the two short sections side by side from the `site` breakpoint, 4rem apart.
 - 404: a centred block in the middle of a 35rem tall `<main>`.
 
 The widths come from the Figma frames at 1440px; check them there before changing one. Below the `site` breakpoint (800px, `--breakpoint-site` in `tailwind.css`) everything is full width within the container padding.
