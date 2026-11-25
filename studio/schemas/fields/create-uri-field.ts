@@ -1,6 +1,6 @@
 import {defineField, type SlugValidationContext} from 'sanity'
 
-import {uriFromTitle} from '../../slug'
+import {uriFromTitle, uriProblem} from '../../slug'
 
 async function isUniqueUri(uri: string, {document, getClient}: SlugValidationContext) {
   const id = document?._id.replace(/^drafts\./, '')
@@ -22,6 +22,9 @@ export function createUriField() {
       slugify: (uri) => uri,
       isUnique: isUniqueUri,
     },
-    validation: (rule) => rule.required(),
+    validation: (rule) =>
+      rule
+        .required()
+        .custom((value: {current?: string} | undefined) => uriProblem(value?.current) ?? true),
   })
 }

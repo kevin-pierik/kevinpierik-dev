@@ -3,6 +3,6 @@ export function formatDate(iso: string) {
     day: "numeric",
     month: "short",
     year: "numeric",
-    timeZone: "UTC",
+    timeZone: "Europe/Amsterdam",
   }).format(new Date(iso));
 }

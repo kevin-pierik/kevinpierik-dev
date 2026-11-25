@@ -20,7 +20,6 @@ const nextConfig: NextConfig = {
     loaderFile: "./src/features/sanity/media/image-loader.ts",
   },
   experimental: {
-    inlineCss: true,
     turbopackRustReactCompiler: true,
   },
 

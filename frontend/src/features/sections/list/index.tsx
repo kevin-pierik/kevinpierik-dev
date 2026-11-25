@@ -1,11 +1,10 @@
 import { SanityLink } from "@/features/sanity/link";
-import { headingStyles, labels } from "@/features/sanity/rich-text";
+import { headingId, headingStyles, labels } from "@/features/sanity/rich-text";
 import { HeadingLink } from "@/features/sanity/rich-text/heading-link";
-import { slugify } from "@studio/slug";
+import { Buttons } from "@/features/sections/buttons";
+import type { SectionOf } from "@/features/sections/types";
 
 import { Accordion } from "./accordion";
-import { Buttons } from "./buttons";
-import type { SectionOf } from "./types";
 
 export function List({
   _key,
@@ -16,7 +15,7 @@ export function List({
 }: SectionOf<"listSection">) {
   if (!items?.length) return null;
 
-  const titleId = slugify(title ?? "") || `list-${_key}`;
+  const titleId = headingId(title, `list-${_key}`);
 
   return (
     <section
@@ -25,21 +24,22 @@ export function List({
       data-full
     >
       <div className="site:sticky site:top-32 site:self-start">
-        <h2 className={headingStyles.section} id={titleId}>
-          <HeadingLink
-            id={titleId}
-            label="Copy link to heading"
-            labels={labels}
-          >
-            {title}
-          </HeadingLink>
+        <HeadingLink
+          as="h2"
+          className={headingStyles.section}
+          id={titleId}
+          label="Copy link to heading"
+          labels={labels}
+        >
+          {title}
+
           {titleMuted ? (
             <>
               {" "}
               <span className="block text-muted">{titleMuted}</span>
             </>
           ) : null}
-        </h2>
+        </HeadingLink>
         <Buttons buttons={buttons} className="mt-8" />
       </div>
       <Accordion

@@ -1,30 +1,22 @@
-import { postsPath, getAllArticles } from "@/features/posts/fetch";
+import { getArticles, postsPath } from "@/features/posts/fetch";
+import { escapeXml } from "@/features/posts/escape-xml";
 import { getPage } from "@/features/pages/fetch";
 import { siteName, siteUrl } from "@/features/site";
 import { email } from "@/features/site/social-links";
 
 export const dynamic = "force-static";
 
-function escapeXml(value: string) {
-  return value
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;")
-    .replace(/'/g, "&apos;");
-}
-
 export async function GET(): Promise<Response> {
   const [page, articles] = await Promise.all([
     getPage(postsPath()),
-    getAllArticles(),
+    getArticles(),
   ]);
   const title = page.seo?.title ?? page.title;
   const description = page.seo?.description ?? "";
 
   const items = articles
     .map((article) => {
-      const url = `${siteUrl}${postsPath(article.slug)}`;
+      const url = escapeXml(`${siteUrl}${postsPath(article.slug)}`);
       return `    <item>
       <title>${escapeXml(article.title)}</title>
       <link>${url}</link>

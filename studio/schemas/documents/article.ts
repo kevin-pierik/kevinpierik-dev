@@ -1,5 +1,7 @@
 import {defineField, defineType} from 'sanity'
 
+import {slugProblem} from '../../slug'
+
 import {createSections} from '../fields/create-sections'
 import {createSeoField} from '../fields/create-seo-field'
 
@@ -25,7 +27,10 @@ export const article = defineType({
       type: 'slug',
       description: 'The article lives at /posts/slug.',
       options: {source: 'title'},
-      validation: (rule) => rule.required(),
+      validation: (rule) =>
+        rule
+          .required()
+          .custom((value: {current?: string} | undefined) => slugProblem(value?.current) ?? true),
     }),
     defineField({
       name: 'description',

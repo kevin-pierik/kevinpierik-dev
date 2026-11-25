@@ -5,8 +5,8 @@ The Sanity Studio source lives in `studio/`; the hosted Studio is managed by San
 ## Content model
 
 - The `settings` singleton holds site-wide content: role and header navigation. It has a fixed `settings` ID, is registered with `defineSingleton` in `sanity.config.ts`, and opens directly from the top of the Studio.
-- `page` documents represent standalone pages, including Home (`/`) and Posts (`/posts`). Their visible content is a list of sections (text, media, carousel) in the Content tab; title and URI are in the Page tab and metadata in the SEO tab.
-- `article` documents represent dated, long-form posts. Their content is a list of sections: text, media, code, table, and carousel. Media can be an image or a Mux video; see [Mux setup](../frontend/pages-and-sections.md#mux-setup).
+- `page` documents represent standalone pages, including Home (`/`) and Posts (`/posts`). Their visible content is a list of sections (hero, text, media, posts, carousel, list) in the Content tab; title and URI are in the Page tab and metadata in the SEO tab.
+- `article` documents represent dated, long-form posts. Their content is a list of sections: text, media, carousel, list, code, and table. Media can be an image or a Mux video; see [Mux setup](../frontend/pages-and-sections.md#mux-setup).
 - Pages and articles use separate schemas because their content and publishing needs differ.
 - SEO fields are defined in `studio/schemas/fields/create-seo-field.ts` and used by both page and article schemas. Fill them in for authored content where appropriate, especially on the homepage.
 

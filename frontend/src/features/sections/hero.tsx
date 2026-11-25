@@ -22,16 +22,16 @@ export function Hero({
     <section
       className={`${small ? "pt-18 not-last:pb-12 site:pt-30 site:not-last:pb-16" : "min-h-[calc(100svh-5.75rem)] py-18 site:min-h-[calc(100svh-6.25rem)] site:py-24"} ${hasImage ? "grid content-center items-center gap-10 site:grid-cols-2 site:gap-16" : small ? "" : "flex flex-col justify-center"}`}
     >
-      <div className={centered ? "text-center" : "max-w-[36rem]"}>
+      <div className={centered ? "text-center" : "max-w-xl"}>
         {eyebrow ? (
           small ? (
             <p className="mb-5">
-              <span className="inline-block rounded-full bg-subtle px-3 py-1 text-[0.875rem] leading-[1.375rem]">
+              <span className="inline-block rounded-full bg-subtle px-3 py-1 text-[0.875rem] leading-5.5">
                 {eyebrow}
               </span>
             </p>
           ) : (
-            <p className="mb-6 text-[1.0625rem] leading-[1.625rem] text-muted site:mb-8">
+            <p className="mb-6 text-[1.0625rem] leading-6.5 text-muted site:mb-8">
               {eyebrow}
             </p>
           )
@@ -39,8 +39,8 @@ export function Hero({
         <h1
           className={
             small
-              ? "text-[1.75rem] leading-[2.125rem] font-medium tracking-[-0.03em] site:text-[2.5rem] site:leading-[2.875rem]"
-              : "text-[2.25rem] leading-[2.5rem] font-medium tracking-[-0.025em] site:text-[4rem] site:leading-[4.25rem] site:tracking-[-0.035em]"
+              ? "text-[1.75rem] leading-8.5 font-medium tracking-[-0.03em] site:text-[2.5rem] site:leading-11.5"
+              : "text-[2.25rem] leading-10 font-medium tracking-tight site:text-[4rem] site:leading-17 site:tracking-[-0.035em]"
           }
           id={heroTitleId}
         >
@@ -54,7 +54,7 @@ export function Hero({
         </h1>
         {lead ? (
           <p
-            className={`${small ? "mt-6" : "mt-7 site:mt-10"} max-w-[35rem] text-[1.125rem] leading-[1.875rem] text-muted ${centered ? "mx-auto" : ""}`}
+            className={`${small ? "mt-6" : "mt-7 site:mt-10"} max-w-140 text-[1.125rem] leading-7.5 text-muted ${centered ? "mx-auto" : ""}`}
           >
             {lead}
           </p>
@@ -74,7 +74,7 @@ export function Hero({
             videoTitle: null,
             autoplay: null,
           }}
-          sizes="(min-width: 800px) 35rem, 100vw"
+          sizes="(min-width: 1204px) 33rem, (min-width: 800px) 46vw, 93vw"
         />
       ) : null}
     </section>

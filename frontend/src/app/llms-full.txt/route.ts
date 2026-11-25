@@ -1,5 +1,5 @@
 import { getPage, getPageUris } from "@/features/pages/fetch";
-import { getAllArticles, getArticle } from "@/features/posts/fetch";
+import { getArticle, getArticles } from "@/features/posts/fetch";
 import { articleMarkdown } from "@/features/posts/markdown";
 import { sectionsToMarkdown } from "@/features/sections/markdown";
 import { absoluteUrl, llmsHeader } from "@/features/site";
@@ -9,7 +9,7 @@ export const dynamic = "force-static";
 export async function GET(): Promise<Response> {
   const [pages, articles] = await Promise.all([
     getPageUris().then((uris) => Promise.all(uris.map(getPage))),
-    getAllArticles().then((list) =>
+    getArticles().then((list) =>
       Promise.all(list.map(({ slug }) => getArticle(slug))),
     ),
   ]);

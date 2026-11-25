@@ -46,6 +46,22 @@ test("the posts index handles empty content and opens published posts", async ({
   ).toContain("BlogPosting");
 });
 
+test("the mobile menu returns focus to its button when closed", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 375, height: 812 });
+  await page.goto("/");
+
+  const open = page.getByRole("button", { name: "Menu", exact: true });
+  await open.focus();
+  await page.keyboard.press("Enter");
+  const menu = page.getByRole("dialog", { name: "Menu" });
+  await expect(menu.locator(":focus")).toHaveCount(1);
+
+  await page.keyboard.press("Escape");
+  await expect(open).toBeFocused();
+});
+
 test("unknown content returns a noindex 404", async ({ page }) => {
   const response = await page.goto("/this-page-does-not-exist");
 

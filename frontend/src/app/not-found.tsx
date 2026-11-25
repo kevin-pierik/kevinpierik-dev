@@ -15,11 +15,11 @@ export default function NotFound() {
       <SiteHeader />
       <main
         aria-labelledby="main-title"
-        className="site-container flex min-h-[35rem] flex-col items-center justify-center gap-y-[0.5lh] text-center"
+        className="site-container flex min-h-140 flex-col items-center justify-center gap-y-[0.5lh] text-center"
         id="main"
       >
         <h1
-          className="text-[1.75rem] leading-[2.1875rem] font-medium tracking-[-0.02em]"
+          className="text-[1.75rem] leading-8.75 font-medium tracking-[-0.02em]"
           id="main-title"
         >
           Page not found

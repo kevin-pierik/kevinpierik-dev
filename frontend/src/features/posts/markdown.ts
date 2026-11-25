@@ -15,7 +15,7 @@ type Article = {
 export function articleMarkdown(article: Article) {
   return [
     `# ${article.title}`,
-    `URL: ${absoluteUrl(postsPath(article.slug))}\nPublished: ${article.publishedAt.slice(0, 10)}`,
+    `URL: ${absoluteUrl(postsPath(article.slug))}\nPublished: ${new Intl.DateTimeFormat("en-CA", { timeZone: "Europe/Amsterdam" }).format(new Date(article.publishedAt))}`,
     article.description && `> ${article.description}`,
     sectionsToMarkdown(article.sections),
   ]
