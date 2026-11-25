@@ -19,7 +19,7 @@ export function createMedia(name = 'image', extraFields: ReturnType<typeof defin
 
 type MediaParent = {kind?: string} | undefined
 
-export function createMediaFields() {
+export function createMediaFields({optional = false}: {optional?: boolean} = {}) {
   return [
     defineField({
       name: 'kind',
@@ -41,7 +41,9 @@ export function createMediaFields() {
       hidden: ({parent}) => (parent as MediaParent)?.kind === 'video',
       validation: (rule) =>
         rule.custom((value: {asset?: unknown} | undefined, {parent}) =>
-          (parent as MediaParent)?.kind !== 'video' && !value?.asset ? 'Add an image.' : true,
+          !optional && (parent as MediaParent)?.kind !== 'video' && !value?.asset
+            ? 'Add an image.'
+            : true,
         ),
     }),
     defineField({

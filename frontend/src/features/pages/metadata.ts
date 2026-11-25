@@ -102,7 +102,6 @@ export function homeStructuredData(page: PageSummary): Graph {
         url: siteUrl,
         mainEntityOfPage: { "@id": `${siteUrl}/#webpage` },
         email,
-        telephone: "+31615545687",
         description,
         jobTitle: "Frontend Developer",
         hasOccupation: {

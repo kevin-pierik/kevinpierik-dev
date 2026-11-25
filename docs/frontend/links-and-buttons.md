@@ -1,12 +1,12 @@
 # Links and buttons
 
-The site has links only. Every one renders through Next.js `Link`, which turns into a native `<a>`, keeps client-side navigation for routes, and works for `https:`, `mailto:`, and `tel:` too. The one exception is the skip link (see [Layout](layout.md)).
+Navigation is links only. Every link renders through Next.js `Link`, which turns into a native `<a>`, keeps client-side navigation for routes, and works for `https:`, `mailto:`, and `tel:` too. The one exception is the skip link (see [Layout](layout.md)). Links to `.xml` and `.txt` files, such as the feed and `llms.txt`, get `prefetch={false}`, so Next.js doesn't prefetch them as routes.
 
-Buttons use the ui-sdk `Button`. The only one so far is `CopyButton` in `frontend/src/components/copy-button.tsx`, the icon button on code blocks. It and the heading links share `useCopyState`: it writes to the clipboard, swaps the icon for a check or a cross for two seconds, and announces "Copied" or "Copy failed" in a `role="status"` region outside the button, following the Modern Web Guidance copy-button guide.
+Buttons come from ui-sdk: the menu buttons are `DialogTrigger` and `DialogClose`, the accordion rows `AccordionTrigger`, and `CopyButton` in `frontend/src/components/copy-button.tsx`, the icon button on code blocks. It and the heading links share `useCopyState`: it writes to the clipboard, swaps the icon for a check or a cross for two seconds, and announces "Copied" or "Copy failed" in a `role="status"` region outside the button, following the Modern Web Guidance copy-button guide.
 
 ## Navigation
 
-The header navigation is a ui-sdk `NavigationMenu`, following [its docs](https://ui-sdk.dev/docs/react/components/navigation-menu): `NavigationMenu` with an `aria-label` renders the `<nav>`, `NavigationMenuList` and `NavigationMenuItem` the list, and `NavigationMenuLink` each link. The link gets Next.js `Link` through `render={<NextLink href="…" />}`, as the docs show for a router's link, and `current` for the page you're on, which sets `aria-current="page"` and `data-current`. Items are plain links, so there is no trigger, content, or viewport.
+The header navigation is a ui-sdk `NavigationMenu`, following [its docs](https://ui-sdk.dev/docs/react/components/navigation-menu): `NavigationMenu` with an `aria-label` renders the `<nav>`, `NavigationMenuList` and `NavigationMenuItem` the list, and `NavigationMenuLink` each link. The link gets Next.js `Link` through `render={<NextLink href="…" />}`, as the docs show for a router's link, and `current` for the page you're on, which sets `aria-current="page"` and `data-current`. `isCurrentPath()` in `frontend/src/features/site/index.ts` decides which link that is: the current page or one of its parents. Items are plain links, so there is no trigger, content, or viewport.
 
 ## Other links
 
@@ -14,7 +14,8 @@ The header navigation is a ui-sdk `NavigationMenu`, following [its docs](https:/
 
 - `text` (default): the inline link from ui-sdk.dev. Its underline is `foreground` at 25%, with the font's own thickness and a 3px offset, and turns solid on hover and focus. The 404 page and markdown links use it.
 - `nav`: no underline until hover, like the ui-sdk.dev navigation. Use it only where the position makes clear that it is a link, such as links in compact lists.
-- `pill`: no underline; on hover a fully rounded `subtle` fill appears and the text turns `foreground`. The header navigation uses it, `muted` with the current page in `foreground` (`data-current`).- `plain`: no hover style at all, only the focus outline. The name in the header and the footer links use it, because their position already says they are links.
+- `pill`: no underline; on hover a fully rounded `subtle` fill appears and the text turns `foreground`. The header navigation uses it, `muted` with the current page in `foreground` (`data-current`).
+- `plain`: no hover style at all, only the focus outline. The name in the header and the footer links use it, because their position already says they are links.
 - `primary`: a small fully rounded block in `foreground` with `background` text, at weight 500, that fades to 80% on hover. The "Get in touch" links in the header, the hero, the menu, and the article call to action, and "Send an email" on the contact page use it.
 - `outline`: the same shape as `primary`, in the page colour with a `border` and a `subtle` fill on hover. The second button of a hero uses it.
 - `subtle`: a small fully rounded block, at least 2rem high, with a `subtle` fill that darkens to `subtle-hover` on hover. These are solid colours, not a `foreground` tint, so the block stays visible in dark mode. The skip link uses it; it sits above the sticky header (`z-20`), so its blur doesn't cover it.

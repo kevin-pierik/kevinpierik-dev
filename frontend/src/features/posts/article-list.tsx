@@ -17,7 +17,7 @@ export function ArticleList({
   if (articles.length === 0) {
     return (
       <p className={className}>
-        <span className="inline-block rounded-full bg-subtle px-3 py-1 text-[0.875rem] leading-[1.375rem]">
+        <span className="inline-block rounded-full bg-subtle px-3 py-1 text-[0.875rem] leading-5.5">
           Coming soon
         </span>
       </p>

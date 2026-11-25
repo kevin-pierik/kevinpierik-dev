@@ -1,7 +1,4 @@
-import type {
-  PortableTextBlock,
-  PortableTextComponents,
-} from "@portabletext/react";
+import type { PortableTextBlock, PortableTextComponents } from "next-sanity";
 import type { ReactNode } from "react";
 
 import { SanityLink } from "@/features/sanity/link";
@@ -21,7 +18,21 @@ export const labels = {
   failed: "Copy failed",
 };
 
-function heading(Tag: "h2" | "h3", className: string) {
+const reservedIds = new Set([
+  "main",
+  "main-title",
+  "page-title",
+  "footer-title",
+  "post-title",
+  "site-menu",
+]);
+
+export function headingId(text: string | null | undefined, fallback: string) {
+  const id = slugify(text ?? "");
+  return id && !reservedIds.has(id) ? id : fallback;
+}
+
+function heading(Tag: "h2" | "h3" | "h4", className: string) {
   return function Heading({
     children,
     value,
@@ -29,17 +40,16 @@ function heading(Tag: "h2" | "h3", className: string) {
     children?: ReactNode;
     value: PortableTextBlock;
   }) {
-    const id = slugify(blockText(value));
-
     return (
-      <Tag
-        className={`scroll-mt-[2lh] font-medium first:mt-0 ${className}`}
-        id={id}
+      <HeadingLink
+        as={Tag}
+        className={`font-medium first:mt-0 ${className}`}
+        id={headingId(blockText(value), `heading-${value._key}`)}
+        label="Copy link to heading"
+        labels={labels}
       >
-        <HeadingLink id={id} label="Copy link to heading" labels={labels}>
-          {children}
-        </HeadingLink>
-      </Tag>
+        {children}
+      </HeadingLink>
     );
   };
 }
@@ -50,17 +60,19 @@ export const headingStyles = {
   section: "scroll-mt-[2lh] text-[1.875rem] leading-[1.2] tracking-[-0.02em]",
 };
 
+const blocks = {
+  normal: ({ children }) => <p className="mt-[1lh] first:mt-0">{children}</p>,
+  h2: heading("h2", headingStyles.h2),
+  h3: heading("h3", headingStyles.h3),
+  blockquote: ({ children }) => (
+    <blockquote className="mt-[1lh] border-l pl-[2ch] text-muted first:mt-0">
+      {children}
+    </blockquote>
+  ),
+} satisfies PortableTextComponents["block"];
+
 export const richTextComponents: PortableTextComponents = {
-  block: {
-    normal: ({ children }) => <p className="mt-[1lh] first:mt-0">{children}</p>,
-    h2: heading("h2", headingStyles.h2),
-    h3: heading("h3", headingStyles.h3),
-    blockquote: ({ children }) => (
-      <blockquote className="mt-[1lh] border-l pl-[2ch] text-muted first:mt-0">
-        {children}
-      </blockquote>
-    ),
-  },
+  block: blocks,
   list: {
     bullet: ({ children }) => (
       <ul className="mt-[1lh] list-disc pl-[2ch] marker:text-muted first:mt-0">
@@ -85,5 +97,14 @@ export const richTextComponents: PortableTextComponents = {
         {children}
       </code>
     ),
+  },
+};
+
+export const nestedRichTextComponents: PortableTextComponents = {
+  ...richTextComponents,
+  block: {
+    ...blocks,
+    h2: heading("h3", headingStyles.h2),
+    h3: heading("h4", headingStyles.h3),
   },
 };

@@ -58,25 +58,12 @@
     mask-image: linear-gradient(to bottom, #000 20%, transparent 60%);
   }
 
-  :root:has(.site-menu:popover-open) {
-    overflow: hidden;
-  }
-
   .site-menu {
+    transition: opacity 0.2s;
+  }
+
+  .site-menu:is([data-starting-style], [data-ending-style]) {
     opacity: 0;
-    transition-property: opacity, display, overlay;
-    transition-duration: 0.2s;
-    transition-behavior: allow-discrete;
-  }
-
-  .site-menu:popover-open {
-    opacity: 1;
-  }
-
-  @starting-style {
-    .site-menu:popover-open {
-      opacity: 0;
-    }
   }
 
   .menu-icon {
@@ -102,12 +89,12 @@
     translate: 0 3.5px;
   }
 
-  .site-menu:popover-open .menu-icon > span:first-child {
+  .site-menu .menu-icon > span:first-child {
     translate: 0;
     rotate: 45deg;
   }
 
-  .site-menu:popover-open .menu-icon > span:last-child {
+  .site-menu .menu-icon > span:last-child {
     translate: 0;
     rotate: -45deg;
   }
@@ -119,16 +106,18 @@
         rotate 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
     }
 
-    @starting-style {
-      .site-menu:popover-open .menu-icon > span:first-child {
-        translate: 0 -3.5px;
-        rotate: 0deg;
-      }
+    .site-menu:is([data-starting-style], [data-ending-style])
+      .menu-icon
+      > span:first-child {
+      translate: 0 -3.5px;
+      rotate: 0deg;
+    }
 
-      .site-menu:popover-open .menu-icon > span:last-child {
-        translate: 0 3.5px;
-        rotate: 0deg;
-      }
+    .site-menu:is([data-starting-style], [data-ending-style])
+      .menu-icon
+      > span:last-child {
+      translate: 0 3.5px;
+      rotate: 0deg;
     }
 
     .site-menu li {
@@ -138,16 +127,14 @@
       transition-delay: calc(var(--index, 0) * 40ms + 60ms);
     }
 
-    .site-menu:not(:popover-open) li {
+    .site-menu[data-starting-style] li {
       opacity: 0;
-      transition-delay: 0s;
+      translate: 0 0.75rem;
     }
 
-    @starting-style {
-      .site-menu:popover-open li {
-        opacity: 0;
-        translate: 0 0.75rem;
-      }
+    .site-menu[data-ending-style] li {
+      opacity: 0;
+      transition-delay: 0s;
     }
   }
 

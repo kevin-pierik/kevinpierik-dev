@@ -8,7 +8,7 @@ describe("safeHref", () => {
     expect(safeHref("mailto:hello@kevinpierik.dev")).toBe(
       "mailto:hello@kevinpierik.dev",
     );
-    expect(safeHref("tel:+31615545687")).toBe("tel:+31615545687");
+    expect(safeHref("tel:+31600000000")).toBe("tel:+31600000000");
     expect(safeHref("/posts")).toBe("/posts");
   });
 

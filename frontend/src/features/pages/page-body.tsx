@@ -19,7 +19,7 @@ export function PageBody({ page }: { page: Page }) {
       {sections.length > 0 ? (
         <article
           aria-label={page.title}
-          className="*:max-w-[55.3125rem] [&>:is(figure,[data-table])]:max-w-[55.3125rem] [&>[data-full]]:max-w-none [&>figure[data-wide]]:max-w-none"
+          className="*:max-w-221.25 *:data-full:max-w-none [&>:is(figure,[data-table])]:max-w-221.25 [&>figure[data-wide]]:max-w-none"
         >
           <Sections sections={sections} />
         </article>

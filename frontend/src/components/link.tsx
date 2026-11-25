@@ -21,6 +21,10 @@ type LinkProps = ComponentProps<typeof NextLink> & {
   variant?: keyof typeof linkStyles;
 };
 
+function isFile(href: LinkProps["href"]) {
+  return typeof href === "string" && /\.(xml|txt)$/.test(href);
+}
+
 function isExternal(href: LinkProps["href"]) {
   return (
     typeof href === "string" &&
@@ -37,6 +41,7 @@ export function Link({
   return (
     <NextLink
       className={[linkStyles[variant], className].filter(Boolean).join(" ")}
+      prefetch={isFile(props.href) ? false : undefined}
       {...props}
     >
       {children}

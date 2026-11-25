@@ -1,9 +1,8 @@
 import { Link } from "@/components/link";
 import { ArticleList } from "@/features/posts/article-list";
 import { getArticles, postsPath } from "@/features/posts/fetch";
-import { headingStyles, labels } from "@/features/sanity/rich-text";
+import { headingId, headingStyles, labels } from "@/features/sanity/rich-text";
 import { HeadingLink } from "@/features/sanity/rich-text/heading-link";
-import { slugify } from "@studio/slug";
 
 import type { SectionOf } from "./types";
 
@@ -16,7 +15,7 @@ export async function Posts({
 }: SectionOf<"postsSection">) {
   const articles = await getArticles();
   const grid = layout !== "list";
-  const titleId = title ? slugify(title) || `posts-${_key}` : undefined;
+  const titleId = title ? headingId(title, `posts-${_key}`) : undefined;
   const list = (
     <ArticleList
       articles={limit ? articles.slice(0, limit) : articles}
@@ -47,15 +46,15 @@ export async function Posts({
     >
       <div className="mb-8 flex flex-wrap items-center justify-between gap-4">
         {title && titleId ? (
-          <h2 className={headingStyles.section} id={titleId}>
-            <HeadingLink
-              id={titleId}
-              label="Copy link to heading"
-              labels={labels}
-            >
-              {title}
-            </HeadingLink>
-          </h2>
+          <HeadingLink
+            as="h2"
+            className={headingStyles.section}
+            id={titleId}
+            label="Copy link to heading"
+            labels={labels}
+          >
+            {title}
+          </HeadingLink>
         ) : null}
         {showAllLink ? (
           <Link

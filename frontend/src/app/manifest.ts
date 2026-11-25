@@ -1,11 +1,12 @@
 import type { MetadataRoute } from "next";
 
+import { siteDescription } from "@/features/site";
+
 export default function manifest(): MetadataRoute.Manifest {
   return {
     name: "Kevin Pierik | Frontend Developer",
     short_name: "Kevin Pierik",
-    description:
-      "Frontend developer in Hardenberg, Overijssel. I build fast, accessible websites with Next.js, TypeScript, and Tailwind CSS.",
+    description: siteDescription,
     lang: "en",
     start_url: "/",
     display: "browser",

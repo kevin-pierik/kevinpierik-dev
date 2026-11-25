@@ -6,13 +6,13 @@ The site serves its content as plain text and Markdown for language models and A
 
 `/llms.txt` gives language models a short plain-text summary of the site, following the [llms.txt proposal](https://llmstxt.org).
 
-It is a static route handler in `frontend/src/app/llms.txt/route.ts` (`dynamic = "force-static"`) that lists the canonical pages, the posts index, every published post, and the contact links. It points to `/llms-full.txt` and the per-post Markdown. The posts are read from Sanity when the route is built. Like `robots.txt` and `sitemap.xml`, it must only point to canonical public content.
+It is a static route handler in `frontend/src/app/llms.txt/route.ts` (`dynamic = "force-static"`) that lists the canonical pages, the posts index, every listed post, and the contact links. It points to `/llms-full.txt` and the per-post Markdown. The posts are read from Sanity when the route is built. Like `robots.txt` and `sitemap.xml`, it must only point to canonical public content.
 
-Its title and summary line are `llmsHeader` in `frontend/src/features/site/index.ts`, shared with `/llms-full.txt`. When profile details change, update them together with the other places listed in the profile-details rule: the homepage and Settings in Sanity, `frontend/src/features/pages/metadata.ts`, `frontend/src/app/manifest.ts`, `frontend/src/app/opengraph-image.tsx`, and `frontend/src/features/site/social-links.ts`.
+Its title and summary line are `llmsHeader` in `frontend/src/features/site/index.ts`, shared with `/llms-full.txt`. The summary line is `siteDescription`, which the web manifest uses too. When profile details change, update them together with the other places listed in the profile-details rule: the homepage and Settings in Sanity, `frontend/src/features/pages/metadata.ts`, `frontend/src/app/manifest.ts`, `frontend/src/app/opengraph-image.tsx`, and `frontend/src/features/site/social-links.ts`.
 
 ## llms-full.txt
 
-`/llms-full.txt` (`frontend/src/app/llms-full.txt/route.ts`, static) holds the full text of every page and every article as Markdown, one document per `# Title`, separated by `---`. Each document starts with its canonical URL.
+`/llms-full.txt` (`frontend/src/app/llms-full.txt/route.ts`, static) holds the full text of every page and every listed article as Markdown, one document per `# Title`, separated by `---`. Each document starts with its canonical URL.
 
 ## Markdown per post
 

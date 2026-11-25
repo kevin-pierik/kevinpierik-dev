@@ -21,11 +21,11 @@ On the homepage the `<h1>` is the hero headline, "Fast, accessible websites. Cle
 
 ## Structured data
 
-Each page renders a JSON-LD `@graph`, typed with `schema-dts`, through `frontend/src/components/json-ld.tsx`:
+The homepage renders a JSON-LD `@graph`, typed with `schema-dts`, through `frontend/src/components/json-ld.tsx`. Other pages have none, except `/posts` and articles ([Posts](#posts)). The homepage graph holds:
 
 - **WebSite**: its name, `kevinpierik.dev` as `alternateName` so Google has a site name to show, and the description in English, with the person as publisher and copyright holder.
 - **ProfilePage**: the English homepage, with the person as its main entity.
-- **Person**: name parts, contact details, address, occupation, nationality, languages, employer (Friday Digital Agency, with its URL), schools, skills, and `sameAs` links to LinkedIn, Instagram, and GitHub.
+- **Person**: name parts, email, address (no phone number), occupation, nationality, languages, employer (Friday Digital Agency, with its URL), schools, skills, and `sameAs` links to LinkedIn, Instagram, and GitHub.
 
 Google Search Console reports the result under Enhancements, Profile page.
 
