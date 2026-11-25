@@ -24,7 +24,7 @@ Track newsletter traffic with UTM tags on the links in each campaign (Klaviyo ad
 ## Setting up
 
 - **Cloudflare** → Turnstile: add a widget for `kevinpierik.dev`, `www.kevinpierik.dev`, and `localhost`, in Managed mode.
-- **Klaviyo**: create the list with double opt-in, and a private API key with only `lists:write`, `profiles:write`, and `subscriptions:write`.
+- **Klaviyo**: create the list with double opt-in, and a private API key with only `lists:write`, `profiles:write`, and `subscriptions:write`. Under Settings → Email → Tracking, keep open, click, and email-to-website tracking off: the privacy page promises no tracking, and EU regulators treat tracking pixels as needing consent.
 
 | Variable                         | Where  | Value                                                                   |
 | -------------------------------- | ------ | ----------------------------------------------------------------------- |
