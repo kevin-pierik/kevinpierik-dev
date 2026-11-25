@@ -5,6 +5,8 @@ import { getPage, getPageUris } from "@/features/pages/fetch";
 import { homeStructuredData, pageMetadata } from "@/features/pages/metadata";
 import { PageBody, pageHero } from "@/features/pages/page-body";
 import { isHomeUri, pageUri, uriSegments } from "@/features/pages/uri";
+import { getArticles, postsPath } from "@/features/posts/fetch";
+import { postsStructuredData } from "@/features/posts/metadata";
 import { heroTitleId } from "@/features/sections/hero";
 import { SiteFooter } from "@/features/site/site-footer";
 import { SiteHeader } from "@/features/site/site-header";
@@ -36,10 +38,15 @@ export default async function Page({ params }: PageProps) {
   const { uri, isHome } = await resolve(params);
   const page = await getPage(uri);
   const hero = pageHero(page);
+  const structuredData = isHome
+    ? homeStructuredData(page)
+    : uri === postsPath()
+      ? postsStructuredData(page, await getArticles())
+      : null;
 
   return (
     <>
-      {isHome ? <JsonLd data={homeStructuredData(page)} /> : null}
+      {structuredData ? <JsonLd data={structuredData} /> : null}
       <SiteHeader current={uri} />
       <main
         aria-labelledby={hero ? heroTitleId : "main-title"}

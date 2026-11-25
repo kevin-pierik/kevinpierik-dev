@@ -1,4 +1,4 @@
-import { postsPath, getAllArticles } from "@/features/posts/fetch";
+import { getArticles, postsPath } from "@/features/posts/fetch";
 import { getAllPages } from "@/features/pages/fetch";
 import { absoluteUrl, contactPath, llmsHeader, siteUrl } from "@/features/site";
 import { email, socialLinks } from "@/features/site/social-links";
@@ -17,10 +17,12 @@ function list(
 }
 
 export async function GET(): Promise<Response> {
-  const [pages, articles] = await Promise.all([
+  const [allPages, articles] = await Promise.all([
     getAllPages(),
-    getAllArticles(),
+    getArticles(),
   ]);
+  const posts = allPages.find((page) => page.uri === postsPath());
+  const pages = allPages.filter((page) => page !== posts);
   const body = `${llmsHeader}
 
 The full text of every page and post is in [llms-full.txt](${siteUrl}/llms-full.txt). Each post also has a Markdown version at its URL followed by \`/md\`.
@@ -38,12 +40,15 @@ ${list(
 ## Posts
 
 ${list([
-  {
-    title: "Posts",
-    path: postsPath(),
-    description:
-      "Notes on frontend development, the web, and the work behind it.",
-  },
+  ...(posts
+    ? [
+        {
+          title: posts.title,
+          path: posts.uri,
+          description: posts.seo?.description,
+        },
+      ]
+    : []),
   ...articles.map((article) => ({
     title: article.title,
     path: postsPath(article.slug),

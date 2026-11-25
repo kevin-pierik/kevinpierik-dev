@@ -1,8 +1,8 @@
 import Image from "next/image";
 
 import { imageProps } from "@/features/sanity/media/image";
+import type { SectionOf } from "@/features/sections/types";
 
-import type { SectionOf } from "./types";
 import { Video } from "./video";
 
 type MediaValue = Pick<

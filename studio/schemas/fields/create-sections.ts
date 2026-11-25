@@ -191,7 +191,7 @@ const mediaSection = defineArrayMember({
     defineField({
       name: 'wide',
       type: 'boolean',
-      description: 'Reach one column further on each side.',
+      description: 'Show the media wider than the text column.',
       initialValue: false,
     }),
   ],
@@ -237,7 +237,8 @@ const carouselSection = defineArrayMember({
               name: 'media',
               type: 'object',
               options: {collapsible: false},
-              fields: createMediaFields(),
+              description: 'Leave the image empty to show a Coming soon placeholder.',
+              fields: createMediaFields({optional: true}),
             }),
             defineField({name: 'title', type: 'string', validation: (rule) => rule.required()}),
             createLink(),

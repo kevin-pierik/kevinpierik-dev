@@ -14,7 +14,7 @@ type PostPageProps = {
   params: Promise<{ slug: string }>;
 };
 
-const prose = "mx-auto max-w-[41.125rem]";
+const prose = "mx-auto max-w-164.5";
 
 export const dynamicParams = true;
 
@@ -44,7 +44,7 @@ export default async function PostPage({ params }: PostPageProps) {
         id="main"
       >
         <h1
-          className="mx-auto max-w-[47.5rem] text-center text-[1.75rem] leading-[2.125rem] font-medium tracking-[-0.03em] text-balance site:text-[2.5rem] site:leading-[2.875rem]"
+          className="mx-auto max-w-190 text-center text-[1.75rem] leading-8.5 font-medium tracking-[-0.03em] text-balance site:text-[2.5rem] site:leading-11.5"
           id="post-title"
         >
           {post.title}
@@ -71,7 +71,7 @@ export default async function PostPage({ params }: PostPageProps) {
         </p>
         <article
           aria-labelledby="post-title"
-          className="mt-20 *:mx-auto *:max-w-[41.125rem] [&>:is(figure,[data-table])]:max-w-[55.3125rem] [&>[data-full]]:max-w-none [&>figure[data-wide]]:max-w-none"
+          className="mt-20 *:mx-auto *:max-w-164.5 *:data-full:max-w-none [&>:is(figure,[data-table])]:max-w-221.25 [&>figure[data-wide]]:max-w-none"
         >
           <Sections sections={post.sections} />
         </article>
@@ -79,7 +79,7 @@ export default async function PostPage({ params }: PostPageProps) {
           aria-label="Get in touch"
           className={`mt-[1lh] flex flex-col items-start gap-5 rounded-2xl bg-subtle p-7 ${prose}`}
         >
-          <p className="text-[1.0625rem] leading-[1.625rem]">
+          <p className="text-[1.0625rem] leading-6.5">
             Working on something similar? I’d love to hear about it.
           </p>
           <Link className="min-h-11 px-5" href={contactPath} variant="primary">

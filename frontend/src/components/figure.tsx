@@ -1,8 +1,8 @@
 import type { ReactNode } from "react";
 
 export const figureSizes = {
-  normal: "(min-width: 1440px) 886px, (min-width: 800px) 62vw, 100vw",
-  wide: "(min-width: 1440px) 1112px, (min-width: 800px) 77vw, 100vw",
+  normal: "(min-width: 952px) 885px, 93vw",
+  wide: "(min-width: 1204px) 1120px, 93vw",
 };
 
 type FigureProps = {

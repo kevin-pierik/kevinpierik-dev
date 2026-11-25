@@ -19,7 +19,7 @@ export function Buttons({ buttons, className = "" }: ButtonsProps) {
     <p className={`flex flex-wrap gap-2.5 ${className}`}>
       {links.map(({ _key, label, href }, index) => (
         <Link
-          className="min-h-12 px-6 text-[1.0625rem] leading-[1.625rem]"
+          className="min-h-12 px-6 text-[1.0625rem] leading-6.5"
           href={href}
           key={_key}
           variant={index === 0 ? "primary" : "outline"}
