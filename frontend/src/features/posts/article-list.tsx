@@ -1,23 +1,38 @@
 import { Link } from "@/components/link";
-import type { ARTICLES_QUERY_RESULT } from "@/features/sanity/sanity.types";
 
-import { postsPath } from "./fetch";
+import { getArticles, postsPath } from "./fetch";
+import { formatDate } from "./format-date";
 
-export function ArticleList({ articles }: { articles: ARTICLES_QUERY_RESULT }) {
+type ArticleListProps = {
+  articles: Awaited<ReturnType<typeof getArticles>>;
+  className: string;
+};
+
+export function ArticleList({ articles, className }: ArticleListProps) {
   if (articles.length === 0) {
-    return <p className="mt-[1lh] text-muted site:col-[3/11]">No posts yet.</p>;
+    return <p className={`text-muted ${className}`}>No posts yet.</p>;
   }
 
   return (
-    <ol aria-label="Posts" className="mt-[1lh] grid gap-3 site:col-[3/11]">
+    <ol aria-label="Posts" className={`grid ${className}`}>
       {articles.map((article) => (
-        <li className="rounded-2xl bg-subtle p-6" key={article.slug}>
-          <h3 className="font-medium">{article.title}</h3>
+        <li
+          className="flex flex-col rounded-2xl bg-subtle p-6"
+          key={article.slug}
+        >
+          <p className="text-muted tabular-nums">
+            <time dateTime={article.publishedAt}>
+              {formatDate(article.publishedAt)}
+            </time>
+            {" · "}
+            {article.readingMinutes} min read
+          </p>
+          <h3 className="mt-[0.5lh] font-medium">{article.title}</h3>
           <p className="mt-[0.5lh] max-w-[65ch] text-muted">
             {article.description}
           </p>
           <Link
-            className="group mt-[1lh] inline-flex items-center gap-1.5 pointer-coarse:min-h-11"
+            className="group mt-auto inline-flex items-center gap-1.5 self-start pt-[1lh] pointer-coarse:min-h-11"
             href={postsPath(article.slug)}
             variant="plain"
           >

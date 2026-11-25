@@ -9,6 +9,7 @@ import { labels, richTextComponents } from "@/features/sanity/rich-text";
 import { Carousel } from "./carousel";
 import { List } from "./list";
 import { Media } from "./media";
+import { Posts } from "./posts";
 import type { Section } from "./types";
 
 function SectionContent({ section }: { section: Section }) {
@@ -74,6 +75,8 @@ function SectionContent({ section }: { section: Section }) {
       return <Carousel {...section} />;
     case "listSection":
       return <List {...section} />;
+    case "postsSection":
+      return <Posts {...section} />;
     default:
       return null;
   }

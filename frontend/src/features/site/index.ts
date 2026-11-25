@@ -1,5 +1,6 @@
 export const siteName = "Kevin Pierik";
 export const siteUrl = "https://www.kevinpierik.dev";
+export const contactPath = "/contact";
 export const personId = `${siteUrl}/#person`;
 export const websiteId = `${siteUrl}/#website`;
 

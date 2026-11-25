@@ -19,13 +19,9 @@ export const getPage = cache(async (uri: string) => {
   return page;
 });
 
-export const newsletterPath = "/newsletter";
-
 export async function getPageUris() {
   const data = await client.fetch(PAGE_URIS_QUERY);
-  return data
-    .map(({ uri }) => uri)
-    .filter((uri) => uri !== postsPath() && uri !== newsletterPath);
+  return data.map(({ uri }) => uri).filter((uri) => uri !== postsPath());
 }
 
 export async function getAllPages() {

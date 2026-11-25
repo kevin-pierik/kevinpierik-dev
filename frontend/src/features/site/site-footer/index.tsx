@@ -5,6 +5,7 @@ import { email, socialLinks } from "@/features/site/social-links";
 const connectLinks = [
   { label: "Email", handle: email, href: `mailto:${email}` },
   ...socialLinks,
+  { label: "RSS", handle: "feed.xml", href: "/feed.xml" },
 ];
 
 export function SiteFooter() {
@@ -13,12 +14,10 @@ export function SiteFooter() {
   return (
     <footer
       aria-labelledby="footer-title"
-      className="site-container grid gap-y-[2lh] pt-[10lh] pb-[4lh] site:grid-site"
+      className="site-container grid gap-y-[2lh] pt-[10lh] pb-[4lh] site:grid-cols-[12.6875rem_1fr_auto] site:gap-x-6"
     >
-      <h2 className="site:col-span-2" id="footer-title">
-        Connect
-      </h2>
-      <dl className="grid content-start gap-y-[1lh] site:col-span-4 site:col-start-3">
+      <h2 id="footer-title">Connect</h2>
+      <dl className="grid content-start gap-y-[1lh]">
         {connectLinks.map(({ label, handle, href }) => (
           <div key={label}>
             <dt className="text-muted">{label}</dt>
@@ -30,7 +29,7 @@ export function SiteFooter() {
           </div>
         ))}
       </dl>
-      <div className="grid content-start gap-y-[0.5lh] text-muted site:col-span-2 site:col-start-11 site:text-right">
+      <div className="grid content-start gap-y-[0.5lh] text-muted site:text-right">
         <p>
           © {year} {siteName}
         </p>

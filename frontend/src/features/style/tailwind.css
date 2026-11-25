@@ -17,22 +17,16 @@
   --color-subtle-hover: var(--subtle-hover);
   --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
   --font-mono: ui-monospace, SFMono-Regular, Menlo, monospace;
-  --color-ring: var(--ring);
+  --color-focus: var(--focus);
 }
 
 @utility site-container {
   margin-inline: auto;
   width: 100%;
-  max-width: 90rem;
-  padding-inline: max(1.5rem, 3.5%);
+  padding-inline: max(1.5rem, 3.5%, (100% - 70rem) / 2);
 }
 
-@utility bleed-end {
-  margin-inline-end: calc((min(100vw, 90rem) - 100vw) / 2 - max(1.5rem, 3.5vw));
-}
-
-@utility grid-site {
-  display: grid;
-  grid-template-columns: repeat(12, minmax(0, 1fr));
-  column-gap: 1.75%;
+@utility bleed {
+  --gutter: max(1.5rem, 3.5vw, (100vw - 70rem) / 2);
+  margin-inline: calc(-1 * var(--gutter));
 }
