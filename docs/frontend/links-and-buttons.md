@@ -16,7 +16,16 @@ The header navigation is a ui-sdk `NavigationMenu`, following [its docs](https:/
 - `nav`: no underline until hover, like the ui-sdk.dev navigation. Use it only where the position makes clear that it is a link, such as links in compact lists.
 - `pill`: no underline; on hover a fully rounded `subtle` fill appears and the text turns `foreground`. The header navigation uses it, `muted` with the current page in `foreground` (`data-current`). The list has a negative right margin equal to the pill's padding, so the last item's text lines up with the page edge.
 - `plain`: no hover style at all, only the focus outline. The name in the header and the footer links use it, because their position already says they are links.
-- `subtle`: a small square block, at least 2rem high, with a `subtle` fill that darkens to `subtle-hover` on hover. These are solid colours, not a `foreground` tint, so the block stays visible in dark mode. The skip link uses it.
+- `subtle`: a small fully rounded block, at least 2rem high, with a `subtle` fill that darkens to `subtle-hover` on hover. These are solid colours, not a `foreground` tint, so the block stays visible in dark mode. The skip link uses it; it sits above the sticky header (`z-20`), so its blur doesn't cover it.
+
+## Shape and touch targets
+
+The site follows Apple's Human Interface Guidelines for shape and touch:
+
+- Controls and pills are fully rounded (`rounded-full`). Blocks, such as post cards, images, videos, the carousel frame, code blocks, and tables, use `rounded-2xl`; inline code uses `rounded-md`.
+- Corners inside a rounded block are concentric: the copy button sits 6px inside a 16px corner, so it uses a 10px radius.
+- On touch screens (`pointer-coarse`) every control is at least 44px high: header pills, the copy button, "Read more", and the newsletter field, clear button, and Subscribe button.
+- Icon buttons have no hover fill. The copy button only turns its icon from `muted` to `foreground`.
 
 ## Focus and colour
 

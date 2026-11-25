@@ -77,7 +77,7 @@ export function CopyButton({ text, labels, className }: CopyButtonProps) {
     <span className={className}>
       <Button
         aria-label={labels.copy}
-        className={`inline-flex size-8 items-center justify-center text-muted transition-colors hover:bg-subtle hover:text-foreground ${focus}`}
+        className={`inline-flex size-8 items-center justify-center rounded-[10px] text-muted transition-colors hover:text-foreground pointer-coarse:size-11 ${focus}`}
         onClick={() => copy(text)}
       >
         <CopyIcon className="size-3.5" state={state}>

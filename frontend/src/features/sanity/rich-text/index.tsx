@@ -80,7 +80,7 @@ export const richTextComponents: PortableTextComponents = {
       <SanityLink href={value?.href}>{children}</SanityLink>
     ),
     code: ({ children }) => (
-      <code className="bg-foreground/5.5 px-[0.3em] py-[0.15em] font-mono text-[0.85em] whitespace-nowrap">
+      <code className="rounded-md bg-foreground/5.5 px-[0.3em] py-[0.15em] font-mono text-[0.85em] whitespace-nowrap">
         {children}
       </code>
     ),

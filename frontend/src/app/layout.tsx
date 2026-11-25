@@ -79,7 +79,7 @@ export default async function RootLayout({
           posts={posts}
         />
         <a
-          className={`${linkStyles.subtle} fixed top-4 left-4 z-10 not-focus-visible:sr-only`}
+          className={`${linkStyles.subtle} fixed top-4 left-4 z-20 not-focus-visible:sr-only`}
           href="#main"
         >
           Skip to content
