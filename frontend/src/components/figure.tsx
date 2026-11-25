@@ -17,7 +17,9 @@ export function Figure({ children, caption, wide, className }: FigureProps) {
     <figure className={className} data-wide={wide || undefined}>
       {children}
       {caption ? (
-        <figcaption className="mt-[0.5lh] text-muted">{caption}</figcaption>
+        <figcaption className="mt-[0.5lh] text-center text-balance text-muted">
+          {caption}
+        </figcaption>
       ) : null}
     </figure>
   );
