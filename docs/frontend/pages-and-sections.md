@@ -50,7 +50,7 @@ Code and table use the plugins' own type names, `code` and `table`, as `_type`.
 - **Image:** a Sanity image with required alt text, served through the Sanity image loader.
 - **Video:** a [Mux](https://www.mux.com) video (`mux.video` from `sanity-plugin-mux-input`), a required description for screen readers, and **Autoplay**. Autoplay plays the video muted on a loop, like a GIF, with the controls still available; it is skipped when the visitor asks for reduced motion.
 
-`frontend/src/features/sections/media.tsx` renders either one. Both get `rounded-2xl`, the same radius as the cards on `/posts`. Videos are a plain native `<video controls playsinline>` in `video.tsx`, with no player library, so Safari shows its own video controls. Mux only hosts the files:
+`frontend/src/features/sections/media.tsx` renders either one, inside `Figure` from `frontend/src/components/figure.tsx`, which centres the caption below it in `muted`, as beside.com does. Both get `rounded-2xl`, the same radius as the cards on `/posts`. Videos are a plain native `<video controls playsinline>` in `video.tsx`, with no player library, so Safari shows its own video controls. Mux only hosts the files:
 
 - The first `<source>` is Mux's HLS stream (`stream.mux.com/{playbackId}.m3u8`), which Safari plays natively, with quality that adapts to the connection.
 - The second is a static MP4 (`stream.mux.com/{playbackId}/highest.mp4`) for browsers without native HLS. The Studio creates it because `muxInput({static_renditions: ['highest']})` is set in `studio/sanity.config.ts`; videos uploaded before that setting have no MP4 and only play where HLS works.
