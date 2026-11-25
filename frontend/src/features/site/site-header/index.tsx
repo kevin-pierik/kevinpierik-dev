@@ -19,7 +19,7 @@ export async function SiteHeader({ current }: SiteHeaderProps) {
   const isHome = current === "/";
   const navigation = settings?.navigation ?? [];
   const name = (
-    <Link href="/" variant="nav">
+    <Link href="/" variant="plain">
       {siteName}
     </Link>
   );
@@ -54,11 +54,11 @@ export async function SiteHeader({ current }: SiteHeaderProps) {
         </div>
         {navigation.length > 0 ? (
           <NavigationMenu aria-label="Site">
-            <NavigationMenuList className="flex gap-3">
+            <NavigationMenuList className="-mr-3 flex gap-1">
               {navigation.map((item) => (
                 <NavigationMenuItem key={item.uri}>
                   <NavigationMenuLink
-                    className={`${linkStyles.nav} text-muted data-current:text-foreground`}
+                    className={`${linkStyles.pill} text-muted data-current:text-foreground`}
                     current={
                       current === item.uri ||
                       current?.startsWith(`${item.uri}/`)
