@@ -41,7 +41,7 @@ Code and table use the plugins' own type names, `code` and `table`, as `_type`.
 
 ### Posts
 
-`frontend/src/features/sections/posts.tsx` is an async server component that fills itself with `getArticles()`, the newest first, and renders them with `ArticleList` ([Posts](posts.md#pages)). Editors pick an optional heading, how many posts to show (empty for all), **Two columns** (as Writing on the homepage), **Three columns** (as on `/posts`), or **One column (list)**, and whether to show a `subtle` "See all posts" link next to the heading. Without a heading or link it renders only the list, and the card titles become `<h2>` instead of `<h3>`, so a page with only a hero above it doesn't skip a heading rank. With no listed posts it shows "No posts yet.". Pages only; articles can't use it. In Markdown it renders nothing, because `llms.txt` and `llms-full.txt` already list every post.
+`frontend/src/features/sections/posts.tsx` is an async server component that fills itself with `getArticles()`, the newest first, and renders them with `ArticleList` ([Posts](posts.md#pages)). Editors pick an optional heading, how many posts to show (empty for all), **Two columns** (as Writing on the homepage), **Three columns** (as on `/posts`), or **One column (list)**, and whether to show a `subtle` "See all posts" link next to the heading. Without a heading or link it renders only the list, and the card titles become `<h2>` instead of `<h3>`, so a page with only a hero above it doesn't skip a heading rank. With no listed posts it shows "Coming soon" in a `subtle` pill, like the line above a small hero. Pages only; articles can't use it. In Markdown it renders nothing, because `llms.txt` and `llms-full.txt` already list every post.
 
 ### Media
 

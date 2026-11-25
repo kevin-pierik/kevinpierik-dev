@@ -33,7 +33,7 @@ On the homepage, `<main>` is labelled by the hero's `<h1>` through `aria-labelle
 
 ## Homepage
 
-The homepage starts with a Hero section from Sanity ([Pages and sections](pages-and-sections.md#hero)): "Fast, accessible websites." with "Clear, useful interfaces." in `muted`, a lead, and "Get in touch". The last section is a Posts section titled Writing: the two newest posts as cards with a `subtle` "See all posts" link ([Pages and sections](pages-and-sections.md#posts)), or "No posts yet." when there are none. The hero has no animation yet.
+The homepage starts with a Hero section from Sanity ([Pages and sections](pages-and-sections.md#hero)): "Fast, accessible websites." with "Clear, useful interfaces." in `muted`, a lead, and "Get in touch". The last section is a Posts section titled Writing: the two newest posts as cards with a `subtle` "See all posts" link ([Pages and sections](pages-and-sections.md#posts)), or a "Coming soon" pill when there are none. The hero has no animation yet.
 
 ## Site footer
 
