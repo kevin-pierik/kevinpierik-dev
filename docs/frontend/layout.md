@@ -41,7 +41,7 @@ The homepage starts with a Hero section from Sanity ([Pages and sections](pages-
 
 - 12.6875rem: the "Connect" heading.
 - The middle: a description list of contact links, each a `muted` label above a `plain` link with the handle: email and the profiles from `frontend/src/features/site/social-links.ts`. The RSS feed is linked from each post's header and from the contact page instead.
-- At the right, aligned right: the copyright line in `muted` (the year is taken at build time), with a `Privacy` link to `/privacy-policy` on the line below. The privacy page is a Sanity page document at `/privacy-policy`; `frontend/next.config.ts` permanently redirects the old `/privacy` URL to it; keep it published, or the link returns the 404.
+- At the right, aligned right: the copyright line in `muted` (the year is taken at build time), with a `Privacy policy` link to `/privacy-policy` on the line below. The privacy page is a Sanity page document at `/privacy-policy`; `frontend/next.config.ts` permanently redirects the old `/privacy` URL to it; keep it published, or the link returns the 404.
 
 Contact details live in code, not in Sanity: the footer and the contact page (`frontend/src/app/contact/page.tsx`) both read `social-links.ts`. The contact page has a visible `<h1>` "Get in touch", a lead, a `primary` "Send an email" button and a `subtle` LinkedIn button, then two sections: "Email and social" and "Elsewhere" (RSS, `llms.txt`, and the sitemap). Its metadata comes from `pageMetadata()`, and it is listed in the sitemap and `llms.txt`.
 
