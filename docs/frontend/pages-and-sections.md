@@ -20,7 +20,7 @@ A page that starts with a Hero section gets its `<h1>` from the hero. Other page
 | Text     | `textSection`     | yes   | yes      | An optional title, then Portable Text: paragraphs, `h2` and `h3`, quotes, lists, links, inline code                                                                                   |
 | Media    | `mediaSection`    | yes   | yes      | An image or a Mux video, with an optional caption and `wide`                                                                                                                          |
 | Posts    | `postsSection`    | yes   | no       | An optional title, the number of posts (empty for all), Grid or List, and an optional link to all posts                                                                               |
-| Carousel | `carouselSection` | yes   | yes      | A title and items, each with optional media, a title, an optional link, and a description                                                                                             |
+| Carousel | `carouselSection` | yes   | yes      | A title and items, each with an image or video, a title, an optional link, and a description                                                                                          |
 | List     | `listSection`     | yes   | yes      | A title, an optional second line, an optional button, and items, each with an optional period, a title, an organization, a link, a description, a location, and tags                  |
 | Code     | `code`            | no    | yes      | A `@sanity/code-input` block                                                                                                                                                          |
 | Table    | `table`           | no    | yes      | A `@sanity/table` table                                                                                                                                                               |
@@ -45,7 +45,7 @@ Code and table use the plugins' own type names, `code` and `table`, as `_type`.
 
 ### Media
 
-`createMediaFields()` in `studio/schemas/fields/create-media.ts` defines the media used by the Media section and by carousel items: a **Type** radio (Image or Video), then only the fields for that type. The image is required in a Media section; carousel items pass `{optional: true}`, so a slide without media shows the Coming soon placeholder.
+`createMediaFields()` in `studio/schemas/fields/create-media.ts` defines the media used by the Media section and by carousel items: a **Type** radio (Image or Video), then only the fields for that type. The image is required unless the type is Video.
 
 - **Image:** a Sanity image with required alt text, served through the Sanity image loader.
 - **Video:** a [Mux](https://www.mux.com) video (`mux.video` from `sanity-plugin-mux-input`), a required description for screen readers, and **Autoplay**. Autoplay plays the video muted on a loop, like a GIF, with the controls still available; it is skipped when the visitor asks for reduced motion.
@@ -68,7 +68,6 @@ Uploading in the Studio needs a Mux account. In the Mux dashboard, open **Settin
 
 - The carousel runs from edge to edge of the screen with the `bleed` utility in `tailwind.css`, which sets `--gutter` to the container's side padding and pulls the wrapper out by it on both sides. The list has the same `--gutter` as `padding-inline` and `scroll-padding-inline`, so the first slide lines up with the container's left edge, scrolled slides run off both edges of the screen, and the last slide stops at the container's right edge. `html` has `overflow-x: clip`, so the bleed never causes a horizontal scrollbar.
 - Slides are at most 28rem wide (80vw on small screens), snap to the start, and sit 1.5rem apart. Each shows its media in a rounded 16:10 frame with a `subtle` background, the title (a `nav` link with ↗ when it has a link), and the description in `muted`.
-- A slide without an image or video shows a "Coming soon" wordmark on a checkerboard of `subtle` and the page colour, like a transparent image, so projects can be announced before there is anything to show.
 - The stylesheet is imported in `global.css` into the `components` layer. Its own `blossom-carousel` layer would otherwise come after Tailwind's `utilities` and override the slide layout.
 
 ### List
