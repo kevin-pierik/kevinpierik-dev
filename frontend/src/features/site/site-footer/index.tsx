@@ -33,7 +33,7 @@ export function SiteFooter() {
           © {year} {siteName}
         </p>
         <p>
-          <Link href="/privacy" variant="plain">
+          <Link href="/privacy-policy" variant="plain">
             Privacy
           </Link>
         </p>
