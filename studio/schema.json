@@ -1790,6 +1790,10 @@
                         },
                         {
                           "type": "string",
+                          "value": "grid-3"
+                        },
+                        {
+                          "type": "string",
                           "value": "list"
                         }
                       ]

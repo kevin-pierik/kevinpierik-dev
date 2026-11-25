@@ -274,7 +274,7 @@ export type Page = {
     | {
         title?: string;
         limit?: number;
-        layout?: "grid" | "list";
+        layout?: "grid" | "grid-3" | "list";
         showAllLink?: boolean;
         _type: "postsSection";
         _key: string;
@@ -830,7 +830,7 @@ export type PAGE_QUERY_RESULT = {
         _type: "postsSection";
         title: string | null;
         limit: number | null;
-        layout: "grid" | "list" | null;
+        layout: "grid-3" | "grid" | "list" | null;
         showAllLink: boolean | null;
       }
     | {

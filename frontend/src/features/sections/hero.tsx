@@ -20,7 +20,7 @@ export function Hero({
 
   return (
     <section
-      className={`${small ? "pt-18 site:pt-30" : "pt-18 site:pt-32"} not-last:pb-24 site:not-last:pb-40 ${hasImage ? "grid items-center gap-10 site:grid-cols-2 site:gap-16" : ""}`}
+      className={`${small ? "pt-18 not-last:pb-12 site:pt-30 site:not-last:pb-16" : "pt-18 not-last:pb-24 site:pt-32 site:not-last:pb-40"} ${hasImage ? "grid items-center gap-10 site:grid-cols-2 site:gap-16" : ""}`}
     >
       <div className={centered ? "text-center" : "max-w-[36rem]"}>
         {eyebrow ? (

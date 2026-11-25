@@ -6,9 +6,14 @@ import { formatDate } from "./format-date";
 type ArticleListProps = {
   articles: Awaited<ReturnType<typeof getArticles>>;
   className: string;
+  headingLevel?: "h2" | "h3";
 };
 
-export function ArticleList({ articles, className }: ArticleListProps) {
+export function ArticleList({
+  articles,
+  className,
+  headingLevel: Heading = "h3",
+}: ArticleListProps) {
   if (articles.length === 0) {
     return <p className={`text-muted ${className}`}>No posts yet.</p>;
   }
@@ -27,7 +32,7 @@ export function ArticleList({ articles, className }: ArticleListProps) {
             {" · "}
             {article.readingMinutes} min read
           </p>
-          <h3 className="mt-[0.5lh] font-medium">{article.title}</h3>
+          <Heading className="mt-[0.5lh] font-medium">{article.title}</Heading>
           <p className="mt-[0.5lh] max-w-[65ch] text-muted">
             {article.description}
           </p>

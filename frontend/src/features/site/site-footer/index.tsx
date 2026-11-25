@@ -5,7 +5,6 @@ import { email, socialLinks } from "@/features/site/social-links";
 const connectLinks = [
   { label: "Email", handle: email, href: `mailto:${email}` },
   ...socialLinks,
-  { label: "RSS", handle: "feed.xml", href: "/feed.xml" },
 ];
 
 export function SiteFooter() {

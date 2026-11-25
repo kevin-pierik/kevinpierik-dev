@@ -12,7 +12,8 @@ The container is the `site-container` utility in `frontend/src/features/style/ta
 
 Pages follow the Figma design, which uses centred columns inside the 70rem container instead of a column grid. Each child of a page body or article gets `mx-auto` and a maximum width:
 
-- Pages and the posts index: text, figures, and tables at most 55.3125rem (885px) wide. Sections marked `data-full` (List and Carousel) and `wide` figures use the full container.
+- Pages: text, figures, and tables at most 55.3125rem (885px) wide, starting at the container's left edge so they line up with a left-aligned hero, as on the privacy page (modelled on beside.com's privacy policy). Sections marked `data-full` (List, Carousel, and grid Posts) and `wide` figures use the full container.
+- Posts index: a small left-aligned hero, then the posts in three columns across the full container.
 - Homepage: the centred hero, then the sections 10rem (6rem on small screens) apart. List sections put the heading on the left, sticky while the list scrolls by, and the accordion on the right ([Pages and sections](pages-and-sections.md#list)).
 - Article: the centred title (at most 47.5rem wide) and meta; text and the call to action at most 41.125rem (658px); figures and tables 55.3125rem; `wide` figures the full container.
 - Contact page: a centred intro like the homepage hero, then two short sections in a centred 40rem column.
@@ -39,7 +40,7 @@ The homepage starts with a Hero section from Sanity ([Pages and sections](pages-
 `frontend/src/features/site/site-footer/index.tsx` sits 10 lines below the content, in the same `site-container` as `<main>`. It is labelled by its `<h2>` "Connect"; below 800px everything stacks. From 800px it has three columns, 1.5rem apart:
 
 - 12.6875rem: the "Connect" heading.
-- The middle: a description list of contact links, each a `muted` label above a `plain` link with the handle: email, the profiles from `frontend/src/features/site/social-links.ts`, and the RSS feed.
+- The middle: a description list of contact links, each a `muted` label above a `plain` link with the handle: email and the profiles from `frontend/src/features/site/social-links.ts`. The RSS feed is linked from each post's header and from the contact page instead.
 - At the right, aligned right: the copyright line in `muted` (the year is taken at build time), with a `Privacy` link to `/privacy` on the line below. The privacy page is a Sanity page document; keep it published, or the link returns the 404.
 
 Contact details live in code, not in Sanity: the footer and the contact page (`frontend/src/app/contact/page.tsx`) both read `social-links.ts`. The contact page has a visible `<h1>` "Get in touch", a lead, a `primary` "Send an email" button and a `subtle` LinkedIn button, then two sections: "Email and social" and "Elsewhere" (RSS, `llms.txt`, and the sitemap). Its metadata comes from `pageMetadata()`, and it is listed in the sitemap and `llms.txt`.
