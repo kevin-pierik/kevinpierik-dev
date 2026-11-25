@@ -37,7 +37,7 @@ export function Carousel({ _key, title, items }: SectionOf<"carouselSection">) {
               data-blossom-slide
               key={item._key}
             >
-              <div className="aspect-[16/10] w-full overflow-hidden bg-subtle">
+              <div className="aspect-[16/10] w-full overflow-hidden rounded-2xl bg-subtle">
                 <Media
                   className="size-full object-cover"
                   media={item.media}

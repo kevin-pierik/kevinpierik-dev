@@ -34,7 +34,7 @@ Code and table use the plugins' own type names, `code` and `table`, as `_type`.
 - **Image:** a Sanity image with required alt text, served through the Sanity image loader.
 - **Video:** a [Mux](https://www.mux.com) video (`mux.video` from `sanity-plugin-mux-input`), a required description for screen readers, and **Autoplay**. Autoplay plays the video muted on a loop, like a GIF, with the controls still available; it is skipped when the visitor asks for reduced motion.
 
-`frontend/src/features/sections/media.tsx` renders either one. Videos are a plain native `<video controls playsinline>` in `video.tsx`, with no player library, so Safari shows its own video controls. Mux only hosts the files:
+`frontend/src/features/sections/media.tsx` renders either one. Both get `rounded-2xl`, the same radius as the cards on `/posts`. Videos are a plain native `<video controls playsinline>` in `video.tsx`, with no player library, so Safari shows its own video controls. Mux only hosts the files:
 
 - The first `<source>` is Mux's HLS stream (`stream.mux.com/{playbackId}.m3u8`), which Safari plays natively, with quality that adapts to the connection.
 - The second is a static MP4 (`stream.mux.com/{playbackId}/highest.mp4`) for browsers without native HLS. The Studio creates it because `muxInput({static_renditions: ['highest']})` is set in `studio/sanity.config.ts`; videos uploaded before that setting have no MP4 and only play where HLS works.
@@ -51,7 +51,7 @@ Uploading in the Studio needs a Mux account. In the Mux dashboard, open **Settin
 `frontend/src/features/sections/carousel.tsx` renders the title as an `h2`, then a [Blossom Carousel](https://www.blossom-carousel.com) list (`@blossom-carousel/react`), labelled by that heading. Each slide title is an `h3`. Blossom uses native scrolling with scroll snap and only loads its drag engine (`@blossom-carousel/core`) on devices with a fine pointer, so touch and trackpads scroll natively. The list has `tabIndex={0}` and the shared focus outline, because Blossom doesn't make the scroller focusable, so keyboard users can reach and scroll it even when no slide has a link. It also has `role="list"`, because `list-style: none` makes Safari drop the list semantics. Slide links pass through `SanityLink`. `blossom.ts` re-exports the component from a `"use client"` module, because the package has no directive; the small wrapper ships with every page that renders sections, and Blossom's stylesheet is global.
 
 - The carousel starts in column 3 and runs to the right edge of the screen, using the `bleed-end` utility in `tailwind.css` and `data-bleed` on its wrapper. `html` has `overflow-x: clip`, so the bleed never causes a horizontal scrollbar.
-- Slides are at most 28rem wide (80vw on small screens), snap to the start, and sit 1.5rem apart. Each shows its media in a 16:10 frame with a `subtle` background, the title (a `nav` link with ↗ when it has a link), and the description in `muted`.
+- Slides are at most 28rem wide (80vw on small screens), snap to the start, and sit 1.5rem apart. Each shows its media in a rounded 16:10 frame with a `subtle` background, the title (a `nav` link with ↗ when it has a link), and the description in `muted`.
 - The stylesheet is imported in `global.css` into the `components` layer. Its own `blossom-carousel` layer would otherwise come after Tailwind's `utilities` and override the slide layout.
 
 ### List

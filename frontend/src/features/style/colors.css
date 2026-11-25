@@ -5,7 +5,6 @@
   --muted: light-dark(#6b6b6b, #9a9a9a);
   --subtle: light-dark(#f0f0f0, #262626);
   --subtle-hover: light-dark(#e4e4e4, #333333);
-  --control: light-dark(#919191, #5c5c5c);
   --border: color-mix(in oklab, var(--foreground) 16%, transparent);
   --ring: light-dark(#006bff, #5fa1f3);
   --selection: light-dark(#cce1ff, #0b3d91);

@@ -32,7 +32,7 @@ export function Media({ media, sizes, className }: MediaProps) {
         aspectRatio={cssAspectRatio(media.video?.asset?.aspectRatio)}
         autoplay={media.autoplay ?? false}
         captions={media.video?.asset?.captions ?? []}
-        className={className}
+        className={`rounded-2xl ${className ?? ""}`}
         playbackId={playbackId}
         title={media.videoTitle ?? ""}
       />
@@ -47,7 +47,7 @@ export function Media({ media, sizes, className }: MediaProps) {
     <Image
       {...image}
       alt={media.image.alt ?? ""}
-      className={className}
+      className={`rounded-2xl ${className ?? ""}`}
       draggable={false}
       placeholder={image.blurDataURL ? "blur" : "empty"}
       sizes={sizes}

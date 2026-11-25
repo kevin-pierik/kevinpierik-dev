@@ -17,7 +17,7 @@ export function ArticleList({ articles }: { articles: ARTICLES_QUERY_RESULT }) {
             {article.description}
           </p>
           <Link
-            className="group mt-[1lh] inline-flex items-center gap-1.5"
+            className="group mt-[1lh] inline-flex items-center gap-1.5 pointer-coarse:min-h-11"
             href={postsPath(article.slug)}
             variant="plain"
           >

@@ -101,10 +101,10 @@ export function NewsletterForm() {
             <FieldLabel>Get new posts by email</FieldLabel>
           </h2>
           <div className="flex gap-2">
-            <InputGroup className="flex min-h-9 min-w-0 flex-1 items-center border border-control bg-background has-[input:focus-visible]:outline-2 has-[input:focus-visible]:outline-offset-2 has-[input:focus-visible]:outline-ring pointer-coarse:min-h-11">
+            <InputGroup className="flex min-h-11 min-w-0 flex-1 items-center rounded-full bg-subtle has-[input:focus-visible]:outline-2 has-[input:focus-visible]:outline-offset-2 has-[input:focus-visible]:outline-ring pointer-coarse:min-h-12">
               <Input
                 autoComplete="email"
-                className="h-full min-w-0 flex-1 bg-transparent px-3 outline-none placeholder:text-muted pointer-coarse:text-base"
+                className="h-full min-w-0 flex-1 bg-transparent pl-5 outline-none placeholder:text-muted pointer-coarse:text-base"
                 enterKeyHint="send"
                 placeholder="you@example.com"
                 required
@@ -117,7 +117,7 @@ export function NewsletterForm() {
               />
               <InputClear
                 aria-label="Clear email"
-                className={`mr-1 inline-flex size-7 items-center justify-center text-muted transition-colors hover:text-foreground ${focus}`}
+                className={`mr-2 inline-flex size-7 shrink-0 items-center justify-center rounded-full text-muted transition-colors hover:text-foreground pointer-coarse:mr-0.5 pointer-coarse:size-11 ${focus}`}
               >
                 <svg
                   aria-hidden="true"
@@ -133,7 +133,7 @@ export function NewsletterForm() {
               </InputClear>
             </InputGroup>
             <Button
-              className={`inline-flex min-h-9 items-center bg-subtle px-4 transition-colors hover:bg-subtle-hover data-disabled:cursor-wait pointer-coarse:min-h-11 ${focus}`}
+              className={`inline-flex min-h-11 shrink-0 items-center rounded-full bg-subtle px-5 font-medium transition-colors hover:bg-subtle-hover data-disabled:cursor-wait pointer-coarse:min-h-12 ${focus}`}
               disabled={pending}
               focusableWhenDisabled
               type="submit"
