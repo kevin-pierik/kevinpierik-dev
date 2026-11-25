@@ -6,7 +6,7 @@ import { Input, InputClear, InputGroup } from "@ui-sdk/react/input";
 import Script from "next/script";
 import { useEffect, useRef, useState, useTransition } from "react";
 
-import { focus } from "@/components/link";
+import { focus, Link } from "@/components/link";
 import { subscribe, type SubscribeState } from "@/features/posts/subscribe";
 
 type Turnstile = {
@@ -150,7 +150,14 @@ export function NewsletterForm() {
         </Field>
         <div className="mt-[0.5lh] empty:hidden" ref={container} />
         <p className="mt-[0.5lh] text-muted" role="status">
-          {messages[state.status]}
+          {state.status === "idle" ? (
+            <>
+              Unsubscribe anytime. See the{" "}
+              <Link href="/privacy">privacy policy</Link>.
+            </>
+          ) : (
+            messages[state.status]
+          )}
         </p>
       </form>
     </section>
