@@ -23,7 +23,7 @@ export const sectionsFragment = /* groq */ `
       buttons[]{ _key, label, link },
       image{ ${imageFragment} }
     },
-    _type == "textSection" => { body },
+    _type == "textSection" => { title, body },
     _type == "mediaSection" => { ${mediaFragment}, caption, wide },
     _type == "code" => { code, language },
     _type == "table" => { rows },

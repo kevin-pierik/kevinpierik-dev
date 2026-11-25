@@ -10,12 +10,15 @@ import { Carousel } from "./carousel";
 import { List } from "./list";
 import { Media } from "./media";
 import { Posts } from "./posts";
+import { TitledText } from "./titled-text";
 import type { Section } from "./types";
 
 function SectionContent({ section }: { section: Section }) {
   switch (section._type) {
     case "textSection":
-      return (
+      return section.title ? (
+        <TitledText {...section} />
+      ) : (
         <PortableText
           components={richTextComponents}
           value={section.body ?? []}

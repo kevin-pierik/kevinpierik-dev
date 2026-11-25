@@ -51,8 +51,8 @@ function section(value: Section) {
       ]
         .filter(Boolean)
         .join("\n\n");
-    case "textSection":
-      return portableTextToMarkdown(value.body ?? [], {
+    case "textSection": {
+      const body = portableTextToMarkdown(value.body ?? [], {
         marks: {
           link: (options) =>
             DefaultLinkRenderer({
@@ -64,6 +64,10 @@ function section(value: Section) {
             }),
         },
       });
+      return [value.title && `## ${value.title}`, body]
+        .filter(Boolean)
+        .join("\n\n");
+    }
     case "mediaSection":
       return media(value, value.caption);
     case "code": {

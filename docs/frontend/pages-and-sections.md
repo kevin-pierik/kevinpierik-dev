@@ -17,7 +17,7 @@ A page that starts with a Hero section gets its `<h1>` from the hero. Other page
 | Section  | `_type`           | Pages | Articles | Content                                                                                                                                                                               |
 | -------- | ----------------- | ----- | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Hero     | `heroSection`     | yes   | no       | A small line, the heading, an optional second line in `muted`, a lead, up to two buttons, a large or small size, centred or left alignment, and an optional image. First section only |
-| Text     | `textSection`     | yes   | yes      | Portable Text: paragraphs, `h2` and `h3`, quotes, lists, links, inline code                                                                                                           |
+| Text     | `textSection`     | yes   | yes      | An optional title, then Portable Text: paragraphs, `h2` and `h3`, quotes, lists, links, inline code                                                                                   |
 | Media    | `mediaSection`    | yes   | yes      | An image or a Mux video, with an optional caption and `wide`                                                                                                                          |
 | Posts    | `postsSection`    | yes   | no       | An optional title, the number of posts (empty for all), Grid or List, and an optional link to all posts                                                                               |
 | Carousel | `carouselSection` | yes   | yes      | Optional title and items, each with an image, a title, an optional link, and a description                                                                                            |
@@ -27,7 +27,7 @@ A page that starts with a Hero section gets its `<h1>` from the hero. Other page
 
 Code and table use the plugins' own type names, `code` and `table`, as `_type`.
 
-`frontend/src/features/sections/fragment.ts` holds the shared GROQ projection, and `frontend/src/features/sections/index.tsx` renders sections with a `switch` on `_type`. Text, media, code, and tables render flat elements, not a wrapper, so the page body or article gives each a centred maximum width, with `wide` figures across the container ([Layout](layout.md#columns)). List, Carousel, and grid Posts sections render one `<section>` marked `data-full`, which removes that maximum width, with their heading in `headingStyles.section` and 6rem (10rem from the `site` breakpoint) of space above. Text sections use the Portable Text renderer in `frontend/src/features/sanity/rich-text/`. Sanity links pass through `safeHref()`; web links show an external arrow, while internal, email, and phone links show only an underline.
+`frontend/src/features/sections/fragment.ts` holds the shared GROQ projection, and `frontend/src/features/sections/index.tsx` renders sections with a `switch` on `_type`. Text, media, code, and tables render flat elements, not a wrapper, so the page body or article gives each a centred maximum width, with `wide` figures across the container ([Layout](layout.md#columns)). List, Carousel, and grid Posts sections render one `<section>` marked `data-full`, which removes that maximum width, with their heading in `headingStyles.section` and 6rem (10rem from the `site` breakpoint) of space above. Text sections use the Portable Text renderer in `frontend/src/features/sanity/rich-text/`. A text section with a title renders like the other homepage sections (`titled-text.tsx`): a `<section>` marked `data-full`, the title as an `<h2>` in `headingStyles.section` on the left, and the text at 1.0625rem on the right, as About me on the homepage. Without a title it renders flat, as before. Sanity links pass through `safeHref()`; web links show an external arrow, while internal, email, and phone links show only an underline.
 
 ### Hero
 
@@ -73,7 +73,7 @@ Uploading in the Studio needs a Mux account. In the Mux dashboard, open **Settin
 
 ### List
 
-`frontend/src/features/sections/list.tsx` renders an accordion, such as Experience on the homepage. From the `site` breakpoint, the `h2`, with an optional second line in `muted` and an optional button below it, takes the left 27.5 of 66 parts of the row and is `sticky` below the header while the list scrolls past, like the FAQ on beside.com; the list takes the rest, 4rem away. Below it they stack.
+`frontend/src/features/sections/list.tsx` renders an accordion, for example for a FAQ. The homepage used it for Experience before that became the About me text section. From the `site` breakpoint, the `h2`, with an optional second line in `muted` and an optional button below it, takes the left 27.5 of 66 parts of the row and is `sticky` below the header while the list scrolls past, like the FAQ on beside.com; the list takes the rest, 4rem away. Below it they stack.
 
 The accordion is `accordion.tsx`, a small client component modelled on the FAQ on beside.com. Only one item is open at a time, the first by default. Each item is a rounded card:
 
