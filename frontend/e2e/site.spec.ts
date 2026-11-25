@@ -27,7 +27,7 @@ test("the posts index handles empty content and opens published posts", async ({
     .getByRole("link")
     .first();
   if ((await articleLink.count()) === 0) {
-    await expect(page.getByText("No posts yet.")).toBeVisible();
+    await expect(page.getByText("Coming soon")).toBeVisible();
     return;
   }
 

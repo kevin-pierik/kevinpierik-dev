@@ -15,7 +15,13 @@ export function ArticleList({
   headingLevel: Heading = "h3",
 }: ArticleListProps) {
   if (articles.length === 0) {
-    return <p className={`text-muted ${className}`}>No posts yet.</p>;
+    return (
+      <p className={className}>
+        <span className="inline-block rounded-full bg-subtle px-3 py-1 text-[0.875rem] leading-[1.375rem]">
+          Coming soon
+        </span>
+      </p>
+    );
   }
 
   return (
