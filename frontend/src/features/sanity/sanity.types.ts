@@ -285,6 +285,44 @@ export type Settings = {
   >;
 };
 
+export type SanityReleaseMetadata = {
+  _type: "sanity.releaseMetadata";
+  title?: string;
+  description?: string;
+  releaseType: "asap" | "scheduled" | "undecided";
+  intendedPublishAt?: string;
+  cardinality?: "many" | "one";
+};
+
+export type SystemRelease = {
+  _id: string;
+  _type: "system.release";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  name?: string;
+  state?:
+    | "active"
+    | "archiving"
+    | "unarchiving"
+    | "archived"
+    | "published"
+    | "publishing"
+    | "scheduled"
+    | "scheduling";
+  error?: {
+    message?: string;
+  };
+  publishAt?: string;
+  publishedAt?: string;
+  metadata?: SanityReleaseMetadata;
+  finalDocumentStates?: Array<{
+    id?: string;
+    _key: string;
+  }>;
+  userId?: string;
+};
+
 export type MuxVideoAsset = {
   _id: string;
   _type: "mux.videoAsset";
@@ -573,6 +611,8 @@ export type AllSanitySchemaTypes =
   | SanityImageHotspot
   | PageReference
   | Settings
+  | SanityReleaseMetadata
+  | SystemRelease
   | MuxVideoAsset
   | MuxRobotsOutputs
   | MuxAssetData

@@ -1,6 +1,6 @@
 # Browser testing and automation
 
-[Playwright](https://playwright.dev/) runs the automated end-to-end suite against the production build. The suite covers the homepage, the posts index's empty state or an article opened from it, the 404, and public discovery routes. GitHub Actions builds the frontend, starts it with `next start`, and runs these checks in Chromium.
+[Playwright](https://playwright.dev/) runs the automated end-to-end suite against the production build. The suite covers the homepage, the posts index's empty state or an article opened from it, the 404, and public discovery routes. It also opens every page in the sitemap in light and dark mode and checks that it returns 200, has one `<h1>`, logs no console errors, and passes an [axe](https://github.com/dequelabs/axe-core) scan for WCAG 2.2 A and AA, which includes text contrast in both colour schemes. GitHub Actions builds the frontend, starts it with `next start`, and runs these checks in Chromium.
 
 Install Chromium once, then run the full local quality suite with the public Sanity environment values set:
 
