@@ -25,7 +25,7 @@ export const sectionsFragment = /* groq */ `
     },
     _type == "textSection" => { title, body },
     _type == "mediaSection" => { ${mediaFragment}, caption, wide },
-    _type == "code" => { code, language },
+    _type == "code" => { code, language, highlightedLines },
     _type == "table" => { rows },
     _type == "listSection" => {
       title,

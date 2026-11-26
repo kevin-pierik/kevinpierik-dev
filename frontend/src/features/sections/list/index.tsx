@@ -84,7 +84,7 @@ export function List({
                 {item.tags?.length ? (
                   <ul
                     aria-label="Skills"
-                    className="flex flex-wrap gap-2 pt-2 text-[0.8125rem] leading-5"
+                    className="flex flex-wrap gap-2 pt-2 text-xs"
                   >
                     {item.tags.map((tag) => (
                       <li

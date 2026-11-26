@@ -25,9 +25,14 @@ The header navigation is a ui-sdk `NavigationMenu`, following [its docs](https:/
 The site follows Apple's Human Interface Guidelines for shape and touch:
 
 - Controls and pills are fully rounded (`rounded-full`). Blocks, such as post cards, images, videos, the carousel frame, code blocks, and tables, use `rounded-2xl`; inline code uses `rounded-md`.
-- Corners inside a rounded block are concentric: the copy button sits 6px inside a 16px corner, so it uses a 10px radius.
 - On touch screens (`pointer-coarse`) every control is at least 44px high: header pills, the menu buttons, the `primary` links, the copy button, and "Read more". The accordion rows are at least 54px high everywhere.
 - Icon buttons have no hover fill. The copy button only turns its icon from `muted` to `foreground`.
+
+## Icons
+
+Icons are [Material Symbols Rounded](https://fonts.google.com/icons?icon.style=Rounded) at weight 400, grade 0, fill off, and optical size 20, pasted as inline `<svg>` paths with `viewBox="0 -960 960 960"` and `fill="currentColor"`. There is no icon package or icon font, so each icon costs only its path, and only the copy buttons ship as client JavaScript. At 16–18px the line is about 1.2–1.35px, in line with x.ai, webai.com, and beside.com. Material icons leave more padding than Lucide, so they render a bit larger: 18px (`size-4.5`) for the copy icon and arrows, 20px (`size-5`) for the accordion plus, and `0.8em` for heading links.
+
+To add one, search fonts.google.com/icons with those settings, or download `https://fonts.gstatic.com/s/i/short-term/release/materialsymbolsrounded/<name>/default/20px.svg`, and copy its `<path>`. External links keep the `↗` text glyph from Geist.
 
 ## Focus and colour
 

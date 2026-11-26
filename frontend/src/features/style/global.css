@@ -142,6 +142,16 @@
     counter-reset: line;
   }
 
+  [data-code-frame] .line[data-highlighted] {
+    display: inline-block;
+    min-width: calc(100% + 2rem);
+    min-height: 1lh;
+    margin-inline: -1rem;
+    border-left: 2px solid var(--foreground);
+    padding-inline: calc(1rem - 2px) 1rem;
+    background: color-mix(in oklab, var(--foreground) 6%, transparent);
+  }
+
   [data-code-frame][data-numbered] .line::before {
     counter-increment: line;
     content: counter(line);

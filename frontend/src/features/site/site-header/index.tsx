@@ -114,7 +114,7 @@ export async function SiteHeader({ current }: SiteHeaderProps) {
           </dl>
           <p className="site-container mt-auto pt-12 pb-10">
             <Link
-              className="min-h-12 w-full justify-center text-[1.0625rem]"
+              className="min-h-12 w-full justify-center text-base"
               href={contactPath}
               variant="primary"
             >

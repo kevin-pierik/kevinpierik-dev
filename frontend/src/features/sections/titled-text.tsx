@@ -28,7 +28,7 @@ export function TitledText({ _key, title, body }: SectionOf<"textSection">) {
       >
         {title}
       </HeadingLink>
-      <div className="text-[1.0625rem] leading-6.5">
+      <div className="text-base leading-relaxed">
         <PortableText
           components={nestedRichTextComponents}
           value={body ?? []}

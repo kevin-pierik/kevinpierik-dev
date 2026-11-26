@@ -43,6 +43,7 @@ function SectionContent({ section }: { section: Section }) {
         <CodeBlock
           className="mt-[1.5lh] first:mt-0"
           code={section.code ?? ""}
+          highlightedLines={section.highlightedLines}
           labels={labels}
           lang={section.language ?? undefined}
         />

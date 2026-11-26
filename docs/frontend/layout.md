@@ -16,7 +16,7 @@ Pages follow the Figma design, which uses centred columns inside the 70rem conta
 - Posts index: a small left-aligned hero, then the posts in three columns across the full container.
 - Homepage: the centred hero, then the sections 10rem (6rem on small screens) apart. List sections put the heading on the left, sticky while the list scrolls by, and the accordion on the right ([Pages and sections](pages-and-sections.md#list)).
 - Article: the centred title (at most 47.5rem wide) and meta; text and the call to action at most 41.125rem (658px); figures and tables 55.3125rem; `wide` figures the full container.
-- Contact page: everything starts at the container's left edge, in line with the name in the header: the intro (a 4rem `<h1>`, the lead, and two buttons), then the two short sections side by side from the `site` breakpoint, 4rem apart.
+- Contact page: everything starts at the container's left edge, in line with the name in the header: the intro (a 3.75rem `<h1>`, the lead, and two buttons), then the two short sections side by side from the `site` breakpoint, 4rem apart.
 - 404: a centred block in the middle of a 35rem tall `<main>`.
 
 The widths come from the Figma frames at 1440px; check them there before changing one. Below the `site` breakpoint (800px, `--breakpoint-site` in `tailwind.css`) everything is full width within the container padding.
@@ -47,12 +47,12 @@ Contact details live in code, not in Sanity: the footer and the contact page (`f
 
 ## Typography
 
-- Classes use Tailwind's canonical form, the one its language server suggests: `leading-6.5` instead of `leading-[1.625rem]`, `max-w-140` instead of `max-w-[35rem]`. Arbitrary values stay only where no scale value exists, such as `text-[1.0625rem]`.
+- Classes use Tailwind's canonical form, the one its language server suggests: `leading-6.5` instead of `leading-[1.625rem]`, `max-w-140` instead of `max-w-[35rem]`. Arbitrary values stay only where no scale value exists.
 - `frontend/src/app/layout.tsx` loads [Geist Sans](https://vercel.com/font) with `next/font/local` from `frontend/src/features/style/fonts/geist-latin.woff2` (26 KB, against 69 KB for the full variable font), exposed to Tailwind as `font-sans` and set on `<html>` in `typography.css`. The OG image reads the TTF files from the `geist` package, so that dependency stays.
 - The file is a subset of `Geist-Variable.woff2` from the `geist` package: Basic Latin, Latin-1, Latin Extended-A, common punctuation, `€`, and the arrows `← → ↗`, with the `wght` axis limited to 400–700 (editors can use bold). Characters outside it fall back to the system font. Regenerate it with `fontTools` (`pip install fonttools brotli`): subset with `fontTools.subset` (`flavor="woff2"`, all layout features, `lazy=False` when loading), then `fontTools.varLib.instancer.instantiateVariableFont(font, {"wght": (400, 700)})`. It is the upright font only, so italic is synthesised, as before.
 - Body text is 400 at 0.875rem (14px) with a unitless line height of 1.5715 (22px), so most hierarchy comes from colour (`foreground` against `muted`) and spacing.
-- The homepage `<h1>` is 4rem (2.25rem below the `site` breakpoint) at weight 500. Page sections such as About me and Writing use `headingStyles.section`: 1.875rem at 400.
-- Articles, the contact page, and the 404 have a visible `<h1>` at 2.5rem (2rem on small screens) and weight 500. Article `<h2>` is 1.125rem and 500, `<h3>` 0.9375rem and 500. See [Posts](posts.md).
+- Text sizes follow Tailwind's default scale, the same scale x.ai uses: the homepage and contact `<h1>` are `text-6xl` (3.75rem, line height 1) and `text-4xl` below the `site` breakpoint, at weight 500. Page sections such as About me and Writing use `headingStyles.section`: `text-4xl` (`text-3xl` on small screens) at 400. Body copy in sections and articles is `text-base` with `leading-relaxed`, leads are `text-lg` with `leading-relaxed`, pills `text-sm`, and tags `text-xs`. Headings use -0.01em tracking.
+- Articles and the 404 have a visible `<h1>` at `text-4xl` (`text-3xl` on small screens) and weight 500. Article `<h2>` is `text-lg`, `<h3>` `text-base`. See [Posts](posts.md).
 - `typography.css` turns on antialiasing, `optimizeLegibility`, and `text-size-adjust: 100%`.
 - Spacing is set in `lh`, so it follows the line height. See [Pages and sections](pages-and-sections.md) for the page content model.
 
