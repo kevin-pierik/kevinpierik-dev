@@ -6,6 +6,7 @@ import {
   AccordionTrigger,
 } from "@ui-sdk/react/accordion";
 import type { ReactNode } from "react";
+import { Plus } from "lucide-react";
 
 import { focus } from "@/components/link";
 
@@ -47,13 +48,7 @@ export function Accordion({ label, items }: AccordionProps) {
                 aria-hidden="true"
                 className="absolute top-1/2 right-4 grid size-8 -translate-y-1/2 place-items-center text-muted transition-colors group-hover:text-foreground site:right-5"
               >
-                <svg
-                  className="size-5 transition-transform duration-200 group-data-open:rotate-45"
-                  fill="currentColor"
-                  viewBox="0 -960 960 960"
-                >
-                  <path d="M444-444H276q-15.3 0-25.65-10.29Q240-464.58 240-479.79t10.35-25.71Q260.7-516 276-516h168v-168q0-15.3 10.29-25.65Q464.58-720 479.79-720t25.71 10.35Q516-699.3 516-684v168h168q15.3 0 25.65 10.29Q720-495.42 720-480.21t-10.35 25.71Q699.3-444 684-444H516v168q0 15.3-10.29 25.65Q495.42-240 480.21-240t-25.71-10.35Q444-260.7 444-276v-168Z" />
-                </svg>
+                <Plus className="size-4 transition-transform duration-200 group-data-open:rotate-45" />
               </span>
             </AccordionTrigger>
           </AccordionHeader>

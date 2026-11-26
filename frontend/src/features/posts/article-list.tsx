@@ -2,6 +2,7 @@ import { Link } from "@/components/link";
 
 import { getArticles, postsPath } from "./fetch";
 import { formatDate } from "./format-date";
+import { HoverArrow } from "@/components/hover-arrow";
 
 type ArticleListProps = {
   articles: Awaited<ReturnType<typeof getArticles>>;
@@ -47,14 +48,7 @@ export function ArticleList({
             href={postsPath(article.slug)}
             variant="plain"
           >
-            <svg
-              aria-hidden="true"
-              className="size-4.5 transition-transform group-hover:translate-x-0.5"
-              fill="currentColor"
-              viewBox="0 -960 960 960"
-            >
-              <path d="M630-444H227.98q-15.29 0-25.64-10.29Q192-464.58 192-479.79t10.34-25.71q10.35-10.5 25.64-10.5H630L453.79-692.21Q443-703 443-717.5t11-25.98Q465-754 479.5-754t25.31 10.82L742.6-505.09q5.4 5.41 7.9 11.72 2.5 6.31 2.5 13.53 0 7.21-2.5 13.53Q748-460 743-455L505-217q-11 11-25 10.5t-25-11.02q-11-11.48-11-26.15 0-14.66 11-25.33l175-175Z" />
-            </svg>
+            <HoverArrow className="size-5" />
             Read more<span className="sr-only">: {article.title}</span>
           </Link>
         </li>

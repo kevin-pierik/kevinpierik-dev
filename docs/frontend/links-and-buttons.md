@@ -26,13 +26,17 @@ The site follows Apple's Human Interface Guidelines for shape and touch:
 
 - Controls and pills are fully rounded (`rounded-full`). Blocks, such as post cards, images, videos, the carousel frame, code blocks, and tables, use `rounded-2xl`; inline code uses `rounded-md`.
 - On touch screens (`pointer-coarse`) every control is at least 44px high: header pills, the menu buttons, the `primary` links, the copy button, and "Read more". The accordion rows are at least 54px high everywhere.
-- Icon buttons have no hover fill. The copy button only turns its icon from `muted` to `foreground`.
+- Icon buttons (the copy button and the theme toggle) have no hover fill, as on x.ai: on hover their icon turns from `muted` to `foreground` and the pointer becomes a hand.
+- Every enabled button gets `cursor: pointer` from a base rule in `global.css`; Tailwind's preflight resets buttons to the default arrow.
+- ui-sdk toggles wrap their icon in `ToggleIcon`, as its docs show, which hides it from screen readers; the toggle's `aria-label` names it.
 
 ## Icons
 
-Icons are [Material Symbols Rounded](https://fonts.google.com/icons?icon.style=Rounded) at weight 400, grade 0, fill off, and optical size 20, pasted as inline `<svg>` paths with `viewBox="0 -960 960 960"` and `fill="currentColor"`. There is no icon package or icon font, so each icon costs only its path, and only the copy buttons ship as client JavaScript. At 16–18px the line is about 1.2–1.35px, in line with x.ai, webai.com, and beside.com. Material icons leave more padding than Lucide, so they render a bit larger: 18px (`size-4.5`) for the copy icon and arrows, 20px (`size-5`) for the accordion plus, `0.8em` for heading links, and `1em` for the external link arrow, so it follows the link's text size.
+Icons come from [Lucide](https://lucide.dev/icons) through `lucide-react`, the set x.ai and the ui-sdk docs use: import one by name, such as `import { Rocket } from "lucide-react"`, and render `<Rocket className="size-4" />`. Lucide adds the `lucide` class, and base rules in `global.css` give every icon a 1.5px line with `vector-effect: non-scaling-stroke`, so the line stays 1.5px at any size, about the stem of Geist at body size. Without it Lucide's stroke scales with the icon, and a 20px arrow looked heavier than a 16px moon. Icons are hidden from screen readers by default; name the control around them instead. `LucideIcon` is the type for props that take an icon, as `CopyIcon` does.
 
-To add one, search fonts.google.com/icons with those settings, or download `https://fonts.gstatic.com/s/i/short-term/release/materialsymbolsrounded/<name>/default/20px.svg`, and copy its `<path>`.
+`lucide-react` marks its icons as client components, so each icon used ships its path data plus Lucide's shared code, about 2–2.5 KB gzip for the whole site. Sizes: 16px (`size-4`) for the copy button, the theme toggle, and the accordion plus, `0.5em` for heading links, so the link sits on the baseline and reaches the x-height, and `1em` for the external link arrow, so it follows the link's text size.
+
+The "Read more" and "See all posts" links use `HoverArrow` from `frontend/src/components/hover-arrow.tsx` instead, with x.ai's geometry and the same `lucide` class and line: in a 24px box, the arrowhead sits 3 units left of the tip at rest; on hover or keyboard focus it slides 3 units right while the shaft grows out of the tip to 9 units, so the `>` becomes a `→` with the same head. It renders at 20px (`size-5`) and needs a `group` class on its link. With reduced motion the change is instant.
 
 ## Focus and colour
 
