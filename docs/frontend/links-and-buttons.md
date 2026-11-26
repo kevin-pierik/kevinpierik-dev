@@ -10,7 +10,7 @@ The header navigation is a ui-sdk `NavigationMenu`, following [its docs](https:/
 
 ## Other links
 
-`frontend/src/components/link.tsx` is a thin `Link` around Next.js `Link` that adds a `variant` class, and a `muted` ↗ (hidden from screen readers) after links to `http:` or `https:` URLs. Links from Sanity render through `SanityLink` (`frontend/src/features/sanity/link/`), which only allows safe URLs. The classes are exported as `linkStyles`, so the navigation and the skip link use the same looks:
+`frontend/src/components/link.tsx` is a thin `Link` around Next.js `Link` that adds a `variant` class, and a `muted` `arrow_outward` icon (hidden from screen readers) after links to `http:` or `https:` URLs. Links from Sanity render through `SanityLink` (`frontend/src/features/sanity/link/`), which only allows safe URLs. The classes are exported as `linkStyles`, so the navigation and the skip link use the same looks:
 
 - `text` (default): the inline link from ui-sdk.dev. Its underline is `foreground` at 25%, with the font's own thickness and a 3px offset, and turns solid on hover and focus. The 404 page and markdown links use it.
 - `nav`: no underline until hover, like the ui-sdk.dev navigation. Use it only where the position makes clear that it is a link, such as links in compact lists.
@@ -30,9 +30,9 @@ The site follows Apple's Human Interface Guidelines for shape and touch:
 
 ## Icons
 
-Icons are [Material Symbols Rounded](https://fonts.google.com/icons?icon.style=Rounded) at weight 400, grade 0, fill off, and optical size 20, pasted as inline `<svg>` paths with `viewBox="0 -960 960 960"` and `fill="currentColor"`. There is no icon package or icon font, so each icon costs only its path, and only the copy buttons ship as client JavaScript. At 16–18px the line is about 1.2–1.35px, in line with x.ai, webai.com, and beside.com. Material icons leave more padding than Lucide, so they render a bit larger: 18px (`size-4.5`) for the copy icon and arrows, 20px (`size-5`) for the accordion plus, and `0.8em` for heading links.
+Icons are [Material Symbols Rounded](https://fonts.google.com/icons?icon.style=Rounded) at weight 400, grade 0, fill off, and optical size 20, pasted as inline `<svg>` paths with `viewBox="0 -960 960 960"` and `fill="currentColor"`. There is no icon package or icon font, so each icon costs only its path, and only the copy buttons ship as client JavaScript. At 16–18px the line is about 1.2–1.35px, in line with x.ai, webai.com, and beside.com. Material icons leave more padding than Lucide, so they render a bit larger: 18px (`size-4.5`) for the copy icon and arrows, 20px (`size-5`) for the accordion plus, `0.8em` for heading links, and `1em` for the external link arrow, so it follows the link's text size.
 
-To add one, search fonts.google.com/icons with those settings, or download `https://fonts.gstatic.com/s/i/short-term/release/materialsymbolsrounded/<name>/default/20px.svg`, and copy its `<path>`. External links keep the `↗` text glyph from Geist.
+To add one, search fonts.google.com/icons with those settings, or download `https://fonts.gstatic.com/s/i/short-term/release/materialsymbolsrounded/<name>/default/20px.svg`, and copy its `<path>`.
 
 ## Focus and colour
 

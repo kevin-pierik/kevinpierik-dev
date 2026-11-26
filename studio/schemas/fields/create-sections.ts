@@ -55,6 +55,13 @@ const heroSection = defineArrayMember({
   fields: [
     defineField({name: 'eyebrow', type: 'string', description: 'Small line above the heading.'}),
     defineField({
+      name: 'eyebrowIcon',
+      title: 'Eyebrow icon',
+      type: 'string',
+      options: {list: [{title: 'Rocket', value: 'rocket'}], layout: 'radio'},
+      hidden: ({parent}) => !parent?.eyebrow,
+    }),
+    defineField({
       name: 'title',
       type: 'string',
       description: 'The main heading of the page.',
