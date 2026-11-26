@@ -19,7 +19,7 @@ export const sectionsFragment = /* groq */ `
     _key,
     _type,
     _type == "heroSection" => {
-      eyebrow, title, titleMuted, lead, size, align,
+      eyebrow, eyebrowIcon, title, titleMuted, lead, size, align,
       buttons[]{ _key, label, link },
       image{ ${imageFragment} }
     },

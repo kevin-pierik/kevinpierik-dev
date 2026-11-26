@@ -1074,6 +1074,19 @@
                     },
                     "optional": true
                   },
+                  "eyebrowIcon": {
+                    "type": "objectAttribute",
+                    "value": {
+                      "type": "union",
+                      "of": [
+                        {
+                          "type": "string",
+                          "value": "rocket"
+                        }
+                      ]
+                    },
+                    "optional": true
+                  },
                   "title": {
                     "type": "objectAttribute",
                     "value": {
