@@ -10,6 +10,15 @@
     border-color: var(--border);
     outline-color: var(--focus);
   }
+  :is(button, [role="button"]):not(:disabled, [aria-disabled="true"]) {
+    cursor: pointer;
+  }
+  .lucide {
+    stroke-width: 1.5px;
+  }
+  .lucide * {
+    vector-effect: non-scaling-stroke;
+  }
   html {
     overflow-x: clip;
     scroll-padding-top: 7rem;
