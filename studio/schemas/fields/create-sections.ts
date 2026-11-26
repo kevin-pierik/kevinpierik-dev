@@ -3,6 +3,7 @@ import {CodeBlockIcon} from '@sanity/icons/CodeBlock'
 import {DocumentsIcon} from '@sanity/icons/Documents'
 import {ImageIcon} from '@sanity/icons/Image'
 import {ImagesIcon} from '@sanity/icons/Images'
+import {LinkIcon} from '@sanity/icons/Link'
 import {PlayIcon} from '@sanity/icons/Play'
 import {TextIcon} from '@sanity/icons/Text'
 import {ThListIcon} from '@sanity/icons/ThList'
@@ -368,6 +369,63 @@ const tableSection = defineArrayMember({
   },
 })
 
+const linksSection = defineArrayMember({
+  name: 'linksSection',
+  title: 'Link cards',
+  type: 'object',
+  icon: LinkIcon,
+  fields: [
+    defineField({
+      name: 'eyebrow',
+      type: 'string',
+      description: 'Small line above the heading, such as Social.',
+    }),
+    defineField({name: 'title', type: 'string', validation: (rule) => rule.required()}),
+    defineField({name: 'text', type: 'text', rows: 3}),
+    defineField({
+      name: 'links',
+      type: 'array',
+      validation: (rule) => rule.required().min(1),
+      of: [
+        defineArrayMember({
+          name: 'linkCard',
+          title: 'Card',
+          type: 'object',
+          fields: [
+            defineField({
+              name: 'label',
+              type: 'string',
+              description: 'Such as @kevin-pierik on GitHub.',
+              validation: (rule) => rule.required(),
+            }),
+            defineField({
+              name: 'link',
+              type: 'url',
+              description:
+                'A path on this site, such as /posts, or a full URL. External links get a ↗, paths a →.',
+              validation: (rule) =>
+                rule
+                  .required()
+                  .uri({scheme: ['https', 'http', 'mailto', 'tel'], allowRelative: true}),
+            }),
+          ],
+          preview: {select: {title: 'label', subtitle: 'link'}},
+        }),
+      ],
+    }),
+  ],
+  preview: {
+    select: {title: 'title', links: 'links'},
+    prepare: ({title, links}) => {
+      const count = Array.isArray(links) ? links.length : 0
+      return {
+        title: title || 'Link cards',
+        subtitle: `Link cards · ${count} ${count === 1 ? 'card' : 'cards'}`,
+      }
+    },
+  },
+})
+
 const sections = {
   heroSection,
   postsSection,
@@ -375,6 +433,7 @@ const sections = {
   mediaSection,
   carouselSection,
   listSection,
+  linksSection,
   code: codeSection,
   table: tableSection,
 }

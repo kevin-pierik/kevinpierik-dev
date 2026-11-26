@@ -25,6 +25,7 @@ export const page = defineType({
       'heroSection',
       'textSection',
       'listSection',
+      'linksSection',
       'mediaSection',
       'carouselSection',
       'postsSection',
