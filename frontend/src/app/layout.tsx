@@ -58,8 +58,17 @@ export default async function RootLayout({
   const [posts, pages] = await Promise.all([getArticles(), getPageUris()]);
 
   return (
-    <html className={`bg-background ${geistSans.variable}`} lang="en">
+    <html
+      className={`bg-background ${geistSans.variable}`}
+      lang="en"
+      suppressHydrationWarning
+    >
       <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `try{const t=localStorage.getItem("theme");if(t==="light"||t==="dark")document.documentElement.dataset.theme=t}catch{}`,
+          }}
+        />
         <link
           href="/feed.xml"
           rel="alternate"

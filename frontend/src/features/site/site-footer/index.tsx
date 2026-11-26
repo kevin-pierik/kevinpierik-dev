@@ -2,6 +2,8 @@ import { Link } from "@/components/link";
 import { siteName } from "@/features/site";
 import { email, socialLinks } from "@/features/site/social-links";
 
+import { ThemeToggle } from "./theme-toggle";
+
 const connectLinks = [
   { label: "Email", handle: email, href: `mailto:${email}` },
   ...socialLinks,
@@ -28,7 +30,7 @@ export function SiteFooter() {
           </div>
         ))}
       </dl>
-      <div className="grid content-start gap-y-[0.5lh] text-muted site:text-right">
+      <div className="flex flex-col items-start gap-y-[0.5lh] text-muted site:items-end site:text-right">
         <p>
           © {year} {siteName}
         </p>
@@ -37,6 +39,7 @@ export function SiteFooter() {
             Privacy policy
           </Link>
         </p>
+        <ThemeToggle className="-ml-1.5 site:mt-auto site:-mr-1.5 site:-mb-1.5 site:ml-0" />
       </div>
     </footer>
   );

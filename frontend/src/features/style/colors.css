@@ -10,3 +10,11 @@
   --selection: light-dark(#cce1ff, #0b3d91);
   --selection-foreground: var(--foreground);
 }
+
+:root[data-theme="light"] {
+  color-scheme: light;
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+}

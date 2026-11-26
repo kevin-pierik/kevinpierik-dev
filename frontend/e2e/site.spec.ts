@@ -66,6 +66,29 @@ test("the mobile menu returns focus to its button when closed", async ({
   await expect(open).toBeFocused();
 });
 
+test("the theme toggle switches and remembers the colour scheme", async ({
+  page,
+}) => {
+  await page.emulateMedia({ colorScheme: "light" });
+  await page.goto("/");
+
+  const toggle = page.getByRole("button", { name: "Dark mode" });
+  await expect(toggle).toHaveAttribute("aria-pressed", "false");
+  await toggle.click();
+  await expect(toggle).toHaveAttribute("aria-pressed", "true");
+  await expect(page.locator("body")).toHaveCSS(
+    "background-color",
+    "rgb(0, 0, 0)",
+  );
+
+  await page.reload();
+  await expect(page.locator("html")).toHaveAttribute("data-theme", "dark");
+  await expect(page.locator("body")).toHaveCSS(
+    "background-color",
+    "rgb(0, 0, 0)",
+  );
+});
+
 test("unknown content returns a noindex 404", async ({ page }) => {
   const response = await page.goto("/this-page-does-not-exist");
 
