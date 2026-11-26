@@ -44,7 +44,7 @@ export default async function PostPage({ params }: PostPageProps) {
         id="main"
       >
         <h1
-          className="mx-auto max-w-190 text-center text-[1.75rem] leading-8.5 font-medium tracking-[-0.03em] text-balance site:text-[2.5rem] site:leading-11.5"
+          className="mx-auto max-w-190 text-center text-3xl font-medium tracking-[-0.01em] text-balance site:text-4xl"
           id="post-title"
         >
           {post.title}
@@ -79,7 +79,7 @@ export default async function PostPage({ params }: PostPageProps) {
           aria-label="Get in touch"
           className={`mt-[1lh] flex flex-col items-start gap-5 rounded-2xl bg-subtle p-7 ${prose}`}
         >
-          <p className="text-[1.0625rem] leading-6.5">
+          <p className="text-base leading-relaxed">
             Working on something similar? I’d love to hear about it.
           </p>
           <Link className="min-h-11 px-5" href={contactPath} variant="primary">

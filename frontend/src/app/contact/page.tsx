@@ -43,7 +43,7 @@ function InlineLink({ href, children }: { href: string; children: ReactNode }) {
   );
 }
 
-const buttons = "min-h-12 px-6 text-[1.0625rem] leading-6.5";
+const buttons = "min-h-12 px-6 text-base leading-relaxed";
 
 export default function Contact() {
   return (
@@ -56,12 +56,12 @@ export default function Contact() {
       >
         <div>
           <h1
-            className="text-[2.25rem] leading-10 font-medium tracking-tight site:text-[4rem] site:leading-17 site:tracking-[-0.035em]"
+            className="text-4xl leading-[1.1] font-medium tracking-[-0.01em] site:text-6xl site:leading-none"
             id="main-title"
           >
             Get in touch
           </h1>
-          <p className="mt-7 max-w-140 text-[1.125rem] leading-7.5 text-muted">
+          <p className="mt-7 max-w-140 text-lg leading-relaxed text-muted">
             Have a question, an idea, or a project in mind? Email is the
             quickest way to reach me.
           </p>
@@ -82,7 +82,7 @@ export default function Contact() {
             </Link>
           </p>
         </div>
-        <div className="grid gap-12 pt-24 text-[1.0625rem] leading-6.5 text-muted site:grid-cols-2 site:gap-16 site:pt-30">
+        <div className="grid gap-12 pt-24 text-base leading-relaxed text-muted site:grid-cols-2 site:gap-16 site:pt-30">
           <section aria-labelledby="email-and-social">
             <h2
               className="text-lg leading-snug font-medium tracking-[-0.01em] text-foreground"

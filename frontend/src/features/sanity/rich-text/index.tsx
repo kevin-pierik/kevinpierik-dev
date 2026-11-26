@@ -55,9 +55,9 @@ function heading(Tag: "h2" | "h3" | "h4", className: string) {
 }
 
 export const headingStyles = {
-  h2: "mt-14 text-lg leading-snug tracking-[-0.01em]",
-  h3: "mt-10 text-[1.0625rem] leading-snug sm:text-[0.9375rem]",
-  section: "scroll-mt-[2lh] text-[1.875rem] leading-[1.2] tracking-[-0.02em]",
+  h2: "mt-14 text-lg tracking-[-0.01em]",
+  h3: "mt-10 text-base",
+  section: "scroll-mt-[2lh] text-3xl tracking-[-0.01em] site:text-4xl",
 };
 
 const blocks = {

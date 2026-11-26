@@ -19,7 +19,7 @@ export default function NotFound() {
         id="main"
       >
         <h1
-          className="text-[1.75rem] leading-8.75 font-medium tracking-[-0.02em]"
+          className="text-3xl font-medium tracking-[-0.01em] site:text-4xl"
           id="main-title"
         >
           Page not found

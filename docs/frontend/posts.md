@@ -10,7 +10,7 @@ An article (`article`) has a title, a slug (lowercase letters, numbers, and sing
 
 - Text: paragraphs, `h2` and `h3` headings, quotes, bulleted and numbered lists, links, and inline code.
 - Media: an image with alt text or a Mux video, an optional caption, and `wide`, which shows it wider than the text column.
-- Code (`@sanity/code-input`), highlighted with Shiki in GitHub's light and dark themes, with line numbers and a copy button.
+- Code (`@sanity/code-input`), highlighted with Shiki in GitHub's light and dark themes, with line numbers. A header bar shows the language by Shiki's display name (`ts` becomes "TypeScript", `sh` "Shell"; plain text gets no name) and the copy button. Lines you mark in the Studio by clicking their line number (`highlightedLines`, counted from 1) get a `foreground` bar on the left and a 6% `foreground` tint across the full width (`.line[data-highlighted]` in `global.css`).
 - Table (`@sanity/table`). The first row is the header, and the table scrolls sideways in a labelled region when it is too wide.
 - Carousel: a row of images or videos with titles and descriptions that runs to the edge of the screen.
 

@@ -46,17 +46,13 @@ export function CopyIcon({ state, className, children }: CopyIconProps) {
     <svg
       aria-hidden="true"
       className={className}
-      fill="none"
-      stroke="currentColor"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      strokeWidth={2}
-      viewBox="0 0 24 24"
+      fill="currentColor"
+      viewBox="0 -960 960 960"
     >
       {state === "copied" ? (
-        <path d="M20 6 9 17l-5-5" />
+        <path d="m389-369 299-299q11-11 25.5-11t25.5 11q11 11 11 25.5T739-617L415-292q-11 11-25.5 11T364-292L221-435q-11-11-11-25.5t11-25.5q11-11 25.5-11t25.5 11l117 117Z" />
       ) : state === "failed" ? (
-        <path d="M18 6 6 18M6 6l12 12" />
+        <path d="M480-429 316-265q-11 11-25 10.5T266-266q-11-11-11-25.5t11-25.5l163-163-164-164q-11-11-10.5-25.5T266-695q11-11 25.5-11t25.5 11l163 164 164-164q11-11 25.5-11t25.5 11q11 11 11 25.5T695-644L531-480l164 164q11 11 11 25t-11 25q-11 11-25.5 11T644-266L480-429Z" />
       ) : (
         children
       )}
@@ -80,9 +76,8 @@ export function CopyButton({ text, labels, className }: CopyButtonProps) {
         className={`inline-flex size-8 items-center justify-center rounded-[10px] text-muted transition-colors hover:text-foreground pointer-coarse:size-11 ${focus}`}
         onClick={() => copy(text)}
       >
-        <CopyIcon className="size-3.5" state={state}>
-          <rect height="14" rx="2" width="14" x="8" y="8" />
-          <path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" />
+        <CopyIcon className="size-4.5" state={state}>
+          <path d="M360-240q-29.7 0-50.85-21.15Q288-282.3 288-312v-480q0-29.7 21.15-50.85Q330.3-864 360-864h384q29.7 0 50.85 21.15Q816-821.7 816-792v480q0 29.7-21.15 50.85Q773.7-240 744-240H360Zm0-72h384v-480H360v480ZM216-96q-29.7 0-50.85-21.15Q144-138.3 144-168v-516q0-15.3 10.29-25.65Q164.58-720 179.79-720t25.71 10.35Q216-699.3 216-684v516h420q15.3 0 25.65 10.29Q672-147.42 672-132.21t-10.35 25.71Q651.3-96 636-96H216Zm144-216v-480 480Z" />
         </CopyIcon>
       </Button>
       <span className="sr-only" role="status">

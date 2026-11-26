@@ -26,12 +26,12 @@ export function Hero({
         {eyebrow ? (
           small ? (
             <p className="mb-5">
-              <span className="inline-block rounded-full bg-subtle px-3 py-1 text-[0.875rem] leading-5.5">
+              <span className="inline-block rounded-full bg-subtle px-3 py-1 text-sm">
                 {eyebrow}
               </span>
             </p>
           ) : (
-            <p className="mb-6 text-[1.0625rem] leading-6.5 text-muted site:mb-8">
+            <p className="mb-6 text-base leading-relaxed text-muted site:mb-8">
               {eyebrow}
             </p>
           )
@@ -39,8 +39,8 @@ export function Hero({
         <h1
           className={
             small
-              ? "text-[1.75rem] leading-8.5 font-medium tracking-[-0.03em] site:text-[2.5rem] site:leading-11.5"
-              : "text-[2.25rem] leading-10 font-medium tracking-tight site:text-[4rem] site:leading-17 site:tracking-[-0.035em]"
+              ? "text-3xl font-medium tracking-[-0.01em] site:text-4xl"
+              : "text-4xl leading-[1.1] font-medium tracking-[-0.01em] site:text-6xl site:leading-none"
           }
           id={heroTitleId}
         >
@@ -54,7 +54,7 @@ export function Hero({
         </h1>
         {lead ? (
           <p
-            className={`${small ? "mt-6" : "mt-7 site:mt-10"} max-w-140 text-[1.125rem] leading-7.5 text-muted ${centered ? "mx-auto" : ""}`}
+            className={`${small ? "mt-6" : "mt-7 site:mt-10"} max-w-140 text-lg leading-relaxed text-muted ${centered ? "mx-auto" : ""}`}
           >
             {lead}
           </p>
