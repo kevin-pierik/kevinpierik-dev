@@ -1,6 +1,6 @@
 import { getArticles, postsPath } from "@/features/posts/fetch";
 import { getAllPages } from "@/features/pages/fetch";
-import { absoluteUrl, contactPath, llmsHeader, siteUrl } from "@/features/site";
+import { absoluteUrl, llmsHeader, siteUrl } from "@/features/site";
 import { email, socialLinks } from "@/features/site/social-links";
 
 export const dynamic = "force-static";
@@ -58,7 +58,6 @@ ${list([
 
 ## Contact
 
-- [Get in touch](${absoluteUrl(contactPath)}): how to reach me by email, on LinkedIn, or through my other profiles.
 - [Email](mailto:${email})
 ${socialLinks.map(({ label, href }) => `- [${label}](${href})`).join("\n")}
 `;

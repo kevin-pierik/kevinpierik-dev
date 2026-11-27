@@ -6,7 +6,7 @@ The site serves its content as plain text and Markdown for language models and A
 
 `/llms.txt` gives language models a short plain-text summary of the site, following the [llms.txt proposal](https://llmstxt.org).
 
-It is a static route handler in `frontend/src/app/llms.txt/route.ts` (`dynamic = "force-static"`) that lists the canonical pages, the posts index, every listed post, and the contact links. It points to `/llms-full.txt` and the per-post Markdown. The posts are read from Sanity when the route is built. Like `robots.txt` and `sitemap.xml`, it must only point to canonical public content.
+It is a static route handler in `frontend/src/app/llms.txt/route.ts` (`dynamic = "force-static"`) that lists the canonical pages, the posts index, every listed post, and the contact links. The contact page is a Sanity page, so it appears under Pages; the Contact list holds the email address and the profiles from `social-links.ts`. It points to `/llms-full.txt` and the per-post Markdown. The posts are read from Sanity when the route is built. Like `robots.txt` and `sitemap.xml`, it must only point to canonical public content.
 
 Its title and summary line are `llmsHeader` in `frontend/src/features/site/index.ts`, shared with `/llms-full.txt`. The summary line is `siteDescription`, which the web manifest uses too. When profile details change, update them together with the other places listed in the profile-details rule: the homepage and Settings in Sanity, `frontend/src/features/pages/metadata.ts`, `frontend/src/app/manifest.ts`, `frontend/src/app/opengraph-image.tsx`, and `frontend/src/features/site/social-links.ts`.
 

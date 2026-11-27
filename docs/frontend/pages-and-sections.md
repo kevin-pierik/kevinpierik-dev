@@ -14,16 +14,17 @@ A page that starts with a Hero section gets its `<h1>` from the hero. Other page
 
 `studio/schemas/fields/create-sections.ts` defines the section types, and `createSections()` picks the ones a document type allows. Every section has an icon and a preview with its content and type name, such as "About me · Text", "Demo · Media · Video", or "Projects · Carousel · 4 items".
 
-| Section  | `_type`           | Pages | Articles | Content                                                                                                                                                                                                     |
-| -------- | ----------------- | ----- | -------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Hero     | `heroSection`     | yes   | no       | A small line with an optional icon, the heading, an optional second line in `muted`, a lead, up to two buttons, a large or small size, centred or left alignment, and an optional image. First section only |
-| Text     | `textSection`     | yes   | yes      | An optional title, then Portable Text: paragraphs, `h2` and `h3`, quotes, lists, links, inline code                                                                                                         |
-| Media    | `mediaSection`    | yes   | yes      | An image or a Mux video, with an optional caption and `wide`                                                                                                                                                |
-| Posts    | `postsSection`    | yes   | no       | An optional title, the number of posts (empty for all), Grid or List, and an optional link to all posts                                                                                                     |
-| Carousel | `carouselSection` | yes   | yes      | A title and items, each with an image or video, a title, an optional link, and a description                                                                                                                |
-| List     | `listSection`     | yes   | yes      | A title, an optional second line, an optional button, and items, each with an optional period, a title, an organization, a link, a description, a location, and tags                                        |
-| Code     | `code`            | no    | yes      | A `@sanity/code-input` block                                                                                                                                                                                |
-| Table    | `table`           | no    | yes      | A `@sanity/table` table                                                                                                                                                                                     |
+| Section    | `_type`           | Pages | Articles | Content                                                                                                                                                                                                     |
+| ---------- | ----------------- | ----- | -------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Hero       | `heroSection`     | yes   | no       | A small line with an optional icon, the heading, an optional second line in `muted`, a lead, up to two buttons, a large or small size, centred or left alignment, and an optional image. First section only |
+| Text       | `textSection`     | yes   | yes      | An optional title, then Portable Text: paragraphs, `h2` and `h3`, quotes, lists, links, inline code                                                                                                         |
+| Media      | `mediaSection`    | yes   | yes      | An image or a Mux video, with an optional caption and `wide`                                                                                                                                                |
+| Posts      | `postsSection`    | yes   | no       | An optional title, the number of posts (empty for all), Grid or List, and an optional link to all posts                                                                                                     |
+| Carousel   | `carouselSection` | yes   | yes      | A title and items, each with an image or video, a title, an optional link, and a description                                                                                                                |
+| List       | `listSection`     | yes   | yes      | A title, an optional second line, an optional button, and items, each with an optional period, a title, an organization, a link, a description, a location, and tags                                        |
+| Link cards | `linksSection`    | yes   | no       | An optional eyebrow, a title, a short text, and cards, each with a label and a link                                                                                                                         |
+| Code       | `code`            | no    | yes      | A `@sanity/code-input` block                                                                                                                                                                                |
+| Table      | `table`           | no    | yes      | A `@sanity/table` table                                                                                                                                                                                     |
 
 Code and table use the plugins' own type names, `code` and `table`, as `_type`.
 
@@ -70,6 +71,10 @@ Uploading in the Studio needs a Mux account. In the Mux dashboard, open **Settin
 - Slides are at most 28rem wide (80vw on small screens), snap to the start, and sit 1.5rem apart. Each shows its media in a rounded 16:10 frame with a `subtle` background, the title (a `nav` link with ↗ when it has a link), and the description in `muted`.
 - The stylesheet is imported in `global.css` into the `components` layer. Its own `blossom-carousel` layer would otherwise come after Tailwind's `utilities` and override the slide layout.
 
+### Link cards
+
+`frontend/src/features/sections/link-cards.tsx` renders the Link cards section, modelled on x.ai's contact page, as on `/contact`: on the left an optional `muted` eyebrow, the `<h2>` with a heading link, and a short `muted` text; on the right a list of full-width `rounded-2xl` cards in `subtle` that darken to `subtle-hover` on hover. Each card shows its label on the left and a `muted` Lucide arrow on the right that turns `foreground`: `ArrowRight` for a path on this site, `ArrowUpRight` for anything else, such as `mailto:` or another site. Links pass through `safeHref()`, so a card with an unsafe link is left out. From the `site` breakpoint the text and the cards sit side by side, 4rem apart; the section uses the full container (`data-full`). In Markdown it becomes the heading, the text, and a list of links.
+
 ### List
 
 `frontend/src/features/sections/list/index.tsx` renders an accordion, for example for a FAQ. The homepage used it for Experience before that became the About me text section. From the `site` breakpoint, the `h2`, with an optional second line in `muted` and an optional button below it, takes the left 27.5 of 66 parts of the row and is `sticky` below the header while the list scrolls past, like the FAQ on beside.com; the list takes the rest, 4rem away. Below it they stack.
@@ -86,7 +91,7 @@ The first item is open in the server HTML; the others are hidden until the page 
 
 Site-wide content lives in the `settings` singleton (`studio/schemas/documents/settings.ts`), registered with `defineSingleton` in `studio/sanity.config.ts` and shown at the top of the Studio. It holds the role shown under the name in the header, and the header navigation (references to `page` documents, in order). `frontend/src/features/site/fetch.ts` reads it with `getSettings()`; the header marks the link whose URI matches the current path, or one of its parents, as current.
 
-Interface text that isn't content, such as the skip link, copy-button labels, the article call to action, the contact page, and the 404 text, is hardcoded in the component that uses it.
+Interface text that isn't content, such as the skip link, copy-button labels, the article call to action and the 404 text, is hardcoded in the component that uses it.
 
 ## Profile metadata
 

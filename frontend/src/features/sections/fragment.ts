@@ -33,6 +33,12 @@ export const sectionsFragment = /* groq */ `
       buttons[]{ _key, label, link },
       items[]{ _key, period, title, organization, link, description, location, tags }
     },
+    _type == "linksSection" => {
+      eyebrow,
+      title,
+      text,
+      links[]{ _key, label, link }
+    },
     _type == "postsSection" => { title, limit, layout, showAllLink },
     _type == "carouselSection" => {
       title,

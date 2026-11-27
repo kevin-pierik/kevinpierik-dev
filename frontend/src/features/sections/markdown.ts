@@ -96,6 +96,16 @@ function section(value: Section) {
       ]
         .filter(Boolean)
         .join("\n\n");
+    case "linksSection":
+      return [
+        value.title && `## ${value.title}`,
+        value.text,
+        value.links
+          ?.map((item) => `- ${linked(item.label ?? "", item.link)}`)
+          .join("\n"),
+      ]
+        .filter(Boolean)
+        .join("\n\n");
     default:
       return "";
   }
